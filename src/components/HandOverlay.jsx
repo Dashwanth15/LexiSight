@@ -1,0 +1,148 @@
+import { useEffect, useRef } from 'react'
+import { HAND_CONNECTIONS, LANDMARK_TYPES } from '../utils/landmarks.js'
+
+const COLORS = {
+  wrist: '#00d4ff',
+  fingertip: '#00ff88',
+  knuckle: '#8b5cf6',
+  connection: 'rgba(0, 212, 255, 0.4)',
+  connectionActive: 'rgba(0, 255, 136, 0.5)',
+}
+
+export default function HandOverlay({ rawLandmarks, handDetected, confidence = 0, videoRef }) {
+  const canvasRef = useRef(null)
+  const animRef = useRef(null)
+  const appearAnimRef = useRef({ progress: 0, appeared: false })
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    const video = videoRef?.current
+    if (!canvas) return
+
+    const ctx = canvas.getContext('2d')
+
+    const sync = () => {
+      if (video) {
+        canvas.width = video.videoWidth || video.offsetWidth || 640
+        canvas.height = video.videoHeight || video.offsetHeight || 480
+      }
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+      if (!rawLandmarks || !handDetected) {
+        appearAnimRef.current.appeared = false
+        appearAnimRef.current.progress = 0
+        animRef.current = requestAnimationFrame(sync)
+        return
+      }
+
+      const w = canvas.width
+      const h = canvas.height
+      const isActive = confidence > 0.75
+
+      // Animate appearance
+      if (!appearAnimRef.current.appeared) {
+        appearAnimRef.current.progress = Math.min(1, appearAnimRef.current.progress + 0.08)
+        if (appearAnimRef.current.progress >= 1) appearAnimRef.current.appeared = true
+      }
+      const scale = appearAnimRef.current.progress
+
+      ctx.save()
+      ctx.globalAlpha = scale
+
+      // Draw connections
+      ctx.lineCap = 'round'
+      ctx.lineWidth = 1.5
+      ctx.strokeStyle = isActive ? COLORS.connectionActive : COLORS.connection
+      ctx.shadowBlur = isActive ? 6 : 3
+      ctx.shadowColor = isActive ? '#00ff88' : '#00d4ff'
+
+      for (const [a, b] of HAND_CONNECTIONS) {
+        const lmA = rawLandmarks[a]
+        const lmB = rawLandmarks[b]
+        if (!lmA || !lmB) continue
+        ctx.beginPath()
+        ctx.moveTo(lmA.x * w, lmA.y * h)
+        ctx.lineTo(lmB.x * w, lmB.y * h)
+        ctx.stroke()
+      }
+
+      ctx.shadowBlur = 0
+
+      // Draw landmark dots
+      for (let i = 0; i < rawLandmarks.length; i++) {
+        const lm = rawLandmarks[i]
+        const x = lm.x * w
+        const y = lm.y * h
+
+        let color = COLORS.knuckle
+        let radius = 3
+
+        if (LANDMARK_TYPES.WRIST.includes(i)) {
+          color = COLORS.wrist
+          radius = 5
+        } else if (LANDMARK_TYPES.FINGERTIPS.includes(i)) {
+          color = COLORS.fingertip
+          radius = 4
+        }
+
+        // Outer glow
+        const glow = ctx.createRadialGradient(x, y, 0, x, y, radius * 3)
+        glow.addColorStop(0, color.replace(')', ', 0.5)').replace('rgb', 'rgba'))
+        glow.addColorStop(1, 'rgba(0,0,0,0)')
+        ctx.beginPath()
+        ctx.arc(x, y, radius * 3, 0, Math.PI * 2)
+        ctx.fillStyle = glow
+        ctx.fill()
+
+        // Core dot
+        ctx.beginPath()
+        ctx.arc(x, y, radius * scale, 0, Math.PI * 2)
+        ctx.fillStyle = color
+        ctx.shadowBlur = 8
+        ctx.shadowColor = color
+        ctx.fill()
+        ctx.shadowBlur = 0
+      }
+
+      ctx.restore()
+
+      // HUD: coordinate readout for index fingertip
+      if (rawLandmarks[8]) {
+        const tip = rawLandmarks[8]
+        const hudX = tip.x * w < w / 2 ? tip.x * w + 15 : tip.x * w - 115
+        const hudY = tip.y * h < 60 ? tip.y * h + 20 : tip.y * h - 40
+
+        ctx.fillStyle = 'rgba(8, 13, 20, 0.8)'
+        ctx.beginPath()
+        ctx.roundRect(hudX - 5, hudY - 14, 110, 48, 4)
+        ctx.fill()
+
+        ctx.strokeStyle = 'rgba(0, 212, 255, 0.3)'
+        ctx.lineWidth = 0.5
+        ctx.stroke()
+
+        ctx.fillStyle = '#00d4ff'
+        ctx.font = '10px JetBrains Mono, monospace'
+        ctx.fillText(`x: ${tip.x.toFixed(3)}`, hudX, hudY)
+        ctx.fillText(`y: ${tip.y.toFixed(3)}`, hudX, hudY + 14)
+        ctx.fillText(`z: ${(tip.z || 0).toFixed(3)}`, hudX, hudY + 28)
+      }
+
+      animRef.current = requestAnimationFrame(sync)
+    }
+
+    animRef.current = requestAnimationFrame(sync)
+    return () => {
+      if (animRef.current) cancelAnimationFrame(animRef.current)
+    }
+  }, [rawLandmarks, handDetected, confidence, videoRef])
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="absolute inset-0 w-full h-full pointer-events-none"
+      style={{ zIndex: 10 }}
+    />
+  )
+}

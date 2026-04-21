@@ -1,0 +1,216 @@
+import { useState, useEffect, useRef, useCallback } from 'react'
+import { normalizeLandmarks } from '../utils/landmarks.js'
+
+const MEDIAPIPE_CDN = 'https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1646424915/hands.js'
+
+export function useMediaPipe() {
+  const videoRef = useRef(null)
+  const canvasRef = useRef(null)
+  const handsRef = useRef(null)
+  const animFrameRef = useRef(null)
+  const streamRef = useRef(null)
+
+  const [landmarks, setLandmarks] = useState(null)
+  const [rawLandmarks, setRawLandmarks] = useState(null)
+  const [handDetected, setHandDetected] = useState(false)
+  const [fps, setFps] = useState(0)
+  const [error, setError] = useState(null)
+  const [isReady, setIsReady] = useState(false)
+  const [cameraPermission, setCameraPermission] = useState('prompt')
+  const [availableCameras, setAvailableCameras] = useState([])
+  const [selectedCameraId, setSelectedCameraId] = useState(null)
+
+  const fpsCounterRef = useRef({ frames: 0, lastTime: Date.now() })
+  const frameSkipRef = useRef(0)
+
+  const loadScript = useCallback((src) => {
+    return new Promise((resolve, reject) => {
+      if (document.querySelector(`script[src="${src}"]`)) { resolve(); return }
+      const s = document.createElement('script')
+      s.src = src
+      s.crossOrigin = 'anonymous'
+      s.onload = resolve
+      s.onerror = reject
+      document.head.appendChild(s)
+    })
+  }, [])
+
+  /** Enumerate cameras and pick the best one for laptop/desktop use */
+  const enumerateCameras = useCallback(async () => {
+    try {
+      const devices = await navigator.mediaDevices.enumerateDevices()
+      const videoDevices = devices.filter(d => d.kind === 'videoinput')
+      setAvailableCameras(videoDevices)
+
+      // Prefer a camera that is NOT back-facing (rear) — pick webcam for laptops
+      // On laptops, devices[0] is usually the built-in webcam
+      // Avoid cameras with "back" in label
+      const preferredCam = videoDevices.find(d =>
+        !d.label.toLowerCase().includes('back') &&
+        !d.label.toLowerCase().includes('rear') &&
+        !d.label.toLowerCase().includes('environment')
+      ) || videoDevices[0]
+
+      if (preferredCam && !selectedCameraId) {
+        setSelectedCameraId(preferredCam.deviceId)
+        return preferredCam.deviceId
+      }
+      return selectedCameraId || (videoDevices[0]?.deviceId)
+    } catch (e) {
+      return null
+    }
+  }, [selectedCameraId])
+
+  const initialize = useCallback(async (cameraId = null) => {
+    // Teardown previous stream if re-initializing
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach(t => t.stop())
+    }
+    if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current)
+
+    setError(null)
+    setIsReady(false)
+
+    try {
+      // Load MediaPipe Hands from CDN
+      await loadScript(MEDIAPIPE_CDN)
+      if (!window.Hands) throw new Error('MediaPipe Hands failed to load')
+
+      const hands = new window.Hands({
+        locateFile: (file) =>
+          `https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1646424915/${file}`
+      })
+
+      hands.setOptions({
+        maxNumHands: 1,
+        modelComplexity: 1,
+        minDetectionConfidence: 0.7,
+        minTrackingConfidence: 0.5,
+      })
+
+      hands.onResults((results) => {
+        if (results.multiHandLandmarks?.length > 0) {
+          const lms = results.multiHandLandmarks[0]
+          setRawLandmarks(lms)
+          setLandmarks(normalizeLandmarks(lms))
+          setHandDetected(true)
+        } else {
+          setHandDetected(false)
+          setLandmarks(null)
+          setRawLandmarks(null)
+        }
+
+        const counter = fpsCounterRef.current
+        counter.frames++
+        const now = Date.now()
+        if (now - counter.lastTime >= 1000) {
+          setFps(counter.frames)
+          counter.frames = 0
+          counter.lastTime = now
+        }
+      })
+
+      handsRef.current = hands
+
+      // Build video constraints — prefer specific device or front-facing
+      // Use ONLY deviceId if we have it (avoids strict facingMode on laptops)
+      const resolvedId = cameraId || await enumerateCameras()
+
+      const videoConstraints = resolvedId
+        ? { deviceId: { exact: resolvedId }, width: { ideal: 640 }, height: { ideal: 480 } }
+        : { width: { ideal: 640 }, height: { ideal: 480 }, facingMode: { ideal: 'user' } }
+
+      setCameraPermission('prompt')
+      const stream = await navigator.mediaDevices.getUserMedia({ video: videoConstraints })
+      streamRef.current = stream
+      setCameraPermission('granted')
+
+      // Enumerate cameras now (labels available after permission granted)
+      const devices = await navigator.mediaDevices.enumerateDevices()
+      const videoDevices = devices.filter(d => d.kind === 'videoinput')
+      setAvailableCameras(videoDevices)
+
+      // Track actual camera used
+      const activeTrack = stream.getVideoTracks()[0]
+      const settings = activeTrack?.getSettings?.() || {}
+      if (settings.deviceId) setSelectedCameraId(settings.deviceId)
+
+      // KEY FIX: set isReady=true FIRST so React renders <video ref={videoRef}>
+      // Then wait two rAF frames for React to commit the DOM before assigning srcObject
+      setIsReady(true)
+      await new Promise(resolve => requestAnimationFrame(resolve))
+      await new Promise(resolve => requestAnimationFrame(resolve))
+
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream
+        try {
+          await videoRef.current.play()
+        } catch (e) {
+          console.warn('LexiSight: video.play() blocked —', e.message)
+        }
+      } else {
+        console.error('LexiSight: videoRef is null — the <video> element was not rendered in time')
+      }
+
+      startLoop()
+    } catch (err) {
+      if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError' || err.name === 'NotFoundError') {
+        setCameraPermission('denied')
+        setError('camera_denied')
+      } else {
+        setError(err.message || 'Camera initialization failed')
+      }
+    }
+  }, [loadScript, enumerateCameras])
+
+  const startLoop = useCallback(() => {
+    const loop = async () => {
+      if (!videoRef.current || !handsRef.current) return
+      if (videoRef.current.readyState >= 2) {
+        frameSkipRef.current++
+        if (frameSkipRef.current % 2 === 0) {
+          await handsRef.current.send({ image: videoRef.current })
+        }
+      }
+      animFrameRef.current = requestAnimationFrame(loop)
+    }
+    animFrameRef.current = requestAnimationFrame(loop)
+  }, [])
+
+  /** Switch to a different camera without re-initializing MediaPipe */
+  const switchCamera = useCallback(async (deviceId) => {
+    setSelectedCameraId(deviceId)
+    await initialize(deviceId)
+  }, [initialize])
+
+  const stop = useCallback(() => {
+    if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current)
+    if (streamRef.current) streamRef.current.getTracks().forEach(t => t.stop())
+    if (handsRef.current) handsRef.current.close()
+    setIsReady(false)
+    setHandDetected(false)
+    setLandmarks(null)
+    setRawLandmarks(null)
+  }, [])
+
+  useEffect(() => {
+    return () => stop()
+  }, [stop])
+
+  return {
+    videoRef,
+    canvasRef,
+    landmarks,
+    rawLandmarks,
+    handDetected,
+    fps,
+    error,
+    isReady,
+    cameraPermission,
+    availableCameras,
+    selectedCameraId,
+    initialize,
+    switchCamera,
+    stop,
+  }
+}

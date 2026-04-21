@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- Full mobile viewport with iOS notch/dynamic island support -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0" />
+    <meta name="theme-color" content="#020408" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="LexiSight" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="mobile-web-app-capable" content="yes" />
+
+    <meta name="description" content="LexiSight — Real-time Indian Sign Language ↔ Speech bidirectional translator. 63 million Indians cannot be heard. LexiSight changes that." />
+    <meta property="og:title" content="LexiSight — ISL Translator" />
+    <meta property="og:description" content="Real-time Indian Sign Language translator powered by TensorFlow.js and MediaPipe. Zero server, zero cost, works offline." />
+    <meta name="keywords" content="Indian Sign Language, ISL, sign language translator, deaf, mute, accessibility, TensorFlow.js, MediaPipe" />
+    <title>LexiSight — Indian Sign Language Translator</title>
+
+    <!-- Google Fonts: Syne + DM Sans + JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+    <!-- MediaPipe Hands via CDN (loaded lazily on /translate route) -->
+    <style>
+      * { cursor: default; }
+      body { background: #020408; }
+      /* Custom scrollbar */
+      ::-webkit-scrollbar { width: 6px; height: 6px; }
+      ::-webkit-scrollbar-track { background: #080d14; }
+      ::-webkit-scrollbar-thumb { background: #1a2535; border-radius: 3px; }
+      ::-webkit-scrollbar-thumb:hover { background: #00d4ff40; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
