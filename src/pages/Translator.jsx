@@ -6,20 +6,21 @@ import { useSpeechRecog } from '../hooks/useSpeechRecog.js'
 import { PredictionSmoother, SentenceBuilder } from '../utils/smoothing.js'
 import { DEMO_SEQUENCE } from '../utils/gestureMap.js'
 import HandOverlay from '../components/HandOverlay.jsx'
-import ConfidenceBar from '../components/ConfidenceBar.jsx'
+import ConfidenceWaveform from '../components/ConfidenceWaveform.jsx'
 import ConfidenceTopK from '../components/ConfidenceTopK.jsx'
 import HandAvatar from '../components/HandAvatar.jsx'
 import VoiceSelector from '../components/VoiceSelector.jsx'
 import { toast } from '../components/ToastNotif.jsx'
+import { PHRASE_PACKS } from '../data/phrasePacks.js'
 
 const smoother = new PredictionSmoother(10, 0.75)
 const sentenceBuilder = new SentenceBuilder(2000)
 
 // ─── Camera Panel — MUST be defined OUTSIDE Translator ──────────────────────
-// Keeps ONE video element stable; never re-mounts due to layout changes
 function CameraPanel({
   videoRef,
   rawLandmarks,
+  rawLandmarks2,
   handDetected,
   confidence,
   isReady,
@@ -71,6 +72,7 @@ function CameraPanel({
         <div style={{ position: 'absolute', inset: 0, zIndex: 2, pointerEvents: 'none' }}>
           <HandOverlay
             rawLandmarks={rawLandmarks}
+            rawLandmarks2={rawLandmarks2}
             handDetected={handDetected}
             confidence={confidence}
             videoRef={videoRef}
@@ -274,7 +276,7 @@ export default function Translator() {
     if (demoMode || classifier.isDemoMode || classifier.status === 'demo') return
 
     // Pass both normalized landmarks array AND raw objects for Geometric fallback
-    const raw = classifier.predict(mediapipe.landmarks, mediapipe.rawLandmarks)
+    const raw = classifier.predict(mediapipe.landmarks, mediapipe.rawLandmarks, mediapipe.rawLandmarks2)
     if (!raw) return
 
     const smoothed = smoother.add(raw)
@@ -340,10 +342,10 @@ export default function Translator() {
     setCurrentPrediction(null)
   }, [])
 
-  // Shared CameraPanel props
   const camProps = {
     videoRef: mediapipe.videoRef,
     rawLandmarks: mediapipe.rawLandmarks,
+    rawLandmarks2: mediapipe.rawLandmarks2,
     handDetected: mediapipe.handDetected,
     confidence: currentPrediction?.confidence || 0,
     isReady: mediapipe.isReady,
@@ -483,7 +485,16 @@ export default function Translator() {
       </div>
       <div className="flex gap-2 shrink-0">
         <button className="btn-secondary" style={{ padding: '5px 10px', fontSize: '0.73rem' }}
-          onClick={() => { navigator.clipboard?.writeText(sentence); toast.success('Copied!') }}>Copy</button>
+          onClick={() => {
+            if (navigator.share) {
+              navigator.share({ title: 'LexiSight Translation', text: sentence })
+                .catch(() => {})
+            } else {
+              navigator.clipboard?.writeText(sentence)
+              toast.success('Copied!')
+            }
+          }}>{typeof navigator !== 'undefined' && navigator.share ? 'Share' : 'Copy'}
+        </button>
         <button className="btn-primary" style={{ padding: '5px 10px', fontSize: '0.73rem' }}
           onClick={() => handleSpeak(sentence)}>Speak</button>
       </div>
@@ -636,8 +647,23 @@ export default function Translator() {
             <CameraPanel {...camProps} height={320} />
 
             {PredictionBlock}
-            <ConfidenceBar value={currentPrediction?.confidence || 0} label="Confidence" />
+            <ConfidenceWaveform confidence={currentPrediction?.confidence || 0} isActive={!!currentPrediction} />
             {SentenceBlock}
+
+            {/* Quick Phrase Tabs */}
+            <div className="mt-2">
+              <div className="hud-label mb-1">Quick Phrase Add</div>
+              <div className="flex flex-wrap gap-1.5 max-h-[80px] overflow-y-auto no-scrollbar">
+                {PHRASE_PACKS[0].phrases.map(ph => (
+                  <button key={ph.word} onClick={() => {
+                    setSentence(s => `${s} ${ph.word}`.trim())
+                    toast.success('Added phrase')
+                  }} className="btn-secondary" style={{ padding: '3px 8px', fontSize: '0.7rem' }}>
+                    + {ph.word}
+                  </button>
+                ))}
+              </div>
+            </div>
 
             <div className="flex items-center justify-between mb-1.5 mt-2">
               <div className="hud-label">Detection Log</div>
@@ -697,7 +723,7 @@ export default function Translator() {
                 {/* THE ONE camera panel on mobile */}
                 <CameraPanel {...camProps} height={240} compact />
                 {PredictionBlock}
-                <ConfidenceBar value={currentPrediction?.confidence || 0} label="Confidence" />
+                <ConfidenceWaveform confidence={currentPrediction?.confidence || 0} isActive={!!currentPrediction} compact />
                 {SentenceBlock}
                 {SignControls}
                 <div className="terminal-log" style={{ maxHeight: 90 }}>

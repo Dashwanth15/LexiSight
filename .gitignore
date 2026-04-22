@@ -1,11 +1,27 @@
-.gitignore for LexiSight
 node_modules/
 dist/
-.env
+.DS_Store
 *.local
-public/model/X_train.npy
-public/model/y_train.npy
-public/model/best_model.keras
+.env
+.env.*
+!.env.example
+
+# Large datasets — store separately, not in git
+Datasets/
+
+# Trained model output (regenerate via scripts)
+public/model/tfjs_model/
+public/model/*.npy
+public/model/*.keras
+public/model/scaler.json
+public/model/model_meta.json
+
+# Python
 __pycache__/
 *.pyc
-.DS_Store
+*.pyo
+.venv/
+venv/
+
+# Vite
+.vite/

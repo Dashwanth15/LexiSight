@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import * as tf from '@tensorflow/tfjs'
 import { GESTURE_CLASSES, DEMO_SEQUENCE } from '../utils/gestureMap.js'
-import { classifyGesture } from '../utils/geoClassifier.js'
+import { classifyGesture, classifyTwoHandGesture, classifyISLDigit } from '../utils/geoClassifier.js'
+import { disambiguate } from '../utils/fingerDisambiguator.js'
 
 const MODEL_PATH = '/model/tfjs_model/model.json'
 const LABEL_MAP_PATH = '/model/label_map.json'
@@ -64,16 +65,36 @@ export function useClassifier() {
 
   /**
    * Run prediction on landmarks
+   * @param {Array} landmarks      - Normalized 63-feature vector (primary hand)
+   * @param {Array} rawLandmarks   - Raw MediaPipe landmarks (primary hand)
+   * @param {Array} rawLandmarks2  - Raw MediaPipe landmarks (secondary hand, optional)
    * Returns { label, confidence, topK }
    */
-  const predict = useCallback((landmarks, rawLandmarks) => {
+  const predict = useCallback((landmarks, rawLandmarks, rawLandmarks2 = null) => {
     if (isDemoMode || status === 'demo') return null
 
+    // ── Priority 1: two-hand geometric check ─────────────────────────────────
+    if (rawLandmarks2 && rawLandmarks2.length === 21) {
+      const twoHandResult = classifyTwoHandGesture(rawLandmarks, rawLandmarks2)
+      if (twoHandResult) return twoHandResult
+    }
+
+    // ── Priority 2: ISL digit geometric classifier ───────────────────────────
+    // Digits 0–9 are 100% geometrically deterministic.
+    // The ML model confuses them (2↔3, 6↔7, etc.) because of training overlap.
+    // Geometry IS the ground truth for digits — always runs before ML.
+    if (rawLandmarks && rawLandmarks.length === 21) {
+      const digitResult = classifyISLDigit(rawLandmarks)
+      if (digitResult) return digitResult
+    }
+
+    // ── Priority 3: single-hand geometric fallback ────────────────────────────
     if (status === 'geometric') {
       if (!rawLandmarks || rawLandmarks.length !== 21) return null
       return classifyGesture(rawLandmarks)
     }
 
+    // ── Priority 3: ML model ─────────────────────────────────────────────────
     if (!modelRef.current || !scalerRef.current || !labelMapRef.current) return null
     if (!landmarks || landmarks.length !== 63) return null
 
@@ -101,7 +122,12 @@ export function useClassifier() {
       }))
       const topK = indexed.sort((a, b) => b.confidence - a.confidence).slice(0, 3)
 
-      return { label, confidence, topK }
+      const mlResult = { label, confidence, topK }
+
+      // ── Priority 4: Geometric disambiguator ──────────────────────────────
+      // Overrides ML for known confused pairs (2↔3, M↔N, O↔6, U↔R, 7↔8)
+      // using deterministic finger curl geometry. No-op for other gestures.
+      return disambiguate(mlResult, rawLandmarks)
     })
   }, [isDemoMode, status])
 

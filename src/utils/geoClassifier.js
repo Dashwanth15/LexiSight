@@ -26,6 +26,16 @@ function isExtended(lm, tipIdx, pipIdx, thresh = 0.025) {
   return lm[tipIdx].y < lm[pipIdx].y - thresh
 }
 
+/** Strict extension — larger gap required (reduces false positives) */
+function isExtendedStrict(lm, tipIdx, pipIdx) {
+  return lm[tipIdx].y < lm[pipIdx].y - 0.05
+}
+
+/** Finger is definitively curled — tip below or level with PIP */
+function isCurled(lm, tipIdx, pipIdx) {
+  return lm[tipIdx].y > lm[pipIdx].y - 0.01
+}
+
 /** Thumb extension: tip is far from index MCP (works for both hands) */
 function thumbExtended(lm) {
   return dist2D(lm[4], lm[5]) > 0.07
@@ -72,7 +82,98 @@ function make(label, confidence, alternates = []) {
   alternates.forEach((alt, i) => {
     topK.push({ label: alt, confidence: Math.max(0.01, confidence - 0.15 - i * 0.06) })
   })
-  return { label, confidence, topK: topK.slice(0, 4) }
+  return { label, confidence, topK: topK.slice(0, 4), source: 'geo' }
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// ISL DIGIT CLASSIFIER — Pure geometry, bypasses ML entirely.
+//
+// Digits 0–9 have unambiguous finger configurations in ISL.
+// The ML model confuses them because they share spatial structure.
+// Geometry is the ground truth here — no training data can beat it.
+//
+// Called BEFORE the ML model in useClassifier.js so the ML never
+// gets a chance to incorrectly classify a digit.
+// ════════════════════════════════════════════════════════════════════════════
+
+/**
+ * Classify ISL digits 0–9 from raw MediaPipe landmarks.
+ * Returns a result object or null if the hand pose is not a clear digit.
+ *
+ * @param {Array<{x,y,z}>} lm — 21 MediaPipe landmarks
+ */
+export function classifyISLDigit(lm) {
+  if (!lm || lm.length < 21) return null
+
+  // Finger states — using two thresholds:
+  // ext = "probably extended" (loose), extS = "definitely extended" (strict)
+  const I_ext  = isExtended(lm, 8, 6)
+  const M_ext  = isExtended(lm, 12, 10)
+  const R_ext  = isExtended(lm, 16, 14)
+  const P_ext  = isExtended(lm, 20, 18)
+  const T_ext  = thumbExtended(lm)
+
+  const I_curl = isCurled(lm, 8, 6)
+  const M_curl = isCurled(lm, 12, 10)
+  const R_curl = isCurled(lm, 16, 14)
+  const P_curl = isCurled(lm, 20, 18)
+
+  const extCount = [I_ext, M_ext, R_ext, P_ext].filter(Boolean).length
+
+  // ── 5: All four fingers + thumb clearly up (open hand) ──────────────────
+  if (T_ext && I_ext && M_ext && R_ext && P_ext) {
+    return make('5', 0.95, ['HELLO', 'STOP'])
+  }
+
+  // ── 4: All four fingers up, thumb NOT extended ───────────────────────────
+  if (!T_ext && I_ext && M_ext && R_ext && P_ext) {
+    return make('4', 0.94, ['B'])
+  }
+
+  // ── 3: Index + Middle + Ring UP, pinky down ─────────────────────────────
+  // This is the KEY rule that fixes the 2 vs 3 confusion.
+  if (I_ext && M_ext && R_ext && P_curl) {
+    return make('3', 0.95, ['W'])
+  }
+
+  // ── 2: Index + Middle UP, ring definitively CURLED ──────────────────────
+  // Ring must be CLEARLY curled — not just "not extended"
+  if (I_ext && M_ext && R_curl && P_curl) {
+    return make('2', 0.95, ['V', 'PEACE'])
+  }
+
+  // ── 1: Only index UP, all others curled ─────────────────────────────────
+  if (I_ext && M_curl && R_curl && P_curl) {
+    return make('1', 0.95, ['D', 'POINT'])
+  }
+
+  // ── 0: O-shape — index tip touches thumb tip, all fingers bent ──────────
+  if (isOTouch(lm) && !I_ext && !M_ext && !R_ext && !P_ext) {
+    return make('0', 0.92, ['O'])
+  }
+
+  // ── 6: Pinky tip touches thumb, index + middle + ring up ────────────────
+  if (tipDist(lm, 20, 4) < 0.09 && I_ext && M_ext && R_ext) {
+    return make('6', 0.91, ['W'])
+  }
+
+  // ── 7: Middle tip touches thumb, index + ring + pinky free/up ──────────
+  if (tipDist(lm, 12, 4) < 0.09 && I_ext && !M_ext) {
+    return make('7', 0.89, ['8'])
+  }
+
+  // ── 8: Index tip bends toward thumb (index DIP close to thumb) ──────────
+  if (tipDist(lm, 8, 4) < 0.09 && !I_ext && M_ext) {
+    return make('8', 0.87, ['9', '7'])
+  }
+
+  // ── 9: Index tip touches thumb (like OK), other fingers curled ──────────
+  if (tipDist(lm, 8, 4) < 0.07 && !M_ext && !R_ext && !P_ext) {
+    return make('9', 0.88, ['0', 'OK'])
+  }
+
+  // No clear digit pattern detected
+  return null
 }
 
 // ── Main classifier ──────────────────────────────────────────────────────────
@@ -130,6 +231,12 @@ export function classifyGesture(lm) {
     return           make('2',     0.80, ['V', 'PEACE', 'TWO'])
   }
 
+  // ── Index + middle touching thumb → NO ───────────────────
+  // If ring/pinky are curled, and thumb/index/middle are grouped together
+  if (!R && !P && dist2D(lm[8], lm[4]) < 0.12 && dist2D(lm[12], lm[4]) < 0.12) {
+      return make('NO', 0.85, ['O', 'TAP'])
+  }
+
   // ── Index only → 1 / D ───────────────────────────────────
   if (!T && I && !M && !R && !P) return make('1',    0.85, ['D', 'POINT', 'INDEX'])
 
@@ -165,3 +272,62 @@ export function classifyGesture(lm) {
 
   return null
 }
+
+// ── Two-Hand Gesture Classifier ──────────────────────────────────────────────
+
+/**
+ * Classify two-hand ISL signs from two MediaPipe hand landmark sets.
+ * Called BEFORE the single-hand ML model — takes priority when both hands visible.
+ *
+ * @param {Array} lm1  - Primary hand landmarks (21 points {x,y,z})
+ * @param {Array} lm2  - Secondary hand landmarks (21 points, may be null)
+ * @returns {{ label, confidence, topK }} | null
+ */
+export function classifyTwoHandGesture(lm1, lm2) {
+  if (!lm1 || lm1.length < 21 || !lm2 || lm2.length < 21) return null
+
+  const wristDist = dist2D(lm1[0], lm2[0])
+  const handsClose = wristDist < 0.35
+  const handsVeryClose = wristDist < 0.18
+
+  const I1 = isExtended(lm1, 8, 6)
+  const I2 = isExtended(lm2, 8, 6)
+  const fist1 = isFist(lm1)
+  const fist2 = isFist(lm2)
+  const oTouch1 = isOTouch(lm1)
+  const oTouch2 = isOTouch(lm2)
+  const flat1 = isExtended(lm1, 8, 6) && isExtended(lm1, 12, 10) && isExtended(lm1, 16, 14)
+  const flat2 = isExtended(lm2, 8, 6) && isExtended(lm2, 12, 10) && isExtended(lm2, 16, 14)
+
+  // ── FRIEND: both index fingers hooked ────────────────────────────────────
+  if (I1 && I2 && handsClose && !isExtended(lm1, 12, 10) && !isExtended(lm2, 12, 10)) {
+    const tipDist = dist2D(lm1[8], lm2[8])
+    if (tipDist < 0.12) {
+      // Differentiate X from FRIEND based on wrist layout
+      // Usually X is crossed index fingers, resembling a cross.
+      return make('X', 0.85, ['FRIEND', 'CROSS'])
+    }
+  }
+
+  // ── TOGETHER: both fists close ────────────────────────────────────────────
+  if (fist1 && fist2 && handsVeryClose) return make('TOGETHER', 0.80, ['WITH', 'FRIEND'])
+
+  // ── FAMILY: both O-hands spread outward ──────────────────────────────────
+  if (oTouch1 && oTouch2 && handsClose) return make('FAMILY', 0.82, ['GROUP', 'TOGETHER'])
+
+  // ── MORE: both flat-O tips touching ──────────────────────────────────────
+  if (oTouch1 && oTouch2 && handsVeryClose) return make('MORE', 0.79, ['AGAIN', 'EXTRA'])
+
+  // ── MEET: both index fingers pointing together ────────────────────────────
+  if (I1 && I2 && handsClose && dist2D(lm1[8], lm2[8]) < 0.08)
+    return make('MEET', 0.76, ['HI', 'GREET'])
+
+  // ── SCHOOL: both flat hands clapping ─────────────────────────────────────
+  if (flat1 && flat2 && handsVeryClose) return make('SCHOOL', 0.75, ['CLASS', 'LEARN'])
+
+  // ── LOVE: crossed fists on chest ─────────────────────────────────────────
+  if (fist1 && fist2 && wristDist < 0.25) return make('LOVE', 0.74, ['HUG', 'CARE'])
+
+  return null
+}
+

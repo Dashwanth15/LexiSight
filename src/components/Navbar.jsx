@@ -1,24 +1,28 @@
 import { useState, useCallback } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import GlitchText from './GlitchText.jsx'
+import ThemeToggle, { useTheme } from './ThemeToggle.jsx'
 
 const NAV_LINKS = [
   { to: '/', label: 'Home' },
   { to: '/translate', label: 'Translate' },
+  { to: '/learn', label: 'Learn', badge: 'NEW' },
+  { to: '/dictionary', label: 'Dictionary', badge: 'NEW' },
+  { to: '/impact', label: 'Impact' },
+  { to: '/community', label: 'Community' },
   { to: '/about', label: 'About' },
-  { to: '/train', label: 'Train' },
 ]
 
 export default function Navbar() {
   const location = useLocation()
   const [drawerOpen, setDrawerOpen] = useState(false)
+  const { theme, toggle } = useTheme()
 
   const isActive = useCallback((to) => {
     if (to === '/') return location.pathname === '/'
     return location.pathname.startsWith(to)
   }, [location.pathname])
 
-  // Close drawer on any nav
   const handleNav = () => setDrawerOpen(false)
 
   return (
@@ -32,7 +36,7 @@ export default function Navbar() {
           borderBottom: '1px solid rgba(26, 37, 53, 0.8)',
         }}
       >
-        <div className="w-full flex items-center px-4 sm:px-6 lg:px-10">
+        <div className="w-full flex items-center px-4 sm:px-6 lg:px-8">
 
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 sm:gap-3 mr-auto no-underline" onClick={handleNav}>
@@ -56,18 +60,27 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-1">
-            {NAV_LINKS.map(({ to, label }) => (
+          <div className="hidden lg:flex items-center gap-1">
+            {NAV_LINKS.map(({ to, label, badge }) => (
               <Link
                 key={to}
                 to={to}
-                className="relative px-3 lg:px-4 py-2 rounded-lg text-sm font-dm font-medium transition-all duration-300 no-underline"
+                className="relative px-3 py-2 rounded-lg text-sm font-dm font-medium transition-all duration-300 no-underline flex items-center gap-1.5"
                 style={{
                   color: isActive(to) ? '#00d4ff' : '#6b8ba4',
                   background: isActive(to) ? 'rgba(0,212,255,0.07)' : 'transparent',
+                  fontSize: '0.82rem',
                 }}
               >
                 {label}
+                {badge && (
+                  <span style={{
+                    fontSize: '0.5rem', letterSpacing: '0.08em',
+                    background: 'rgba(0,255,136,0.15)', color: '#00ff88',
+                    border: '1px solid rgba(0,255,136,0.3)', borderRadius: 20,
+                    padding: '1px 5px', fontFamily: 'JetBrains Mono, monospace',
+                  }}>{badge}</span>
+                )}
                 {isActive(to) && (
                   <span
                     className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 rounded-full"
@@ -76,112 +89,93 @@ export default function Navbar() {
                 )}
               </Link>
             ))}
-            <Link
-              to="/translate"
-              className="ml-3 btn-primary"
-              style={{ padding: '8px 16px', fontSize: '0.8rem', minHeight: 38 }}
-              onClick={handleNav}
-              aria-label="Start translating"
-            >
-              <span>↗</span> Start
-            </Link>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginLeft: 8 }}>
+              <ThemeToggle theme={theme} onToggle={toggle} compact />
+              <Link
+                to="/translate"
+                className="btn-primary"
+                style={{ padding: '7px 14px', fontSize: '0.78rem', minHeight: 36 }}
+                onClick={handleNav}
+                aria-label="Start translating"
+              >
+                <span>↗</span> Translate
+              </Link>
+            </div>
           </div>
 
-          {/* Mobile Hamburger */}
-          <button
-            className="md:hidden flex flex-col gap-1.5 p-2 ml-2 rounded-lg cursor-pointer transition-all duration-200"
-            style={{
-              background: drawerOpen ? 'rgba(0,212,255,0.06)' : 'transparent',
-              border: drawerOpen ? '1px solid rgba(0,212,255,0.2)' : '1px solid transparent',
-              minWidth: 44,
-              minHeight: 44,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-            onClick={() => setDrawerOpen(!drawerOpen)}
-            aria-label={drawerOpen ? 'Close menu' : 'Open menu'}
-            aria-expanded={drawerOpen}
-          >
-            <span
-              className="block transition-all duration-300"
+          {/* Mobile: theme + hamburger */}
+          <div className="lg:hidden flex items-center gap-2">
+            <ThemeToggle theme={theme} onToggle={toggle} compact />
+            <button
+              className="flex flex-col gap-1.5 p-2 rounded-lg cursor-pointer transition-all duration-200"
               style={{
-                width: 20,
-                height: 2,
-                background: '#00d4ff',
-                transform: drawerOpen ? 'rotate(45deg) translate(3px, 3px)' : 'none',
-                borderRadius: 2,
+                background: drawerOpen ? 'rgba(0,212,255,0.06)' : 'transparent',
+                border: drawerOpen ? '1px solid rgba(0,212,255,0.2)' : '1px solid transparent',
+                minWidth: 44, minHeight: 44,
+                alignItems: 'center', justifyContent: 'center',
               }}
-            />
-            <span
-              className="block transition-all duration-300"
-              style={{
-                width: 20,
-                height: 2,
-                background: '#00d4ff',
-                opacity: drawerOpen ? 0 : 1,
-                borderRadius: 2,
-              }}
-            />
-            <span
-              className="block transition-all duration-300"
-              style={{
-                width: 20,
-                height: 2,
-                background: '#00d4ff',
-                transform: drawerOpen ? 'rotate(-45deg) translate(3px, -3px)' : 'none',
-                borderRadius: 2,
-              }}
-            />
-          </button>
+              onClick={() => setDrawerOpen(!drawerOpen)}
+              aria-label={drawerOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={drawerOpen}
+            >
+              {[0, 1, 2].map(i => (
+                <span key={i} className="block transition-all duration-300" style={{
+                  width: 20, height: 2, background: '#00d4ff', borderRadius: 2,
+                  transform: i === 0 && drawerOpen ? 'rotate(45deg) translate(3px, 3px)' : i === 2 && drawerOpen ? 'rotate(-45deg) translate(3px, -3px)' : 'none',
+                  opacity: i === 1 && drawerOpen ? 0 : 1,
+                }} />
+              ))}
+            </button>
+          </div>
         </div>
       </nav>
 
-      {/* Mobile/Tablet Drawer */}
+      {/* Mobile Drawer */}
       <>
-        {/* Backdrop */}
         <div
-          className="fixed inset-0 z-40 md:hidden"
+          className="fixed inset-0 z-40 lg:hidden"
           style={{
-            background: 'rgba(2,4,8,0.8)',
-            backdropFilter: 'blur(4px)',
+            background: 'rgba(2,4,8,0.8)', backdropFilter: 'blur(4px)',
             WebkitBackdropFilter: 'blur(4px)',
             pointerEvents: drawerOpen ? 'all' : 'none',
-            opacity: drawerOpen ? 1 : 0,
-            transition: 'opacity 0.3s ease',
+            opacity: drawerOpen ? 1 : 0, transition: 'opacity 0.3s ease',
           }}
           onClick={handleNav}
         />
 
-        {/* Slide panel */}
         <div
-          className="fixed top-0 right-0 bottom-0 z-50 md:hidden flex flex-col pt-20 px-5 gap-2"
+          className="fixed top-0 right-0 bottom-0 z-50 lg:hidden flex flex-col pt-20 px-5 gap-1"
           style={{
-            width: 'min(280px, 80vw)',
-            background: '#080d14',
+            width: 'min(300px, 85vw)', background: '#080d14',
             borderLeft: '1px solid #1a2535',
             transform: drawerOpen ? 'translateX(0)' : 'translateX(100%)',
             transition: 'transform 0.3s cubic-bezier(0.4,0,0.2,1)',
             paddingBottom: 'env(safe-area-inset-bottom, 24px)',
+            overflowY: 'auto',
           }}
         >
-          {/* Nav items */}
-          {NAV_LINKS.map(({ to, label }) => (
+          {NAV_LINKS.map(({ to, label, badge }) => (
             <Link
               key={to}
               to={to}
               onClick={handleNav}
-              className="flex items-center gap-3 px-4 py-3.5 rounded-xl no-underline transition-all duration-200"
+              className="flex items-center gap-3 px-4 py-3 rounded-xl no-underline transition-all duration-200"
               style={{
                 color: isActive(to) ? '#00d4ff' : '#6b8ba4',
                 background: isActive(to) ? 'rgba(0,212,255,0.07)' : 'transparent',
                 borderLeft: isActive(to) ? '3px solid #00d4ff' : '3px solid transparent',
-                fontSize: '1rem',
-                fontFamily: 'DM Sans, sans-serif',
-                fontWeight: 500,
-                minHeight: 52,
+                fontSize: '0.95rem', fontFamily: 'DM Sans, sans-serif', fontWeight: 500,
+                minHeight: 48,
               }}
             >
               {label}
+              {badge && (
+                <span style={{
+                  fontSize: '0.5rem', background: 'rgba(0,255,136,0.15)', color: '#00ff88',
+                  border: '1px solid rgba(0,255,136,0.3)', borderRadius: 20,
+                  padding: '1px 5px', fontFamily: 'JetBrains Mono, monospace',
+                }}>{badge}</span>
+              )}
             </Link>
           ))}
 
@@ -190,15 +184,14 @@ export default function Navbar() {
               to="/translate"
               onClick={handleNav}
               className="btn-primary w-full justify-center"
-              style={{ minHeight: 52, fontSize: '0.95rem' }}
+              style={{ minHeight: 48, fontSize: '0.9rem' }}
             >
               ↗ Start Translating
             </Link>
           </div>
 
-          {/* Bottom branding */}
-          <div className="mt-auto pb-4">
-            <p className="hud-label text-center" style={{ fontSize: '0.55rem' }}>LexiSight · SDG 10 · AIESEC 2026</p>
+          <div className="mt-auto pt-4 pb-4">
+            <p className="hud-label text-center" style={{ fontSize: '0.55rem' }}>LexiSight · SDG 3,4,8,10,17 · AIESEC 2026</p>
           </div>
         </div>
       </>

@@ -140,13 +140,13 @@ export default function Landing() {
               className="font-mono font-semibold tracking-widest hidden sm:inline"
               style={{ color: '#00d4ff', fontFamily: 'JetBrains Mono, monospace', fontSize: '0.65rem' }}
             >
-              SDG 10 · REDUCED INEQUALITIES
+              SDG 3 · 4 · 8 · 10 · 17
             </span>
             <span
               className="font-mono font-semibold tracking-widest sm:hidden"
               style={{ color: '#00d4ff', fontFamily: 'JetBrains Mono, monospace', fontSize: '0.6rem' }}
             >
-              SDG 10
+              SDG MULTI
             </span>
             <span
               style={{
@@ -224,14 +224,36 @@ export default function Landing() {
             >
               <span>↗</span> Start Translating
             </Link>
-            <Link
-              to="/about"
-              className="btn-secondary"
-              style={{ padding: 'clamp(10px,2vw,14px) clamp(16px,3vw,28px)', minHeight: 48 }}
-              aria-label="Learn how LexiSight works"
-            >
-              How It Works →
-            </Link>
+            <div className="flex gap-2 sm:gap-3 flex-wrap">
+              <Link
+                to="/about"
+                className="btn-secondary"
+                style={{ padding: 'clamp(8px,1.5vw,12px) clamp(14px,2.5vw,20px)', minHeight: 40, fontSize: '0.8rem' }}
+              >
+                How It Works
+              </Link>
+              <Link
+                to="/learn"
+                className="btn-secondary"
+                style={{ padding: 'clamp(8px,1.5vw,12px) clamp(14px,2.5vw,20px)', minHeight: 40, fontSize: '0.8rem' }}
+              >
+                📚 Learn ISL
+              </Link>
+              <Link
+                to="/impact"
+                className="btn-secondary"
+                style={{ padding: 'clamp(8px,1.5vw,12px) clamp(14px,2.5vw,20px)', minHeight: 40, fontSize: '0.8rem' }}
+              >
+                🌍 Impact
+              </Link>
+              <Link
+                to="/dictionary"
+                className="btn-secondary"
+                style={{ padding: 'clamp(8px,1.5vw,12px) clamp(14px,2.5vw,20px)', minHeight: 40, fontSize: '0.8rem' }}
+              >
+                📖 Dictionary
+              </Link>
+            </div>
           </div>
 
           {/* Two preview cards */}
@@ -411,8 +433,11 @@ export default function Landing() {
               className="flex items-center gap-1.5 px-3 py-1 rounded-full"
               style={{ background: 'rgba(0,212,255,0.06)', border: '1px solid rgba(0,212,255,0.2)' }}
             >
-              <span style={{ color: '#00d4ff', fontSize: '0.65rem', fontFamily: 'JetBrains Mono, monospace' }}>SDG 10</span>
+              <span style={{ color: '#00d4ff', fontSize: '0.65rem', fontFamily: 'JetBrains Mono, monospace' }}>SDG 3,4,8,10,17</span>
             </div>
+            <Link to="/community" style={{ color: '#8b5cf6', fontSize: '0.75rem', fontFamily: 'DM Sans, sans-serif', textDecoration: 'none' }}>
+              Gesture Bank
+            </Link>
           </div>
         </div>
       </footer>

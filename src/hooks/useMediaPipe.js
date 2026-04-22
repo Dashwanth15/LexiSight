@@ -12,7 +12,10 @@ export function useMediaPipe() {
 
   const [landmarks, setLandmarks] = useState(null)
   const [rawLandmarks, setRawLandmarks] = useState(null)
+  const [landmarks2, setLandmarks2] = useState(null)
+  const [rawLandmarks2, setRawLandmarks2] = useState(null)
   const [handDetected, setHandDetected] = useState(false)
+  const [hand2Detected, setHand2Detected] = useState(false)
   const [fps, setFps] = useState(0)
   const [error, setError] = useState(null)
   const [isReady, setIsReady] = useState(false)
@@ -43,13 +46,17 @@ export function useMediaPipe() {
       setAvailableCameras(videoDevices)
 
       // Prefer a camera that is NOT back-facing (rear) — pick webcam for laptops
-      // On laptops, devices[0] is usually the built-in webcam
-      // Avoid cameras with "back" in label
-      const preferredCam = videoDevices.find(d =>
-        !d.label.toLowerCase().includes('back') &&
-        !d.label.toLowerCase().includes('rear') &&
-        !d.label.toLowerCase().includes('environment')
-      ) || videoDevices[0]
+      // Avoid virtual cameras or phone link
+      const preferredCam = videoDevices.find(d => {
+        const label = d.label.toLowerCase()
+        return !label.includes('back') &&
+               !label.includes('rear') &&
+               !label.includes('environment') &&
+               !label.includes('virtual') &&
+               !label.includes('phone link') &&
+               !label.includes('droidcam') &&
+               !label.includes('obs')
+      }) || videoDevices[0]
 
       if (preferredCam && !selectedCameraId) {
         setSelectedCameraId(preferredCam.deviceId)
@@ -82,15 +89,18 @@ export function useMediaPipe() {
       })
 
       hands.setOptions({
-        maxNumHands: 1,
+        maxNumHands: 2,
         modelComplexity: 1,
         minDetectionConfidence: 0.7,
         minTrackingConfidence: 0.5,
       })
 
       hands.onResults((results) => {
-        if (results.multiHandLandmarks?.length > 0) {
-          const lms = results.multiHandLandmarks[0]
+        const multi = results.multiHandLandmarks || []
+
+        // ── Primary hand ───────────────────────────────────────────────────
+        if (multi.length > 0) {
+          const lms = multi[0]
           setRawLandmarks(lms)
           setLandmarks(normalizeLandmarks(lms))
           setHandDetected(true)
@@ -98,6 +108,18 @@ export function useMediaPipe() {
           setHandDetected(false)
           setLandmarks(null)
           setRawLandmarks(null)
+        }
+
+        // ── Secondary hand (two-hand signs) ───────────────────────────────
+        if (multi.length > 1) {
+          const lms2 = multi[1]
+          setRawLandmarks2(lms2)
+          setLandmarks2(normalizeLandmarks(lms2))
+          setHand2Detected(true)
+        } else {
+          setHand2Detected(false)
+          setLandmarks2(null)
+          setRawLandmarks2(null)
         }
 
         const counter = fpsCounterRef.current
@@ -189,8 +211,11 @@ export function useMediaPipe() {
     if (handsRef.current) handsRef.current.close()
     setIsReady(false)
     setHandDetected(false)
+    setHand2Detected(false)
     setLandmarks(null)
     setRawLandmarks(null)
+    setLandmarks2(null)
+    setRawLandmarks2(null)
   }, [])
 
   useEffect(() => {
@@ -202,7 +227,10 @@ export function useMediaPipe() {
     canvasRef,
     landmarks,
     rawLandmarks,
+    landmarks2,
+    rawLandmarks2,
     handDetected,
+    hand2Detected,
     fps,
     error,
     isReady,
