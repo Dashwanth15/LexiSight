@@ -12,8 +12,13 @@ export function useClassifier() {
   const modelRef = useRef(null)
   const scalerRef = useRef(null)
   const labelMapRef = useRef(null)
+  const isTemporalRef = useRef(false)
+  const sequenceBufferRef = useRef([]) // 30-frame ring buffer
+  const temporalFrameCountRef = useRef(0)
+  const lastTemporalResultRef = useRef(null)
   const demoIndexRef = useRef(0)
   const [status, setStatus] = useState('idle') // idle | loading | ready | error | demo | geometric
+  const [mode, setMode] = useState('word') // 'word' | 'letter'
   const [progress, setProgress] = useState(0)
   const [errorMsg, setErrorMsg] = useState(null)
   const [isDemoMode, setIsDemoMode] = useState(false)
@@ -48,11 +53,20 @@ export function useClassifier() {
       modelRef.current = model
       labelMapRef.current = labelMap
       scalerRef.current = scaler
+      
+      // Auto-detect if temporal model (shape: [null, 30, 126]) or static (shape: [null, 63])
+      const inputShape = model.inputs[0].shape
+      isTemporalRef.current = inputShape && inputShape.length === 3 && inputShape[1] === 30
 
       // Warmup inference
-      const dummy = tf.zeros([1, 63])
-      await model.predict(dummy).data()
-      dummy.dispose()
+      try {
+        const dummyShape = isTemporalRef.current ? [1, 30, 126] : [1, 63]
+        const dummy = tf.zeros(dummyShape)
+        await model.predict(dummy).data()
+        dummy.dispose()
+      } catch (wErr) {
+        console.warn('Warmup failed (likely shape mismatch), skipping.', wErr)
+      }
 
       setProgress(100)
       setStatus('ready')
@@ -70,7 +84,7 @@ export function useClassifier() {
    * @param {Array} rawLandmarks2  - Raw MediaPipe landmarks (secondary hand, optional)
    * Returns { label, confidence, topK }
    */
-  const predict = useCallback((landmarks, rawLandmarks, rawLandmarks2 = null) => {
+  const predict = useCallback((landmarks, rawLandmarks, rawLandmarks2 = null, landmarks2 = null) => {
     if (isDemoMode || status === 'demo') return null
 
     // ── Priority 1: two-hand geometric check ─────────────────────────────────
@@ -88,6 +102,20 @@ export function useClassifier() {
       if (digitResult) return digitResult
     }
 
+    // ── Priority 2.5: Mode override ──────────────────────────────────────────
+    // If user selected Letter mode, but we have a temporal (Word) model, use geometric
+    if (mode === 'letter' && isTemporalRef.current) {
+      if (!rawLandmarks || rawLandmarks.length !== 21) return null
+      return classifyGesture(rawLandmarks)
+    }
+    // If user selected Word mode, but we have a static (Letter) model, use geometric for the few words it knows
+    if (mode === 'word' && !isTemporalRef.current && status !== 'geometric') {
+      if (rawLandmarks && rawLandmarks.length === 21) {
+        const geo = classifyGesture(rawLandmarks)
+        if (geo && geo.label.length > 1) return geo // Words are typically > 1 char
+      }
+    }
+
     // ── Priority 3: single-hand geometric fallback ────────────────────────────
     if (status === 'geometric') {
       if (!rawLandmarks || rawLandmarks.length !== 21) return null
@@ -95,19 +123,54 @@ export function useClassifier() {
     }
 
     // ── Priority 3: ML model ─────────────────────────────────────────────────
-    if (!modelRef.current || !scalerRef.current || !labelMapRef.current) return null
+    if (!modelRef.current || !labelMapRef.current) return null
     if (!landmarks || landmarks.length !== 63) return null
 
-    return tf.tidy(() => {
-      let normalized = landmarks
+    // Manage temporal sequence buffer
+    if (isTemporalRef.current) {
+      // Build 126-feature frame: [hand1(63), hand2(63)]
+      const frame = new Float32Array(126)
+      frame.set(landmarks, 0)
+      if (landmarks2 && landmarks2.length === 63) {
+        frame.set(landmarks2, 63)
+      } else {
+        frame.set(new Float32Array(63), 63) // zeros for missing second hand
+      }
+      
+      // Update ring buffer
+      sequenceBufferRef.current.push(frame)
+      if (sequenceBufferRef.current.length > 30) {
+        sequenceBufferRef.current.shift()
+      }
+      
+      // Wait until buffer is full before predicting temporal words
+      if (sequenceBufferRef.current.length < 30) return null
+      
+      // Throttle temporal inference to every 5 frames
+      temporalFrameCountRef.current++
+      if (temporalFrameCountRef.current % 5 !== 0 && lastTemporalResultRef.current) {
+        return lastTemporalResultRef.current
+      }
+    }
 
-      // Apply StandardScaler if available
-      if (scalerRef.current?.mean && scalerRef.current?.scale) {
-        const { mean, scale } = scalerRef.current
-        normalized = landmarks.map((v, i) => (v - mean[i]) / (scale[i] || 1))
+    return tf.tidy(() => {
+      let input
+      
+      if (isTemporalRef.current) {
+        // Temporal Model: shape [1, 30, 126]
+        const seqTensor = tf.tensor2d(sequenceBufferRef.current, [30, 126])
+        input = seqTensor.expandDims(0)
+      } else {
+        // Static Model: shape [1, 63]
+        let normalized = landmarks
+        // Apply StandardScaler if available (old model only)
+        if (scalerRef.current?.mean && scalerRef.current?.scale) {
+          const { mean, scale } = scalerRef.current
+          normalized = landmarks.map((v, i) => (v - mean[i]) / (scale[i] || 1))
+        }
+        input = tf.tensor2d([normalized])
       }
 
-      const input = tf.tensor2d([normalized])
       const output = modelRef.current.predict(input)
       const probs = Array.from(output.dataSync())
 
@@ -127,7 +190,13 @@ export function useClassifier() {
       // ── Priority 4: Geometric disambiguator ──────────────────────────────
       // Overrides ML for known confused pairs (2↔3, M↔N, O↔6, U↔R, 7↔8)
       // using deterministic finger curl geometry. No-op for other gestures.
-      return disambiguate(mlResult, rawLandmarks)
+      const finalResult = isTemporalRef.current ? mlResult : disambiguate(mlResult, rawLandmarks)
+      
+      if (isTemporalRef.current) {
+        lastTemporalResultRef.current = finalResult
+      }
+      
+      return finalResult
     })
   }, [isDemoMode, status])
 
@@ -160,6 +229,9 @@ export function useClassifier() {
     progress,
     isDemoMode,
     errorMsg,
+    mode,
+    setMode,
+    isTemporal: isTemporalRef.current,
     numClasses: labelMapRef.current ? Object.keys(labelMapRef.current).length : GESTURE_CLASSES.length,
     retry,
   }

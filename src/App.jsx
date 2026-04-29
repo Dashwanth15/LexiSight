@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar.jsx'
 import ToastNotif from './components/ToastNotif.jsx'
@@ -35,6 +35,15 @@ function LoadingScreen() {
 }
 
 export default function App() {
+  useEffect(() => {
+    // Increment global session counter for the Impact dashboard
+    if (!sessionStorage.getItem('lxi_session_counted')) {
+      const cur = parseInt(localStorage.getItem('lxi_stat_sessions') || '28', 10)
+      localStorage.setItem('lxi_stat_sessions', cur + 1)
+      sessionStorage.setItem('lxi_session_counted', 'true')
+    }
+  }, [])
+
   return (
     <BrowserRouter>
       <Navbar />

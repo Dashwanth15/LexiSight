@@ -123,7 +123,33 @@ export class SentenceBuilder {
   }
 
   getSentence() {
-    return this.words.join(' ')
+    const gloss = this.words.join(' ')
+    return this.applyGrammarFixes(gloss)
+  }
+
+  applyGrammarFixes(gloss) {
+    if (!gloss) return ''
+    let out = gloss.toLowerCase()
+    
+    // ISL Gloss → Basic English heuristics
+    // Question words
+    if (out.includes('name you what') || out.includes('your name what')) return 'What is your name?'
+    if (out.includes('you how') || out.includes('how you')) return 'How are you?'
+    if (out.includes('time what')) return 'What time is it?'
+    if (out.includes('where go')) return 'Where are you going?'
+    if (out.includes('what happened')) return 'What happened?'
+
+    // Common verb phrasing
+    out = out.replace(/i (water|food|drink|eat) (want|need|please)/g, 'I want $1')
+    out = out.replace(/(water|food|drink|eat) (please|want)/g, 'Please give me $1')
+    out = out.replace(/i (doctor|help) (want|need)/g, 'I need a $1')
+    out = out.replace(/i pain/g, 'I am in pain')
+    
+    // Basic cleanup
+    out = out.replace(/i /g, 'I ')
+    
+    // Capitalize first letter
+    return out.charAt(0).toUpperCase() + out.slice(1)
   }
 
   clear() {

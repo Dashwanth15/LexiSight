@@ -518,9 +518,22 @@ def main():
     # ?????? Load data ??????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????
     if not X_PATH.exists():
         print("??? X_train.npy not found at", X_PATH); sys.exit(1)
-    print("??? Loading real dataset...", flush=True)
+    
+    print("??? Loading primary real dataset...", flush=True)
     X_real = np.load(str(X_PATH)).astype(np.float32)
     y_raw  = np.load(str(Y_PATH))
+    
+    # --- Integration: Load Video Dataset if exists ---
+    X_VIDEO_PATH = MODEL_DIR / "X_train_video.npy"
+    Y_VIDEO_PATH = MODEL_DIR / "y_train_video.npy"
+    if X_VIDEO_PATH.exists() and Y_VIDEO_PATH.exists():
+        print("??? Found video dataset. Merging samples...", flush=True)
+        X_video = np.load(str(X_VIDEO_PATH)).astype(np.float32)
+        y_video = np.load(str(Y_VIDEO_PATH))
+        X_real = np.vstack([X_real, X_video])
+        y_raw = np.concatenate([y_raw, y_video])
+        print(f"  Combined samples: {len(X_real):,}")
+
     with open(str(LABEL_PATH)) as f:
         label_map = json.load(f)
 
@@ -528,8 +541,8 @@ def main():
     le = LabelEncoder()
     y_real = le.fit_transform(y_raw).astype(np.int32)
     n_classes = len(np.unique(y_real))
-    print(f"  Real samples : {len(X_real):,}")
-    print(f"  Classes      : {n_classes}", flush=True)
+    print(f"  Total samples : {len(X_real):,}")
+    print(f"  Total classes : {n_classes}", flush=True)
 
     # ── FIX 2: Save corrected label map that matches LabelEncoder order ──
     # label_map.json may have keys in a different order than le.classes_

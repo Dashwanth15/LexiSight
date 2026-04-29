@@ -1,0 +1,89 @@
+# ═══════════════════════════════════════════════════════════════
+# LexiSight — Canonical Class Merge Map
+# ═══════════════════════════════════════════════════════════════
+# Maps all source dataset labels → canonical label names.
+# When multiple datasets use different spellings/cases for the
+# same sign, this file is the single source of truth.
+#
+# Format:
+#   canonical_name:
+#     - source_variant_1
+#     - source_variant_2
+# ═══════════════════════════════════════════════════════════════
+
+# ── Letters (A-Z) ──────────────────────────────────────────────
+A: [a, A, "01_A"]
+B: [b, B, "02_B"]
+C: [c, C, "03_C"]
+D: [d, D, "04_D"]
+E: [e, E, "05_E"]
+F: [f, F, "06_F"]
+G: [g, G, "07_G"]
+H: [h, H, "08_H"]
+I: [i, I, "09_I"]
+J: [j, J, "10_J"]
+K: [k, K, "11_K"]
+L: [l, L, "12_L"]
+M: [m, M, "13_M"]
+N: [n, N, "14_N"]
+O: [o, O, "15_O"]
+P: [p, P, "16_P"]
+Q: [q, Q, "17_Q"]
+R: [r, R, "18_R"]
+S: [s, S, "19_S"]
+T: [t, T, "20_T"]
+U: [u, U, "21_U"]
+V: [v, V, "22_V"]
+W: [w, W, "23_W"]
+X: [x, X, "24_X"]
+Y: [y, Y, "25_Y"]
+Z: [z, Z, "26_Z"]
+
+# ── Digits (0-9) ──────────────────────────────────────────────
+"0": ["0", zero, Zero, ZERO]
+"1": ["1", one, One, ONE]
+"2": ["2", two, Two, TWO]
+"3": ["3", three, Three, THREE]
+"4": ["4", four, Four, FOUR]
+"5": ["5", five, Five, FIVE]
+"6": ["6", six, Six, SIX]
+"7": ["7", seven, Seven, SEVEN]
+"8": ["8", eight, Eight, EIGHT]
+"9": ["9", nine, Nine, NINE]
+
+# ── Common Words (INCLUDE / CISLR mappings) ───────────────────
+# These will be populated as datasets are processed.
+# Format: canonical ISL gloss → [source variants across datasets]
+HELLO: [hello, Hello, HELLO, hi, Hi, HI, greet, Greet]
+THANK_YOU: [thank_you, "Thank You", THANKYOU, thanks, Thanks]
+PLEASE: [please, Please, PLEASE]
+SORRY: [sorry, Sorry, SORRY]
+YES: [yes, Yes, YES]
+NO: [no, No, NO]
+HELP: [help, Help, HELP]
+WATER: [water, Water, WATER]
+FOOD: [food, Food, FOOD, eat, Eat, EAT]
+DOCTOR: [doctor, Doctor, DOCTOR]
+PAIN: [pain, Pain, PAIN, hurt, Hurt, HURT]
+MEDICINE: [medicine, Medicine, MEDICINE]
+FAMILY: [family, Family, FAMILY]
+FRIEND: [friend, Friend, FRIEND]
+SCHOOL: [school, School, SCHOOL]
+TEACHER: [teacher, Teacher, TEACHER]
+BOOK: [book, Book, BOOK]
+NAME: [name, Name, NAME]
+GOOD: [good, Good, GOOD]
+BAD: [bad, Bad, BAD]
+STOP: [stop, Stop, STOP]
+GO: [go, Go, GO]
+COME: [come, Come, COME]
+SLEEP: [sleep, Sleep, SLEEP]
+LOVE: [love, Love, LOVE]
+MEET: [meet, Meet, MEET]
+UNDERSTAND: [understand, Understand, UNDERSTAND]
+AGAIN: [again, Again, AGAIN]
+QUESTION: [question, Question, QUESTION]
+WORK: [work, Work, WORK]
+
+# ── Ignore / Exclude ──────────────────────────────────────────
+_EXCLUDE: ["_", blank, Blank, BLANK, none, None, NONE]

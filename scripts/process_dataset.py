@@ -47,7 +47,10 @@ from mediapipe.tasks.python import vision
 lock = threading.Lock()
 
 def augment(lm_list, noise_level=0.015):
-    """Add Gaussian noise to the coordinates for Data Augmentation"""
+    """Add Gaussian noise to the coordinates for Data Augmentation.
+    NOTE: This is only used in train_model.py AFTER train/val/test split
+    to prevent data leakage.
+    """
     return [max(0.0, min(1.0, val + np.random.normal(0, noise_level))) for val in lm_list]
 
 def extract_landmarks(image_path: Path, detector) -> list | None:
@@ -106,12 +109,7 @@ def process_class(class_name: str, image_dir: Path, label_id: int,
             if lm:
                 landmarks_list.append(lm)
                 labels_list.append(label_id)
-                # Augmentation 1 (Light noise)
-                landmarks_list.append(augment(lm, 0.015))
-                labels_list.append(label_id)
-                # Augmentation 2 (Heavier noise)
-                landmarks_list.append(augment(lm, 0.03))
-                labels_list.append(label_id)
+                # NO augmentation here - it's done in train_model.py AFTER split to avoid leakage
 
     count = len(landmarks_list)
     if count > 0:
@@ -203,8 +201,8 @@ def main():
     X = np.array(all_landmarks, dtype=np.float32)
     y = np.array(all_labels, dtype=np.int32)
 
-    np.save(OUTPUT_DIR / "X_train.npy", X)
-    np.save(OUTPUT_DIR / "y_train.npy", y)
+    np.save(OUTPUT_DIR / "X_train_raw.npy", X)
+    np.save(OUTPUT_DIR / "y_train_raw.npy", y)
 
     with open(OUTPUT_DIR / "label_map.json", "w") as f:
         json.dump(label_map, f, indent=2)
@@ -213,15 +211,18 @@ def main():
     print("\n╔══════════════════════════╗")
     print("║       DATASET SUMMARY    ║")
     print("╚══════════════════════════╝")
-    print(f"  Total samples  : {len(X):,}")
-    print(f"  Total classes  : {len(label_map)}")
-    print(f"  Feature dims   : {X.shape[1] if len(X) > 0 else 0}")
-    print(f"  Output dir     : {OUTPUT_DIR}")
+    print(f"  Raw unique samples  : {len(X):,}")
+    print(f"  Total classes       : {len(label_map)}")
+    print(f"  Feature dims        : {X.shape[1] if len(X) > 0 else 0}")
+    print(f"  Output dir          : {OUTPUT_DIR}")
     print(f"\n  Per-class breakdown:")
     for cls, cnt in sorted(class_counts.items()):
         bar = '█' * min(40, cnt // 10)
         print(f"    {cls:>10}: {bar} {cnt}")
 
+    print("\n⚠  NOTE: Augmentation is now DISABLED here.")
+    print("   Augmentation happens in train_model.py AFTER train/val/test split.")
+    print("   This prevents data leakage and gives honest validation accuracy.")
     print("\n✓ process_dataset.py complete!")
     print("  Next step: python scripts/train_model.py\n")
 

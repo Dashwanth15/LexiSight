@@ -1,0 +1,57 @@
+{
+  "version": "0.93.0",
+  "model_type": "dense_resnet_static",
+  "model_file": "training_logs/phase2_best.keras",
+  "timestamp": "2026-04-29T00:00:00Z",
+  "dataset": {
+    "real_samples": 51551,
+    "synthetic_samples": 8700,
+    "synthetic_ratio": 0.14,
+    "total_classes": 36,
+    "class_type": "static_letters_digits",
+    "sources": ["ISL Gesture Images", "ISL CSLRT"],
+    "signer_disjoint_split": false,
+    "augmentation_after_split": true,
+    "notes": "Studio-quality, single-signer, plain-background images. No diversity in skin tone, lighting, or camera angle."
+  },
+  "accuracy": {
+    "phase1_val": 0.937,
+    "phase2_val": 0.939,
+    "top3_val": 1.0,
+    "top3_note": "Suspiciously perfect — likely inflated by similar classes",
+    "wild_test": null,
+    "wild_test_note": "No wild test set exists yet. This is the most important missing metric."
+  },
+  "per_class": {
+    "above_95_pct": 14,
+    "between_85_95_pct": 15,
+    "below_85_pct": 7,
+    "broken_classes": {
+      "2": 0.82,
+      "3": 0.80,
+      "6": 0.62,
+      "7": 0.84,
+      "M": 0.67,
+      "O": 0.50,
+      "N": null
+    },
+    "notes": "All broken classes are visually-similar confusion pairs: 2↔3, 6↔7, M↔N, O↔0. Currently patched by geometric overrides in the frontend."
+  },
+  "model_info": {
+    "file_size_mb": 5.0,
+    "inference_ms_median": 41.8,
+    "inference_ms_p95": null,
+    "params_approx": 1000000,
+    "browser_ready": true,
+    "tfjs_quantization": "float16"
+  },
+  "verdict": "NEEDS_MORE_WORK",
+  "known_issues": [
+    "No signer-disjoint validation split — val accuracy is inflated",
+    "No wild test set (unseen signers, lighting, phones)",
+    "7 classes below 85% accuracy (O at 50%)",
+    "Single-frame model — cannot learn dynamic/motion signs",
+    "Two-hand support was faked via mirroring (now deleted)",
+    "Word-level signs are geometric rules, not ML predictions"
+  ]
+}

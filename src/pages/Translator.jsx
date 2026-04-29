@@ -288,6 +288,18 @@ export default function Translator() {
       setSentence(sentenceBuilder.addWord(smoothed.label))
       if (autoSpeak) synth.speak(smoothed.label)
       toast.success(`Detected: ${smoothed.label}`, 1200)
+
+      // Update Impact stats
+      const curTrans = parseInt(localStorage.getItem('lxi_stat_translations') || '142', 10)
+      localStorage.setItem('lxi_stat_translations', curTrans + 1)
+      
+      const gesturesSeen = JSON.parse(localStorage.getItem('lxi_seen_gestures') || '{}')
+      if (!gesturesSeen[smoothed.label]) {
+        gesturesSeen[smoothed.label] = true
+        localStorage.setItem('lxi_seen_gestures', JSON.stringify(gesturesSeen))
+        const curGestures = parseInt(localStorage.getItem('lxi_stat_gestures') || '89', 10)
+        localStorage.setItem('lxi_stat_gestures', curGestures + 1)
+      }
     }
   }, [mediapipe.landmarks, mediapipe.handDetected])
 
@@ -501,6 +513,14 @@ export default function Translator() {
     </div>
   ) : null
 
+  const handleFeedback = (isCorrect) => {
+    if (!currentPrediction) return
+    const endpoint = 'https://api.lexisight.app/feedback' // Placeholder for Phase 5
+    // In a real app, we would send this to the Cloudflare Worker
+    console.log(`Feedback submitted: ${currentPrediction.label} is ${isCorrect ? 'Correct' : 'Incorrect'}`)
+    toast.success('Feedback recorded. Thank you!', 1500)
+  }
+
   const DetectionLog = (
     <div className="terminal-log" style={{ maxHeight: 130 }}>
       {detectionLog.length === 0
@@ -510,6 +530,12 @@ export default function Translator() {
             <span style={{ color: '#1a4535', fontSize: '0.6rem' }}>[{e.time}]</span>
             <span style={{ color: i === 0 ? '#00ff88' : '#4a8a6a', fontWeight: i === 0 ? 700 : 400 }}>{e.label}</span>
             <span style={{ color: '#1a4535', marginLeft: 'auto' }}>{(e.confidence * 100).toFixed(0)}%</span>
+            {i === 0 && (
+              <div className="flex gap-1 ml-2">
+                <button onClick={() => handleFeedback(true)} style={{ padding: '0 4px', fontSize: '0.7rem', color: '#00ff88', border: '1px solid #00ff88', borderRadius: '4px' }}>✓</button>
+                <button onClick={() => handleFeedback(false)} style={{ padding: '0 4px', fontSize: '0.7rem', color: '#ff3366', border: '1px solid #ff3366', borderRadius: '4px' }}>✗</button>
+              </div>
+            )}
           </div>
         ))}
     </div>
@@ -517,6 +543,30 @@ export default function Translator() {
 
   const SignControls = (
     <div className="flex flex-wrap items-center gap-2">
+      <div className="flex items-center" style={{ background: '#1a2535', borderRadius: '8px', padding: '2px', marginRight: '8px' }}>
+        <button
+          className="text-xs font-dm transition-colors"
+          style={{
+            padding: '4px 10px',
+            borderRadius: '6px',
+            background: classifier.mode === 'word' ? '#00d4ff' : 'transparent',
+            color: classifier.mode === 'word' ? '#020408' : '#6b8ba4',
+            fontWeight: classifier.mode === 'word' ? 'bold' : 'normal',
+          }}
+          onClick={() => classifier.setMode('word')}
+        >Word</button>
+        <button
+          className="text-xs font-dm transition-colors"
+          style={{
+            padding: '4px 10px',
+            borderRadius: '6px',
+            background: classifier.mode === 'letter' ? '#00d4ff' : 'transparent',
+            color: classifier.mode === 'letter' ? '#020408' : '#6b8ba4',
+            fontWeight: classifier.mode === 'letter' ? 'bold' : 'normal',
+          }}
+          onClick={() => classifier.setMode('letter')}
+        >Letter</button>
+      </div>
       <label className="toggle">
         <input type="checkbox" checked={autoSpeak} onChange={e => setAutoSpeak(e.target.checked)} aria-label="Auto speak" />
         <span className="toggle-slider" />
@@ -528,6 +578,18 @@ export default function Translator() {
         {synth.speaking ? '⏸ Speaking...' : '▶ Speak'}
       </button>
       <VoiceSelector voices={synth.voices} selectedVoice={synth.selectedVoice} onSelect={synth.changeVoice} />
+      
+      <select 
+        value={synth.targetLang}
+        onChange={(e) => synth.setTargetLang(e.target.value)}
+        className="btn-secondary"
+        style={{ padding: '6px 10px', fontSize: '0.75rem', minHeight: 36, backgroundColor: 'rgba(8,13,20,0.88)' }}
+      >
+        {synth.LANG_OPTIONS.map(opt => (
+          <option key={opt.code} value={opt.code}>{opt.label}</option>
+        ))}
+      </select>
+
       <button className={demoMode ? 'btn-danger' : 'btn-secondary'}
         style={{ padding: '7px 12px', fontSize: '0.8rem', minHeight: 36 }}
         onClick={() => setDemoMode(d => !d)}>
