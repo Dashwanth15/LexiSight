@@ -1,0 +1,8 @@
+{
+  "dataset": "static_images",
+  "source": "Original ISL image datasets (converted to temporal format)",
+  "clips": 71352,
+  "classes": 36,
+  "frames_per_clip": 30,
+  "note": "Each static image repeated 30 times. Second hand is zeros."
+}
