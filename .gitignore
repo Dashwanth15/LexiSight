@@ -1,9 +1,7 @@
 # ── Raw video datasets (too large for GitHub) ──
 Datasets/
 
-# ── Processed .npy files (will add after extraction completes) ──
-ml/data_processed/
-*.npy
+# ── Processed .npy files (Allowed to push) ──
 
 # ── Node modules (regenerate with npm install) ──
 node_modules/
