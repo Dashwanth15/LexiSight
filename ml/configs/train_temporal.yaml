@@ -1,0 +1,92 @@
+# ═══════════════════════════════════════════════════════════════
+# LexiSight — Temporal Model Training Configuration
+# ═══════════════════════════════════════════════════════════════
+
+# ── Model Architecture ─────────────────────────────────────────
+model:
+  name: temporal_landmark_transformer_v1
+  input_frames: 30                  # 1 second at 30fps
+  input_features: 126               # 21 landmarks × 3 coords × 2 hands
+  projection_dim: 128
+  num_transformer_layers: 2
+  num_attention_heads: 4
+  feedforward_dim: 256
+  dropout: 0.2
+  classifier_hidden: 64
+  # n_classes: auto-detected from manifest
+
+# ── Data ──────────────────────────────────────────────────────
+data:
+  manifest_path: ml/data_processed/manifest.csv
+  wild_test_path: ml/data_processed/wild_test/
+  split_strategy: signer_disjoint    # CRITICAL: no signer in both train+val
+  val_ratio: 0.15
+  test_ratio: 0.15
+  min_samples_per_class: 1          # include all phrases even with 1 sample
+
+# ── Augmentation (applied online during training) ─────────────
+augmentation:
+  # Temporal
+  time_crop_frames: 5               # random crop ±5 frames
+  random_reverse: true               # for symmetric signs only (whitelist)
+  reverse_whitelist: [HELLO, STOP, YES, NO, GOOD]
+  
+  # Spatial
+  rotation_range_deg: 20
+  scale_range: [0.85, 1.15]
+  mirror_x: true                     # with class-mirror map
+  
+  # Sensor noise
+  gaussian_noise_sigma: 0.01
+  
+  # Dropout
+  frame_dropout_count: 3             # randomly zero 1-3 frames
+
+# ── Training ─────────────────────────────────────────────────
+training:
+  # Phase 1: full mixed data
+  phase1:
+    epochs: 100
+    batch_size: 64
+    optimizer: adamw
+    learning_rate: 0.001
+    weight_decay: 0.01
+    scheduler: cosine
+    warmup_epochs: 5
+    label_smoothing: 0.1
+    class_weighted: true
+    early_stopping_patience: 20
+
+  # Phase 2: signer-disjoint fine-tune
+  phase2:
+    epochs: 50
+    batch_size: 32
+    learning_rate: 0.0001
+    weight_decay: 0.01
+    scheduler: cosine
+    early_stopping_patience: 15
+
+# ── Export ────────────────────────────────────────────────────
+export:
+  format: tfjs_float16
+  output_dir: public/model/tfjs_model
+  min_accuracy_to_export: 0.90       # don't export garbage models
+  label_map_path: public/model/label_map.json
+  meta_path: public/model/model_meta.json
+
+# ── Evaluation ───────────────────────────────────────────────
+eval:
+  metrics_output: ml/eval/metrics.json
+  confusion_matrix: ml/eval/confusion_matrix.png
+  per_class_csv: ml/eval/per_class.csv
+  
+# ── Targets (for automated pass/fail) ────────────────────────
+targets:
+  val_accuracy: 0.96
+  wild_test_accuracy: 0.90
+  per_class_min: 0.85
+  inference_ms_max: 30
+  bundle_size_mb_max: 3.0
+
+# ── Seed ─────────────────────────────────────────────────────
+seed: 42

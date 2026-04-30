@@ -60,7 +60,67 @@ export function useSpeechSynth() {
     localStorage.setItem('lexisight-voice', voiceName)
   }, [voices])
 
+  const [targetLang, setTargetLang] = useState('en-IN')
+  const LANG_OPTIONS = [
+    { code: 'en-IN', label: 'English (Indian)' },
+    { code: 'hi-IN', label: 'Hindi (हिन्दी)' },
+    { code: 'ta-IN', label: 'Tamil (தமிழ்)' },
+    { code: 'te-IN', label: 'Telugu (తెలుగు)' },
+    { code: 'mr-IN', label: 'Marathi (मराठी)' },
+    { code: 'bn-IN', label: 'Bengali (বাংলা)' },
+  ]
+
+  const speakTranslated = useCallback(async (text, options = {}) => {
+    if (!text || !('speechSynthesis' in window)) return
+    
+    let textToSpeak = text
+    let voiceToUse = selectedVoice
+
+    if (targetLang !== 'en-IN') {
+      try {
+        setSpeaking(true)
+        const langPair = `en|${targetLang.split('-')[0]}` // e.g. en|hi
+        const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${langPair}`)
+        const data = await res.json()
+        if (data && data.responseData && data.responseData.translatedText) {
+          textToSpeak = data.responseData.translatedText
+        }
+        
+        // Find a voice for this language
+        voiceToUse = voices.find(v => v.lang === targetLang || v.lang.startsWith(targetLang.split('-')[0])) || selectedVoice
+      } catch (err) {
+        console.warn('Translation failed, falling back to English', err)
+      }
+    }
+
+    speechSynthesis.cancel()
+    const utt = new SpeechSynthesisUtterance(textToSpeak)
+    utt.voice = voiceToUse
+    utt.lang = targetLang
+    utt.rate = options.rate || 0.95
+    utt.pitch = options.pitch || 1.0
+    utt.volume = options.volume || 1.0
+
+    utt.onstart = () => setSpeaking(true)
+    utt.onend = () => setSpeaking(false)
+    utt.onerror = () => setSpeaking(false)
+
+    utteranceRef.current = utt
+    speechSynthesis.speak(utt)
+  }, [selectedVoice, targetLang, voices])
+
   const isSupported = 'speechSynthesis' in window
 
-  return { speak, stop, speaking, voices, selectedVoice, changeVoice, isSupported }
+  return { 
+    speak: speakTranslated, 
+    stop, 
+    speaking, 
+    voices, 
+    selectedVoice, 
+    changeVoice, 
+    targetLang,
+    setTargetLang,
+    LANG_OPTIONS,
+    isSupported 
+  }
 }

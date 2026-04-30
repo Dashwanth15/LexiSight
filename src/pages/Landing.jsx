@@ -383,6 +383,31 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* ── DEMO VIDEO ─────────────────── */}
+      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-12 relative overflow-hidden" style={{ background: 'var(--void)' }}>
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-10 sm:mb-16">
+            <div className="hud-label mb-3 sm:mb-4">See LexiSight in Action</div>
+            <h2
+              className="font-syne font-black"
+              style={{ fontSize: 'clamp(1.8rem, 6vw, 3.5rem)', color: '#e8f4fd' }}
+            >
+              90-Second Demo
+            </h2>
+          </div>
+          
+          <div className="relative aspect-video rounded-2xl overflow-hidden glass-card flex items-center justify-center" style={{ border: '1px solid rgba(0,212,255,0.3)', boxShadow: '0 0 40px rgba(0,212,255,0.1)' }}>
+            <div className="absolute inset-0 bg-[#0d1520] flex flex-col items-center justify-center">
+              <div className="w-16 h-16 rounded-full flex items-center justify-center mb-4 cursor-pointer hover:scale-110 transition-transform" style={{ background: '#00d4ff', color: '#020408' }}>
+                <span style={{ fontSize: '24px', marginLeft: '4px' }}>▶</span>
+              </div>
+              <p className="font-syne text-[#e8f4fd] font-bold text-lg">LexiSight Platform Demo</p>
+              <p className="hud-label mt-2">Coming Soon</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── CTA BANNER ─────────────────── */}
       <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-12" style={{ background: 'var(--obsidian)' }}>
         <div className="max-w-3xl mx-auto text-center">
