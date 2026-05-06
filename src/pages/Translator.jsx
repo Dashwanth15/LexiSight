@@ -276,7 +276,7 @@ export default function Translator() {
     if (demoMode || classifier.isDemoMode || classifier.status === 'demo') return
 
     // Pass both normalized landmarks array AND raw objects for Geometric fallback
-    const raw = classifier.predict(mediapipe.landmarks, mediapipe.rawLandmarks, mediapipe.rawLandmarks2)
+    const raw = classifier.predict(mediapipe.landmarks, mediapipe.rawLandmarks, mediapipe.rawLandmarks2, mediapipe.landmarks2)
     if (!raw) return
 
     const smoothed = smoother.add(raw)
@@ -515,9 +515,18 @@ export default function Translator() {
 
   const handleFeedback = (isCorrect) => {
     if (!currentPrediction) return
-    const endpoint = 'https://api.lexisight.app/feedback' // Placeholder for Phase 5
-    // In a real app, we would send this to the Cloudflare Worker
-    console.log(`Feedback submitted: ${currentPrediction.label} is ${isCorrect ? 'Correct' : 'Incorrect'}`)
+    
+    // Save to local storage for now until backend API is ready (Phase 5)
+    const feedbackData = JSON.parse(localStorage.getItem('lxi_feedback') || '[]')
+    feedbackData.push({
+      label: currentPrediction.label,
+      confidence: currentPrediction.confidence,
+      isCorrect: isCorrect,
+      timestamp: new Date().toISOString()
+    })
+    localStorage.setItem('lxi_feedback', JSON.stringify(feedbackData))
+    
+    console.log(`Feedback saved locally: ${currentPrediction.label} is ${isCorrect ? 'Correct' : 'Incorrect'}`)
     toast.success('Feedback recorded. Thank you!', 1500)
   }
 
@@ -566,6 +575,17 @@ export default function Translator() {
           }}
           onClick={() => classifier.setMode('letter')}
         >Letter</button>
+        <button
+          className="text-xs font-dm transition-colors"
+          style={{
+            padding: '4px 10px',
+            borderRadius: '6px',
+            background: classifier.mode === 'number' ? '#00d4ff' : 'transparent',
+            color: classifier.mode === 'number' ? '#020408' : '#6b8ba4',
+            fontWeight: classifier.mode === 'number' ? 'bold' : 'normal',
+          }}
+          onClick={() => classifier.setMode('number')}
+        >Number</button>
       </div>
       <label className="toggle">
         <input type="checkbox" checked={autoSpeak} onChange={e => setAutoSpeak(e.target.checked)} aria-label="Auto speak" />

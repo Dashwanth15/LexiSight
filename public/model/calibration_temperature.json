@@ -1,0 +1,7 @@
+{
+  "temperature": 1.05,
+  "note": "ECE=0.034 on seen split — model is already well-calibrated. T=1.0 to T=1.1 range is optimal. Start with T=1.05 and use eval_advanced.py --temperature sweep to find the exact value that minimizes ECE on the validation set.",
+  "ece_without_calibration": 0.0344,
+  "temperature_range_to_try": [0.9, 0.95, 1.0, 1.05, 1.1, 1.2],
+  "how_to_validate": "python ml/scripts/eval_advanced.py --checkpoint training_logs/holistic_v2_best.keras --temperature 1.05 --output training_logs/eval_T1.05.json"
+}

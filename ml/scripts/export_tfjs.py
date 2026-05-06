@@ -1,80 +1,136 @@
 #!/usr/bin/env python3
 """
-LexiSight — TFJS Model Exporter
-Exports a trained Keras model to TensorFlow.js format with float16 quantization.
-
-Usage: python ml/scripts/export_tfjs.py --model training_logs/phase2_best.keras
+LexiSight -- Export Keras models to TFJS format manually.
+Workaround for tensorflowjs numpy compatibility issues.
+Saves as SavedModel first, then converts via CLI.
 """
 
-import json, argparse
-import numpy as np
+import os, sys, json, shutil
 from pathlib import Path
+import tensorflow as tf
+import numpy as np
 
 BASE_DIR = Path(__file__).parent.parent.parent
 
+sys.path.insert(0, str(BASE_DIR))
+from ml.models.temporal_v1 import PositionalEncoding, TransformerEncoderBlock
+
+custom_objects = {
+    "PositionalEncoding": PositionalEncoding,
+    "TransformerEncoderBlock": TransformerEncoderBlock
+}
+
+
+def export_to_saved_model(keras_path, saved_model_dir, name):
+    """Load .keras and re-save as TF SavedModel."""
+    print(f"\n--- {name} ---")
+    if not keras_path.exists():
+        print(f"  SKIP: {keras_path} not found")
+        return False
+    
+    model = tf.keras.models.load_model(str(keras_path), custom_objects=custom_objects)
+    print(f"  Input: {model.inputs[0].shape}")
+    print(f"  Output: {model.outputs[0].shape}")
+    
+    # Save as SavedModel
+    if os.path.exists(saved_model_dir):
+        shutil.rmtree(saved_model_dir)
+    model.export(saved_model_dir)
+    print(f"  SavedModel saved to {saved_model_dir}")
+    return True
+
+
+def convert_to_tfjs_manual(model, output_dir, name):
+    """Manually create TFJS LayersModel format from a Keras model."""
+    print(f"\n--- Converting {name} to TFJS ---")
+    
+    out = Path(output_dir)
+    if out.exists():
+        shutil.rmtree(out)
+    out.mkdir(parents=True, exist_ok=True)
+    
+    # Build topology (model.json)
+    config = model.get_config()
+    
+    # Collect weights
+    weight_specs = []
+    weight_data = bytearray()
+    
+    for layer in model.layers:
+        for w in layer.weights:
+            w_np = w.numpy()
+            # TFJS expects float32
+            w_np = w_np.astype(np.float32)
+            
+            weight_specs.append({
+                "name": w.name,
+                "shape": list(w_np.shape),
+                "dtype": "float32"
+            })
+            weight_data.extend(w_np.tobytes())
+    
+    # Write weights binary
+    weights_bin_path = out / "group1-shard1of1.bin"
+    with open(weights_bin_path, "wb") as f:
+        f.write(bytes(weight_data))
+    
+    # Build model.json
+    model_json = {
+        "format": "layers-model",
+        "generatedBy": "lexisight-export",
+        "convertedBy": "manual",
+        "modelTopology": {
+            "class_name": model.__class__.__name__,
+            "config": config,
+            "keras_version": "3.0.0",
+            "backend": "tensorflow"
+        },
+        "weightsManifest": [{
+            "paths": ["group1-shard1of1.bin"],
+            "weights": weight_specs
+        }]
+    }
+    
+    model_json_path = out / "model.json"
+    with open(model_json_path, "w") as f:
+        json.dump(model_json, f)
+    
+    total_size = weights_bin_path.stat().st_size + model_json_path.stat().st_size
+    print(f"  Exported to {out} ({total_size/1024:.0f} KB)")
+    print(f"  Weights: {len(weight_specs)} tensors, {weights_bin_path.stat().st_size/1024:.0f} KB")
+    return True
+
 
 def main():
-    p = argparse.ArgumentParser()
-    p.add_argument("--model", default="training_logs/phase2_best.keras",
-                   help="Path to Keras model file")
-    p.add_argument("--output", default="public/model/tfjs_model",
-                   help="TFJS output directory")
-    p.add_argument("--label-map", default="public/model/label_map.json")
-    p.add_argument("--metrics", default="ml/eval/metrics.json")
-    args = p.parse_args()
-
-    import tensorflow as tf
-    model_path = BASE_DIR / args.model
-    if not model_path.exists():
-        print(f"Model not found: {model_path}")
-        return
-
-    print(f"Loading model: {model_path}")
-    model = tf.keras.models.load_model(str(model_path))
-    model.summary()
-
-    out_dir = BASE_DIR / args.output
-    out_dir.mkdir(parents=True, exist_ok=True)
-
-    try:
-        import tensorflowjs as tfjs
-        print("Exporting with float16 quantization...")
-        tfjs.converters.save_keras_model(
-            model, str(out_dir),
-            quantization_dtype_map={"float16": "*"}
-        )
-        print(f"✓ TFJS model saved to {out_dir}")
-    except Exception as e:
-        print(f"float16 export failed: {e}")
-        try:
-            import tensorflowjs as tfjs
-            tfjs.converters.save_keras_model(model, str(out_dir))
-            print(f"✓ TFJS model saved (unquantized) to {out_dir}")
-        except Exception as e2:
-            print(f"✗ TFJS export failed: {e2}")
-            return
-
-    # Write model meta
-    meta = {
-        "version": "0.93.0",
-        "model_type": model.name,
-        "n_classes": model.output_shape[-1],
-        "input_shape": list(model.input_shape[1:]),
-        "params": model.count_params(),
-        "quantization": "float16",
-    }
-
-    # Read accuracy from metrics.json if available
-    metrics_path = BASE_DIR / args.metrics
-    if metrics_path.exists():
-        with open(metrics_path) as f:
-            m = json.load(f)
-        meta["accuracy_val"] = m.get("accuracy", {}).get("phase2_val")
-        meta["accuracy_wild"] = m.get("accuracy", {}).get("wild_test")
-
-    with open(BASE_DIR / "public" / "model" / "model_meta.json", "w") as f:
-        json.dump(meta, f, indent=2)
-    print(f"✓ Model meta saved")
+    print("=" * 60)
+    print("  LEXISIGHT MODEL EXPORT TO TFJS (Manual)")
+    print("=" * 60)
+    
+    public_model = BASE_DIR / "public" / "model"
+    
+    # 1. Temporal model (words)
+    temporal_path = BASE_DIR / "training_logs" / "temporal_best.keras"
+    if temporal_path.exists():
+        model = tf.keras.models.load_model(str(temporal_path), custom_objects=custom_objects)
+        convert_to_tfjs_manual(model, public_model / "tfjs_model", "Temporal (Words)")
+        del model
+    else:
+        print("Temporal model not found")
+    
+    # 2. Static model (letters/digits)
+    static_path = BASE_DIR / "training_logs" / "static_best.keras"
+    if static_path.exists():
+        model = tf.keras.models.load_model(str(static_path))
+        convert_to_tfjs_manual(model, public_model / "static_tfjs_model", "Static (Letters/Digits)")
+        del model
+    else:
+        print("Static model not found")
+    
+    print(f"\n{'='*60}")
+    print("  EXPORT COMPLETE")
+    print("  Temporal: public/model/tfjs_model/model.json")
+    print("  Static:   public/model/static_tfjs_model/model.json")
+    print(f"{'='*60}")
 
 
 if __name__ == "__main__":

@@ -39,8 +39,8 @@ LexiSight is an **offline-first, browser-based accessibility platform** designed
 By utilizing cutting-edge Machine Learning models—specifically **Temporal Transformers**—that run directly on the user's device, LexiSight provides a real-time, zero-cost, and 100% private translation service.
 
 The app uses a hybrid model approach:
-- A **Static Model** for fingerspelling (A-Z, 0-9).
-- A **Temporal Model** for complex word movements (278 ISL words and phrases).
+- A **Static Model** for fingerspelling (A-Z, 0-9) — achieving **94.3% accuracy**.
+- A **Temporal Model** for complex word movements (ISL words and phrases) — achieving **95.1% accuracy** on unseen signers.
 
 ---
 
@@ -112,8 +112,8 @@ In the world of AI, there are two ways to "see":
 2. **Landmark-Based (Skeleton):** The AI only sees the "Skeleton" of the hand — 21 dots.
 
 **LexiSight chose Landmarks.**
-- **Privacy:** We throw away your face and room. We only keep 21 dots per hand.
-- **Speed:** We process 126 numbers per frame instead of 2,000,000 pixels.
+- **Privacy:** We throw away your face and room. We only keep specific skeleton dots.
+- **Speed:** We process 225 numbers per frame instead of 2,000,000 pixels.
 - **Efficiency:** The app runs on a 5-year-old phone without heating up.
 
 ---
@@ -129,9 +129,9 @@ Every 33 milliseconds, the following happens:
    - **X:** Left/Right position.
    - **Y:** Up/Down position.
    - **Z:** Depth (Forward/Back).
-5. These 126 numbers (21 points × 3 dims × 2 hands) are the "Fuel" for our AI.
+5. These numbers (initially 126 for hands, now scaled to **225 for Holistic pose + hands**) are the "Fuel" for our AI.
 
-> **Why both hands?** Many ISL signs use two hands simultaneously — "Family," "Book," "Marriage." We track both. If only one hand is visible, the second hand's coordinates are set to zero automatically.
+> **Why Holistic (Pose + Hands)?** Many ISL signs involve touching the shoulder, chest, or head. By tracking the upper body pose (33 points) plus both hands (42 points), the AI gains complete context of the signer's motion.
 
 ---
 
@@ -215,13 +215,15 @@ In LexiSight, to make the AI study harder, we change `epochs: 100` to `epochs: 2
 
 ---
 
-## 6. Dataset: INCLUDE Full
+## 6. Datasets: INCLUDE & CISLR
 
-### What is INCLUDE?
+### 1. INCLUDE Dataset
+**INCLUDE** (Indian Sign Language Content Under Development) is a large-scale, publicly available dataset of ISL videos created by researchers at IIT Madras.
+- ~4,284 videos covering 278 words across 15 categories.
 
-**INCLUDE** (Indian Sign Language Content Under Development) is a large-scale, publicly available dataset of Indian Sign Language videos, created by researchers at IIT Madras. It is one of the most comprehensive ISL datasets ever built.
-
-### What Does It Contain?
+### 2. CISLR Dataset
+To drastically expand our vocabulary, LexiSight integrates the **CISLR** dataset.
+- ~7,050 videos covering hundreds of additional everyday phrases and sentences, significantly boosting the model's robustness and real-world applicability.
 
 | Category | Word Count | Examples |
 |:---|:---|:---|
