@@ -1,0 +1,64 @@
+# LexiSight Holistic V3 Config -- Hard-Negative Mining
+# Run: python ml/scripts/train_holistic.py --config ml/configs/train_holistic_v3.yaml --hard-neg-mining
+
+seed: 42
+
+data:
+  manifest_path: ml/data_processed/manifest_holistic_include.csv
+  min_samples_per_class: 5
+  validation_split: 0.15
+
+model:
+  type: holistic_temporal
+  input_dim: 126
+  num_classes: 263
+  hidden_dim: 256
+  num_heads: 8
+  num_layers: 3
+  dropout: 0.30
+  l2_reg: 0.002
+
+training:
+  epochs: 60
+  batch_size: 32
+  optimizer: adamw
+  learning_rate: 0.001
+  weight_decay: 0.01
+  warmup_epochs: 3
+  min_lr: 0.00001
+  label_smoothing: 0.05
+  focal_gamma: 1.5
+
+  # Hard-negative mining (enabled via --hard-neg-mining flag)
+  confusion_pair_boost:
+    high: 3.0    # BROTHER<->SISTER, EXTRA<->COURT
+    medium: 2.0  # PAINT<->KEY, PHOTOGRAPH<->PEN, SATURDAY<->BLACK, etc.
+    low: 1.5     # CLOTHING<->DRESS, DEAD<->DIRTY, etc.
+  oversample_factor: 3.0  # oversample confusion-pair classes to 3x median
+
+augmentation:
+  temporal_shift_max: 3
+  noise_sigma: 0.015
+  dropout_keypoint: 0.05
+  dropout_frame: 0.05
+  scale_range: [0.90, 1.10]
+  flip_p: 0.0
+
+callbacks:
+  early_stopping:
+    patience: 12
+    restore_best: true
+  reduce_lr:
+    factor: 0.5
+    patience: 5
+    min_lr: 0.00001
+
+output:
+  model_dir: training_logs
+  checkpoint_name: holistic_v3_hardneg.keras
+  history_name: holistic_v3_hardneg_history.json
+
+export:
+  label_map_path: public/model/label_map_holistic_v3.json
+  tflite_dir: training_logs/tflite_v3
+  quantize: true

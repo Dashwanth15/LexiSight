@@ -1,0 +1,45 @@
+model:
+  name: holistic_temporal_transformer_v2
+  input_frames: 30
+  input_features: 225
+  projection_dim: 192
+  num_transformer_layers: 3
+  num_attention_heads: 6
+  feedforward_dim: 384
+  dropout: 0.35
+  classifier_hidden: 128
+
+data:
+  manifest_path: ml/data_processed/manifest_holistic_include.csv
+  split_strategy: signer_disjoint
+  min_samples_per_class: 5
+
+augmentation:
+  gaussian_noise_sigma: 0.012
+  scale_range: [0.88, 1.12]
+  rotation_range_deg: 12
+  frame_dropout_count: 3
+  temporal_shift_frames: 2
+  landmark_dropout_prob: 0.15
+
+training:
+  epochs: 120
+  batch_size: 32
+  learning_rate: 0.0007
+  min_learning_rate: 0.000001
+  weight_decay: 0.01
+  focal_gamma: 1.5
+  label_smoothing: 0.05
+  warmup_epochs: 5
+  early_stopping_patience: 20
+
+runtime:
+  intra_op_threads: 16
+  inter_op_threads: 4
+
+export:
+  label_map_path: public/model/label_map_holistic_v2.json
+  checkpoint_name: holistic_v2_best.keras
+  history_name: holistic_v2_history.json
+
+seed: 42
