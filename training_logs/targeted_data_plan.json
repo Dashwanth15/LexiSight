@@ -1,0 +1,359 @@
+{
+  "weak_classes": {
+    "EXTRA": {
+      "support": 8,
+      "accuracy": 0.0,
+      "severity": "critical",
+      "confusions": [
+        "COURT",
+        "SHORT",
+        "MARKET"
+      ]
+    },
+    "LOCK": {
+      "support": 1,
+      "accuracy": 0.0,
+      "severity": "critical",
+      "confusions": [
+        "TELEPHONE"
+      ]
+    },
+    "PHOTOGRAPH": {
+      "support": 3,
+      "accuracy": 0.33,
+      "severity": "high",
+      "confusions": [
+        "PEN"
+      ]
+    },
+    "SATURDAY": {
+      "support": 5,
+      "accuracy": 0.4,
+      "severity": "high",
+      "confusions": [
+        "BLACK",
+        "JOB"
+      ]
+    },
+    "BATHROOM": {
+      "support": 2,
+      "accuracy": 0.5,
+      "severity": "high",
+      "confusions": [
+        "PENCIL"
+      ]
+    },
+    "BEAUTIFUL": {
+      "support": 2,
+      "accuracy": 0.5,
+      "severity": "high",
+      "confusions": [
+        "EXTRA"
+      ]
+    },
+    "HARD": {
+      "support": 2,
+      "accuracy": 0.5,
+      "severity": "medium",
+      "confusions": [
+        "GROUND"
+      ]
+    },
+    "I": {
+      "support": 2,
+      "accuracy": 0.5,
+      "severity": "medium",
+      "confusions": [
+        "YOU"
+      ]
+    },
+    "PAPER": {
+      "support": 5,
+      "accuracy": 0.6,
+      "severity": "high",
+      "confusions": [
+        "LETTER",
+        "LOCK"
+      ]
+    },
+    "BROTHER": {
+      "support": 6,
+      "accuracy": 0.67,
+      "severity": "high",
+      "confusions": [
+        "SISTER"
+      ]
+    },
+    "MONTH": {
+      "support": 3,
+      "accuracy": 0.67,
+      "severity": "medium",
+      "confusions": [
+        "YEAR"
+      ]
+    },
+    "SAD": {
+      "support": 3,
+      "accuracy": 0.67,
+      "severity": "medium",
+      "confusions": [
+        "TRAIN"
+      ]
+    },
+    "SUMMER": {
+      "support": 3,
+      "accuracy": 0.67,
+      "severity": "medium",
+      "confusions": [
+        "GIRL",
+        "JOB"
+      ]
+    },
+    "YOUNG": {
+      "support": 3,
+      "accuracy": 0.67,
+      "severity": "medium",
+      "confusions": [
+        "COLOUR"
+      ]
+    },
+    "PAINT": {
+      "support": 8,
+      "accuracy": 0.75,
+      "severity": "medium",
+      "confusions": [
+        "KEY"
+      ]
+    },
+    "CLOTHING": {
+      "support": 4,
+      "accuracy": 0.75,
+      "severity": "medium",
+      "confusions": [
+        "DRESS"
+      ]
+    },
+    "DEAD": {
+      "support": 4,
+      "accuracy": 0.75,
+      "severity": "medium",
+      "confusions": [
+        "DIRTY"
+      ]
+    },
+    "GIFT": {
+      "support": 4,
+      "accuracy": 0.75,
+      "severity": "medium",
+      "confusions": [
+        "CARD"
+      ]
+    },
+    "RESTAURANT": {
+      "support": 4,
+      "accuracy": 0.75,
+      "severity": "medium",
+      "confusions": [
+        "UGLY"
+      ]
+    },
+    "BOY": {
+      "support": 5,
+      "accuracy": 0.8,
+      "severity": "medium",
+      "confusions": [
+        "GIRL"
+      ]
+    },
+    "JOB": {
+      "support": 5,
+      "accuracy": 0.8,
+      "severity": "medium",
+      "confusions": [
+        "SUMMER"
+      ]
+    },
+    "SMALL LITTLE": {
+      "support": 5,
+      "accuracy": 0.8,
+      "severity": "medium",
+      "confusions": [
+        "HEALTHY"
+      ]
+    },
+    "TELEPHONE": {
+      "support": 5,
+      "accuracy": 0.8,
+      "severity": "medium",
+      "confusions": [
+        "BAG"
+      ]
+    },
+    "THANK YOU": {
+      "support": 5,
+      "accuracy": 0.8,
+      "severity": "medium",
+      "confusions": [
+        "SCHOOL"
+      ]
+    },
+    "THURSDAY": {
+      "support": 5,
+      "accuracy": 0.8,
+      "severity": "medium",
+      "confusions": [
+        "PEN"
+      ]
+    },
+    "COURT": {
+      "support": 6,
+      "accuracy": 0.83,
+      "severity": "low",
+      "confusions": [
+        "SECRETARY"
+      ]
+    }
+  },
+  "unmeasured_classes": [
+    "CARD",
+    "CLEAN",
+    "DIRTY",
+    "DOG",
+    "HEAVY",
+    "HIGH",
+    "MALE",
+    "NEWSPAPER",
+    "SCIENCE",
+    "THICK",
+    "TODAY",
+    "WEDNESDAY"
+  ],
+  "focus_pairs": [
+    {
+      "class_a": "BROTHER",
+      "class_b": "SISTER",
+      "focus": "arm rotation angle differentiation"
+    },
+    {
+      "class_a": "PAINT",
+      "class_b": "KEY",
+      "focus": "finger spread vs pinch shape"
+    },
+    {
+      "class_a": "PHOTOGRAPH",
+      "class_b": "PEN",
+      "focus": "whole hand circle vs finger grip"
+    },
+    {
+      "class_a": "SATURDAY",
+      "class_b": "BLACK",
+      "focus": "handshape + movement direction"
+    },
+    {
+      "class_a": "BOY",
+      "class_b": "GIRL",
+      "focus": "facial context if available"
+    },
+    {
+      "class_a": "PAPER",
+      "class_b": "LETTER",
+      "focus": "flat hand vs slight curve"
+    },
+    {
+      "class_a": "MONTH",
+      "class_b": "YEAR",
+      "focus": "circular vs linear movement"
+    },
+    {
+      "class_a": "SUMMER",
+      "class_b": "JOB",
+      "focus": "open S vs O handshape"
+    },
+    {
+      "class_a": "COURT",
+      "class_b": "SECRETARY",
+      "focus": "C hand orientation"
+    },
+    {
+      "class_a": "TELEPHONE",
+      "class_b": "BAG",
+      "focus": "hand shape vs placement"
+    }
+  ],
+  "collection_tiers": [
+    {
+      "name": "CRITICAL",
+      "min_samples": 15,
+      "variations": 3,
+      "signers": 5
+    },
+    {
+      "name": "HIGH",
+      "min_samples": 10,
+      "variations": 2,
+      "signers": 4
+    },
+    {
+      "name": "MEDIUM",
+      "min_samples": 8,
+      "variations": 2,
+      "signers": 3
+    },
+    {
+      "name": "LOW",
+      "min_samples": 5,
+      "variations": 1,
+      "signers": 2
+    }
+  ],
+  "variations": [
+    {
+      "id": "fast",
+      "description": "Fast signing speed",
+      "reps": 3
+    },
+    {
+      "id": "slow",
+      "description": "Slow deliberate speed",
+      "reps": 3
+    },
+    {
+      "id": "close",
+      "description": "Hand close to camera (zoomed)",
+      "reps": 2
+    },
+    {
+      "id": "far",
+      "description": "Hand far from camera",
+      "reps": 2
+    },
+    {
+      "id": "left",
+      "description": "Left-hand dominant (mirror if right)",
+      "reps": 3
+    },
+    {
+      "id": "angled",
+      "description": "Side angle, not frontal",
+      "reps": 2
+    },
+    {
+      "id": "daylight",
+      "description": "Natural daylight lighting",
+      "reps": 2
+    },
+    {
+      "id": "indoor",
+      "description": "Indoor artificial lighting",
+      "reps": 2
+    }
+  ],
+  "estimated_totals": {
+    "critical": 450,
+    "high": 480,
+    "medium": 816,
+    "low": 10,
+    "unmeasured": 180,
+    "grand_total": 1936
+  }
+}

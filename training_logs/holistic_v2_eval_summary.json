@@ -1,0 +1,511 @@
+{
+  "train_accuracy": 0.997953216374269,
+  "val_accuracy": 0.9521028037383178,
+  "overfit_gap": 0.04585041263595124,
+  "train_top3_accuracy": 1.0,
+  "val_top3_accuracy": 0.9801401869158879,
+  "train_top5_accuracy": 1.0,
+  "val_top5_accuracy": 0.9848130841121495,
+  "val_macro_f1": 0.9415582204426826,
+  "val_weighted_f1": 0.9501939519462883,
+  "num_classes": 261,
+  "train_samples": 3420,
+  "val_samples": 856,
+  "support_stats": {
+    "classes_with_support": 249,
+    "classes_with_support_lt_3": 80,
+    "classes_with_support_lt_5": 185,
+    "median_support": 3.0,
+    "min_support": 1,
+    "max_support": 8
+  },
+  "classes_missing_in_val_count": 12,
+  "classes_missing_in_val": [
+    "CARD",
+    "CLEAN",
+    "DIRTY",
+    "DOG",
+    "HEAVY",
+    "HIGH",
+    "MALE",
+    "NEWSPAPER",
+    "SCIENCE",
+    "THICK",
+    "TODAY",
+    "WEDNESDAY"
+  ],
+  "val_confidence": {
+    "mean_top1_confidence": 0.9219222068786621,
+    "mean_top1_margin": 0.8828865885734558,
+    "correct_mean_confidence": 0.9313048720359802,
+    "wrong_mean_confidence": 0.7354127168655396,
+    "correct_mean_margin": 0.8969572186470032,
+    "wrong_mean_margin": 0.6031887531280518
+  },
+  "worst_10_measured_classes": [
+    {
+      "class": "EXTRA",
+      "support": 8,
+      "correct": 0,
+      "accuracy": 0.0,
+      "measured_in_val": true,
+      "top_confusions": "COURT:2 | SHORT:1 | MARKET:1"
+    },
+    {
+      "class": "LOCK",
+      "support": 1,
+      "correct": 0,
+      "accuracy": 0.0,
+      "measured_in_val": true,
+      "top_confusions": "TELEPHONE:1"
+    },
+    {
+      "class": "PHOTOGRAPH",
+      "support": 3,
+      "correct": 1,
+      "accuracy": 0.3333333333333333,
+      "measured_in_val": true,
+      "top_confusions": "PEN:2"
+    },
+    {
+      "class": "SATURDAY",
+      "support": 5,
+      "correct": 2,
+      "accuracy": 0.4,
+      "measured_in_val": true,
+      "top_confusions": "BLACK:2 | JOB:1"
+    },
+    {
+      "class": "BATHROOM",
+      "support": 2,
+      "correct": 1,
+      "accuracy": 0.5,
+      "measured_in_val": true,
+      "top_confusions": "PENCIL:1"
+    },
+    {
+      "class": "BEAUTIFUL",
+      "support": 2,
+      "correct": 1,
+      "accuracy": 0.5,
+      "measured_in_val": true,
+      "top_confusions": "EXTRA:1"
+    },
+    {
+      "class": "HARD",
+      "support": 2,
+      "correct": 1,
+      "accuracy": 0.5,
+      "measured_in_val": true,
+      "top_confusions": "GROUND:1"
+    },
+    {
+      "class": "I",
+      "support": 2,
+      "correct": 1,
+      "accuracy": 0.5,
+      "measured_in_val": true,
+      "top_confusions": "YOU:1"
+    },
+    {
+      "class": "PAPER",
+      "support": 5,
+      "correct": 3,
+      "accuracy": 0.6,
+      "measured_in_val": true,
+      "top_confusions": "LETTER:1 | LOCK:1"
+    },
+    {
+      "class": "BROTHER",
+      "support": 6,
+      "correct": 4,
+      "accuracy": 0.6666666666666666,
+      "measured_in_val": true,
+      "top_confusions": "SISTER:2"
+    }
+  ],
+  "classes_below_85_accuracy": [
+    {
+      "class": "EXTRA",
+      "support": 8,
+      "correct": 0,
+      "accuracy": 0.0,
+      "measured_in_val": true,
+      "top_confusions": "COURT:2 | SHORT:1 | MARKET:1"
+    },
+    {
+      "class": "LOCK",
+      "support": 1,
+      "correct": 0,
+      "accuracy": 0.0,
+      "measured_in_val": true,
+      "top_confusions": "TELEPHONE:1"
+    },
+    {
+      "class": "PHOTOGRAPH",
+      "support": 3,
+      "correct": 1,
+      "accuracy": 0.3333333333333333,
+      "measured_in_val": true,
+      "top_confusions": "PEN:2"
+    },
+    {
+      "class": "SATURDAY",
+      "support": 5,
+      "correct": 2,
+      "accuracy": 0.4,
+      "measured_in_val": true,
+      "top_confusions": "BLACK:2 | JOB:1"
+    },
+    {
+      "class": "BATHROOM",
+      "support": 2,
+      "correct": 1,
+      "accuracy": 0.5,
+      "measured_in_val": true,
+      "top_confusions": "PENCIL:1"
+    },
+    {
+      "class": "BEAUTIFUL",
+      "support": 2,
+      "correct": 1,
+      "accuracy": 0.5,
+      "measured_in_val": true,
+      "top_confusions": "EXTRA:1"
+    },
+    {
+      "class": "HARD",
+      "support": 2,
+      "correct": 1,
+      "accuracy": 0.5,
+      "measured_in_val": true,
+      "top_confusions": "GROUND:1"
+    },
+    {
+      "class": "I",
+      "support": 2,
+      "correct": 1,
+      "accuracy": 0.5,
+      "measured_in_val": true,
+      "top_confusions": "YOU:1"
+    },
+    {
+      "class": "PAPER",
+      "support": 5,
+      "correct": 3,
+      "accuracy": 0.6,
+      "measured_in_val": true,
+      "top_confusions": "LETTER:1 | LOCK:1"
+    },
+    {
+      "class": "BROTHER",
+      "support": 6,
+      "correct": 4,
+      "accuracy": 0.6666666666666666,
+      "measured_in_val": true,
+      "top_confusions": "SISTER:2"
+    },
+    {
+      "class": "MONTH",
+      "support": 3,
+      "correct": 2,
+      "accuracy": 0.6666666666666666,
+      "measured_in_val": true,
+      "top_confusions": "YEAR:1"
+    },
+    {
+      "class": "SAD",
+      "support": 3,
+      "correct": 2,
+      "accuracy": 0.6666666666666666,
+      "measured_in_val": true,
+      "top_confusions": "TRAIN:1"
+    },
+    {
+      "class": "SUMMER",
+      "support": 3,
+      "correct": 2,
+      "accuracy": 0.6666666666666666,
+      "measured_in_val": true,
+      "top_confusions": "GIRL:1"
+    },
+    {
+      "class": "YOUNG",
+      "support": 3,
+      "correct": 2,
+      "accuracy": 0.6666666666666666,
+      "measured_in_val": true,
+      "top_confusions": "COLOUR:1"
+    },
+    {
+      "class": "PAINT",
+      "support": 8,
+      "correct": 6,
+      "accuracy": 0.75,
+      "measured_in_val": true,
+      "top_confusions": "KEY:2"
+    },
+    {
+      "class": "CLOTHING",
+      "support": 4,
+      "correct": 3,
+      "accuracy": 0.75,
+      "measured_in_val": true,
+      "top_confusions": "DRESS:1"
+    },
+    {
+      "class": "DEAD",
+      "support": 4,
+      "correct": 3,
+      "accuracy": 0.75,
+      "measured_in_val": true,
+      "top_confusions": "DIRTY:1"
+    },
+    {
+      "class": "GIFT",
+      "support": 4,
+      "correct": 3,
+      "accuracy": 0.75,
+      "measured_in_val": true,
+      "top_confusions": "CARD:1"
+    },
+    {
+      "class": "RESTAURANT",
+      "support": 4,
+      "correct": 3,
+      "accuracy": 0.75,
+      "measured_in_val": true,
+      "top_confusions": "UGLY:1"
+    },
+    {
+      "class": "BOY",
+      "support": 5,
+      "correct": 4,
+      "accuracy": 0.8,
+      "measured_in_val": true,
+      "top_confusions": "GIRL:1"
+    },
+    {
+      "class": "JOB",
+      "support": 5,
+      "correct": 4,
+      "accuracy": 0.8,
+      "measured_in_val": true,
+      "top_confusions": "SUMMER:1"
+    },
+    {
+      "class": "SMALL LITTLE",
+      "support": 5,
+      "correct": 4,
+      "accuracy": 0.8,
+      "measured_in_val": true,
+      "top_confusions": "HEALTHY:1"
+    },
+    {
+      "class": "TELEPHONE",
+      "support": 5,
+      "correct": 4,
+      "accuracy": 0.8,
+      "measured_in_val": true,
+      "top_confusions": "BAG:1"
+    },
+    {
+      "class": "THANK YOU",
+      "support": 5,
+      "correct": 4,
+      "accuracy": 0.8,
+      "measured_in_val": true,
+      "top_confusions": "SCHOOL:1"
+    },
+    {
+      "class": "THURSDAY",
+      "support": 5,
+      "correct": 4,
+      "accuracy": 0.8,
+      "measured_in_val": true,
+      "top_confusions": "PEN:1"
+    },
+    {
+      "class": "COURT",
+      "support": 6,
+      "correct": 5,
+      "accuracy": 0.8333333333333334,
+      "measured_in_val": true,
+      "top_confusions": "SECRETARY:1"
+    }
+  ],
+  "classes_below_60_accuracy": [
+    {
+      "class": "EXTRA",
+      "support": 8,
+      "correct": 0,
+      "accuracy": 0.0,
+      "measured_in_val": true,
+      "top_confusions": "COURT:2 | SHORT:1 | MARKET:1"
+    },
+    {
+      "class": "LOCK",
+      "support": 1,
+      "correct": 0,
+      "accuracy": 0.0,
+      "measured_in_val": true,
+      "top_confusions": "TELEPHONE:1"
+    },
+    {
+      "class": "PHOTOGRAPH",
+      "support": 3,
+      "correct": 1,
+      "accuracy": 0.3333333333333333,
+      "measured_in_val": true,
+      "top_confusions": "PEN:2"
+    },
+    {
+      "class": "SATURDAY",
+      "support": 5,
+      "correct": 2,
+      "accuracy": 0.4,
+      "measured_in_val": true,
+      "top_confusions": "BLACK:2 | JOB:1"
+    },
+    {
+      "class": "BATHROOM",
+      "support": 2,
+      "correct": 1,
+      "accuracy": 0.5,
+      "measured_in_val": true,
+      "top_confusions": "PENCIL:1"
+    },
+    {
+      "class": "BEAUTIFUL",
+      "support": 2,
+      "correct": 1,
+      "accuracy": 0.5,
+      "measured_in_val": true,
+      "top_confusions": "EXTRA:1"
+    },
+    {
+      "class": "HARD",
+      "support": 2,
+      "correct": 1,
+      "accuracy": 0.5,
+      "measured_in_val": true,
+      "top_confusions": "GROUND:1"
+    },
+    {
+      "class": "I",
+      "support": 2,
+      "correct": 1,
+      "accuracy": 0.5,
+      "measured_in_val": true,
+      "top_confusions": "YOU:1"
+    }
+  ],
+  "top_confusion_pairs": [
+    {
+      "true_class": "BROTHER",
+      "predicted_class": "SISTER",
+      "count": 2
+    },
+    {
+      "true_class": "EXTRA",
+      "predicted_class": "COURT",
+      "count": 2
+    },
+    {
+      "true_class": "PAINT",
+      "predicted_class": "KEY",
+      "count": 2
+    },
+    {
+      "true_class": "PHOTOGRAPH",
+      "predicted_class": "PEN",
+      "count": 2
+    },
+    {
+      "true_class": "SATURDAY",
+      "predicted_class": "BLACK",
+      "count": 2
+    },
+    {
+      "true_class": "BATHROOM",
+      "predicted_class": "PENCIL",
+      "count": 1
+    },
+    {
+      "true_class": "BEAUTIFUL",
+      "predicted_class": "EXTRA",
+      "count": 1
+    },
+    {
+      "true_class": "BLUE",
+      "predicted_class": "OLD",
+      "count": 1
+    },
+    {
+      "true_class": "BOY",
+      "predicted_class": "GIRL",
+      "count": 1
+    },
+    {
+      "true_class": "CLOTHING",
+      "predicted_class": "DRESS",
+      "count": 1
+    },
+    {
+      "true_class": "COURT",
+      "predicted_class": "SECRETARY",
+      "count": 1
+    },
+    {
+      "true_class": "DEAD",
+      "predicted_class": "DIRTY",
+      "count": 1
+    },
+    {
+      "true_class": "EXTRA",
+      "predicted_class": "BANK",
+      "count": 1
+    },
+    {
+      "true_class": "EXTRA",
+      "predicted_class": "GROUND",
+      "count": 1
+    },
+    {
+      "true_class": "EXTRA",
+      "predicted_class": "HOUSE",
+      "count": 1
+    },
+    {
+      "true_class": "EXTRA",
+      "predicted_class": "MARKET",
+      "count": 1
+    },
+    {
+      "true_class": "EXTRA",
+      "predicted_class": "PARK",
+      "count": 1
+    },
+    {
+      "true_class": "EXTRA",
+      "predicted_class": "SHORT",
+      "count": 1
+    },
+    {
+      "true_class": "GIFT",
+      "predicted_class": "CARD",
+      "count": 1
+    },
+    {
+      "true_class": "HARD",
+      "predicted_class": "GROUND",
+      "count": 1
+    }
+  ],
+  "artifacts": {
+    "confusion_matrix": "C:\\Users\\Navat\\OneDrive\\Desktop\\Lexisight\\training_logs\\holistic_v2_confusion_matrix.png",
+    "worst_classes_csv": "C:\\Users\\Navat\\OneDrive\\Desktop\\Lexisight\\training_logs\\holistic_v2_worst_classes.csv",
+    "top_confusions_csv": "C:\\Users\\Navat\\OneDrive\\Desktop\\Lexisight\\training_logs\\holistic_v2_top_confusions.csv",
+    "confusion_matrix_csv": "C:\\Users\\Navat\\OneDrive\\Desktop\\Lexisight\\training_logs\\holistic_v2_confusion_matrix.csv"
+  }
+}

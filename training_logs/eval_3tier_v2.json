@@ -1,0 +1,4803 @@
+{
+  "checkpoint": "training_logs/holistic_v2_best.keras",
+  "temperature": 1.0,
+  "timestamp": "2026-05-06T14:01:43Z",
+  "tiers": {
+    "seen": {
+      "tier": "seen",
+      "n_samples": 856,
+      "n_classes": 261,
+      "top1_accuracy": 0.9521,
+      "top3_accuracy": 0.9801,
+      "top5_accuracy": 0.9848,
+      "macro_f1": 0.9416,
+      "weighted_f1": 0.9502,
+      "ece": 0.0344,
+      "confidence": {
+        "mean": 0.9219,
+        "correct_mean": 0.9313,
+        "wrong_mean": 0.7354,
+        "min": 0.1861,
+        "max": 0.9976
+      },
+      "margin": {
+        "mean": 0.8829,
+        "correct_mean": 0.897,
+        "wrong_mean": 0.6032
+      },
+      "entropy": {
+        "mean": 0.5504,
+        "correct_mean": 0.5029,
+        "wrong_mean": 1.4959
+      },
+      "classes_below_85": [
+        "BATHROOM",
+        "BEAUTIFUL",
+        "BOY",
+        "BROTHER",
+        "CLOTHING",
+        "COURT",
+        "DEAD",
+        "EXTRA",
+        "GIFT",
+        "HARD",
+        "I",
+        "JOB",
+        "LOCK",
+        "MONTH",
+        "PAINT",
+        "PAPER",
+        "PHOTOGRAPH",
+        "RESTAURANT",
+        "SAD",
+        "SATURDAY",
+        "SMALL LITTLE",
+        "SUMMER",
+        "TELEPHONE",
+        "THANK YOU",
+        "THURSDAY",
+        "YOUNG"
+      ],
+      "per_class": {
+        "ACTOR": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9891
+        },
+        "ADULT": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9912
+        },
+        "AFTERNOON": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8267
+        },
+        "ALIVE": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9854
+        },
+        "ALRIGHT": {
+          "support": 6,
+          "correct": 6,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9525
+        },
+        "ANIMAL": {
+          "support": 7,
+          "correct": 7,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9514
+        },
+        "ARTIST": {
+          "support": 6,
+          "correct": 6,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.96
+        },
+        "ATTACK": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9718
+        },
+        "AUTHOR": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9616
+        },
+        "BABY": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9224
+        },
+        "BAD": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9103
+        },
+        "BAG": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 0.5,
+          "recall": 1.0,
+          "f1": 0.6667,
+          "avg_confidence": 0.9894
+        },
+        "BALL": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9571
+        },
+        "BANK": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 0.8,
+          "recall": 1.0,
+          "f1": 0.8889,
+          "avg_confidence": 0.9716
+        },
+        "BATHROOM": {
+          "support": 2,
+          "correct": 1,
+          "accuracy": 0.5,
+          "precision": 1.0,
+          "recall": 0.5,
+          "f1": 0.6667,
+          "avg_confidence": 0.9299
+        },
+        "BEAUTIFUL": {
+          "support": 2,
+          "correct": 1,
+          "accuracy": 0.5,
+          "precision": 1.0,
+          "recall": 0.5,
+          "f1": 0.6667,
+          "avg_confidence": 0.4602
+        },
+        "BED": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9741
+        },
+        "BEDROOM": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9035
+        },
+        "BICYCLE": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9555
+        },
+        "BIG LARGE": {
+          "support": 6,
+          "correct": 6,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9411
+        },
+        "BILL": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9673
+        },
+        "BIRD": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9216
+        },
+        "BLACK": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 0.6667,
+          "recall": 1.0,
+          "f1": 0.8,
+          "avg_confidence": 0.9251
+        },
+        "BLIND": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8436
+        },
+        "BLUE": {
+          "support": 7,
+          "correct": 6,
+          "accuracy": 0.8571,
+          "precision": 1.0,
+          "recall": 0.8571,
+          "f1": 0.9231,
+          "avg_confidence": 0.8666
+        },
+        "BOAT": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9864
+        },
+        "BOOK": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9588
+        },
+        "BOX": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.7702
+        },
+        "BOY": {
+          "support": 5,
+          "correct": 4,
+          "accuracy": 0.8,
+          "precision": 1.0,
+          "recall": 0.8,
+          "f1": 0.8889,
+          "avg_confidence": 0.96
+        },
+        "BROTHER": {
+          "support": 6,
+          "correct": 4,
+          "accuracy": 0.6667,
+          "precision": 1.0,
+          "recall": 0.6667,
+          "f1": 0.8,
+          "avg_confidence": 0.8328
+        },
+        "BROWN": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8063
+        },
+        "BUS": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9793
+        },
+        "CAMERA": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9784
+        },
+        "CAR": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9769
+        },
+        "CARD": {
+          "support": 0,
+          "correct": 0,
+          "accuracy": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "avg_confidence": null
+        },
+        "CAT": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9695
+        },
+        "CELL PHONE": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9613
+        },
+        "CHAIR": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9276
+        },
+        "CHEAP": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9694
+        },
+        "CHILD": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8366
+        },
+        "CITY": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9821
+        },
+        "CLEAN": {
+          "support": 0,
+          "correct": 0,
+          "accuracy": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "avg_confidence": null
+        },
+        "CLOCK": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.7871
+        },
+        "CLOTHING": {
+          "support": 4,
+          "correct": 3,
+          "accuracy": 0.75,
+          "precision": 1.0,
+          "recall": 0.75,
+          "f1": 0.8571,
+          "avg_confidence": 0.795
+        },
+        "COLD": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9672
+        },
+        "COLOUR": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 0.8333,
+          "recall": 1.0,
+          "f1": 0.9091,
+          "avg_confidence": 0.9295
+        },
+        "COMPUTER": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9471
+        },
+        "COOL": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9825
+        },
+        "COURT": {
+          "support": 6,
+          "correct": 5,
+          "accuracy": 0.8333,
+          "precision": 0.7143,
+          "recall": 0.8333,
+          "f1": 0.7692,
+          "avg_confidence": 0.7861
+        },
+        "COW": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9883
+        },
+        "CROWD": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8249
+        },
+        "CURVED": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9788
+        },
+        "DAUGHTER": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9507
+        },
+        "DEAD": {
+          "support": 4,
+          "correct": 3,
+          "accuracy": 0.75,
+          "precision": 1.0,
+          "recall": 0.75,
+          "f1": 0.8571,
+          "avg_confidence": 0.8546
+        },
+        "DEAF": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9794
+        },
+        "DEATH": {
+          "support": 6,
+          "correct": 6,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9733
+        },
+        "DEEP": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9194
+        },
+        "DIRTY": {
+          "support": 0,
+          "correct": 0,
+          "accuracy": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "avg_confidence": null
+        },
+        "DOCTOR": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.975
+        },
+        "DOG": {
+          "support": 0,
+          "correct": 0,
+          "accuracy": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "avg_confidence": null
+        },
+        "DOOR": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9808
+        },
+        "DREAM": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9796
+        },
+        "DRESS": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 0.75,
+          "recall": 1.0,
+          "f1": 0.8571,
+          "avg_confidence": 0.7896
+        },
+        "DRY": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8742
+        },
+        "ELECTION": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9387
+        },
+        "ENERGY": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.966
+        },
+        "EVENING": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9535
+        },
+        "EX. MONSOON": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9835
+        },
+        "EXERCISE": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9165
+        },
+        "EXPENSIVE": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9654
+        },
+        "EXTRA": {
+          "support": 8,
+          "correct": 0,
+          "accuracy": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "avg_confidence": 0.9264
+        },
+        "FALL": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8158
+        },
+        "FAMILY": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.853
+        },
+        "FAMOUS": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9352
+        },
+        "FAN": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9246
+        },
+        "FAST": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9529
+        },
+        "FATHER": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9673
+        },
+        "FEMALE": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.7945
+        },
+        "FISH": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9777
+        },
+        "FLAT": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9771
+        },
+        "FRIDAY": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9682
+        },
+        "FRIEND": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9782
+        },
+        "GIFT": {
+          "support": 4,
+          "correct": 3,
+          "accuracy": 0.75,
+          "precision": 1.0,
+          "recall": 0.75,
+          "f1": 0.8571,
+          "avg_confidence": 0.9368
+        },
+        "GIRL": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 0.5,
+          "recall": 1.0,
+          "f1": 0.6667,
+          "avg_confidence": 0.7273
+        },
+        "GOD": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9769
+        },
+        "GOOD": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9799
+        },
+        "GOOD AFTERNOON": {
+          "support": 6,
+          "correct": 6,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9444
+        },
+        "GOOD EVENING": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9102
+        },
+        "GOOD MORNING": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8971
+        },
+        "GOOD NIGHT": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9288
+        },
+        "GRANDFATHER": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8083
+        },
+        "GRANDMOTHER": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9847
+        },
+        "GREEN": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9047
+        },
+        "GREY": {
+          "support": 6,
+          "correct": 6,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.984
+        },
+        "GROUND": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 0.5,
+          "recall": 1.0,
+          "f1": 0.6667,
+          "avg_confidence": 0.9445
+        },
+        "GUN": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9657
+        },
+        "HAPPY": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9094
+        },
+        "HARD": {
+          "support": 2,
+          "correct": 1,
+          "accuracy": 0.5,
+          "precision": 1.0,
+          "recall": 0.5,
+          "f1": 0.6667,
+          "avg_confidence": 0.5888
+        },
+        "HAT": {
+          "support": 7,
+          "correct": 7,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.843
+        },
+        "HE": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9482
+        },
+        "HEALTHY": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 0.75,
+          "recall": 1.0,
+          "f1": 0.8571,
+          "avg_confidence": 0.9833
+        },
+        "HEAVY": {
+          "support": 0,
+          "correct": 0,
+          "accuracy": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "avg_confidence": null
+        },
+        "HELLO": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9723
+        },
+        "HIGH": {
+          "support": 0,
+          "correct": 0,
+          "accuracy": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "avg_confidence": null
+        },
+        "HORSE": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9114
+        },
+        "HOSPITAL": {
+          "support": 7,
+          "correct": 7,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9796
+        },
+        "HOT": {
+          "support": 7,
+          "correct": 7,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9081
+        },
+        "HOUR": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9399
+        },
+        "HOUSE": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 0.75,
+          "recall": 1.0,
+          "f1": 0.8571,
+          "avg_confidence": 0.9864
+        },
+        "HOW ARE YOU": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9906
+        },
+        "HUSBAND": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8599
+        },
+        "I": {
+          "support": 2,
+          "correct": 1,
+          "accuracy": 0.5,
+          "precision": 1.0,
+          "recall": 0.5,
+          "f1": 0.6667,
+          "avg_confidence": 0.8149
+        },
+        "INDIA": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.6019
+        },
+        "IT": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9781
+        },
+        "JOB": {
+          "support": 5,
+          "correct": 4,
+          "accuracy": 0.8,
+          "precision": 0.8,
+          "recall": 0.8,
+          "f1": 0.8,
+          "avg_confidence": 0.9088
+        },
+        "KEY": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 0.5,
+          "recall": 1.0,
+          "f1": 0.6667,
+          "avg_confidence": 0.9948
+        },
+        "KING": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.981
+        },
+        "KITCHEN": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9915
+        },
+        "LAMP": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.929
+        },
+        "LAPTOP": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9892
+        },
+        "LAWYER": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9833
+        },
+        "LETTER": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 0.6667,
+          "recall": 1.0,
+          "f1": 0.8,
+          "avg_confidence": 0.9867
+        },
+        "LIBRARY": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9184
+        },
+        "LIGHT": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8223
+        },
+        "LOCATION": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9618
+        },
+        "LOCK": {
+          "support": 1,
+          "correct": 0,
+          "accuracy": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "avg_confidence": 0.9842
+        },
+        "LONG": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9922
+        },
+        "LOOSE": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.809
+        },
+        "LOUD": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9034
+        },
+        "LOW": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9396
+        },
+        "MALE": {
+          "support": 0,
+          "correct": 0,
+          "accuracy": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "avg_confidence": null
+        },
+        "MAN": {
+          "support": 7,
+          "correct": 7,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9509
+        },
+        "MANAGER": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9843
+        },
+        "MARKET": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 0.6667,
+          "recall": 1.0,
+          "f1": 0.8,
+          "avg_confidence": 0.9699
+        },
+        "MARRIAGE": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9709
+        },
+        "MEAN": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.6491
+        },
+        "MEDICINE": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9752
+        },
+        "MINUTE": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8425
+        },
+        "MONDAY": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9678
+        },
+        "MONEY": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9103
+        },
+        "MONTH": {
+          "support": 3,
+          "correct": 2,
+          "accuracy": 0.6667,
+          "precision": 1.0,
+          "recall": 0.6667,
+          "f1": 0.8,
+          "avg_confidence": 0.8462
+        },
+        "MORNING": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.984
+        },
+        "MOTHER": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.963
+        },
+        "MOUSE": {
+          "support": 6,
+          "correct": 6,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8402
+        },
+        "NARROW": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.7895
+        },
+        "NEIGHBOUR": {
+          "support": 6,
+          "correct": 6,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8898
+        },
+        "NEW": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9813
+        },
+        "NEWSPAPER": {
+          "support": 0,
+          "correct": 0,
+          "accuracy": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "avg_confidence": null
+        },
+        "NIGHT": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8484
+        },
+        "OFFICE": {
+          "support": 6,
+          "correct": 6,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9116
+        },
+        "OLD": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 0.75,
+          "recall": 1.0,
+          "f1": 0.8571,
+          "avg_confidence": 0.9774
+        },
+        "ORANGE": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.7738
+        },
+        "PAGE": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9364
+        },
+        "PAINT": {
+          "support": 8,
+          "correct": 6,
+          "accuracy": 0.75,
+          "precision": 1.0,
+          "recall": 0.75,
+          "f1": 0.8571,
+          "avg_confidence": 0.9376
+        },
+        "PANT": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9834
+        },
+        "PAPER": {
+          "support": 5,
+          "correct": 3,
+          "accuracy": 0.6,
+          "precision": 1.0,
+          "recall": 0.6,
+          "f1": 0.75,
+          "avg_confidence": 0.9155
+        },
+        "PARENT": {
+          "support": 8,
+          "correct": 8,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9626
+        },
+        "PARK": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 0.5,
+          "recall": 1.0,
+          "f1": 0.6667,
+          "avg_confidence": 0.9842
+        },
+        "PATIENT": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8438
+        },
+        "PEACE": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9512
+        },
+        "PEN": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 0.5714,
+          "recall": 1.0,
+          "f1": 0.7273,
+          "avg_confidence": 0.8488
+        },
+        "PENCIL": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 0.8,
+          "recall": 1.0,
+          "f1": 0.8889,
+          "avg_confidence": 0.91
+        },
+        "PHOTOGRAPH": {
+          "support": 3,
+          "correct": 1,
+          "accuracy": 0.3333,
+          "precision": 1.0,
+          "recall": 0.3333,
+          "f1": 0.5,
+          "avg_confidence": 0.9539
+        },
+        "PINK": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9141
+        },
+        "PLANE": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9833
+        },
+        "PLAYER": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.989
+        },
+        "PLEASED": {
+          "support": 7,
+          "correct": 7,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9811
+        },
+        "POCKET": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9289
+        },
+        "POLICE": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9538
+        },
+        "POOR": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.98
+        },
+        "PRESIDENT": {
+          "support": 7,
+          "correct": 7,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9592
+        },
+        "PRICE": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9713
+        },
+        "PRIEST": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9213
+        },
+        "QUEEN": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8647
+        },
+        "QUIET": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9949
+        },
+        "RACE (ETHNICITY)": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9654
+        },
+        "RADIO": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9468
+        },
+        "RED": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8
+        },
+        "RELIGION": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9849
+        },
+        "REPORTER": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9557
+        },
+        "RESTAURANT": {
+          "support": 4,
+          "correct": 3,
+          "accuracy": 0.75,
+          "precision": 1.0,
+          "recall": 0.75,
+          "f1": 0.8571,
+          "avg_confidence": 0.8594
+        },
+        "RICH": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9799
+        },
+        "RING": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9799
+        },
+        "SAD": {
+          "support": 3,
+          "correct": 2,
+          "accuracy": 0.6667,
+          "precision": 1.0,
+          "recall": 0.6667,
+          "f1": 0.8,
+          "avg_confidence": 0.5681
+        },
+        "SATURDAY": {
+          "support": 5,
+          "correct": 2,
+          "accuracy": 0.4,
+          "precision": 1.0,
+          "recall": 0.4,
+          "f1": 0.5714,
+          "avg_confidence": 0.6955
+        },
+        "SCHOOL": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 0.75,
+          "recall": 1.0,
+          "f1": 0.8571,
+          "avg_confidence": 0.9807
+        },
+        "SCIENCE": {
+          "support": 0,
+          "correct": 0,
+          "accuracy": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "avg_confidence": null
+        },
+        "SCREEN": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9835
+        },
+        "SEASON": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9835
+        },
+        "SECOND": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8847
+        },
+        "SECRETARY": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 0.6667,
+          "recall": 1.0,
+          "f1": 0.8,
+          "avg_confidence": 0.9725
+        },
+        "SHALLOW": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9689
+        },
+        "SHE": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9495
+        },
+        "SHIRT": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9335
+        },
+        "SHOES": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8908
+        },
+        "SHORT": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 0.75,
+          "recall": 1.0,
+          "f1": 0.8571,
+          "avg_confidence": 0.9836
+        },
+        "SICK": {
+          "support": 6,
+          "correct": 6,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9756
+        },
+        "SIGN": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9265
+        },
+        "SISTER": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 0.6,
+          "recall": 1.0,
+          "f1": 0.75,
+          "avg_confidence": 0.7847
+        },
+        "SKIRT": {
+          "support": 6,
+          "correct": 6,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9533
+        },
+        "SLOW": {
+          "support": 6,
+          "correct": 6,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8791
+        },
+        "SMALL LITTLE": {
+          "support": 5,
+          "correct": 4,
+          "accuracy": 0.8,
+          "precision": 1.0,
+          "recall": 0.8,
+          "f1": 0.8889,
+          "avg_confidence": 0.8449
+        },
+        "SOAP": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.92
+        },
+        "SOFT": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9741
+        },
+        "SOLDIER": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8015
+        },
+        "SON": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8996
+        },
+        "SPORT": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9192
+        },
+        "SPRING": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9497
+        },
+        "STORE OR SHOP": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.974
+        },
+        "STREET OR ROAD": {
+          "support": 7,
+          "correct": 6,
+          "accuracy": 0.8571,
+          "precision": 1.0,
+          "recall": 0.8571,
+          "f1": 0.9231,
+          "avg_confidence": 0.9377
+        },
+        "STRONG": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9801
+        },
+        "STUDENT": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9439
+        },
+        "SUIT": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9834
+        },
+        "SUMMER": {
+          "support": 3,
+          "correct": 2,
+          "accuracy": 0.6667,
+          "precision": 0.6667,
+          "recall": 0.6667,
+          "f1": 0.6667,
+          "avg_confidence": 0.8018
+        },
+        "SUNDAY": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9743
+        },
+        "T-SHIRT": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9847
+        },
+        "TABLE": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9812
+        },
+        "TALL": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9896
+        },
+        "TEACHER": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9785
+        },
+        "TEAM": {
+          "support": 6,
+          "correct": 6,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9769
+        },
+        "TECHNOLOGY": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9517
+        },
+        "TELEPHONE": {
+          "support": 5,
+          "correct": 4,
+          "accuracy": 0.8,
+          "precision": 0.8,
+          "recall": 0.8,
+          "f1": 0.8,
+          "avg_confidence": 0.8495
+        },
+        "TELEVISION": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8786
+        },
+        "TEMPLE": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9589
+        },
+        "THANK YOU": {
+          "support": 5,
+          "correct": 4,
+          "accuracy": 0.8,
+          "precision": 1.0,
+          "recall": 0.8,
+          "f1": 0.8889,
+          "avg_confidence": 0.8687
+        },
+        "THEY": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9747
+        },
+        "THICK": {
+          "support": 0,
+          "correct": 0,
+          "accuracy": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "avg_confidence": null
+        },
+        "THURSDAY": {
+          "support": 5,
+          "correct": 4,
+          "accuracy": 0.8,
+          "precision": 1.0,
+          "recall": 0.8,
+          "f1": 0.8889,
+          "avg_confidence": 0.8388
+        },
+        "TIGHT": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.2152
+        },
+        "TIME": {
+          "support": 7,
+          "correct": 7,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9465
+        },
+        "TODAY": {
+          "support": 0,
+          "correct": 0,
+          "accuracy": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "avg_confidence": null
+        },
+        "TOMORROW": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8663
+        },
+        "TOOL": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9593
+        },
+        "TRAIN": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 0.8,
+          "recall": 1.0,
+          "f1": 0.8889,
+          "avg_confidence": 0.9768
+        },
+        "TRAIN STATION": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9188
+        },
+        "TRAIN TICKET": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.975
+        },
+        "TRANSPORTATION": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9787
+        },
+        "TRUCK": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8464
+        },
+        "TUESDAY": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9736
+        },
+        "UGLY": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 0.5,
+          "recall": 1.0,
+          "f1": 0.6667,
+          "avg_confidence": 0.9839
+        },
+        "UNIVERSITY": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9327
+        },
+        "WAITER": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9848
+        },
+        "WAR": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9444
+        },
+        "WARM": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8962
+        },
+        "WE": {
+          "support": 7,
+          "correct": 7,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9581
+        },
+        "WEAK": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.973
+        },
+        "WEDNESDAY": {
+          "support": 0,
+          "correct": 0,
+          "accuracy": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "avg_confidence": null
+        },
+        "WEEK": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.95
+        },
+        "WET": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9652
+        },
+        "WHITE": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9821
+        },
+        "WIDE": {
+          "support": 7,
+          "correct": 7,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9489
+        },
+        "WIFE": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9408
+        },
+        "WINDOW": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.981
+        },
+        "WINTER": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9608
+        },
+        "WOMAN": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9847
+        },
+        "YEAR": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 0.5,
+          "recall": 1.0,
+          "f1": 0.6667,
+          "avg_confidence": 0.8206
+        },
+        "YELLOW": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9818
+        },
+        "YESTERDAY": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.6813
+        },
+        "YOU": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 0.75,
+          "recall": 1.0,
+          "f1": 0.8571,
+          "avg_confidence": 0.848
+        },
+        "YOU (PLURAL)": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9433
+        },
+        "YOUNG": {
+          "support": 3,
+          "correct": 2,
+          "accuracy": 0.6667,
+          "precision": 1.0,
+          "recall": 0.6667,
+          "f1": 0.8,
+          "avg_confidence": 0.8668
+        }
+      }
+    },
+    "unseen": {
+      "tier": "unseen",
+      "n_samples": 1076,
+      "n_classes": 261,
+      "top1_accuracy": 0.9879,
+      "top3_accuracy": 0.9972,
+      "top5_accuracy": 0.9972,
+      "macro_f1": 0.9886,
+      "weighted_f1": 0.9879,
+      "ece": 0.026,
+      "confidence": {
+        "mean": 0.9619,
+        "correct_mean": 0.9642,
+        "wrong_mean": 0.7749,
+        "min": 0.4239,
+        "max": 0.9967
+      },
+      "margin": {
+        "mean": 0.9409,
+        "correct_mean": 0.9449,
+        "wrong_mean": 0.613
+      },
+      "entropy": {
+        "mean": 0.3046,
+        "correct_mean": 0.295,
+        "wrong_mean": 1.0926
+      },
+      "classes_below_85": [
+        "BEAUTIFUL",
+        "EXTRA",
+        "MONTH",
+        "PAINT",
+        "PAPER",
+        "PHOTOGRAPH",
+        "RESTAURANT",
+        "TELEPHONE"
+      ],
+      "per_class": {
+        "ACTOR": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9896
+        },
+        "ADULT": {
+          "support": 9,
+          "correct": 9,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9902
+        },
+        "AFTERNOON": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8695
+        },
+        "ALIVE": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9785
+        },
+        "ALRIGHT": {
+          "support": 8,
+          "correct": 8,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.98
+        },
+        "ANIMAL": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9747
+        },
+        "ARTIST": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9873
+        },
+        "ATTACK": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9894
+        },
+        "AUTHOR": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9828
+        },
+        "BABY": {
+          "support": 6,
+          "correct": 6,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.95
+        },
+        "BAD": {
+          "support": 10,
+          "correct": 10,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9661
+        },
+        "BAG": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 0.8333,
+          "recall": 1.0,
+          "f1": 0.9091,
+          "avg_confidence": 0.9812
+        },
+        "BALL": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.971
+        },
+        "BANK": {
+          "support": 9,
+          "correct": 9,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9574
+        },
+        "BATHROOM": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.99
+        },
+        "BEAUTIFUL": {
+          "support": 3,
+          "correct": 2,
+          "accuracy": 0.6667,
+          "precision": 1.0,
+          "recall": 0.6667,
+          "f1": 0.8,
+          "avg_confidence": 0.6329
+        },
+        "BED": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9899
+        },
+        "BEDROOM": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9796
+        },
+        "BICYCLE": {
+          "support": 8,
+          "correct": 8,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9698
+        },
+        "BIG LARGE": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9527
+        },
+        "BILL": {
+          "support": 6,
+          "correct": 6,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9779
+        },
+        "BIRD": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8828
+        },
+        "BLACK": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.971
+        },
+        "BLIND": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9482
+        },
+        "BLUE": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8724
+        },
+        "BOAT": {
+          "support": 8,
+          "correct": 8,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9872
+        },
+        "BOOK": {
+          "support": 6,
+          "correct": 6,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9612
+        },
+        "BOX": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9134
+        },
+        "BOY": {
+          "support": 6,
+          "correct": 6,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9828
+        },
+        "BROTHER": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8308
+        },
+        "BROWN": {
+          "support": 7,
+          "correct": 7,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9082
+        },
+        "BUS": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9835
+        },
+        "CAMERA": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9832
+        },
+        "CAR": {
+          "support": 8,
+          "correct": 8,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9846
+        },
+        "CARD": {
+          "support": 6,
+          "correct": 6,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9598
+        },
+        "CAT": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9667
+        },
+        "CELL PHONE": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9224
+        },
+        "CHAIR": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9771
+        },
+        "CHEAP": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9897
+        },
+        "CHILD": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8375
+        },
+        "CITY": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9722
+        },
+        "CLEAN": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9802
+        },
+        "CLOCK": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9689
+        },
+        "CLOTHING": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9105
+        },
+        "COLD": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9777
+        },
+        "COLOUR": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 0.8,
+          "recall": 1.0,
+          "f1": 0.8889,
+          "avg_confidence": 0.9867
+        },
+        "COMPUTER": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9804
+        },
+        "COOL": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.992
+        },
+        "COURT": {
+          "support": 7,
+          "correct": 7,
+          "accuracy": 1.0,
+          "precision": 0.7,
+          "recall": 1.0,
+          "f1": 0.8235,
+          "avg_confidence": 0.9506
+        },
+        "COW": {
+          "support": 7,
+          "correct": 7,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9893
+        },
+        "CROWD": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9869
+        },
+        "CURVED": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9883
+        },
+        "DAUGHTER": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9582
+        },
+        "DEAD": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9795
+        },
+        "DEAF": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9818
+        },
+        "DEATH": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9745
+        },
+        "DEEP": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9768
+        },
+        "DIRTY": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9929
+        },
+        "DOCTOR": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.968
+        },
+        "DOG": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9927
+        },
+        "DOOR": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9667
+        },
+        "DREAM": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9805
+        },
+        "DRESS": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8312
+        },
+        "DRY": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8609
+        },
+        "ELECTION": {
+          "support": 6,
+          "correct": 6,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9717
+        },
+        "ENERGY": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.981
+        },
+        "EVENING": {
+          "support": 6,
+          "correct": 6,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9612
+        },
+        "EX. MONSOON": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9823
+        },
+        "EXERCISE": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9833
+        },
+        "EXPENSIVE": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9874
+        },
+        "EXTRA": {
+          "support": 8,
+          "correct": 5,
+          "accuracy": 0.625,
+          "precision": 0.8333,
+          "recall": 0.625,
+          "f1": 0.7143,
+          "avg_confidence": 0.8547
+        },
+        "FALL": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9757
+        },
+        "FAMILY": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.969
+        },
+        "FAMOUS": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9848
+        },
+        "FAN": {
+          "support": 6,
+          "correct": 6,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9523
+        },
+        "FAST": {
+          "support": 6,
+          "correct": 6,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9793
+        },
+        "FATHER": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9794
+        },
+        "FEMALE": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9786
+        },
+        "FISH": {
+          "support": 7,
+          "correct": 7,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9208
+        },
+        "FLAT": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9783
+        },
+        "FRIDAY": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9433
+        },
+        "FRIEND": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9722
+        },
+        "GIFT": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9226
+        },
+        "GIRL": {
+          "support": 7,
+          "correct": 7,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8958
+        },
+        "GOD": {
+          "support": 0,
+          "correct": 0,
+          "accuracy": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "avg_confidence": null
+        },
+        "GOOD": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9828
+        },
+        "GOOD AFTERNOON": {
+          "support": 7,
+          "correct": 7,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9692
+        },
+        "GOOD EVENING": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9392
+        },
+        "GOOD MORNING": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8968
+        },
+        "GOOD NIGHT": {
+          "support": 9,
+          "correct": 9,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9517
+        },
+        "GRANDFATHER": {
+          "support": 8,
+          "correct": 8,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9677
+        },
+        "GRANDMOTHER": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9937
+        },
+        "GREEN": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9537
+        },
+        "GREY": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9863
+        },
+        "GROUND": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9818
+        },
+        "GUN": {
+          "support": 6,
+          "correct": 6,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9917
+        },
+        "HAPPY": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9945
+        },
+        "HARD": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9415
+        },
+        "HAT": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9792
+        },
+        "HE": {
+          "support": 7,
+          "correct": 7,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9834
+        },
+        "HEALTHY": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9873
+        },
+        "HEAVY": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9677
+        },
+        "HELLO": {
+          "support": 13,
+          "correct": 13,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9765
+        },
+        "HIGH": {
+          "support": 0,
+          "correct": 0,
+          "accuracy": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "avg_confidence": null
+        },
+        "HORSE": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9905
+        },
+        "HOSPITAL": {
+          "support": 7,
+          "correct": 7,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9866
+        },
+        "HOT": {
+          "support": 6,
+          "correct": 6,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9774
+        },
+        "HOUR": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9803
+        },
+        "HOUSE": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9847
+        },
+        "HOW ARE YOU": {
+          "support": 8,
+          "correct": 8,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.988
+        },
+        "HUSBAND": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9637
+        },
+        "I": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8838
+        },
+        "INDIA": {
+          "support": 8,
+          "correct": 8,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9772
+        },
+        "IT": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9712
+        },
+        "JOB": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9471
+        },
+        "KEY": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 0.8,
+          "recall": 1.0,
+          "f1": 0.8889,
+          "avg_confidence": 0.9846
+        },
+        "KING": {
+          "support": 6,
+          "correct": 6,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9818
+        },
+        "KITCHEN": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9698
+        },
+        "LAMP": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9723
+        },
+        "LAPTOP": {
+          "support": 6,
+          "correct": 6,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9923
+        },
+        "LAWYER": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9877
+        },
+        "LETTER": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 0.8333,
+          "recall": 1.0,
+          "f1": 0.9091,
+          "avg_confidence": 0.9773
+        },
+        "LIBRARY": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9909
+        },
+        "LIGHT": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9545
+        },
+        "LOCATION": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9479
+        },
+        "LOCK": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 0.6667,
+          "recall": 1.0,
+          "f1": 0.8,
+          "avg_confidence": 0.9677
+        },
+        "LONG": {
+          "support": 8,
+          "correct": 8,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9872
+        },
+        "LOOSE": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9879
+        },
+        "LOUD": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9835
+        },
+        "LOW": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9649
+        },
+        "MALE": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9552
+        },
+        "MAN": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9512
+        },
+        "MANAGER": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9866
+        },
+        "MARKET": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.971
+        },
+        "MARRIAGE": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9765
+        },
+        "MEAN": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8686
+        },
+        "MEDICINE": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.966
+        },
+        "MINUTE": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9811
+        },
+        "MONDAY": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9813
+        },
+        "MONEY": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9892
+        },
+        "MONTH": {
+          "support": 5,
+          "correct": 4,
+          "accuracy": 0.8,
+          "precision": 1.0,
+          "recall": 0.8,
+          "f1": 0.8889,
+          "avg_confidence": 0.9531
+        },
+        "MORNING": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9796
+        },
+        "MOTHER": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9863
+        },
+        "MOUSE": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9785
+        },
+        "NARROW": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9862
+        },
+        "NEIGHBOUR": {
+          "support": 6,
+          "correct": 6,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9844
+        },
+        "NEW": {
+          "support": 7,
+          "correct": 7,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9863
+        },
+        "NEWSPAPER": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9774
+        },
+        "NIGHT": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8915
+        },
+        "OFFICE": {
+          "support": 6,
+          "correct": 6,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9497
+        },
+        "OLD": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9849
+        },
+        "ORANGE": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9697
+        },
+        "PAGE": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9341
+        },
+        "PAINT": {
+          "support": 4,
+          "correct": 3,
+          "accuracy": 0.75,
+          "precision": 1.0,
+          "recall": 0.75,
+          "f1": 0.8571,
+          "avg_confidence": 0.9505
+        },
+        "PANT": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9786
+        },
+        "PAPER": {
+          "support": 6,
+          "correct": 4,
+          "accuracy": 0.6667,
+          "precision": 1.0,
+          "recall": 0.6667,
+          "f1": 0.8,
+          "avg_confidence": 0.9069
+        },
+        "PARENT": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9912
+        },
+        "PARK": {
+          "support": 7,
+          "correct": 7,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9702
+        },
+        "PATIENT": {
+          "support": 6,
+          "correct": 6,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9049
+        },
+        "PEACE": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9198
+        },
+        "PEN": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 0.6667,
+          "recall": 1.0,
+          "f1": 0.8,
+          "avg_confidence": 0.934
+        },
+        "PENCIL": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9803
+        },
+        "PHOTOGRAPH": {
+          "support": 5,
+          "correct": 4,
+          "accuracy": 0.8,
+          "precision": 1.0,
+          "recall": 0.8,
+          "f1": 0.8889,
+          "avg_confidence": 0.9726
+        },
+        "PINK": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9524
+        },
+        "PLANE": {
+          "support": 6,
+          "correct": 6,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9833
+        },
+        "PLAYER": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9832
+        },
+        "PLEASED": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9777
+        },
+        "POCKET": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9793
+        },
+        "POLICE": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9725
+        },
+        "POOR": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9803
+        },
+        "PRESIDENT": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9815
+        },
+        "PRICE": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9823
+        },
+        "PRIEST": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9816
+        },
+        "QUEEN": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9378
+        },
+        "QUIET": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9926
+        },
+        "RACE (ETHNICITY)": {
+          "support": 6,
+          "correct": 6,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9787
+        },
+        "RADIO": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9879
+        },
+        "RED": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8593
+        },
+        "RELIGION": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9814
+        },
+        "REPORTER": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9769
+        },
+        "RESTAURANT": {
+          "support": 6,
+          "correct": 5,
+          "accuracy": 0.8333,
+          "precision": 1.0,
+          "recall": 0.8333,
+          "f1": 0.9091,
+          "avg_confidence": 0.9248
+        },
+        "RICH": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9909
+        },
+        "RING": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.976
+        },
+        "SAD": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.5417
+        },
+        "SATURDAY": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.967
+        },
+        "SCHOOL": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 0.8,
+          "recall": 1.0,
+          "f1": 0.8889,
+          "avg_confidence": 0.9838
+        },
+        "SCIENCE": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9843
+        },
+        "SCREEN": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9908
+        },
+        "SEASON": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9878
+        },
+        "SECOND": {
+          "support": 6,
+          "correct": 6,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9543
+        },
+        "SECRETARY": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9786
+        },
+        "SHALLOW": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9584
+        },
+        "SHE": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9627
+        },
+        "SHIRT": {
+          "support": 6,
+          "correct": 6,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9753
+        },
+        "SHOES": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9883
+        },
+        "SHORT": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9835
+        },
+        "SICK": {
+          "support": 6,
+          "correct": 6,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9761
+        },
+        "SIGN": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9797
+        },
+        "SISTER": {
+          "support": 7,
+          "correct": 7,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.824
+        },
+        "SKIRT": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9783
+        },
+        "SLOW": {
+          "support": 0,
+          "correct": 0,
+          "accuracy": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "avg_confidence": null
+        },
+        "SMALL LITTLE": {
+          "support": 9,
+          "correct": 9,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9685
+        },
+        "SOAP": {
+          "support": 6,
+          "correct": 6,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9501
+        },
+        "SOFT": {
+          "support": 0,
+          "correct": 0,
+          "accuracy": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "avg_confidence": null
+        },
+        "SOLDIER": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9915
+        },
+        "SON": {
+          "support": 7,
+          "correct": 7,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9138
+        },
+        "SPORT": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9735
+        },
+        "SPRING": {
+          "support": 6,
+          "correct": 6,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9863
+        },
+        "STORE OR SHOP": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9751
+        },
+        "STREET OR ROAD": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9645
+        },
+        "STRONG": {
+          "support": 0,
+          "correct": 0,
+          "accuracy": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "avg_confidence": null
+        },
+        "STUDENT": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9546
+        },
+        "SUIT": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9888
+        },
+        "SUMMER": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9883
+        },
+        "SUNDAY": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9787
+        },
+        "T-SHIRT": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9894
+        },
+        "TABLE": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9838
+        },
+        "TALL": {
+          "support": 6,
+          "correct": 6,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9887
+        },
+        "TEACHER": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9833
+        },
+        "TEAM": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9877
+        },
+        "TECHNOLOGY": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9856
+        },
+        "TELEPHONE": {
+          "support": 6,
+          "correct": 5,
+          "accuracy": 0.8333,
+          "precision": 1.0,
+          "recall": 0.8333,
+          "f1": 0.9091,
+          "avg_confidence": 0.959
+        },
+        "TELEVISION": {
+          "support": 7,
+          "correct": 7,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9191
+        },
+        "TEMPLE": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9551
+        },
+        "THANK YOU": {
+          "support": 7,
+          "correct": 6,
+          "accuracy": 0.8571,
+          "precision": 1.0,
+          "recall": 0.8571,
+          "f1": 0.9231,
+          "avg_confidence": 0.911
+        },
+        "THEY": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9726
+        },
+        "THICK": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9689
+        },
+        "THURSDAY": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9832
+        },
+        "TIGHT": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9854
+        },
+        "TIME": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9668
+        },
+        "TODAY": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9811
+        },
+        "TOMORROW": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9891
+        },
+        "TOOL": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9771
+        },
+        "TRAIN": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.985
+        },
+        "TRAIN STATION": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9851
+        },
+        "TRAIN TICKET": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9843
+        },
+        "TRANSPORTATION": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9792
+        },
+        "TRUCK": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8651
+        },
+        "TUESDAY": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9822
+        },
+        "UGLY": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 0.5,
+          "recall": 1.0,
+          "f1": 0.6667,
+          "avg_confidence": 0.991
+        },
+        "UNIVERSITY": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9832
+        },
+        "WAITER": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9846
+        },
+        "WAR": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9833
+        },
+        "WARM": {
+          "support": 7,
+          "correct": 7,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.98
+        },
+        "WE": {
+          "support": 10,
+          "correct": 10,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9724
+        },
+        "WEAK": {
+          "support": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9792
+        },
+        "WEDNESDAY": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9813
+        },
+        "WEEK": {
+          "support": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9848
+        },
+        "WET": {
+          "support": 6,
+          "correct": 6,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9731
+        },
+        "WHITE": {
+          "support": 7,
+          "correct": 7,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9688
+        },
+        "WIDE": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9732
+        },
+        "WIFE": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9799
+        },
+        "WINDOW": {
+          "support": 0,
+          "correct": 0,
+          "accuracy": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "avg_confidence": null
+        },
+        "WINTER": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.976
+        },
+        "WOMAN": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.986
+        },
+        "YEAR": {
+          "support": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "precision": 0.8,
+          "recall": 1.0,
+          "f1": 0.8889,
+          "avg_confidence": 0.9897
+        },
+        "YELLOW": {
+          "support": 6,
+          "correct": 6,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.8967
+        },
+        "YESTERDAY": {
+          "support": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9513
+        },
+        "YOU": {
+          "support": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9544
+        },
+        "YOU (PLURAL)": {
+          "support": 7,
+          "correct": 7,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "avg_confidence": 0.9779
+        },
+        "YOUNG": {
+          "support": 9,
+          "correct": 8,
+          "accuracy": 0.8889,
+          "precision": 1.0,
+          "recall": 0.8889,
+          "f1": 0.9412,
+          "avg_confidence": 0.9653
+        }
+      }
+    }
+  }
+}

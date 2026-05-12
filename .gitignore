@@ -6,9 +6,9 @@ Datasets/
 # ── Node modules (regenerate with npm install) ──
 node_modules/
 
-# ── Training outputs ──
-training_logs/
-ml/eval/*.png
+# ── Training outputs (Previously ignored) ──
+# training_logs/
+# ml/eval/*.png
 
 # ── Python ──
 __pycache__/
