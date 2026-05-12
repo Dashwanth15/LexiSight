@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 /* ═══════════════════════════════════════════════════════════════════
    SplashScreen — Enhanced "Silence Ends Here" with Sign Language Learning
@@ -24,31 +25,57 @@ const SIGN_LANGUAGE_FACTS = [
     emoji: '🤟',
     sign: 'I Love You',
     description: 'Combines I, L, and Y signs from American Sign Language',
-    meaning: 'Universal gesture of affection and care'
+    meaning: 'Universal gesture of affection and care',
+    page: '/translate'
   },
   {
     emoji: '👋',
     sign: 'Hello/Goodbye',
     description: 'Open palm with side-to-side motion',
-    meaning: 'Universal greeting across many sign languages'
+    meaning: 'Universal greeting across many sign languages',
+    page: '/translate'
   },
   {
     emoji: '👍',
     sign: 'Good/Great',
     description: 'Upward thumb with other fingers folded',
-    meaning: 'Positive affirmation and approval'
+    meaning: 'Positive affirmation and approval',
+    page: '/learn'
   },
   {
     emoji: '🙏',
     sign: 'Thank You',
     description: 'Flat hands brought together in front of chest',
-    meaning: 'Expression of gratitude and appreciation'
+    meaning: 'Expression of gratitude and appreciation',
+    page: '/dictionary'
   },
   {
     emoji: '🤝',
     sign: 'Agreement/Friendship',
     description: 'Interlocked hands or grasped gesture',
-    meaning: 'Mutual understanding and connection'
+    meaning: 'Connection and mutual understanding',
+    page: '/community'
+  },
+  {
+    emoji: '📚',
+    sign: 'Learning',
+    description: 'Open book with signing hands',
+    meaning: 'Knowledge acquisition and education',
+    page: '/learn'
+  },
+  {
+    emoji: '🎯',
+    sign: 'Impact',
+    description: 'Target with sign language symbols',
+    meaning: 'Making difference in deaf community',
+    page: '/impact'
+  },
+  {
+    emoji: '⚙️',
+    sign: 'Settings',
+    description: 'Gear with accessibility symbols',
+    meaning: 'Customize your LexiSight experience',
+    page: '/settings'
   }
 ]
 
@@ -65,6 +92,8 @@ export default function SplashScreen({ onFinished }) {
   const [fadeOut, setFadeOut] = useState(false)
   const [currentFact, setCurrentFact] = useState(0)
   const [loadingProgress, setLoadingProgress] = useState(0)
+  
+  const navigate = useNavigate()
   const [startTime] = useState(Date.now())
   const [actualLoadingTime, setActualLoadingTime] = useState(MIN_LOADING_TIME)
 
@@ -287,17 +316,89 @@ export default function SplashScreen({ onFinished }) {
             transition: 'opacity 0.3s ease',
           }}
         >
-          <div style={{ fontSize: 24, marginBottom: 8, animation: 'bounce-y 1.5s ease-in-out infinite' }}>
+          <div 
+            style={{ 
+              fontSize: 24, 
+              marginBottom: 8, 
+              animation: 'bounce-y 1.5s ease-in-out infinite',
+              cursor: 'pointer',
+              transition: 'transform 0.2s ease'
+            }}
+            onClick={() => {
+              const fact = SIGN_LANGUAGE_FACTS[currentFact]
+              if (fact.page) {
+                navigate(fact.page)
+              }
+            }}
+            onMouseEnter={(e) => e.target.style.transform = 'scale(1.1)'}
+            onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+          >
             {SIGN_LANGUAGE_FACTS[currentFact].emoji}
           </div>
-          <div style={{ fontWeight: 'bold', color: '#fff', marginBottom: 4 }}>
+          <div 
+            style={{ 
+              fontWeight: 'bold', 
+              color: '#fff', 
+              marginBottom: 4,
+              cursor: 'pointer',
+              transition: 'transform 0.2s ease'
+            }}
+            onClick={() => {
+              const fact = SIGN_LANGUAGE_FACTS[currentFact]
+              if (fact.page) {
+                navigate(fact.page)
+              }
+            }}
+            onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
+            onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+          >
             {SIGN_LANGUAGE_FACTS[currentFact].sign}
           </div>
-          <div style={{ fontSize: 9, marginBottom: 2 }}>
+          <div 
+            style={{ 
+              fontSize: 9, 
+              marginBottom: 2,
+              cursor: 'pointer',
+              transition: 'transform 0.2s ease'
+            }}
+            onClick={() => {
+              const fact = SIGN_LANGUAGE_FACTS[currentFact]
+              if (fact.page) {
+                navigate(fact.page)
+              }
+            }}
+            onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
+            onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+          >
             {SIGN_LANGUAGE_FACTS[currentFact].description}
           </div>
-          <div style={{ fontSize: 8, fontStyle: 'italic', opacity: 0.7 }}>
+          <div 
+            style={{ 
+              fontSize: 8, 
+              fontStyle: 'italic', 
+              opacity: 0.7,
+              cursor: 'pointer',
+              transition: 'transform 0.2s ease'
+            }}
+            onClick={() => {
+              const fact = SIGN_LANGUAGE_FACTS[currentFact]
+              if (fact.page) {
+                navigate(fact.page)
+              }
+            }}
+            onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
+            onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+          >
             {SIGN_LANGUAGE_FACTS[currentFact].meaning}
+          </div>
+          <div style={{
+            fontSize: 7,
+            marginTop: 8,
+            opacity: 0.6,
+            textAlign: 'center',
+            fontStyle: 'italic'
+          }}>
+            Click to explore {SIGN_LANGUAGE_FACTS[currentFact].sign.toLowerCase()}
           </div>
         </div>
       </div>

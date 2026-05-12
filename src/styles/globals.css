@@ -10,9 +10,9 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "tailwindcss";
-
-@custom-variant dark (&:is(.dark *));
+@layer base {
+  @custom-variant dark (&:is(.dark *));
+}
 
 :root {
   --background: oklch(0.9710 0.0130 17.3800);
@@ -138,7 +138,7 @@
   --shadow-xl: 0px 4px 8px -1px hsl(0 0% 0% / 0.10), 0px 8px 10px -2px hsl(0 0% 0% / 0.10);
   --shadow-2xl: 0px 4px 8px -1px hsl(0 0% 0% / 0.25);
   
-  /* Custom LexiSight dark theme colors */
+  /* Custom LexiSight theme colors */
   --void: oklch(0.2046 0 0);
   --obsidian: oklch(0.2686 0 0);
   --surface: oklch(0.2393 0 0);
@@ -211,10 +211,12 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    border-color: var(--border);
+    outline-color: var(--ring);
   }
   body {
-    @apply bg-background text-foreground;
+    background-color: var(--background);
+    color: var(--foreground);
   }
 }
 
