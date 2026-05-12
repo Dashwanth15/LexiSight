@@ -1,204 +1,181 @@
 #!/usr/bin/env python3
 """
-LexiSight Dataset Processor
-═══════════════════════════
-Extracts MediaPipe hand landmarks from both datasets and
-merges them into a unified training set.
+LexiSight Dataset Processor - MediaPipe Holistic & Video Edition
+════════════════════════════════════════════════════════════════
+Extracts spatial-temporal features from video datasets (like INCLUDE)
+using MediaPipe Holistic. Outputs a 3D Tensor for Temporal Models.
 
 Usage:
     python scripts/process_dataset.py
-
-Requires:
-    pip install -r scripts/requirements.txt
-
-Dataset layout expected:
-    Datasets/
-    ├── ISL Gesture Images/
-    │   └── Gesture Image Data/  ← 37 gesture classes (A-Z, 0-9, _)
-    └── ISL CSLRT/
-        └── Train/               ← 24 letter classes (A-Y)
 """
 
 import os
 import cv2
-import mediapipe as mp
 import numpy as np
+import mediapipe as mp
 import json
 from pathlib import Path
-from concurrent.futures import ThreadPoolExecutor, as_completed
 import threading
 
 # ── Config ───────────────────────────────────────────────────────
 BASE_DIR = Path(__file__).parent.parent
-DATASET_A = BASE_DIR / "Datasets" / "ISL Gesture Images" / "Gesture Image Data"
-DATASET_B = BASE_DIR / "Datasets" / "ISL CSLRT" / "Train"
+DATASET_DIR = BASE_DIR / "Datasets" / "include"  # Expected location of INCLUDE
 OUTPUT_DIR = BASE_DIR / "public" / "model"
 
-MAX_SAMPLES_PRIMARY = 1200   # Increased from 400!
-MAX_SAMPLES_SECONDARY = 600  # Increased from 200!
+MAX_SEQ_LENGTH = 150  # Fixed sequence length (e.g., 5 secs @ 30fps)
+MAX_SAMPLES_PER_CLASS = 150  # Cap per class to prevent RAM overload
 
-# Exclude underscore class (not a meaningful gesture)
-EXCLUDE_CLASSES = {'_'}
+mp_holistic = mp.solutions.holistic
 
-# ── MediaPipe tasks API ────────────────────────────────────────────
-from mediapipe.tasks import python
-from mediapipe.tasks.python import vision
+# We select a subset of face landmarks (lips, eyes, eyebrows) to reduce dimensionality.
+# Using all 468 face landmarks would cause massive overfitting.
+SELECTED_FACE_LANDMARKS = [
+    33, 133, 362, 263, # Eyes
+    61, 291, 0, 17,    # Lips outer
+    13, 14,            # Lips inner
+    70, 300            # Eyebrows
+]
 
-lock = threading.Lock()
+# Total features:
+# Pose: 33 * 4 = 132
+# Face: 12 * 3 = 36
+# Left Hand: 21 * 3 = 63
+# Right Hand: 21 * 3 = 63
+# Total = 294 features per frame
 
-def augment(lm_list, noise_level=0.015):
-    """Add Gaussian noise to the coordinates for Data Augmentation.
-    NOTE: This is only used in train_model.py AFTER train/val/test split
-    to prevent data leakage.
-    """
-    return [max(0.0, min(1.0, val + np.random.normal(0, noise_level))) for val in lm_list]
-
-def extract_landmarks(image_path: Path, detector) -> list | None:
-    """Extract 63 normalized landmarks from a hand image."""
-    try:
-        # Strictly enforce 3-channel RGB to prevent TfLite tensor crashes
-        img = cv2.imread(str(image_path))
-        if img is None: return None
-        
-        # Datasets often have huge images causing memory bloat, resize if too large
-        if img.shape[0] > 600 or img.shape[1] > 600:
-            scale = 600 / max(img.shape[0], img.shape[1])
-            img = cv2.resize(img, (int(img.shape[1]*scale), int(img.shape[0]*scale)))
-
-        img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=img_rgb)
-    except Exception as e:
-        return None
-
-    result = detector.detect(mp_image)
-    if not result.hand_landmarks:
-        return None
-
-    lm = result.hand_landmarks[0]
-    wrist = lm[0]
-
-    # Max distance normalization for scale invariance
-    coords_raw = [(p.x - wrist.x, p.y - wrist.y, (p.z or 0) - (wrist.z or 0))
-                  for p in lm]
-    max_dist = max(
-        (x**2 + y**2 + z**2) ** 0.5
-        for x, y, z in coords_raw
-    ) or 1.0
-
-    coords = []
-    for dx, dy, dz in coords_raw:
-        coords.extend([dx / max_dist, dy / max_dist, dz / max_dist])
-
-    return coords  # 63 numbers
-
-def process_class(class_name: str, image_dir: Path, label_id: int,
-                  max_samples: int, source_tag: str) -> tuple[list, list, int]:
-    """Process all images in a class directory."""
-    images = list(image_dir.glob("*.jpg")) + list(image_dir.glob("*.png"))
-    images = images[:max_samples]
-
-    landmarks_list = []
-    labels_list = []
-
-    base_options = python.BaseOptions(model_asset_path=str(BASE_DIR / 'scripts' / 'hand_landmarker.task'))
-    options = vision.HandLandmarkerOptions(base_options=base_options, num_hands=1)
-    
-    with vision.HandLandmarker.create_from_options(options) as detector:
-        for img_path in images:
-            lm = extract_landmarks(img_path, detector)
-            if lm:
-                landmarks_list.append(lm)
-                labels_list.append(label_id)
-                # NO augmentation here - it's done in train_model.py AFTER split to avoid leakage
-
-    count = len(landmarks_list)
-    if count > 0:
-        print(f"  [{source_tag}] {class_name}: {count}/{len(images)} samples extracted")
+def extract_keypoints(results):
+    """Extracts and flattens landmarks into a single 1D numpy array."""
+    if results.pose_landmarks:
+        pose = np.array([[res.x, res.y, res.z, res.visibility] for res in results.pose_landmarks.landmark]).flatten()
     else:
-        print(f"  [{source_tag}] {class_name}: ⚠ No valid hands detected")
+        pose = np.zeros(33 * 4)
 
-    return landmarks_list, labels_list, count
+    if results.face_landmarks:
+        face = np.array([[results.face_landmarks.landmark[idx].x, 
+                          results.face_landmarks.landmark[idx].y, 
+                          results.face_landmarks.landmark[idx].z] for idx in SELECTED_FACE_LANDMARKS]).flatten()
+    else:
+        face = np.zeros(len(SELECTED_FACE_LANDMARKS) * 3)
+
+    if results.left_hand_landmarks:
+        lh = np.array([[res.x, res.y, res.z] for res in results.left_hand_landmarks.landmark]).flatten()
+    else:
+        lh = np.zeros(21 * 3)
+
+    if results.right_hand_landmarks:
+        rh = np.array([[res.x, res.y, res.z] for res in results.right_hand_landmarks.landmark]).flatten()
+    else:
+        rh = np.zeros(21 * 3)
+
+    return np.concatenate([pose, face, lh, rh])
+
+def process_video(video_path: Path):
+    """Processes a single video, handles imputation, and returns a padded sequence."""
+    cap = cv2.VideoCapture(str(video_path))
+    sequence = []
+    
+    with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic:
+        prev_keypoints = None
+        
+        while cap.isOpened():
+            ret, frame = cap.read()
+            if not ret:
+                break
+                
+            # Resize if too large to speed up processing
+            if frame.shape[1] > 640:
+                scale = 640 / frame.shape[1]
+                frame = cv2.resize(frame, (int(frame.shape[1]*scale), int(frame.shape[0]*scale)))
+                
+            image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            image.flags.writeable = False
+            results = holistic.process(image)
+            
+            keypoints = extract_keypoints(results)
+            
+            # Forward Fill Imputation
+            # If the hands disappear due to motion blur, carry over the last known position.
+            if prev_keypoints is not None:
+                # LH is indices 168 to 231
+                if np.all(keypoints[168:231] == 0):
+                    keypoints[168:231] = prev_keypoints[168:231]
+                # RH is indices 231 to 294
+                if np.all(keypoints[231:294] == 0):
+                    keypoints[231:294] = prev_keypoints[231:294]
+            
+            sequence.append(keypoints)
+            prev_keypoints = keypoints
+
+            # Truncate videos that are excessively long
+            if len(sequence) >= MAX_SEQ_LENGTH:
+                break
+                
+    cap.release()
+    
+    if not sequence:
+        return None
+        
+    # Pad if sequence is shorter than MAX_SEQ_LENGTH
+    sequence_np = np.array(sequence)
+    if len(sequence) < MAX_SEQ_LENGTH:
+        padding = np.zeros((MAX_SEQ_LENGTH - len(sequence), sequence_np.shape[1]))
+        sequence_np = np.vstack((sequence_np, padding))
+        
+    return sequence_np
+
+def process_class(class_name: str, class_dir: Path, label_id: int):
+    """Processes all videos in a class directory."""
+    videos = list(class_dir.glob("*.mp4")) + list(class_dir.glob("*.avi"))
+    videos = videos[:MAX_SAMPLES_PER_CLASS]
+    
+    sequences, labels = [], []
+    for vid_path in videos:
+        seq = process_video(vid_path)
+        if seq is not None:
+            sequences.append(seq)
+            labels.append(label_id)
+            
+    count = len(sequences)
+    if count > 0:
+        print(f"  [INCLUDE] {class_name}: {count}/{len(videos)} videos processed")
+    else:
+        print(f"  [INCLUDE] {class_name}: ⚠ No valid sequences extracted")
+        
+    return sequences, labels, count
 
 def main():
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-
-    all_landmarks = []
-    all_labels = []
+    all_sequences, all_labels = [], []
     label_map = {}
     label_counter = 0
-    class_counts = {}
 
-    print("\n╔══════════════════════════════════════╗")
-    print("║   LexiSight Dataset Processor v1.0  ║")
-    print("╚══════════════════════════════════════╝\n")
+    print("\n╔════════════════════════════════════════════════╗")
+    print("║ LexiSight Dataset Processor (Holistic/Video)   ║")
+    print("╚════════════════════════════════════════════════╝\n")
 
-    # ── DATASET A: ISL Gesture Images (PRIMARY) ──────────────────
-    print(f"➤ Processing Primary Dataset: {DATASET_A.name}")
-    print(f"  Path: {DATASET_A}")
+    print(f"➤ Looking for INCLUDE dataset at: {DATASET_DIR}")
+    if not DATASET_DIR.exists():
+        print("  ⚠ Dataset folder not found. Please ensure the INCLUDE dataset is unzipped here.")
+        return
 
-    if not DATASET_A.exists():
-        print(f"  ⚠ Not found! Skipping.")
-    else:
-        classes_a = sorted([
-            d.name for d in DATASET_A.iterdir()
-            if d.is_dir() and d.name not in EXCLUDE_CLASSES
-        ])
-        print(f"  Found {len(classes_a)} gesture classes\n")
+    classes = sorted([d.name for d in DATASET_DIR.iterdir() if d.is_dir()])
+    print(f"  Found {len(classes)} classes. Starting extraction...\n")
 
-        for class_name in classes_a:
-            class_dir = DATASET_A / class_name
-            # Assign label
-            key = class_name.upper()
-            if key not in label_map.values():
-                label_map[str(label_counter)] = key
-                current_id = label_counter
-                label_counter += 1
-            else:
-                current_id = {v: int(k) for k, v in label_map.items()}[key]
+    for class_name in classes:
+        class_dir = DATASET_DIR / class_name
+        label_map[str(label_counter)] = class_name
+        
+        seqs, labels, count = process_class(class_name, class_dir, label_counter)
+        all_sequences.extend(seqs)
+        all_labels.extend(labels)
+        label_counter += 1
 
-            lms, labels, count = process_class(
-                class_name, class_dir, current_id,
-                MAX_SAMPLES_PRIMARY, "PRIMARY"
-            )
-            all_landmarks.extend(lms)
-            all_labels.extend(labels)
-            class_counts[key] = class_counts.get(key, 0) + count
+    if not all_sequences:
+        print("\n⚠ No data extracted. Check your dataset directory structure.")
+        return
 
-    # ── DATASET B: ISL CSLRT (SUPPLEMENT letters A-Y) ─────────────
-    print(f"\n➤ Processing Supplement Dataset: {DATASET_B.name}")
-    print(f"  Path: {DATASET_B}")
-
-    if not DATASET_B.exists():
-        print(f"  ⚠ Not found! Skipping.")
-    else:
-        classes_b = sorted([d.name for d in DATASET_B.iterdir() if d.is_dir()])
-        print(f"  Found {len(classes_b)} letter classes\n")
-
-        # Build reverse label map for lookup
-        rev_map = {v: int(k) for k, v in label_map.items()}
-
-        for class_name in classes_b:
-            class_dir = DATASET_B / class_name
-            key = class_name.upper()
-
-            if key in rev_map:
-                current_id = rev_map[key]
-            else:
-                label_map[str(label_counter)] = key
-                current_id = label_counter
-                rev_map[key] = label_counter
-                label_counter += 1
-
-            lms, labels, count = process_class(
-                class_name, class_dir, current_id,
-                MAX_SAMPLES_SECONDARY, "CSLRT"
-            )
-            all_landmarks.extend(lms)
-            all_labels.extend(labels)
-            class_counts[key] = class_counts.get(key, 0) + count
-
-    # ── Save outputs ──────────────────────────────────────────────
-    X = np.array(all_landmarks, dtype=np.float32)
+    # Save as 3D Tensor: (samples, time, features)
+    X = np.array(all_sequences, dtype=np.float32)
     y = np.array(all_labels, dtype=np.int32)
 
     np.save(OUTPUT_DIR / "X_train_raw.npy", X)
@@ -207,24 +184,14 @@ def main():
     with open(OUTPUT_DIR / "label_map.json", "w") as f:
         json.dump(label_map, f, indent=2)
 
-    # ── Summary ─────────────────────────────────────────────────
     print("\n╔══════════════════════════╗")
     print("║       DATASET SUMMARY    ║")
     print("╚══════════════════════════╝")
-    print(f"  Raw unique samples  : {len(X):,}")
-    print(f"  Total classes       : {len(label_map)}")
-    print(f"  Feature dims        : {X.shape[1] if len(X) > 0 else 0}")
-    print(f"  Output dir          : {OUTPUT_DIR}")
-    print(f"\n  Per-class breakdown:")
-    for cls, cnt in sorted(class_counts.items()):
-        bar = '█' * min(40, cnt // 10)
-        print(f"    {cls:>10}: {bar} {cnt}")
-
-    print("\n⚠  NOTE: Augmentation is now DISABLED here.")
-    print("   Augmentation happens in train_model.py AFTER train/val/test split.")
-    print("   This prevents data leakage and gives honest validation accuracy.")
+    print(f"  Total samples  : {len(X):,}")
+    print(f"  Tensor shape   : {X.shape}")
+    print(f"  Total classes  : {len(label_map)}")
+    print(f"  Output dir     : {OUTPUT_DIR}")
     print("\n✓ process_dataset.py complete!")
-    print("  Next step: python scripts/train_model.py\n")
 
 if __name__ == "__main__":
     main()
