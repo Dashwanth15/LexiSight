@@ -11,7 +11,17 @@
 @tailwind utilities;
 
 @layer base {
-  @custom-variant dark (&:is(.dark *));
+  * {
+    border-color: var(--border);
+    outline-color: var(--ring);
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+  .dark {
+    /* Dark mode styles can be added here if needed */
+  }
 }
 
 :root {
