@@ -9,9 +9,12 @@ import HandOverlay from '../components/HandOverlay.jsx'
 import ConfidenceWaveform from '../components/ConfidenceWaveform.jsx'
 import ConfidenceTopK from '../components/ConfidenceTopK.jsx'
 import HandAvatar from '../components/HandAvatar.jsx'
+import Hand3D from '../components/Hand3D.jsx'
 import VoiceSelector from '../components/VoiceSelector.jsx'
 import { toast } from '../components/ToastNotif.jsx'
 import { PHRASE_PACKS } from '../data/phrasePacks.js'
+import { useSettings } from '../hooks/useSettings.jsx'
+import { getTranslationService } from '../services/translationService.js'
 
 const smoother = new PredictionSmoother(10, 0.75)
 const sentenceBuilder = new SentenceBuilder(2000)
@@ -251,15 +254,48 @@ export default function Translator() {
 
   const [animSpeed, setAnimSpeed] = useState(1)
   const [avatarGesture, setAvatarGesture] = useState(null)
+  const [use3DHand, setUse3DHand] = useState(true) // Toggle between 2D and 3D hand
   const wordTimerRef = useRef(null)
 
   const noHandRef = useRef(0)
   const [showHandPrompt, setShowHandPrompt] = useState(false)
 
+  const { settings } = useSettings()
   const mediapipe = useMediaPipe()
   const classifier = useClassifier()
   const synth = useSpeechSynth()
   const recognition = useSpeechRecog()
+  const translationService = getTranslationService(settings)
+
+  // Sync settings to hooks
+  useEffect(() => {
+    if (settings.autoStartCamera && !mediapipe.isReady) {
+      mediapipe.initialize(null, { 
+        facingMode: settings.cameraFacing, 
+        fpsLimit: settings.fpsLimit 
+      })
+    }
+  }, [settings.autoStartCamera])
+
+  useEffect(() => {
+    if (classifier.setModeTier) classifier.setModeTier(settings.modelTier)
+  }, [settings.modelTier])
+
+  useEffect(() => {
+    if (synth.setOptions) {
+      synth.setOptions({
+        rate: settings.speechSpeed,
+        pitch: settings.speechPitch,
+        volume: settings.speechVolume
+      })
+    }
+  }, [settings.speechSpeed, settings.speechPitch, settings.speechVolume])
+
+  // Update translation service when settings change
+  useEffect(() => {
+    translationService.updateSettings(settings)
+  }, [settings])
+
 
   const isLoading = classifier.status === 'loading'
 
@@ -285,9 +321,27 @@ export default function Translator() {
       setCurrentPrediction(smoothed)
       const now = new Date().toLocaleTimeString('en-IN', { hour12: false })
       setDetectionLog(prev => [{ label: smoothed.label, confidence: smoothed.confidence, time: now }, ...prev.slice(0, 29)])
-      setSentence(sentenceBuilder.addWord(smoothed.label))
-      if (autoSpeak) synth.speak(smoothed.label)
-      toast.success(`Detected: ${smoothed.label}`, 1200)
+      
+      // Use translation service for enhanced processing
+      const translationResult = translationService.processTranslation(smoothed.label, smoothed.confidence)
+      
+      if (translationResult) {
+        setSentence(prev => {
+          const updated = prev ? `${prev} ${translationResult.text}` : translationResult.text
+          return translationResult.isCompleteSentence ? updated : prev
+        })
+        
+        if (settings.autoSpeak && !settings.muteAudio) {
+          synth.speak(translationResult.text)
+        }
+        
+        toast.success(`Detected: ${translationResult.text}`, 1200)
+      } else {
+        // Fallback to original behavior
+        setSentence(sentenceBuilder.addWord(smoothed.label, { grammar: settings.grammarCorrection }))
+        if (settings.autoSpeak && !settings.muteAudio) synth.speak(smoothed.label)
+        toast.success(`Detected: ${smoothed.label}`, 1200)
+      }
 
       // Update Impact stats
       const curTrans = parseInt(localStorage.getItem('lxi_stat_translations') || '142', 10)
@@ -312,8 +366,22 @@ export default function Translator() {
           const g = DEMO_SEQUENCE[idx]
           const now = new Date().toLocaleTimeString('en-IN', { hour12: false })
           setDetectionLog(p => [{ label: g.label, confidence: g.confidence, time: now }, ...p.slice(0, 29)])
-          if (autoSpeak) synth.speak(g.label)
-          setSentence(p => `${p} ${g.label}`.trim())
+          
+          // Use translation service for demo mode as well
+          const translationResult = translationService.processTranslation(g.label, g.confidence)
+          
+          if (translationResult) {
+            setSentence(p => {
+              const updated = p ? `${p} ${translationResult.text}` : translationResult.text
+              return translationResult.isCompleteSentence ? updated : p
+            })
+            if (autoSpeak && !settings.muteAudio) synth.speak(translationResult.text)
+          } else {
+            // Fallback
+            setSentence(p => `${p} ${g.label}`.trim())
+            if (autoSpeak) synth.speak(g.label)
+          }
+          
           return g
         })
       }, 2000)
@@ -321,7 +389,7 @@ export default function Translator() {
       clearInterval(demoIntervalRef.current)
     }
     return () => clearInterval(demoIntervalRef.current)
-  }, [demoMode, autoSpeak])
+  }, [demoMode, autoSpeak, settings.muteAudio])
 
   // ── Word queue → avatar ──────────────────────────────────────
   useEffect(() => {
@@ -665,17 +733,55 @@ export default function Translator() {
   )
 
   const AvatarBlock = (size = 'h-40') => (
-    <div
-      className="flex flex-col items-center justify-center rounded-xl"
-      style={{
-        background: 'rgba(8,13,20,0.5)',
-        border: avatarGesture ? '1px solid rgba(139,92,246,0.3)' : '1px solid #1a2535',
-        minHeight: 180,
-        flex: 1,
-        transition: 'border-color 0.3s',
-      }}
-    >
-      <HandAvatar gesture={avatarGesture} isActive={!!avatarGesture} animSpeed={animSpeed} className={size} />
+    <div className="flex flex-col">
+      {/* Toggle between 2D and 3D hand */}
+      <div className="flex justify-center mb-2">
+        <div className="flex bg-gray-800 rounded-lg p-1" style={{ background: 'rgba(8,13,20,0.8)' }}>
+          <button
+            onClick={() => setUse3DHand(false)}
+            className={`px-3 py-1 rounded text-xs font-medium transition-colors ${
+              !use3DHand 
+                ? 'bg-purple-600 text-white' 
+                : 'text-gray-400 hover:text-white'
+            }`}
+          >
+            2D Hand
+          </button>
+          <button
+            onClick={() => setUse3DHand(true)}
+            className={`px-3 py-1 rounded text-xs font-medium transition-colors ${
+              use3DHand 
+                ? 'bg-purple-600 text-white' 
+                : 'text-gray-400 hover:text-white'
+            }`}
+          >
+            3D Hand
+          </button>
+        </div>
+      </div>
+      
+      {/* Hand display */}
+      <div
+        className="flex flex-col items-center justify-center rounded-xl"
+        style={{
+          background: 'rgba(8,13,20,0.5)',
+          border: avatarGesture ? '1px solid rgba(139,92,246,0.3)' : '1px solid #1a2535',
+          minHeight: 180,
+          flex: 1,
+          transition: 'border-color 0.3s',
+        }}
+      >
+        {use3DHand ? (
+          <Hand3D 
+            gesture={avatarGesture || 'idle'} 
+            isActive={!!avatarGesture} 
+            width={300}
+            height={200}
+          />
+        ) : (
+          <HandAvatar gesture={avatarGesture} isActive={!!avatarGesture} animSpeed={animSpeed} className={size} />
+        )}
+      </div>
     </div>
   )
 

@@ -22,6 +22,8 @@ export function useMediaPipe() {
   const [cameraPermission, setCameraPermission] = useState('prompt')
   const [availableCameras, setAvailableCameras] = useState([])
   const [selectedCameraId, setSelectedCameraId] = useState(null)
+  const [fpsLimit, setFpsLimit] = useState(30)
+  const [facingMode, setFacingMode] = useState('user')
 
   const fpsCounterRef = useRef({ frames: 0, lastTime: Date.now() })
   const frameSkipRef = useRef(0)
@@ -140,7 +142,7 @@ export function useMediaPipe() {
 
       const videoConstraints = resolvedId
         ? { deviceId: { exact: resolvedId }, width: { ideal: 640 }, height: { ideal: 480 } }
-        : { width: { ideal: 640 }, height: { ideal: 480 }, facingMode: { ideal: 'user' } }
+        : { width: { ideal: 640 }, height: { ideal: 480 }, facingMode: { ideal: options.facingMode || facingMode } }
 
       setCameraPermission('prompt')
       const stream = await navigator.mediaDevices.getUserMedia({ video: videoConstraints })
@@ -190,7 +192,8 @@ export function useMediaPipe() {
       if (!videoRef.current || !handsRef.current) return
       if (videoRef.current.readyState >= 2) {
         frameSkipRef.current++
-        if (frameSkipRef.current % 2 === 0) {
+        const interval = 1000 / (options.fpsLimit || fpsLimit)
+        if (frameSkipRef.current % Math.ceil(30 / (options.fpsLimit || fpsLimit)) === 0) {
           await handsRef.current.send({ image: videoRef.current })
         }
       }
