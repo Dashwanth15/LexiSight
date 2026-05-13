@@ -14,10 +14,9 @@ const NAV_LINKS = [
   { to: '/settings', label: 'Settings' },
 ]
 
-export default function Navbar() {
+export default function Navbar({ darkMode, setDarkMode }) {
   const location = useLocation()
   const [drawerOpen, setDrawerOpen] = useState(false)
-  const { theme, toggle } = useTheme()
 
   const isActive = useCallback((to) => {
     if (to === '/') return location.pathname === '/'
@@ -91,7 +90,7 @@ export default function Navbar() {
               </Link>
             ))}
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginLeft: 8 }}>
-              <ThemeToggle theme={theme} onToggle={toggle} compact />
+              <ThemeToggle theme={darkMode ? 'dark' : 'light'} onToggle={() => setDarkMode(!darkMode)} compact />
               <Link
                 to="/translate"
                 className="btn-primary"
@@ -106,7 +105,7 @@ export default function Navbar() {
 
           {/* Mobile: theme + hamburger */}
           <div className="lg:hidden flex items-center gap-2">
-            <ThemeToggle theme={theme} onToggle={toggle} compact />
+            <ThemeToggle theme={darkMode ? 'dark' : 'light'} onToggle={() => setDarkMode(!darkMode)} compact />
             <button
               className="flex flex-col gap-1.5 p-2 rounded-lg cursor-pointer transition-all duration-200"
               style={{

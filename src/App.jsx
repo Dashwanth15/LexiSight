@@ -8,10 +8,10 @@ import SplashScreen from './components/SplashScreen.jsx'
 import PageLoader from './components/PageLoader.jsx'
 import Landing from './pages/Landing.jsx'
 
-// Lazy load heavy pages with 2.5s minimum delay for cinematic transition
+// Lazy load heavy pages with 0.8s minimum delay for smooth transitions
 const delay = (ms) => new Promise(r => setTimeout(r, ms))
 const delayedLazy = (importFn) => lazy(() =>
-  Promise.all([importFn(), delay(2500)]).then(([mod]) => mod)
+  Promise.all([importFn(), delay(800)]).then(([mod]) => mod)
 )
 
 const Translator = delayedLazy(() => import('./pages/Translator.jsx'))
@@ -27,6 +27,21 @@ export default function App() {
   const [splashDone, setSplashDone] = useState(() => {
     return sessionStorage.getItem('lxi_splash_shown') === 'true'
   })
+
+  const [darkMode, setDarkMode] = useState(() => {
+    const saved = localStorage.getItem('lxi_dark_mode')
+    return saved ? JSON.parse(saved) : false
+  })
+
+  useEffect(() => {
+    const root = document.documentElement
+    if (darkMode) {
+      root.classList.add('dark')
+    } else {
+      root.classList.remove('dark')
+    }
+    localStorage.setItem('lxi_dark_mode', JSON.stringify(darkMode))
+  }, [darkMode])
 
   const handleSplashFinished = useCallback(() => {
     setSplashDone(true)
@@ -52,7 +67,7 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <Navbar />
+      <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
       <OnboardingModal />
       <PWAInstallBanner />
       <Suspense fallback={<PageLoader />}>

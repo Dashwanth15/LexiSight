@@ -8,26 +8,47 @@ import { useState, useEffect, useRef } from 'react'
 
 const LINES = [
   '// ROUTING NEURAL PATHWAYS...',
-  '// LOADING MODULE...',
+  '// LOADING SIGN MODULE...',
+  '// DECODING GESTURES...',
+  '// BRIDGING COMMUNICATION...',
+  '// ACTIVATING AI MODELS...',
   '// SYNCING INTERFACE...',
   '// RENDERING COMPONENTS...',
 ]
 
-const RIGHT_TEXT = '// LOADING VIEW. BRIDGING SILENCE...'
+const RIGHT_TEXT = '// LOADING EXPERIENCE. TRANSLATING SILENCE...'
+
+const INTERACTIVE_SIGNS = [
+  { emoji: '🤟', label: 'I Love You', color: '#ff6b9d' },
+  { emoji: '👋', label: 'Namaste/Hello', color: '#4ecdc4' },
+  { emoji: '👍', label: 'Good/Yes', color: '#45b7d1' },
+  { emoji: '🙏', label: 'Thank You/Dhanyavad', color: '#96ceb4' },
+  { emoji: '✌️', label: 'Peace/Shanti', color: '#a29bfe' },
+  { emoji: '🤙', label: 'Call Me/Bulao', color: '#ffeaa7' },
+]
+
+const MIN_LOADING_TIME = 800
 
 export default function PageLoader() {
   const [activeIdx, setActiveIdx] = useState(-1)
   const [rightChars, setRightChars] = useState(0)
+  const [currentSign, setCurrentSign] = useState(0)
+  const [interactiveMode, setInteractiveMode] = useState(false)
+  const [clickCount, setClickCount] = useState(0)
   const timerRefs = useRef([])
+  const startTime = useRef(Date.now())
 
   useEffect(() => {
+    const elapsed = Date.now() - startTime.current
+    const remainingTime = Math.max(0, MIN_LOADING_TIME - elapsed)
+    
     // Left side highlight cycle
     let idx = 0
     function advance() {
       if (idx < LINES.length) {
         setActiveIdx(idx)
         idx++
-        const id = setTimeout(advance, 380)
+        const id = setTimeout(advance, Math.max(200, remainingTime / LINES.length))
         timerRefs.current.push(id)
       }
     }
@@ -40,12 +61,18 @@ export default function PageLoader() {
       if (rIdx <= RIGHT_TEXT.length) {
         setRightChars(rIdx)
         rIdx++
-        const id = setTimeout(typeRight, 30)
+        const id = setTimeout(typeRight, 20)
         timerRefs.current.push(id)
       }
     }
     const t2 = setTimeout(typeRight, 300)
     timerRefs.current.push(t2)
+
+    // Cycle through interactive signs
+    const signInterval = setInterval(() => {
+      setCurrentSign(prev => (prev + 1) % INTERACTIVE_SIGNS.length)
+    }, 1200)
+    timerRefs.current.push(setTimeout(() => clearInterval(signInterval), remainingTime + 1000))
 
     return () => timerRefs.current.forEach(clearTimeout)
   }, [])
@@ -130,43 +157,102 @@ export default function PageLoader() {
         {RIGHT_TEXT.slice(0, rightChars)}
       </div>
 
-      {/* Center pulsing logo */}
+      {/* Center interactive sign display */}
       <div
         style={{
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: 12,
+          gap: 16,
           zIndex: 2,
+          cursor: 'pointer',
+        }}
+        onClick={() => {
+          setClickCount(prev => prev + 1)
+          setInteractiveMode(!interactiveMode)
+          setCurrentSign(prev => (prev + 1) % INTERACTIVE_SIGNS.length)
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'scale(1.05)'
+          setInteractiveMode(true)
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'scale(1)'
+          if (clickCount < 3) setInteractiveMode(false)
         }}
       >
         <div
           style={{
-            fontFamily: "Georgia, 'Times New Roman', serif",
-            fontSize: 'clamp(24px, 5vw, 36px)',
-            fontWeight: 900,
-            fontStyle: 'italic',
-            color: '#fff',
-            opacity: 0.9,
-            animation: 'splash-dot-pulse 1.5s ease-in-out infinite',
+            fontSize: 'clamp(48px, 8vw, 72px)',
+            animation: interactiveMode ? 'bounce-y 0.8s ease-in-out infinite' : 'splash-dot-pulse 1.5s ease-in-out infinite',
+            filter: interactiveMode ? 'brightness(1.2)' : 'brightness(1)',
+            transition: 'all 0.3s ease',
+            transform: `rotate(${interactiveMode ? clickCount * 15 : 0}deg)`,
           }}
         >
-          Lexi<span style={{ color: 'rgba(255,255,255,0.5)' }}>Sight</span>
+          {INTERACTIVE_SIGNS[currentSign].emoji}
         </div>
-        <div style={{ display: 'flex', gap: 5 }}>
-          {[0, 1, 2].map((i) => (
+        
+        <div
+          style={{
+            fontFamily: "Georgia, 'Times New Roman', serif",
+            fontSize: 'clamp(20px, 4vw, 28px)',
+            fontWeight: 900,
+            fontStyle: 'italic',
+            color: INTERACTIVE_SIGNS[currentSign].color,
+            opacity: interactiveMode ? 1 : 0.8,
+            transition: 'all 0.3s ease',
+            textShadow: interactiveMode ? `0 0 20px ${INTERACTIVE_SIGNS[currentSign].color}40` : 'none',
+          }}
+        >
+          Lexi<span style={{ color: 'rgba(255,255,255,0.6)' }}>Sight</span>
+        </div>
+        
+        {interactiveMode && (
+          <div
+            style={{
+              fontSize: 'clamp(12px, 2vw, 16px)',
+              color: 'rgba(255,255,255,0.8)',
+              fontFamily: "'Courier New', monospace",
+              letterSpacing: '0.1em',
+              animation: 'fade-in 0.5s ease-out',
+              textAlign: 'center',
+            }}
+          >
+            {INTERACTIVE_SIGNS[currentSign].label}
+          </div>
+        )}
+        
+        <div style={{ display: 'flex', gap: 8 }}>
+          {INTERACTIVE_SIGNS.map((sign, i) => (
             <div
               key={i}
               style={{
-                width: 4,
-                height: 4,
+                width: 6,
+                height: 6,
                 borderRadius: '50%',
-                background: '#fff',
-                animation: `splash-dot-pulse 1.2s ease-in-out ${i * 0.2}s infinite`,
+                background: i === currentSign ? sign.color : 'rgba(255,255,255,0.3)',
+                animation: i === currentSign ? 'splash-dot-pulse 1s ease-in-out infinite' : 'none',
+                transition: 'all 0.3s ease',
               }}
             />
           ))}
         </div>
+        
+        {interactiveMode && (
+          <div
+            style={{
+              fontSize: '10px',
+              color: 'rgba(255,255,255,0.5)',
+              fontFamily: "'Courier New', monospace",
+              letterSpacing: '0.05em',
+              marginTop: 8,
+              animation: 'fade-in 0.3s ease-out',
+            }}
+          >
+            Click to explore signs • {clickCount} interactions
+          </div>
+        )}
       </div>
 
       {/* Corner markers */}

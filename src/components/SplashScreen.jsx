@@ -22,66 +22,66 @@ const RIGHT_FULL =
 
 const SIGN_LANGUAGE_FACTS = [
   {
-    emoji: '🤟',
-    sign: 'I Love You',
-    description: 'Combines I, L, and Y signs from American Sign Language',
-    meaning: 'Universal gesture of affection and care',
+    emoji: '🙏',
+    sign: 'Namaste',
+    description: 'Hands together with slight bow',
+    meaning: 'Traditional Indian greeting and respect',
     page: '/translate'
   },
   {
-    emoji: '👋',
-    sign: 'Hello/Goodbye',
-    description: 'Open palm with side-to-side motion',
-    meaning: 'Universal greeting across many sign languages',
+    emoji: '🤟',
+    sign: 'I Love You',
+    description: 'Combined gesture in ISL context',
+    meaning: 'Universal expression of affection',
     page: '/translate'
   },
   {
     emoji: '👍',
-    sign: 'Good/Great',
-    description: 'Upward thumb with other fingers folded',
-    meaning: 'Positive affirmation and approval',
+    sign: 'Accha/Badhiya',
+    description: 'Thumbs up gesture',
+    meaning: 'Good/Excellent in Indian context',
     page: '/learn'
   },
   {
     emoji: '🙏',
-    sign: 'Thank You',
-    description: 'Flat hands brought together in front of chest',
-    meaning: 'Expression of gratitude and appreciation',
+    sign: 'Dhanyavad',
+    description: 'Hands together in gratitude',
+    meaning: 'Thank you in Hindi/Sanskrit',
     page: '/dictionary'
   },
   {
     emoji: '🤝',
-    sign: 'Agreement/Friendship',
-    description: 'Interlocked hands or grasped gesture',
-    meaning: 'Connection and mutual understanding',
+    sign: 'Milaap',
+    description: 'Handshake or joined hands',
+    meaning: 'Unity and connection in Indian culture',
     page: '/community'
   },
   {
-    emoji: '📚',
-    sign: 'Learning',
-    description: 'Open book with signing hands',
-    meaning: 'Knowledge acquisition and education',
-    page: '/learn'
-  },
-  {
-    emoji: '🎯',
-    sign: 'Impact',
-    description: 'Target with sign language symbols',
-    meaning: 'Making difference in deaf community',
+    emoji: '✌️',
+    sign: 'Shanti',
+    description: 'Peace sign with two fingers',
+    meaning: 'Peace and harmony in Sanskrit',
     page: '/impact'
   },
   {
-    emoji: '⚙️',
-    sign: 'Settings',
-    description: 'Gear with accessibility symbols',
-    meaning: 'Customize your LexiSight experience',
+    emoji: '👋',
+    sign: 'Pranam',
+    description: 'Raised hand with fingers together',
+    meaning: 'Respectful greeting in Indian tradition',
+    page: '/learn'
+  },
+  {
+    emoji: '🤙',
+    sign: 'Aao/Bulao',
+    description: 'Call me gesture with thumb and pinky',
+    meaning: 'Come/Call in Hindi context',
     page: '/settings'
   }
 ]
 
 const LINE_HEIGHT = 33 // px per line for scrolling
 const MIN_LOADING_TIME = 800 // minimum loading time in ms
-const MAX_LOADING_TIME = 3000 // maximum loading time in ms
+const MAX_LOADING_TIME = 2000 // maximum loading time in ms
 
 export default function SplashScreen({ onFinished }) {
   const [phase, setPhase] = useState('terminal') // terminal → silence → logo → done
@@ -299,106 +299,120 @@ export default function SplashScreen({ onFinished }) {
           />
         </div>
 
-        {/* Sign Language Learning Section */}
+        {/* Enhanced Sign Language Learning Section */}
         <div
           style={{
             position: 'absolute',
-            bottom: 20,
+            bottom: 30,
             left: '50%',
             transform: 'translateX(-50%)',
             textAlign: 'center',
-            color: 'rgba(255,255,255,0.6)',
+            color: 'rgba(255,255,255,0.7)',
             fontSize: 10,
             fontFamily: "'Courier New', monospace",
             letterSpacing: '0.1em',
-            maxWidth: 280,
+            maxWidth: 320,
             opacity: phase === 'terminal' ? 1 : 0,
             transition: 'opacity 0.3s ease',
+            cursor: 'pointer',
+          }}
+          onClick={() => {
+            const fact = SIGN_LANGUAGE_FACTS[currentFact]
+            if (fact.page) {
+              navigate(fact.page)
+            }
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'translateX(-50%) scale(1.05)'
+            e.currentTarget.style.filter = 'brightness(1.2)'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'translateX(-50%) scale(1)'
+            e.currentTarget.style.filter = 'brightness(1)'
           }}
         >
+          {/* Main sign emoji with enhanced animation */}
           <div 
             style={{ 
-              fontSize: 24, 
-              marginBottom: 8, 
-              animation: 'bounce-y 1.5s ease-in-out infinite',
+              fontSize: 32, 
+              marginBottom: 12, 
+              animation: 'bounce-y 1.2s ease-in-out infinite, pulse-ring 2s ease-out infinite',
               cursor: 'pointer',
-              transition: 'transform 0.2s ease'
+              transition: 'all 0.3s ease',
+              filter: 'drop-shadow(0 0 10px rgba(255,255,255,0.3))',
             }}
-            onClick={() => {
-              const fact = SIGN_LANGUAGE_FACTS[currentFact]
-              if (fact.page) {
-                navigate(fact.page)
-              }
-            }}
-            onMouseEnter={(e) => e.target.style.transform = 'scale(1.1)'}
-            onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
           >
             {SIGN_LANGUAGE_FACTS[currentFact].emoji}
           </div>
+          
+          {/* Sign name with glow effect */}
           <div 
             style={{ 
               fontWeight: 'bold', 
               color: '#fff', 
-              marginBottom: 4,
-              cursor: 'pointer',
-              transition: 'transform 0.2s ease'
+              marginBottom: 6,
+              fontSize: 12,
+              textShadow: '0 0 8px rgba(255,255,255,0.5)',
+              animation: 'fade-in 0.5s ease-out',
             }}
-            onClick={() => {
-              const fact = SIGN_LANGUAGE_FACTS[currentFact]
-              if (fact.page) {
-                navigate(fact.page)
-              }
-            }}
-            onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
-            onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
           >
             {SIGN_LANGUAGE_FACTS[currentFact].sign}
           </div>
+          
+          {/* Description */}
           <div 
             style={{ 
               fontSize: 9, 
-              marginBottom: 2,
-              cursor: 'pointer',
-              transition: 'transform 0.2s ease'
+              marginBottom: 4,
+              opacity: 0.9,
+              lineHeight: 1.4,
             }}
-            onClick={() => {
-              const fact = SIGN_LANGUAGE_FACTS[currentFact]
-              if (fact.page) {
-                navigate(fact.page)
-              }
-            }}
-            onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
-            onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
           >
             {SIGN_LANGUAGE_FACTS[currentFact].description}
           </div>
+          
+          {/* Meaning with italic styling */}
           <div 
             style={{ 
               fontSize: 8, 
               fontStyle: 'italic', 
               opacity: 0.7,
-              cursor: 'pointer',
-              transition: 'transform 0.2s ease'
+              marginBottom: 8,
             }}
-            onClick={() => {
-              const fact = SIGN_LANGUAGE_FACTS[currentFact]
-              if (fact.page) {
-                navigate(fact.page)
-              }
-            }}
-            onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
-            onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
           >
-            {SIGN_LANGUAGE_FACTS[currentFact].meaning}
+            "{SIGN_LANGUAGE_FACTS[currentFact].meaning}"
           </div>
+          
+          {/* Progress dots */}
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'center', 
+            gap: 6,
+            marginBottom: 10,
+          }}>
+            {SIGN_LANGUAGE_FACTS.map((_, i) => (
+              <div
+                key={i}
+                style={{
+                  width: 4,
+                  height: 4,
+                  borderRadius: '50%',
+                  background: i === currentFact ? '#fff' : 'rgba(255,255,255,0.3)',
+                  transition: 'all 0.3s ease',
+                }}
+              />
+            ))}
+          </div>
+          
+          {/* Interactive hint */}
           <div style={{
             fontSize: 7,
-            marginTop: 8,
             opacity: 0.6,
             textAlign: 'center',
-            fontStyle: 'italic'
+            fontStyle: 'italic',
+            animation: 'fade-in 0.8s ease-out',
           }}>
-            Click to explore {SIGN_LANGUAGE_FACTS[currentFact].sign.toLowerCase()}
+            Click to explore • {currentFact + 1}/{SIGN_LANGUAGE_FACTS.length}
           </div>
         </div>
       </div>
