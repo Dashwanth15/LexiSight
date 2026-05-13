@@ -10,7 +10,7 @@ import { DEMO_SEQUENCE } from '../utils/gestureMap.js'
 import HandOverlay from '../components/HandOverlay.jsx'
 import ConfidenceWaveform from '../components/ConfidenceWaveform.jsx'
 import ConfidenceTopK from '../components/ConfidenceTopK.jsx'
-import HandAvatar from '../components/HandAvatar.jsx'
+// REMOVED: HandAvatar — replaced Speech→Sign with Speech→Word
 import VoiceSelector from '../components/VoiceSelector.jsx'
 import PhotoTranslator from '../components/PhotoTranslator.jsx'
 import VideoTranslator from '../components/VideoTranslator.jsx'
@@ -264,9 +264,7 @@ export default function Translator() {
   const [sentence, setSentence] = useState('')
   const lastAddedRef = useRef(null)
 
-  const [animSpeed, setAnimSpeed] = useState(1)
-  const [avatarGesture, setAvatarGesture] = useState(null)
-  const wordTimerRef = useRef(null)
+  // REMOVED: animSpeed, avatarGesture, wordTimerRef — no longer needed for Speech→Word
 
   const noHandRef = useRef(0)
   const [showHandPrompt, setShowHandPrompt] = useState(false)
@@ -371,13 +369,7 @@ export default function Translator() {
     return () => clearInterval(demoIntervalRef.current)
   }, [demoMode, autoSpeak])
 
-  // ── Word queue → avatar ──────────────────────────────────────
-  useEffect(() => {
-    if (!recognition.wordQueue?.length) return
-    setAvatarGesture(recognition.wordQueue[0])
-    wordTimerRef.current = setTimeout(() => recognition.nextWord(), 1200 / animSpeed)
-    return () => clearTimeout(wordTimerRef.current)
-  }, [recognition.wordQueue, animSpeed])
+  // REMOVED: Word queue → avatar effect — replaced with Speech→Word display
 
   const handleStartCamera = useCallback(async () => {
     if (mediapipe.cameraPermission === 'denied') {
@@ -401,6 +393,27 @@ export default function Translator() {
     lastAddedRef.current = null
     setCurrentPrediction(null)
   }, [])
+
+  // NEW: Copy transcript to clipboard (must be before early return)
+  const handleCopyTranscript = useCallback(() => {
+    const text = recognition.transcript?.trim()
+    if (!text) {
+      toast.info('Nothing to copy yet')
+      return
+    }
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text)
+      toast.success('Transcript copied!')
+    } else {
+      const ta = document.createElement('textarea')
+      ta.value = text
+      document.body.appendChild(ta)
+      ta.select()
+      document.execCommand('copy')
+      document.body.removeChild(ta)
+      toast.success('Transcript copied!')
+    }
+  }, [recognition.transcript])
 
   const camProps = {
     videoRef: mediapipe.videoRef,
@@ -696,55 +709,73 @@ export default function Translator() {
     </div>
   )
 
+  // NEW: Enhanced transcript for Speech→Word — larger, more accessible
   const TranscriptBlock = (
     <div>
       <div className="hud-label mb-1.5">Live Transcript</div>
-      <div className="glass-card p-3 min-h-16 rounded-xl" style={{ fontFamily: 'DM Sans, sans-serif' }}>
+      <div
+        className="glass-card rounded-xl"
+        style={{
+          fontFamily: 'DM Sans, sans-serif',
+          padding: '16px 18px',
+          minHeight: 80,
+          maxHeight: 200,
+          overflowY: 'auto',
+          lineHeight: 1.6,
+        }}
+      >
         {!recognition.transcript && !recognition.interimTranscript
-          ? <span className="text-sm" style={{ color: '#1a2535' }}>Start speaking — text appears here</span>
+          ? <span style={{ color: '#2a3545', fontSize: '1rem' }}>Start speaking — text appears here</span>
           : (
             <>
-              <span className="text-sm" style={{ color: '#e8f4fd' }}>{recognition.transcript}</span>
-              <span className="text-sm" style={{ color: '#6b8ba4' }}>{recognition.interimTranscript}</span>
+              <span style={{ color: '#e8f4fd', fontSize: '1.05rem', fontWeight: 500 }}>{recognition.transcript}</span>
+              <span style={{ color: '#8b5cf6', fontSize: '1.05rem', fontStyle: 'italic', opacity: 0.8 }}>{recognition.interimTranscript}</span>
             </>
           )}
       </div>
     </div>
   )
 
-  const AvatarBlock = (size = 'h-40') => (
+  // NEW: Latest spoken word display — large, animated, accessibility-focused
+  const LatestWordBlock = (
     <div
       className="flex flex-col items-center justify-center rounded-xl"
       style={{
-        background: 'rgba(8,13,20,0.5)',
-        border: avatarGesture ? '1px solid rgba(139,92,246,0.3)' : '1px solid #1a2535',
-        minHeight: 180,
-        flex: 1,
-        transition: 'border-color 0.3s',
+        background: recognition.lastFinalChunk
+          ? 'linear-gradient(135deg, rgba(139,92,246,0.08), rgba(0,212,255,0.05))'
+          : 'rgba(8,13,20,0.5)',
+        border: recognition.lastFinalChunk ? '1px solid rgba(139,92,246,0.3)' : '1px solid #1a2535',
+        minHeight: 140,
+        padding: '28px 20px',
+        transition: 'all 0.4s ease',
       }}
     >
-      <HandAvatar gesture={avatarGesture} isActive={!!avatarGesture} animSpeed={animSpeed} className={size} />
+      {recognition.lastFinalChunk ? (
+        <div
+          key={recognition.wordCount}
+          className="font-syne font-bold text-center"
+          style={{
+            fontSize: 'clamp(1.4rem, 4vw, 2.4rem)',
+            color: '#e8f4fd',
+            textShadow: '0 0 24px rgba(139,92,246,0.25)',
+            lineHeight: 1.35,
+            maxWidth: '100%',
+            wordBreak: 'break-word',
+            animation: 'fadeSlideUp 0.35s ease-out',
+          }}
+        >
+          {recognition.lastFinalChunk}
+        </div>
+      ) : (
+        <div className="text-center" style={{ color: '#2a3545' }}>
+          <div style={{ fontSize: '2.2rem', marginBottom: 8 }}>💬</div>
+          <div className="text-sm font-dm" style={{ color: '#3a4555' }}>Spoken words appear here</div>
+        </div>
+      )}
     </div>
   )
 
-  const SpeedBlock = (
-    <div>
-      <div className="flex justify-between mb-1.5">
-        <span className="hud-label">Animation Speed</span>
-        <span style={{ color: '#00d4ff', fontFamily: 'JetBrains Mono, monospace', fontSize: '0.75rem' }}>{animSpeed.toFixed(1)}×</span>
-      </div>
-      <input type="range" min={0.3} max={3} step={0.1} value={animSpeed}
-        onChange={e => setAnimSpeed(parseFloat(e.target.value))} aria-label="Animation speed" />
-    </div>
-  )
 
-  const WordChips = recognition.wordQueue.length > 0 ? (
-    <div className="flex flex-wrap gap-1.5">
-      {recognition.wordQueue.slice(0, 6).map((w, i) => (
-        <span key={`${w}-${i}`} className={`word-chip ${i === 0 ? 'active' : ''}`} style={{ fontSize: '0.75rem' }}>{w}</span>
-      ))}
-    </div>
-  ) : null
 
   const SpeechError = !recognition.isSupported ? (
     <div className="p-3 rounded-lg text-xs" style={{ background: 'rgba(255,51,102,0.08)', border: '1px solid rgba(255,51,102,0.2)', color: '#ff3366' }}>
@@ -864,26 +895,21 @@ export default function Translator() {
             </div>
           </div>
 
-          {/* RIGHT: Speech → Sign */}
+          {/* RIGHT: Speech → Word */}
           <div className="flex flex-col gap-3 p-5 xl:p-6 overflow-y-auto" style={{ flex: 1, background: 'var(--obsidian)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
               <span style={{ display: 'block', width: 3, height: 14, background: '#8b5cf6', borderRadius: 2, boxShadow: '0 0 8px #8b5cf6' }} />
               <span className="font-syne font-bold tracking-widest uppercase" style={{ color: '#8b5cf6', fontSize: '0.75rem', letterSpacing: '0.2em' }}>
-                Speech → Sign
+                Speech → Word
               </span>
             </div>
             {MicBlock}
             {TranscriptBlock}
-            {AvatarBlock('h-40 xl:h-48')}
-            {WordChips}
+            {LatestWordBlock}
             <div className="space-y-3 pt-3" style={{ borderTop: '1px solid #1a2535' }}>
-              {SpeedBlock}
               <div className="flex gap-2">
                 <button className="btn-secondary flex-1" style={{ fontSize: '0.8rem', minHeight: 36 }} onClick={recognition.clear}>Clear</button>
-                <button className="btn-secondary flex-1" style={{ fontSize: '0.8rem', minHeight: 36 }}
-                  onClick={() => recognition.transcript && setAvatarGesture(recognition.transcript.trim().split(' ').pop().toUpperCase())}>
-                  Repeat
-                </button>
+                <button className="btn-primary flex-1" style={{ fontSize: '0.8rem', minHeight: 36 }} onClick={handleCopyTranscript}>📋 Copy</button>
               </div>
               {SpeechError}
             </div>
@@ -968,15 +994,10 @@ export default function Translator() {
               <>
                 {MicBlock}
                 {TranscriptBlock}
-                {WordChips}
-                {AvatarBlock('h-40')}
-                {SpeedBlock}
+                {LatestWordBlock}
                 <div className="flex gap-2">
                   <button className="btn-secondary flex-1 justify-center" style={{ minHeight: 44 }} onClick={recognition.clear}>Clear</button>
-                  <button className="btn-secondary flex-1 justify-center" style={{ minHeight: 44 }}
-                    onClick={() => recognition.transcript && setAvatarGesture(recognition.transcript.trim().split(' ').pop().toUpperCase())}>
-                    Repeat
-                  </button>
+                  <button className="btn-primary flex-1 justify-center" style={{ minHeight: 44 }} onClick={handleCopyTranscript}>📋 Copy</button>
                 </div>
                 {SpeechError}
               </>
@@ -990,7 +1011,7 @@ export default function Translator() {
           >
             {[
               { tab: 'sign', icon: '✋', label: 'Sign → Speech', color: '#00d4ff' },
-              { tab: 'speech', icon: '🎤', label: 'Speech → Sign', color: '#8b5cf6' },
+              { tab: 'speech', icon: '🎤', label: 'Speech → Word', color: '#8b5cf6' },
             ].map(({ tab, icon, label, color }) => (
               <button
                 key={tab}
