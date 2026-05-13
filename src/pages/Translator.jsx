@@ -3,6 +3,8 @@ import { useMediaPipe } from '../hooks/useMediaPipe.js'
 import { useClassifier } from '../hooks/useClassifier.js'
 import { useSpeechSynth } from '../hooks/useSpeechSynth.js'
 import { useSpeechRecog } from '../hooks/useSpeechRecog.js'
+import { usePhotoMode } from '../hooks/usePhotoMode.js'
+import { useVideoMode } from '../hooks/useVideoMode.js'
 import { PredictionSmoother, SentenceBuilder } from '../utils/smoothing.js'
 import { DEMO_SEQUENCE } from '../utils/gestureMap.js'
 import HandOverlay from '../components/HandOverlay.jsx'
@@ -10,6 +12,8 @@ import ConfidenceWaveform from '../components/ConfidenceWaveform.jsx'
 import ConfidenceTopK from '../components/ConfidenceTopK.jsx'
 import HandAvatar from '../components/HandAvatar.jsx'
 import VoiceSelector from '../components/VoiceSelector.jsx'
+import PhotoTranslator from '../components/PhotoTranslator.jsx'
+import VideoTranslator from '../components/VideoTranslator.jsx'
 import { toast } from '../components/ToastNotif.jsx'
 import { PHRASE_PACKS } from '../data/phrasePacks.js'
 
@@ -39,8 +43,12 @@ function CameraPanel({
     <div
       className="relative rounded-xl overflow-hidden w-full"
       style={{
-        height: height || 300,
-        minHeight: compact ? 220 : 280,
+        // Aspect-ratio based sizing: fills width, height scales to perfect 16:9.
+        // Previously used a hardcoded height which caused 4:3 streams to be
+        // object-cover cropped and zoomed-in. With 1280x720 + 16:9 this matches exactly.
+        aspectRatio: '16 / 9',
+        maxHeight: height ? height * 1.5 : 480,
+        minHeight: compact ? 180 : 220,
         background: '#000',
         border: handDetected
           ? '1.5px solid rgba(0,255,136,0.5)'
@@ -57,13 +65,19 @@ function CameraPanel({
         autoPlay
         playsInline
         muted
-        className="absolute inset-0 w-full h-full object-cover"
+        className="absolute inset-0 w-full h-full"
         style={{
+          objectFit: 'cover',
+          // Mirror so user sees natural selfie view
           transform: 'scaleX(-1)',
           opacity: isReady ? 1 : 0,
           transition: 'opacity 0.5s ease',
           zIndex: 1,
-          display: 'block',  /* never display:none — must stay in layout */
+          display: 'block',
+          // Prevent browser from applying bilinear softening on the video texture
+          imageRendering: 'auto',
+          backfaceVisibility: 'hidden',
+          WebkitBackfaceVisibility: 'hidden',
         }}
       />
 
@@ -239,6 +253,7 @@ export default function Translator() {
   const isDesktop = useIsDesktop()
 
   const [activeTab, setActiveTab] = useState('sign')
+  const [inputMode, setInputMode] = useState('live') // 'live', 'photo', 'video'
   const [demoMode, setDemoMode] = useState(false)
   const demoIntervalRef = useRef(null)
   const [showCameraMenu, setShowCameraMenu] = useState(false)
@@ -260,6 +275,8 @@ export default function Translator() {
   const classifier = useClassifier()
   const synth = useSpeechSynth()
   const recognition = useSpeechRecog()
+  const photoMode = usePhotoMode()
+  const videoMode = useVideoMode()
 
   const isLoading = classifier.status === 'loading'
 
@@ -303,7 +320,38 @@ export default function Translator() {
     }
   }, [mediapipe.landmarks, mediapipe.handDetected])
 
-  // ── Demo mode ────────────────────────────────────────────────
+  // ── Photo/Video mode detection handling ─────────────────────
+  useEffect(() => {
+    // Handle detection from Photo mode
+    if (inputMode === 'photo' && photoMode.currentSign && photoMode.currentSign.label !== lastAddedRef.current) {
+      lastAddedRef.current = photoMode.currentSign.label
+      setCurrentPrediction(photoMode.currentSign)
+      const now = new Date().toLocaleTimeString('en-IN', { hour12: false })
+      setDetectionLog(prev => [{ label: photoMode.currentSign.label, confidence: photoMode.currentSign.confidence, time: now }, ...prev.slice(0, 29)])
+      setSentence(sentenceBuilder.addWord(photoMode.currentSign.label))
+      if (autoSpeak) synth.speak(photoMode.currentSign.label)
+      toast.success(`Detected: ${photoMode.currentSign.label}`, 1200)
+    }
+
+    // Handle detection from Video mode
+    if (inputMode === 'video' && videoMode.currentSign && videoMode.currentSign.label !== lastAddedRef.current) {
+      lastAddedRef.current = videoMode.currentSign.label
+      setCurrentPrediction(videoMode.currentSign)
+      const now = new Date().toLocaleTimeString('en-IN', { hour12: false })
+      setDetectionLog(prev => [{ label: videoMode.currentSign.label, confidence: videoMode.currentSign.confidence, time: now }, ...prev.slice(0, 29)])
+      setSentence(sentenceBuilder.addWord(videoMode.currentSign.label))
+      if (autoSpeak) synth.speak(videoMode.currentSign.label)
+    }
+  }, [photoMode.currentSign, videoMode.currentSign, inputMode, autoSpeak, synth])
+
+  // ── Reset last detected when switching modes ──────────────────
+  useEffect(() => {
+    lastAddedRef.current = null
+    setCurrentPrediction(null)
+    setDetectionLog([])
+    setSentence('')
+    sentenceBuilder.clear()
+  }, [inputMode])
   useEffect(() => {
     if (demoMode) {
       demoIntervalRef.current = setInterval(() => {
@@ -725,8 +773,56 @@ export default function Translator() {
             <div className="scan-line" />
             <div className="panel-title">Sign Detection</div>
 
-            {/* THE ONE camera panel on desktop */}
-            <CameraPanel {...camProps} height={320} />
+            {/* ─── Input Mode Selector ────────────────────────────── */}
+            <div className="flex items-center gap-1.5 p-1.5 rounded-lg" style={{ background: '#1a2535', width: 'fit-content' }}>
+              {[
+                { mode: 'live', icon: '📹', label: 'Live' },
+                { mode: 'photo', icon: '📷', label: 'Photo' },
+                { mode: 'video', icon: '🎬', label: 'Video' },
+              ].map(({ mode, icon, label }) => (
+                <button
+                  key={mode}
+                  onClick={() => setInputMode(mode)}
+                  className="text-xs font-dm transition-all duration-200"
+                  style={{
+                    padding: '5px 12px',
+                    borderRadius: '5px',
+                    background: inputMode === mode ? '#00d4ff' : 'transparent',
+                    color: inputMode === mode ? '#020408' : '#6b8ba4',
+                    fontWeight: inputMode === mode ? 'bold' : 'normal',
+                    cursor: 'pointer',
+                    whiteSpace: 'nowrap',
+                  }}
+                  title={`${label} mode`}
+                >
+                  {icon} {label}
+                </button>
+              ))}
+            </div>
+
+            {/* THE input panel on desktop (Live, Photo, or Video) */}
+            {inputMode === 'live' && <CameraPanel {...camProps} height={320} />}
+            {inputMode === 'photo' && <PhotoTranslator 
+              photoUrl={photoMode.photoUrl}
+              isLoaded={photoMode.isLoaded}
+              isProcessing={photoMode.isProcessing}
+              currentSign={photoMode.currentSign}
+              onUpload={photoMode.handlePhotoUpload}
+              onReset={photoMode.resetPhoto}
+            />}
+            {inputMode === 'video' && <VideoTranslator 
+              videoUrl={videoMode.videoUrl}
+              isLoaded={videoMode.isLoaded}
+              isPlaying={videoMode.isPlaying}
+              isProcessing={videoMode.isProcessing}
+              progress={videoMode.progress}
+              currentSign={videoMode.currentSign}
+              onPlay={videoMode.handlePlay}
+              onPause={videoMode.handlePause}
+              videoRef={videoMode.videoRef}
+              onUpload={videoMode.handleVideoUpload}
+              onReset={videoMode.resetVideo}
+            />}
 
             {PredictionBlock}
             <ConfidenceWaveform confidence={currentPrediction?.confidence || 0} isActive={!!currentPrediction} />
@@ -802,8 +898,56 @@ export default function Translator() {
 
             {activeTab === 'sign' ? (
               <>
-                {/* THE ONE camera panel on mobile */}
-                <CameraPanel {...camProps} height={240} compact />
+                {/* ─── Input Mode Selector (Mobile) ────────────────────── */}
+                <div className="flex items-center gap-1 p-1 rounded-lg" style={{ background: '#1a2535', width: 'fit-content' }}>
+                  {[
+                    { mode: 'live', icon: '📹', label: 'Live' },
+                    { mode: 'photo', icon: '📷', label: 'Photo' },
+                    { mode: 'video', icon: '🎬', label: 'Video' },
+                  ].map(({ mode, icon, label }) => (
+                    <button
+                      key={mode}
+                      onClick={() => setInputMode(mode)}
+                      className="text-xs font-dm transition-all duration-200"
+                      style={{
+                        padding: '4px 10px',
+                        borderRadius: '4px',
+                        background: inputMode === mode ? '#00d4ff' : 'transparent',
+                        color: inputMode === mode ? '#020408' : '#6b8ba4',
+                        fontWeight: inputMode === mode ? 'bold' : 'normal',
+                        cursor: 'pointer',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
+                      {icon} {label}
+                    </button>
+                  ))}
+                </div>
+
+                {/* THE input panel on mobile (Live, Photo, or Video) */}
+                {inputMode === 'live' && <CameraPanel {...camProps} height={240} compact />}
+                {inputMode === 'photo' && <PhotoTranslator 
+                  photoUrl={photoMode.photoUrl}
+                  isLoaded={photoMode.isLoaded}
+                  isProcessing={photoMode.isProcessing}
+                  currentSign={photoMode.currentSign}
+                  onUpload={photoMode.handlePhotoUpload}
+                  onReset={photoMode.resetPhoto}
+                />}
+                {inputMode === 'video' && <VideoTranslator 
+                  videoUrl={videoMode.videoUrl}
+                  isLoaded={videoMode.isLoaded}
+                  isPlaying={videoMode.isPlaying}
+                  isProcessing={videoMode.isProcessing}
+                  progress={videoMode.progress}
+                  currentSign={videoMode.currentSign}
+                  onPlay={videoMode.handlePlay}
+                  onPause={videoMode.handlePause}
+                  videoRef={videoMode.videoRef}
+                  onUpload={videoMode.handleVideoUpload}
+                  onReset={videoMode.resetVideo}
+                />}
+                
                 {PredictionBlock}
                 <ConfidenceWaveform confidence={currentPrediction?.confidence || 0} isActive={!!currentPrediction} compact />
                 {SentenceBlock}

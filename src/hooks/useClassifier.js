@@ -3,6 +3,7 @@ import * as tf from '@tensorflow/tfjs'
 import { GESTURE_CLASSES, DEMO_SEQUENCE } from '../utils/gestureMap.js'
 import { classifyGesture, classifyTwoHandGesture, classifyISLDigit } from '../utils/geoClassifier.js'
 import { disambiguate } from '../utils/fingerDisambiguator.js'
+import { MotionAnalyzer } from '../utils/motionAnalyzer.js'
 
 const TEMPORAL_MODEL_PATH = '/model/tfjs_model/model.json'
 const TEMPORAL_LABEL_MAP = '/model/label_map.json'
@@ -317,7 +318,7 @@ export function useClassifier() {
   const temporalFrameCountRef = useRef(0)
   const lastTemporalResultRef = useRef(null)
   const smootherRef = useRef(new TemporalSmoother())
-  const motionRef = useRef(new MotionDetector())
+  const motionRef = useRef(new MotionAnalyzer())
   const oosRef = useRef(null)
   const metricsRef = useRef(new SystemMetricsCollector())
   const embeddingCacheRef = useRef(null)
@@ -546,7 +547,21 @@ export function useClassifier() {
     frame.set(landmarks, 0)
     if (landmarks2?.length === 63) frame.set(landmarks2, 63)
 
-    const isMotion = motionRef.current.update(frame)
+    // Motion Analyzer Interception
+    const motionResult = motionRef.current.push(rawLandmarks).analyze()
+    if (motionResult) {
+      const smoother = smootherRef.current
+      if (motionResult.label !== smoother.lastConfirmed?.label) {
+        smoother.lockFrames = LOCK_FRAMES
+        smoother.state = SignState.CONFIRMING
+        smoother.unconfirmed = []
+        smoother._sentence = smoother._sentence || []
+        smoother._sentence.push(motionResult.label)
+      }
+      return motionResult
+    }
+
+    // We no longer use MotionDetector (isMotion boolean), fallback to standard buffer
     bufferRef.current.push(Array.from(frame))
     if (bufferRef.current.length > BUFFER_SIZE) bufferRef.current.shift()
 
@@ -555,10 +570,8 @@ export function useClassifier() {
     const smoother = smootherRef.current
 
     if (smoother.state === SignState.IDLE) {
-      if (isMotion) {
-        smoother.state = SignState.TRANSITION
-        smoother.unconfirmed = []
-      }
+      smoother.state = SignState.TRANSITION
+      smoother.unconfirmed = []
       return null
     }
 
@@ -583,10 +596,8 @@ export function useClassifier() {
     }
 
     if (smoother.state === SignState.WORD) {
-      if (!isMotion) {
-        smoother.reset()
-        smoother.state = SignState.IDLE
-      }
+      smoother.reset()
+      smoother.state = SignState.IDLE
       return null
     }
 

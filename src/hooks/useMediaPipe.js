@@ -138,9 +138,16 @@ export function useMediaPipe() {
       // Use ONLY deviceId if we have it (avoids strict facingMode on laptops)
       const resolvedId = cameraId || await enumerateCameras()
 
+      // Request HD (1280×720) — falls back to 640×480 minimum if camera can't do HD.
+      // This eliminates blurry upscaling and the 4:3 zoom caused by aspect-ratio mismatch.
+      const hdConstraints = {
+        width:  { ideal: 1280, min: 640 },
+        height: { ideal: 720,  min: 480 },
+        frameRate: { ideal: 30, min: 15 },
+      }
       const videoConstraints = resolvedId
-        ? { deviceId: { exact: resolvedId }, width: { ideal: 640 }, height: { ideal: 480 } }
-        : { width: { ideal: 640 }, height: { ideal: 480 }, facingMode: { ideal: 'user' } }
+        ? { deviceId: { exact: resolvedId }, ...hdConstraints }
+        : { ...hdConstraints, facingMode: { ideal: 'user' } }
 
       setCameraPermission('prompt')
       const stream = await navigator.mediaDevices.getUserMedia({ video: videoConstraints })

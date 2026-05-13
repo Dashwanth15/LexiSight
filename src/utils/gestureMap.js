@@ -11,7 +11,7 @@ export const GESTURE_CLASSES = [
   // Common words (single-hand)
   'HELLO', 'YES', 'NO', 'HELP', 'STOP', 'GO', 'GOOD', 'BAD',
   'THANK YOU', 'PLEASE', 'SORRY', 'WATER', 'FOOD', 'PAIN',
-  'COME', 'EAT', 'DRINK', 'SLEEP', 'SIT', 'STAND', 'ILY',
+  'COME', 'EAT', 'DRINK', 'SLEEP', 'SIT', 'STAND', 'ILY', 'WHAT',
   // Medical pack
   'DOCTOR', 'MEDICINE', 'HURT',
   // Workplace pack
@@ -100,6 +100,8 @@ export const wordToGesture = {
   'more': 'MORE', 'additional': 'MORE',
   'school': 'SCHOOL', 'class': 'SCHOOL', 'college': 'SCHOOL',
   'love': 'LOVE', 'like': 'LOVE',
+  // Questions
+  'what': 'WHAT',
 }
 
 // Demo mode gesture cycle sequence

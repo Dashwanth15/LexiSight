@@ -82,6 +82,46 @@ export function handBoundingBox(landmarks) {
 }
 
 /**
+ * Draw hand skeleton landmarks and connections onto a 2D canvas context.
+ * Called by usePhotoMode and useVideoMode after MediaPipe returns results.
+ * @param {CanvasRenderingContext2D} ctx
+ * @param {Array} multiHandLandmarks  - array of per-hand landmark arrays (from MediaPipe)
+ * @param {Array} multiHandedness     - array of handedness objects (from MediaPipe)
+ */
+export function drawLandmarks(ctx, multiHandLandmarks, multiHandedness) {
+  if (!multiHandLandmarks || !ctx) return
+  const { width, height } = ctx.canvas
+
+  multiHandLandmarks.forEach((landmarks, handIdx) => {
+    const isRight = multiHandedness?.[handIdx]?.label === 'Right'
+    const connectionColor = isRight ? 'rgba(0,255,136,0.55)' : 'rgba(0,212,255,0.55)'
+    const tipColor       = isRight ? '#00ff88'               : '#00d4ff'
+
+    // ── Connections ────────────────────────────────────────────
+    ctx.strokeStyle = connectionColor
+    ctx.lineWidth   = 2
+    HAND_CONNECTIONS.forEach(([start, end]) => {
+      const s = landmarks[start]
+      const e = landmarks[end]
+      if (!s || !e) return
+      ctx.beginPath()
+      ctx.moveTo(s.x * width, s.y * height)
+      ctx.lineTo(e.x * width, e.y * height)
+      ctx.stroke()
+    })
+
+    // ── Landmark dots ──────────────────────────────────────────
+    landmarks.forEach((lm, i) => {
+      const isTip = LANDMARK_TYPES.FINGERTIPS.includes(i)
+      ctx.beginPath()
+      ctx.arc(lm.x * width, lm.y * height, isTip ? 5 : 3, 0, Math.PI * 2)
+      ctx.fillStyle = isTip ? tipColor : 'rgba(255,255,255,0.75)'
+      ctx.fill()
+    })
+  })
+}
+
+/**
  * Score hand quality: centered (0-1), size (0-1)
  */
 export function scoreHandQuality(landmarks) {

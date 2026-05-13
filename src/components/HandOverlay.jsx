@@ -148,7 +148,15 @@ export default function HandOverlay({ rawLandmarks, rawLandmarks2, handDetected,
     <canvas
       ref={canvasRef}
       className="absolute inset-0 w-full h-full pointer-events-none"
-      style={{ zIndex: 10, transform: 'scaleX(-1)' }}
+      style={{
+        zIndex: 10,
+        // Mirror to match the video which is also scaleX(-1)
+        transform: 'scaleX(-1)',
+        // Keep landmark dots crisp when canvas is scaled by CSS
+        imageRendering: 'crisp-edges',
+        // GPU-accelerated layer prevents subpixel blur from 2D compositing
+        willChange: 'transform',
+      }}
     />
   )
 }
