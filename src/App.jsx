@@ -5,6 +5,7 @@ import ToastNotif from './components/ToastNotif.jsx'
 import OnboardingModal from './components/OnboardingModal.jsx'
 import PWAInstallBanner from './components/PWAInstallBanner.jsx'
 import Landing from './pages/Landing.jsx'
+import { ClassifierProvider } from './contexts/ClassifierContext.jsx'
 
 // Lazy load heavy pages
 const Translator = lazy(() => import('./pages/Translator.jsx'))
@@ -36,7 +37,6 @@ function LoadingScreen() {
 
 export default function App() {
   useEffect(() => {
-    // Increment global session counter for the Impact dashboard
     if (!sessionStorage.getItem('lxi_session_counted')) {
       const cur = parseInt(localStorage.getItem('lxi_stat_sessions') || '28', 10)
       localStorage.setItem('lxi_stat_sessions', cur + 1)
@@ -44,25 +44,29 @@ export default function App() {
     }
   }, [])
 
+  // FIX — ClassifierProvider inside BrowserRouter but OUTSIDE Suspense
+  // so lazy-loaded pages can access the context immediately.
   return (
     <BrowserRouter>
-      <Navbar />
-      <OnboardingModal />
-      <PWAInstallBanner />
-      <Suspense fallback={<LoadingScreen />}>
-        <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/translate" element={<Translator />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/train" element={<Train />} />
-          <Route path="/learn" element={<Learn />} />
-          <Route path="/impact" element={<Impact />} />
-          <Route path="/dictionary" element={<Dictionary />} />
-          <Route path="/community" element={<Community />} />
-          <Route path="*" element={<Landing />} />
-        </Routes>
-      </Suspense>
-      <ToastNotif />
+      <ClassifierProvider>
+        <Navbar />
+        <OnboardingModal />
+        <PWAInstallBanner />
+        <Suspense fallback={<LoadingScreen />}>
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/translate" element={<Translator />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/train" element={<Train />} />
+            <Route path="/learn" element={<Learn />} />
+            <Route path="/impact" element={<Impact />} />
+            <Route path="/dictionary" element={<Dictionary />} />
+            <Route path="/community" element={<Community />} />
+            <Route path="*" element={<Landing />} />
+          </Routes>
+        </Suspense>
+        <ToastNotif />
+      </ClassifierProvider>
     </BrowserRouter>
   )
 }

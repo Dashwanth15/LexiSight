@@ -56,9 +56,9 @@ function isVShape(lm) {
   return tipDist(lm, 8, 12) > 0.04
 }
 
-/** All 4 fingertips spread wide (open hand) */
+/** All 4 fingertips spread wide (open hand) — HELLO needs a VERY wide spread */
 function isSpread(lm) {
-  return tipDist(lm, 8, 20) > 0.22
+  return tipDist(lm, 8, 20) > 0.28  // FIX: raised from 0.22 to 0.28 to reduce HELLO false positives
 }
 
 /** Index tip nearly touches thumb tip (O round shape) */
@@ -204,14 +204,16 @@ export function classifyGesture(lm) {
 
   // ══ Gesture Rules (priority order) ═══════════════════════════
 
+  // ── FIX: 4 fingers up, thumb across — check BEFORE open-hand/HELLO ──
+  // A 4-finger pose is often misclassified as HELLO because spread is wide.
+  // Check 4-finger FIRST so it takes priority.
+  if (!T && I && M && R && P) return make('4', 0.88, ['B', 'FOUR', 'NO'])
+
   // ── Open hand (all 5) ───────────────────────────────────────
   if (T && I && M && R && P) {
     if (spread) return make('HELLO',  0.93, ['5', 'OPEN', 'STOP'])
     return           make('STOP',    0.85, ['HELLO', '5', 'OPEN'])
   }
-
-  // ── 4 fingers up, thumb across ────────────────────────────
-  if (!T && I && M && R && P) return make('4', 0.82, ['B', 'FOUR', 'NO'])
 
   // ── Thumb + pinky → I Love You / Y ───────────────────────
   if (T && !I && !M && !R && P)  return make('ILY',  0.90, ['Y', 'ROCK', 'LOVE'])
@@ -231,10 +233,11 @@ export function classifyGesture(lm) {
     return           make('2',     0.80, ['V', 'PEACE', 'TWO'])
   }
 
-  // ── Index + middle touching thumb → NO ───────────────────
-  // If ring/pinky are curled, and thumb/index/middle are grouped together
+  // ── Index + middle touching thumb → pinch / OK gesture ─────
+  // Previously labeled as NO, but ISL NO is a dynamic wag (handled by MotionAnalyzer).
+  // This static pinch shape is closer to O or a tap gesture.
   if (!R && !P && dist2D(lm[8], lm[4]) < 0.12 && dist2D(lm[12], lm[4]) < 0.12) {
-      return make('NO', 0.85, ['O', 'TAP'])
+      return make('O', 0.78, ['OK', 'TAP', 'PINCH'])
   }
 
   // ── Index only → 1 / D ───────────────────────────────────

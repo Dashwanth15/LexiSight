@@ -1,6 +1,6 @@
 import { useState, useEffect, useLayoutEffect, useRef, useCallback } from 'react'
 import { useMediaPipe } from '../hooks/useMediaPipe.js'
-import { useClassifier } from '../hooks/useClassifier.js'
+import { useSharedClassifier } from '../contexts/ClassifierContext.jsx' // FIX — shared instance
 import { useSpeechSynth } from '../hooks/useSpeechSynth.js'
 import { useSpeechRecog } from '../hooks/useSpeechRecog.js'
 import { usePhotoMode } from '../hooks/usePhotoMode.js'
@@ -270,7 +270,7 @@ export default function Translator() {
   const [showHandPrompt, setShowHandPrompt] = useState(false)
 
   const mediapipe = useMediaPipe()
-  const classifier = useClassifier()
+  const classifier = useSharedClassifier() // FIX — shared
   const synth = useSpeechSynth()
   const recognition = useSpeechRecog()
   const photoMode = usePhotoMode()
@@ -838,6 +838,8 @@ export default function Translator() {
               isLoaded={photoMode.isLoaded}
               isProcessing={photoMode.isProcessing}
               currentSign={photoMode.currentSign}
+              predictionInfo={photoMode.predictionInfo}
+              mpInitStatus={photoMode.mpInitStatus}  // NEW
               onUpload={photoMode.handlePhotoUpload}
               onReset={photoMode.resetPhoto}
             />}
@@ -848,8 +850,10 @@ export default function Translator() {
               isProcessing={videoMode.isProcessing}
               progress={videoMode.progress}
               currentSign={videoMode.currentSign}
+              debugInfo={videoMode.debugInfo}
               onPlay={videoMode.handlePlay}
               onPause={videoMode.handlePause}
+              onEnded={videoMode.handleEnded}
               videoRef={videoMode.videoRef}
               onUpload={videoMode.handleVideoUpload}
               onReset={videoMode.resetVideo}
@@ -957,6 +961,8 @@ export default function Translator() {
                   isLoaded={photoMode.isLoaded}
                   isProcessing={photoMode.isProcessing}
                   currentSign={photoMode.currentSign}
+                  predictionInfo={photoMode.predictionInfo}
+                  mpInitStatus={photoMode.mpInitStatus}  // NEW
                   onUpload={photoMode.handlePhotoUpload}
                   onReset={photoMode.resetPhoto}
                 />}

@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { LESSON_PLAN, getTotalSigns, getTotalXP } from '../data/lessonPlan.js'
 import { useMediaPipe } from '../hooks/useMediaPipe.js'
-import { useClassifier } from '../hooks/useClassifier.js'
+import { useSharedClassifier } from '../contexts/ClassifierContext.jsx' // FIX — shared
 import HandOverlay from '../components/HandOverlay.jsx'
 import HandAvatar from '../components/HandAvatar.jsx'
 
@@ -206,7 +206,7 @@ export default function Learn() {
   const [lessonDone, setLessonDone] = useState(false)
 
   const mediapipe = useMediaPipe()
-  const classifier = useClassifier()
+  const classifier = useSharedClassifier() // FIX — shared
 
   const totalXP = Object.values(progress).filter(v => v > 0).length * 10
 
