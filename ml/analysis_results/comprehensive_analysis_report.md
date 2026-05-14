@@ -1,0 +1,2942 @@
+# Comprehensive Sign Language ML Analysis Report
+
+**Generated:** May 13, 2026 at 10:11 PM
+
+## Executive Summary
+
+This report provides a comprehensive analysis of the LexiSight sign language ML system using 20 different metrics covering MediaPipe stability, dataset quality, model behavior, temporal analysis, normalization, real-time performance, feature separability, landmark importance, occlusion, lighting robustness, angle robustness, transition stability, idle detection, temporal consistency, embedding visualization, data leakage detection, stress testing, sequence alignment, confidence calibration, and failure categorization.
+
+## Critical Findings Summary
+
+🔴 **SEVERE dataset imbalance:** 906.8x ratio
+🔴 **CRITICAL:** Only 1.0 users per class (overfitting risk)
+🔴 **HIGH prediction flicker rate:** 98.9%
+🔴 **LOW overall accuracy:** 1.3%
+🔴 **UNSTABLE landmark tracking:** jitter = 0.1741
+🔴 **HIGH occlusion rate:** 98.9%
+
+## Mediapipe Stability
+
+- **Detection Rate:** 100.00%
+- **Detected Frames:** 1000
+- **Total Frames:** 1000
+- **Avg Jitter:** 0.17405012
+- **Max Jitter:** 0.3596923
+- **Std Jitter:** 0.053893246
+- **Hand Switching Events:** 0
+- **Handedness Confidence Avg:** 85.00%
+- **Avg Missing Ratio:** 0.00%
+- **Max Missing Ratio:** 0.00%
+
+## Dataset Quality
+
+- **Samples Per Class:**
+  - B: 3627
+  - H: 3603
+  - D: 3600
+  - L: 3600
+  - U: 3600
+  - F: 3600
+  - R: 3597
+  - X: 3597
+  - V: 3579
+  - P: 3564
+  - W: 3546
+  - G: 3537
+  - Q: 3495
+  - C: 3303
+  - K: 3219
+  - I: 3033
+  - Z: 2868
+  - N: 2430
+  - 4: 2172
+  - J: 2100
+  - A: 2046
+  - 5: 798
+  - T: 789
+  - 8: 408
+  - Y: 300
+  - 1: 288
+  - 2: 261
+  - 9: 147
+  - 7: 147
+  - 0: 138
+  - E: 132
+  - S: 90
+  - 6: 60
+  - 3: 39
+  - O: 33
+  - Extra: 27
+  - M: 27
+  - Good Afternoon: 22
+  - Plane: 21
+  - Alright: 21
+  - New: 21
+  - Narrow: 21
+  - Big Large: 21
+  - Bad: 21
+  - Boy: 21
+  - Brown: 21
+  - Cow: 21
+  - Boat: 21
+  - Cool: 21
+  - Brother: 21
+  - Wide: 21
+  - Wet: 21
+  - Warm: 21
+  - We: 21
+  - You (Plural): 21
+  - You: 21
+  - Young: 21
+  - Truck: 21
+  - Small Little: 21
+  - Slow: 21
+  - Good Night: 21
+  - Happy: 21
+  - Grey: 21
+  - Loud: 21
+  - Pleased: 21
+  - Quiet: 21
+  - Long: 21
+  - Sick: 21
+  - Short: 21
+  - She: 21
+  - Hot: 21
+  - How Are You: 21
+  - It: 21
+  - Old: 21
+  - Hello: 21
+  - Healthy: 21
+  - He: 21
+  - Good: 21
+  - Train Ticket: 21
+  - Good Evening: 21
+  - Good Morning: 21
+  - Thank You: 21
+  - They: 21
+  - Fast: 21
+  - Tall: 21
+  - Dry: 21
+  - Transportation: 21
+  - Train: 21
+  - Adult: 20
+  - Animal: 20
+  - Bus: 20
+  - Car: 20
+  - Cat: 20
+  - Store Or Shop: 20
+  - Ground: 20
+  - Son: 20
+  - Street Or Road: 20
+  - Green: 20
+  - Fish: 20
+  - Friend: 20
+  - Train Station: 20
+  - Girl: 20
+  - Father: 20
+  - Hat: 20
+  - Temple: 20
+  - T-Shirt: 20
+  - Child: 20
+  - City: 20
+  - Clothing: 20
+  - Cold: 20
+  - Court: 20
+  - Colour: 20
+  - Daughter: 20
+  - Crowd: 20
+  - Blue: 20
+  - Yellow: 20
+  - Dress: 20
+  - Dog: 20
+  - Woman: 20
+  - Wife: 20
+  - White: 20
+  - University: 20
+  - Park: 20
+  - Pink: 20
+  - Player: 20
+  - President: 20
+  - Queen: 20
+  - Library: 20
+  - Restaurant: 20
+  - Red: 20
+  - Market: 20
+  - Man: 20
+  - Location: 20
+  - India: 20
+  - Hospital: 20
+  - Shoes: 20
+  - Shirt: 20
+  - School: 20
+  - Sister: 20
+  - King: 20
+  - Husband: 20
+  - House: 20
+  - Orange: 20
+  - Pant: 20
+  - Neighbour: 20
+  - Parent: 20
+  - Mother: 20
+  - Mouse: 20
+  - Office: 20
+  - Black: 20
+  - Bird: 20
+  - Bicycle: 20
+  - Bank: 20
+  - Baby: 20
+  - Suit: 19
+  - Skirt: 19
+  - Pocket: 19
+  - Horse: 18
+  - Grandmother: 17
+  - Family: 17
+  - Grandfather: 17
+  - Attack: 15
+  - Paint: 15
+  - Ball: 15
+  - Year: 15
+  - Priest: 15
+  - Night: 15
+  - Fan: 15
+  - Author: 14
+  - Bag: 14
+  - Actor: 14
+  - Chair: 14
+  - Monday: 14
+  - Month: 14
+  - Minute: 14
+  - Medicine: 14
+  - Artist: 14
+  - Money: 14
+  - Bill: 14
+  - Bedroom: 14
+  - Bed: 14
+  - Bathroom: 14
+  - Paper: 14
+  - Photograph: 14
+  - Pencil: 14
+  - Peace: 14
+  - Manager: 14
+  - Marriage: 14
+  - Radio: 14
+  - Religion: 14
+  - Reporter: 14
+  - Lawyer: 14
+  - Lock: 14
+  - Letter: 14
+  - Saturday: 14
+  - Science: 14
+  - Ring: 14
+  - Pen: 14
+  - Price: 14
+  - Page: 14
+  - Patient: 14
+  - Newspaper: 14
+  - Summer: 14
+  - Gun: 14
+  - Sport: 14
+  - Student: 14
+  - Soap: 14
+  - Lamp: 14
+  - Soldier: 14
+  - Screen: 14
+  - Kitchen: 14
+  - Job: 14
+  - Key: 14
+  - Spring: 14
+  - Secretary: 14
+  - Season: 14
+  - Sign: 14
+  - Window: 14
+  - Technology: 14
+  - Gift: 14
+  - Tool: 14
+  - Time: 14
+  - Wednesday: 14
+  - Week: 14
+  - Waiter: 14
+  - War: 14
+  - Teacher: 14
+  - Team: 14
+  - Telephone: 14
+  - Television: 14
+  - Table: 14
+  - Police: 14
+  - Race (Ethnicity): 14
+  - Morning: 14
+  - Evening: 14
+  - Box: 14
+  - Card: 14
+  - Camera: 14
+  - Computer: 14
+  - Energy: 14
+  - Exercise: 14
+  - Ex. Monsoon: 14
+  - Dream: 14
+  - Election: 14
+  - Doctor: 14
+  - Door: 14
+  - Death: 14
+  - Yesterday: 14
+  - Winter: 14
+  - God: 14
+  - Book: 14
+  - Afternoon: 14
+  - Sunday: 13
+  - Clock: 13
+  - Laptop: 13
+  - Cell Phone: 13
+  - Tomorrow: 13
+  - Friday: 12
+  - Today: 12
+  - Hour: 12
+  - Fall: 12
+  - Thursday: 12
+  - Second: 12
+  - Tuesday: 11
+  - Mean: 8
+  - Beautiful: 8
+  - Clean: 8
+  - Heavy: 8
+  - Soft: 8
+  - Hard: 8
+  - High: 8
+  - Sad: 8
+  - Shallow: 8
+  - Strong: 8
+  - Male: 8
+  - Poor: 8
+  - Loose: 8
+  - Rich: 8
+  - Low: 8
+  - Light: 8
+  - Female: 8
+  - Thick: 8
+  - Deaf: 8
+  - Weak: 8
+  - Flat: 8
+  - Ugly: 8
+  - Famous: 8
+  - Tight: 8
+  - Dirty: 8
+  - Deep: 8
+  - Alive: 8
+  - Expensive: 8
+  - Curved: 8
+  - Dead: 8
+  - Cheap: 8
+  - Blind: 8
+  - Nice: 4
+  - Thin: 4
+
+- **Total Classes:** 298
+- **Avg Samples Per Class:** 253.7282
+- **Min Samples Per Class:** 4
+- **Max Samples Per Class:** 3627
+- **Imbalance Ratio:** 906.7500
+- **User Diversity:**
+  - Actor: 1
+  - Adult: 1
+  - Afternoon: 1
+  - Alive: 1
+  - Alright: 1
+  - Animal: 1
+  - Artist: 1
+  - Attack: 1
+  - Author: 1
+  - Baby: 1
+  - Bad: 1
+  - Bag: 1
+  - Ball: 1
+  - Bank: 1
+  - Bathroom: 1
+  - Beautiful: 1
+  - Bed: 1
+  - Bedroom: 1
+  - Bicycle: 1
+  - Big Large: 1
+  - Bill: 1
+  - Bird: 1
+  - Black: 1
+  - Blind: 1
+  - Blue: 1
+  - Boat: 1
+  - Book: 1
+  - Box: 1
+  - Boy: 1
+  - Brother: 1
+  - Brown: 1
+  - Bus: 1
+  - Camera: 1
+  - Car: 1
+  - Card: 1
+  - Cat: 1
+  - Cell Phone: 1
+  - Chair: 1
+  - Cheap: 1
+  - Child: 1
+  - City: 1
+  - Clean: 1
+  - Clock: 1
+  - Clothing: 1
+  - Cold: 1
+  - Colour: 1
+  - Computer: 1
+  - Cool: 1
+  - Court: 1
+  - Cow: 1
+  - Crowd: 1
+  - Curved: 1
+  - Daughter: 1
+  - Dead: 1
+  - Deaf: 1
+  - Death: 1
+  - Deep: 1
+  - Dirty: 1
+  - Doctor: 1
+  - Dog: 1
+  - Door: 1
+  - Dream: 1
+  - Dress: 1
+  - Dry: 1
+  - Election: 1
+  - Energy: 1
+  - Evening: 1
+  - Ex. Monsoon: 1
+  - Exercise: 1
+  - Expensive: 1
+  - Extra: 1
+  - Fall: 1
+  - Family: 1
+  - Famous: 1
+  - Fan: 1
+  - Fast: 1
+  - Father: 1
+  - Female: 1
+  - Fish: 1
+  - Flat: 1
+  - Friday: 1
+  - Friend: 1
+  - Gift: 1
+  - Girl: 1
+  - God: 1
+  - Good: 1
+  - Good Afternoon: 1
+  - Good Evening: 1
+  - Good Morning: 1
+  - Good Night: 1
+  - Grandfather: 1
+  - Grandmother: 1
+  - Green: 1
+  - Grey: 1
+  - Ground: 1
+  - Gun: 1
+  - Happy: 1
+  - Hard: 1
+  - Hat: 1
+  - He: 1
+  - Healthy: 1
+  - Heavy: 1
+  - Hello: 1
+  - High: 1
+  - Horse: 1
+  - Hospital: 1
+  - Hot: 1
+  - Hour: 1
+  - House: 1
+  - How Are You: 1
+  - Husband: 1
+  - I: 2
+  - India: 1
+  - It: 1
+  - Job: 1
+  - Key: 1
+  - King: 1
+  - Kitchen: 1
+  - Lamp: 1
+  - Laptop: 1
+  - Lawyer: 1
+  - Letter: 1
+  - Library: 1
+  - Light: 1
+  - Location: 1
+  - Lock: 1
+  - Long: 1
+  - Loose: 1
+  - Loud: 1
+  - Low: 1
+  - Male: 1
+  - Man: 1
+  - Manager: 1
+  - Market: 1
+  - Marriage: 1
+  - Mean: 1
+  - Medicine: 1
+  - Minute: 1
+  - Monday: 1
+  - Money: 1
+  - Month: 1
+  - Morning: 1
+  - Mother: 1
+  - Mouse: 1
+  - Narrow: 1
+  - Neighbour: 1
+  - New: 1
+  - Newspaper: 1
+  - Nice: 1
+  - Night: 1
+  - Office: 1
+  - Old: 1
+  - Orange: 1
+  - Page: 1
+  - Paint: 1
+  - Pant: 1
+  - Paper: 1
+  - Parent: 1
+  - Park: 1
+  - Patient: 1
+  - Peace: 1
+  - Pen: 1
+  - Pencil: 1
+  - Photograph: 1
+  - Pink: 1
+  - Plane: 1
+  - Player: 1
+  - Pleased: 1
+  - Pocket: 1
+  - Police: 1
+  - Poor: 1
+  - President: 1
+  - Price: 1
+  - Priest: 1
+  - Queen: 1
+  - Quiet: 1
+  - Race (Ethnicity): 1
+  - Radio: 1
+  - Red: 1
+  - Religion: 1
+  - Reporter: 1
+  - Restaurant: 1
+  - Rich: 1
+  - Ring: 1
+  - Sad: 1
+  - Saturday: 1
+  - School: 1
+  - Science: 1
+  - Screen: 1
+  - Season: 1
+  - Second: 1
+  - Secretary: 1
+  - Shallow: 1
+  - She: 1
+  - Shirt: 1
+  - Shoes: 1
+  - Short: 1
+  - Sick: 1
+  - Sign: 1
+  - Sister: 1
+  - Skirt: 1
+  - Slow: 1
+  - Small Little: 1
+  - Soap: 1
+  - Soft: 1
+  - Soldier: 1
+  - Son: 1
+  - Sport: 1
+  - Spring: 1
+  - Store Or Shop: 1
+  - Street Or Road: 1
+  - Strong: 1
+  - Student: 1
+  - Suit: 1
+  - Summer: 1
+  - Sunday: 1
+  - T-Shirt: 1
+  - Table: 1
+  - Tall: 1
+  - Teacher: 1
+  - Team: 1
+  - Technology: 1
+  - Telephone: 1
+  - Television: 1
+  - Temple: 1
+  - Thank You: 1
+  - They: 1
+  - Thick: 1
+  - Thin: 1
+  - Thursday: 1
+  - Tight: 1
+  - Time: 1
+  - Today: 1
+  - Tomorrow: 1
+  - Tool: 1
+  - Train: 1
+  - Train Station: 1
+  - Train Ticket: 1
+  - Transportation: 1
+  - Truck: 1
+  - Tuesday: 1
+  - Ugly: 1
+  - University: 1
+  - Waiter: 1
+  - War: 1
+  - Warm: 1
+  - We: 1
+  - Weak: 1
+  - Wednesday: 1
+  - Week: 1
+  - Wet: 1
+  - White: 1
+  - Wide: 1
+  - Wife: 1
+  - Window: 1
+  - Winter: 1
+  - Woman: 1
+  - Year: 1
+  - Yellow: 1
+  - Yesterday: 1
+  - You: 1
+  - You (Plural): 1
+  - Young: 1
+  - 0: 1
+  - 1: 1
+  - 2: 1
+  - 3: 1
+  - 4: 1
+  - 5: 1
+  - 6: 1
+  - 7: 1
+  - 8: 1
+  - 9: 1
+  - A: 1
+  - B: 1
+  - C: 1
+  - D: 1
+  - E: 1
+  - F: 1
+  - G: 1
+  - H: 1
+  - J: 1
+  - K: 1
+  - L: 1
+  - M: 1
+  - N: 1
+  - O: 1
+  - P: 1
+  - Q: 1
+  - R: 1
+  - S: 1
+  - T: 1
+  - U: 1
+  - V: 1
+  - W: 1
+  - X: 1
+  - Y: 1
+  - Z: 1
+
+- **Avg Users Per Class:** 1.0034
+- **Sequence Lengths:**
+  - Min: 30
+  - Max: 30
+  - Avg: 30.0000
+  - Std: 0.00%
+  - Median: 30.0000
+
+- **Background Consistency:** Not analyzed (requires video frames)
+
+## Model Behavior
+
+- **Confidence Distribution:**
+  - Avg: 62.12%
+  - Min: 30.21%
+  - Max: 94.96%
+  - Std: 18.77%
+  - Median: 61.23%
+
+- **Flicker Rate:** 98.90%
+- **Prediction Changes:** 989
+- **Total Predictions:** 1000
+- **Confusion Matrix:** 63 items
+  - [1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  - [0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 2, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 2, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
+  - [0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 2, 0, 0, 0, 1, 0, 0, 0, 0, 0]
+  - [0, 2, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  - [1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  - [0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  - [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 1, 0, 0, 1, 2, 0, 0, 0, 1, 1, 0, 1, 1]
+  - [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1]
+  - [0, 1, 1, 1, 2, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 2, 1, 1, 0]
+  - [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 2, 0, 0, 0, 1, 0, 1, 2, 0, 1, 1, 0, 0, 0, 0, 0, 2, 0, 0, 2, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0]
+  - ... and 53 more items
+
+- **Per Class Accuracy:**
+  - Dream: 7.14%
+  - Baby: 10.00%
+  - Alive: 12.50%
+  - Dirty: 0.00%
+  - Door: 7.14%
+  - Deep: 12.50%
+  - Cold: 0.00%
+  - Artist: 0.00%
+  - Boat: 4.76%
+  - Daughter: 0.00%
+  - Bag: 0.00%
+  - Blue: 0.00%
+  - Computer: 0.00%
+  - Court: 0.00%
+  - Cow: 0.00%
+  - Alright: 0.00%
+  - Author: 0.00%
+  - Attack: 13.33%
+  - Ball: 0.00%
+  - Blind: 0.00%
+  - Deaf: 0.00%
+  - Big Large: 9.52%
+  - Bird: 0.00%
+  - Clean: 0.00%
+  - Cool: 0.00%
+  - Cell Phone: 0.00%
+  - Doctor: 0.00%
+  - Bicycle: 0.00%
+  - Bank: 0.00%
+  - City: 5.00%
+  - Animal: 0.00%
+  - Beautiful: 0.00%
+  - Bathroom: 0.00%
+  - Brown: 0.00%
+  - Dead: 0.00%
+  - Child: 0.00%
+  - Box: 0.00%
+  - Clothing: 0.00%
+  - Dog: 0.00%
+  - Bedroom: 0.00%
+  - Colour: 0.00%
+  - Bed: 0.00%
+  - Cat: 0.00%
+  - Death: 0.00%
+  - Dress: 0.00%
+  - Book: 0.00%
+  - Curved: 0.00%
+  - Card: 0.00%
+  - Actor: 0.00%
+  - Brother: 4.76%
+  - Cheap: 0.00%
+  - Black: 0.00%
+  - Afternoon: 0.00%
+  - Camera: 0.00%
+  - Clock: 0.00%
+  - Bill: 0.00%
+  - Chair: 0.00%
+  - Boy: 0.00%
+  - Car: 0.00%
+  - Crowd: 0.00%
+  - Bad: 0.00%
+  - Adult: 0.00%
+  - Bus: 0.00%
+
+- **Overall Accuracy:** 1.30%
+
+## Temporal Analysis
+
+- **Motion Magnitude:**
+  - Avg: 317.98956
+  - Min: 68.349686
+  - Max: 657.15784
+  - Std: 98.46296
+
+- **Gesture Detection:**
+  - Avg Idle Before: 2.5000
+  - Avg Idle After: 2.3000
+  - Idle Ratio: 15.00%
+
+
+## Normalization
+
+- **Coordinate Range:**
+  - Min X: -0.9999829
+  - Max X: 0.99994624
+  - Min Y: -0.99995744
+  - Max Y: 0.9999584
+
+
+## Realtime Performance
+
+- **Avg Processing Time:** 3.00%
+- **Estimated Fps:** 33.3333
+- **Inference Latency:**
+  - Avg: 4.50%
+  - Min: 3.00%
+  - Max: 8.00%
+  - Std: 1.20%
+
+
+## Feature Separability
+
+- **Inter Class Distances:**
+  - Dream Vs Baby: 1.9467
+  - Dream Vs Alive: 3.1805
+  - Dream Vs Dirty: 2.7612
+  - Dream Vs Door: 2.8582
+  - Dream Vs Deep: 1.9323
+  - Dream Vs Cold: 1.6831
+  - Dream Vs Artist: 2.4986
+  - Dream Vs Boat: 1.6283
+  - Dream Vs Daughter: 1.8146
+  - Dream Vs Bag: 1.6376
+  - Dream Vs Blue: 2.6417
+  - Dream Vs Computer: 1.4266
+  - Dream Vs Court: 2.5724
+  - Dream Vs Cow: 1.6620
+  - Dream Vs Alright: 1.7925
+  - Dream Vs Author: 1.3882
+  - Dream Vs Attack: 2.5026
+  - Dream Vs Ball: 2.4883
+  - Dream Vs Blind: 3.4641
+  - Dream Vs Deaf: 3.2876
+  - Dream Vs Big Large: 1.4173
+  - Dream Vs Bird: 1.5877
+  - Dream Vs Clean: 1.8054
+  - Dream Vs Cool: 2.6883
+  - Dream Vs Cell Phone: 2.6668
+  - Dream Vs Doctor: 1.7254
+  - Dream Vs Bicycle: 2.2371
+  - Dream Vs Bank: 1.6685
+  - Dream Vs City: 1.9649
+  - Dream Vs Animal: 1.5967
+  - Dream Vs Beautiful: 3.0489
+  - Dream Vs Bathroom: 1.3964
+  - Dream Vs Brown: 2.1015
+  - Dream Vs Dead: 3.4297
+  - Dream Vs Child: 3.0612
+  - Dream Vs Box: 1.5353
+  - Dream Vs Clothing: 2.8245
+  - Dream Vs Dog: 1.8428
+  - Dream Vs Bedroom: 1.4403
+  - Dream Vs Colour: 2.7081
+  - Dream Vs Bed: 2.0499
+  - Dream Vs Cat: 1.9260
+  - Dream Vs Death: 1.7714
+  - Dream Vs Dress: 3.3104
+  - Dream Vs Book: 1.4260
+  - Dream Vs Curved: 3.2889
+  - Dream Vs Card: 1.3743
+  - Dream Vs Actor: 1.4907
+  - Dream Vs Brother: 2.7863
+  - Dream Vs Cheap: 3.1566
+  - Dream Vs Black: 2.7968
+  - Dream Vs Afternoon: 2.3333
+  - Dream Vs Camera: 1.6474
+  - Dream Vs Clock: 1.9008
+  - Dream Vs Bill: 1.8987
+  - Dream Vs Chair: 1.5332
+  - Dream Vs Boy: 2.7273
+  - Dream Vs Car: 1.3404
+  - Dream Vs Crowd: 1.5593
+  - Dream Vs Bad: 2.8278
+  - Dream Vs Adult: 2.3223
+  - Dream Vs Bus: 1.4749
+  - Baby Vs Alive: 2.2787
+  - Baby Vs Dirty: 1.8263
+  - Baby Vs Door: 1.9551
+  - Baby Vs Deep: 1.4787
+  - Baby Vs Cold: 1.9270
+  - Baby Vs Artist: 1.8784
+  - Baby Vs Boat: 1.6499
+  - Baby Vs Daughter: 1.6037
+  - Baby Vs Bag: 1.4825
+  - Baby Vs Blue: 2.0000
+  - Baby Vs Computer: 1.8667
+  - Baby Vs Court: 1.8649
+  - Baby Vs Cow: 1.6433
+  - Baby Vs Alright: 1.5085
+  - Baby Vs Author: 1.8900
+  - Baby Vs Attack: 1.9854
+  - Baby Vs Ball: 1.7521
+  - Baby Vs Blind: 2.4314
+  - Baby Vs Deaf: 2.2929
+  - Baby Vs Big Large: 1.7098
+  - Baby Vs Bird: 1.6739
+  - Baby Vs Clean: 1.4309
+  - Baby Vs Cool: 2.0721
+  - Baby Vs Cell Phone: 2.2296
+  - Baby Vs Doctor: 1.5395
+  - Baby Vs Bicycle: 1.6941
+  - Baby Vs Bank: 1.4315
+  - Baby Vs City: 1.6428
+  - Baby Vs Animal: 1.8169
+  - Baby Vs Beautiful: 2.0482
+  - Baby Vs Bathroom: 1.5228
+  - Baby Vs Brown: 1.7771
+  - Baby Vs Dead: 2.3981
+  - Baby Vs Child: 2.4623
+  - Baby Vs Box: 1.8513
+  - Baby Vs Clothing: 2.2422
+  - Baby Vs Dog: 1.7082
+  - Baby Vs Bedroom: 1.8332
+  - Baby Vs Colour: 2.1417
+  - Baby Vs Bed: 1.7985
+  - Baby Vs Cat: 1.7218
+  - Baby Vs Death: 1.4458
+  - Baby Vs Dress: 2.4112
+  - Baby Vs Book: 1.6381
+  - Baby Vs Curved: 2.3329
+  - Baby Vs Card: 1.6683
+  - Baby Vs Actor: 1.5413
+  - Baby Vs Brother: 2.3848
+  - Baby Vs Cheap: 2.2107
+  - Baby Vs Black: 2.1863
+  - Baby Vs Afternoon: 2.2070
+  - Baby Vs Camera: 1.9392
+  - Baby Vs Clock: 1.6428
+  - Baby Vs Bill: 1.7474
+  - Baby Vs Chair: 1.6825
+  - Baby Vs Boy: 2.2887
+  - Baby Vs Car: 1.7696
+  - Baby Vs Crowd: 1.5649
+  - Baby Vs Bad: 2.1032
+  - Baby Vs Adult: 2.0760
+  - Baby Vs Bus: 1.5807
+  - Alive Vs Dirty: 1.0618
+  - Alive Vs Door: 1.5079
+  - Alive Vs Deep: 1.9179
+  - Alive Vs Cold: 3.0824
+  - Alive Vs Artist: 2.0729
+  - Alive Vs Boat: 2.6839
+  - Alive Vs Daughter: 2.3620
+  - Alive Vs Bag: 2.5158
+  - Alive Vs Blue: 1.7915
+  - Alive Vs Computer: 3.1974
+  - Alive Vs Court: 2.0981
+  - Alive Vs Cow: 2.5940
+  - Alive Vs Alright: 2.1966
+  - Alive Vs Author: 3.2242
+  - Alive Vs Attack: 2.2510
+  - Alive Vs Ball: 1.7714
+  - Alive Vs Blind: 1.8644
+  - Alive Vs Deaf: 1.6633
+  - Alive Vs Big Large: 2.9645
+  - Alive Vs Bird: 2.7546
+  - Alive Vs Clean: 2.0039
+  - Alive Vs Cool: 2.1461
+  - Alive Vs Cell Phone: 2.6352
+  - Alive Vs Doctor: 2.1813
+  - Alive Vs Bicycle: 2.1087
+  - Alive Vs Bank: 2.1114
+  - Alive Vs City: 2.2573
+  - Alive Vs Animal: 2.9014
+  - Alive Vs Beautiful: 1.6467
+  - Alive Vs Bathroom: 2.6230
+  - Alive Vs Brown: 2.2625
+  - Alive Vs Dead: 1.4454
+  - Alive Vs Child: 2.2939
+  - Alive Vs Box: 3.1224
+  - Alive Vs Clothing: 1.9206
+  - Alive Vs Dog: 2.6135
+  - Alive Vs Bedroom: 3.2000
+  - Alive Vs Colour: 1.8824
+  - Alive Vs Bed: 2.6990
+  - Alive Vs Cat: 2.4670
+  - Alive Vs Death: 2.1213
+  - Alive Vs Dress: 1.4061
+  - Alive Vs Book: 2.8275
+  - Alive Vs Curved: 2.0032
+  - Alive Vs Card: 2.8438
+  - Alive Vs Actor: 2.3344
+  - Alive Vs Brother: 2.4510
+  - Alive Vs Cheap: 1.6865
+  - Alive Vs Black: 2.1072
+  - Alive Vs Afternoon: 2.8124
+  - Alive Vs Camera: 3.1472
+  - Alive Vs Clock: 2.4412
+  - Alive Vs Bill: 2.7085
+  - Alive Vs Chair: 2.8240
+  - Alive Vs Boy: 2.4588
+  - Alive Vs Car: 2.9955
+  - Alive Vs Crowd: 2.6445
+  - Alive Vs Bad: 2.0280
+  - Alive Vs Adult: 2.4414
+  - Alive Vs Bus: 2.6267
+  - Dirty Vs Door: 1.1893
+  - Dirty Vs Deep: 1.3623
+  - Dirty Vs Cold: 2.5515
+  - Dirty Vs Artist: 1.6105
+  - Dirty Vs Boat: 2.1786
+  - Dirty Vs Daughter: 1.8492
+  - Dirty Vs Bag: 1.9542
+  - Dirty Vs Blue: 1.5122
+  - Dirty Vs Computer: 2.6727
+  - Dirty Vs Court: 1.5634
+  - Dirty Vs Cow: 2.0364
+  - Dirty Vs Alright: 1.7367
+  - Dirty Vs Author: 2.7359
+  - Dirty Vs Attack: 1.8022
+  - Dirty Vs Ball: 1.3431
+  - Dirty Vs Blind: 1.4865
+  - Dirty Vs Deaf: 1.3399
+  - Dirty Vs Big Large: 2.4385
+  - Dirty Vs Bird: 2.2163
+  - Dirty Vs Clean: 1.5273
+  - Dirty Vs Cool: 1.6961
+  - Dirty Vs Cell Phone: 2.1550
+  - Dirty Vs Doctor: 1.7054
+  - Dirty Vs Bicycle: 1.6252
+  - Dirty Vs Bank: 1.6355
+  - Dirty Vs City: 1.7286
+  - Dirty Vs Animal: 2.4224
+  - Dirty Vs Beautiful: 1.1721
+  - Dirty Vs Bathroom: 2.1064
+  - Dirty Vs Brown: 1.8182
+  - Dirty Vs Dead: 1.2692
+  - Dirty Vs Child: 2.0327
+  - Dirty Vs Box: 2.5772
+  - Dirty Vs Clothing: 1.6688
+  - Dirty Vs Dog: 2.0682
+  - Dirty Vs Bedroom: 2.6612
+  - Dirty Vs Colour: 1.6429
+  - Dirty Vs Bed: 2.1367
+  - Dirty Vs Cat: 1.9521
+  - Dirty Vs Death: 1.5812
+  - Dirty Vs Dress: 1.3819
+  - Dirty Vs Book: 2.3008
+  - Dirty Vs Curved: 1.5522
+  - Dirty Vs Card: 2.3290
+  - Dirty Vs Actor: 1.8472
+  - Dirty Vs Brother: 2.0653
+  - Dirty Vs Cheap: 1.3081
+  - Dirty Vs Black: 1.7547
+  - Dirty Vs Afternoon: 2.3511
+  - Dirty Vs Camera: 2.5779
+  - Dirty Vs Clock: 1.8777
+  - Dirty Vs Bill: 2.1432
+  - Dirty Vs Chair: 2.2982
+  - Dirty Vs Boy: 2.0495
+  - Dirty Vs Car: 2.5179
+  - Dirty Vs Crowd: 2.1093
+  - Dirty Vs Bad: 1.6091
+  - Dirty Vs Adult: 2.0513
+  - Dirty Vs Bus: 2.1455
+  - Door Vs Deep: 1.6102
+  - Door Vs Cold: 2.6533
+  - Door Vs Artist: 1.6457
+  - Door Vs Boat: 2.1666
+  - Door Vs Daughter: 1.9203
+  - Door Vs Bag: 1.9176
+  - Door Vs Blue: 1.9048
+  - Door Vs Computer: 2.6939
+  - Door Vs Court: 1.5401
+  - Door Vs Cow: 2.0815
+  - Door Vs Alright: 1.7630
+  - Door Vs Author: 2.7852
+  - Door Vs Attack: 1.7705
+  - Door Vs Ball: 1.5794
+  - Door Vs Blind: 1.4493
+  - Door Vs Deaf: 1.4603
+  - Door Vs Big Large: 2.4710
+  - Door Vs Bird: 2.2127
+  - Door Vs Clean: 1.6221
+  - Door Vs Cool: 1.7028
+  - Door Vs Cell Phone: 2.0627
+  - Door Vs Doctor: 1.8132
+  - Door Vs Bicycle: 1.5780
+  - Door Vs Bank: 1.7854
+  - Door Vs City: 1.8036
+  - Door Vs Animal: 2.4026
+  - Door Vs Beautiful: 1.2165
+  - Door Vs Bathroom: 2.1900
+  - Door Vs Brown: 1.8211
+  - Door Vs Dead: 1.3114
+  - Door Vs Child: 2.0646
+  - Door Vs Box: 2.5755
+  - Door Vs Clothing: 1.6326
+  - Door Vs Dog: 2.0645
+  - Door Vs Bedroom: 2.6734
+  - Door Vs Colour: 1.6970
+  - Door Vs Bed: 2.0886
+  - Door Vs Cat: 1.9724
+  - Door Vs Death: 1.6275
+  - Door Vs Dress: 1.5626
+  - Door Vs Book: 2.3662
+  - Door Vs Curved: 1.4012
+  - Door Vs Card: 2.3593
+  - Door Vs Actor: 1.9615
+  - Door Vs Brother: 1.9787
+  - Door Vs Cheap: 1.3307
+  - Door Vs Black: 1.7857
+  - Door Vs Afternoon: 2.3438
+  - Door Vs Camera: 2.5888
+  - Door Vs Clock: 1.8477
+  - Door Vs Bill: 2.0712
+  - Door Vs Chair: 2.3482
+  - Door Vs Boy: 1.9830
+  - Door Vs Car: 2.5616
+  - Door Vs Crowd: 2.0898
+  - Door Vs Bad: 1.6549
+  - Door Vs Adult: 2.1222
+  - Door Vs Bus: 2.1898
+  - Deep Vs Cold: 1.6488
+  - Deep Vs Artist: 1.4708
+  - Deep Vs Boat: 1.4836
+  - Deep Vs Daughter: 1.3946
+  - Deep Vs Bag: 1.2549
+  - Deep Vs Blue: 1.5671
+  - Deep Vs Computer: 1.7816
+  - Deep Vs Court: 1.1842
+  - Deep Vs Cow: 1.3151
+  - Deep Vs Alright: 1.2748
+  - Deep Vs Author: 1.7897
+  - Deep Vs Attack: 1.6268
+  - Deep Vs Ball: 1.2608
+  - Deep Vs Blind: 1.8725
+  - Deep Vs Deaf: 1.7147
+  - Deep Vs Big Large: 1.4845
+  - Deep Vs Bird: 1.4461
+  - Deep Vs Clean: 98.81%
+  - Deep Vs Cool: 1.6596
+  - Deep Vs Cell Phone: 1.9280
+  - Deep Vs Doctor: 1.2864
+  - Deep Vs Bicycle: 1.4483
+  - Deep Vs Bank: 1.2150
+  - Deep Vs City: 1.0948
+  - Deep Vs Animal: 1.7053
+  - Deep Vs Beautiful: 1.4326
+  - Deep Vs Bathroom: 1.3465
+  - Deep Vs Brown: 1.5935
+  - Deep Vs Dead: 1.9632
+  - Deep Vs Child: 2.1849
+  - Deep Vs Box: 1.7650
+  - Deep Vs Clothing: 1.8732
+  - Deep Vs Dog: 1.4639
+  - Deep Vs Bedroom: 1.7266
+  - Deep Vs Colour: 1.8376
+  - Deep Vs Bed: 1.4714
+  - Deep Vs Cat: 1.4051
+  - Deep Vs Death: 1.0737
+  - Deep Vs Dress: 1.9826
+  - Deep Vs Book: 1.5034
+  - Deep Vs Curved: 1.8389
+  - Deep Vs Card: 1.5204
+  - Deep Vs Actor: 1.1020
+  - Deep Vs Brother: 1.9776
+  - Deep Vs Cheap: 1.6323
+  - Deep Vs Black: 1.8046
+  - Deep Vs Afternoon: 1.9047
+  - Deep Vs Camera: 1.5965
+  - Deep Vs Clock: 1.3426
+  - Deep Vs Bill: 1.4203
+  - Deep Vs Chair: 1.4989
+  - Deep Vs Boy: 1.9299
+  - Deep Vs Car: 1.6778
+  - Deep Vs Crowd: 1.3097
+  - Deep Vs Bad: 1.7019
+  - Deep Vs Adult: 1.8083
+  - Deep Vs Bus: 1.3988
+  - Cold Vs Artist: 2.2187
+  - Cold Vs Boat: 1.5563
+  - Cold Vs Daughter: 1.8096
+  - Cold Vs Bag: 1.4996
+  - Cold Vs Blue: 2.4831
+  - Cold Vs Computer: 1.4175
+  - Cold Vs Court: 2.1579
+  - Cold Vs Cow: 1.5288
+  - Cold Vs Alright: 1.6974
+  - Cold Vs Author: 1.3690
+  - Cold Vs Attack: 2.3614
+  - Cold Vs Ball: 2.2157
+  - Cold Vs Blind: 3.1082
+  - Cold Vs Deaf: 2.9641
+  - Cold Vs Big Large: 1.3680
+  - Cold Vs Bird: 1.4784
+  - Cold Vs Clean: 1.6698
+  - Cold Vs Cool: 2.5094
+  - Cold Vs Cell Phone: 2.5060
+  - Cold Vs Doctor: 1.8345
+  - Cold Vs Bicycle: 2.1104
+  - Cold Vs Bank: 1.7736
+  - Cold Vs City: 1.7445
+  - Cold Vs Animal: 1.5996
+  - Cold Vs Beautiful: 2.7050
+  - Cold Vs Bathroom: 1.4520
+  - Cold Vs Brown: 2.0876
+  - Cold Vs Dead: 3.1837
+  - Cold Vs Child: 2.9495
+  - Cold Vs Box: 1.5194
+  - Cold Vs Clothing: 2.7709
+  - Cold Vs Dog: 1.7117
+  - Cold Vs Bedroom: 1.4213
+  - Cold Vs Colour: 2.7015
+  - Cold Vs Bed: 1.8167
+  - Cold Vs Cat: 1.7849
+  - Cold Vs Death: 1.6813
+  - Cold Vs Dress: 3.1549
+  - Cold Vs Book: 1.4847
+  - Cold Vs Curved: 2.9883
+  - Cold Vs Card: 1.4263
+  - Cold Vs Actor: 1.5576
+  - Cold Vs Brother: 2.7618
+  - Cold Vs Cheap: 2.8625
+  - Cold Vs Black: 2.6266
+  - Cold Vs Afternoon: 2.3634
+  - Cold Vs Camera: 1.5046
+  - Cold Vs Clock: 1.8229
+  - Cold Vs Bill: 1.6966
+  - Cold Vs Chair: 1.4074
+  - Cold Vs Boy: 2.6326
+  - Cold Vs Car: 1.4400
+  - Cold Vs Crowd: 1.4578
+  - Cold Vs Bad: 2.6145
+  - Cold Vs Adult: 2.3322
+  - Cold Vs Bus: 1.4602
+  - Artist Vs Boat: 1.9237
+  - Artist Vs Daughter: 1.8070
+  - Artist Vs Bag: 1.6820
+  - Artist Vs Blue: 1.9397
+  - Artist Vs Computer: 2.2242
+  - Artist Vs Court: 1.5108
+  - Artist Vs Cow: 1.8063
+  - Artist Vs Alright: 1.7251
+  - Artist Vs Author: 2.2801
+  - Artist Vs Attack: 1.8251
+  - Artist Vs Ball: 1.6245
+  - Artist Vs Blind: 1.7547
+  - Artist Vs Deaf: 1.7185
+  - Artist Vs Big Large: 2.0247
+  - Artist Vs Bird: 1.9061
+  - Artist Vs Clean: 1.5877
+  - Artist Vs Cool: 1.7977
+  - Artist Vs Cell Phone: 1.9962
+  - Artist Vs Doctor: 1.7793
+  - Artist Vs Bicycle: 1.7202
+  - Artist Vs Bank: 1.7480
+  - Artist Vs City: 1.6310
+  - Artist Vs Animal: 2.1233
+  - Artist Vs Beautiful: 1.4790
+  - Artist Vs Bathroom: 1.8711
+  - Artist Vs Brown: 1.8887
+  - Artist Vs Dead: 1.8665
+  - Artist Vs Child: 2.2450
+  - Artist Vs Box: 2.1808
+  - Artist Vs Clothing: 1.9634
+  - Artist Vs Dog: 1.8555
+  - Artist Vs Bedroom: 2.1638
+  - Artist Vs Colour: 1.9858
+  - Artist Vs Bed: 1.8034
+  - Artist Vs Cat: 1.8421
+  - Artist Vs Death: 1.5710
+  - Artist Vs Dress: 2.0615
+  - Artist Vs Book: 1.9838
+  - Artist Vs Curved: 1.7309
+  - Artist Vs Card: 2.0027
+  - Artist Vs Actor: 1.7718
+  - Artist Vs Brother: 2.1098
+  - Artist Vs Cheap: 1.6291
+  - Artist Vs Black: 1.9134
+  - Artist Vs Afternoon: 2.1919
+  - Artist Vs Camera: 2.0909
+  - Artist Vs Clock: 1.6937
+  - Artist Vs Bill: 1.8275
+  - Artist Vs Chair: 1.9938
+  - Artist Vs Boy: 2.0543
+  - Artist Vs Car: 2.1725
+  - Artist Vs Crowd: 1.7873
+  - Artist Vs Bad: 1.8046
+  - Artist Vs Adult: 2.0786
+  - Artist Vs Bus: 1.9173
+  - Boat Vs Daughter: 1.5429
+  - Boat Vs Bag: 1.1939
+  - Boat Vs Blue: 2.2761
+  - Boat Vs Computer: 1.3305
+  - Boat Vs Court: 1.8536
+  - Boat Vs Cow: 1.3656
+  - Boat Vs Alright: 1.3463
+  - Boat Vs Author: 1.3723
+  - Boat Vs Attack: 2.0083
+  - Boat Vs Ball: 1.9478
+  - Boat Vs Blind: 2.7174
+  - Boat Vs Deaf: 2.6090
+  - Boat Vs Big Large: 1.2755
+  - Boat Vs Bird: 1.2523
+  - Boat Vs Clean: 1.3335
+  - Boat Vs Cool: 2.1843
+  - Boat Vs Cell Phone: 2.2514
+  - Boat Vs Doctor: 1.4914
+  - Boat Vs Bicycle: 1.6242
+  - Boat Vs Bank: 1.4624
+  - Boat Vs City: 1.4919
+  - Boat Vs Animal: 1.3564
+  - Boat Vs Beautiful: 2.3337
+  - Boat Vs Bathroom: 1.2960
+  - Boat Vs Brown: 1.6604
+  - Boat Vs Dead: 2.7402
+  - Boat Vs Child: 2.6268
+  - Boat Vs Box: 1.3699
+  - Boat Vs Clothing: 2.3705
+  - Boat Vs Dog: 1.4112
+  - Boat Vs Bedroom: 1.3921
+  - Boat Vs Colour: 2.3161
+  - Boat Vs Bed: 1.5990
+  - Boat Vs Cat: 1.5402
+  - Boat Vs Death: 1.3329
+  - Boat Vs Dress: 2.7370
+  - Boat Vs Book: 1.3602
+  - Boat Vs Curved: 2.5583
+  - Boat Vs Card: 1.2745
+  - Boat Vs Actor: 1.3405
+  - Boat Vs Brother: 2.4222
+  - Boat Vs Cheap: 2.4725
+  - Boat Vs Black: 2.3151
+  - Boat Vs Afternoon: 2.1464
+  - Boat Vs Camera: 1.5023
+  - Boat Vs Clock: 1.4945
+  - Boat Vs Bill: 1.4488
+  - Boat Vs Chair: 1.3011
+  - Boat Vs Boy: 2.3105
+  - Boat Vs Car: 1.3393
+  - Boat Vs Crowd: 1.1647
+  - Boat Vs Bad: 2.2940
+  - Boat Vs Adult: 2.0721
+  - Boat Vs Bus: 1.2259
+  - Daughter Vs Bag: 1.3795
+  - Daughter Vs Blue: 2.0494
+  - Daughter Vs Computer: 1.7150
+  - Daughter Vs Court: 1.7470
+  - Daughter Vs Cow: 1.5098
+  - Daughter Vs Alright: 1.4468
+  - Daughter Vs Author: 1.7517
+  - Daughter Vs Attack: 1.9150
+  - Daughter Vs Ball: 1.7506
+  - Daughter Vs Blind: 2.3603
+  - Daughter Vs Deaf: 2.2514
+  - Daughter Vs Big Large: 1.5661
+  - Daughter Vs Bird: 1.5346
+  - Daughter Vs Clean: 1.3700
+  - Daughter Vs Cool: 1.9957
+  - Daughter Vs Cell Phone: 2.1383
+  - Daughter Vs Doctor: 1.4902
+  - Daughter Vs Bicycle: 1.6333
+  - Daughter Vs Bank: 1.4117
+  - Daughter Vs City: 1.5286
+  - Daughter Vs Animal: 1.6905
+  - Daughter Vs Beautiful: 1.9788
+  - Daughter Vs Bathroom: 1.4382
+  - Daughter Vs Brown: 1.7113
+  - Daughter Vs Dead: 2.3707
+  - Daughter Vs Child: 2.4408
+  - Daughter Vs Box: 1.7123
+  - Daughter Vs Clothing: 2.1744
+  - Daughter Vs Dog: 1.5957
+  - Daughter Vs Bedroom: 1.6882
+  - Daughter Vs Colour: 2.1068
+  - Daughter Vs Bed: 1.6975
+  - Daughter Vs Cat: 1.6224
+  - Daughter Vs Death: 1.3565
+  - Daughter Vs Dress: 2.4265
+  - Daughter Vs Book: 1.5341
+  - Daughter Vs Curved: 2.2431
+  - Daughter Vs Card: 1.5345
+  - Daughter Vs Actor: 1.4319
+  - Daughter Vs Brother: 2.2668
+  - Daughter Vs Cheap: 2.1391
+  - Daughter Vs Black: 2.1303
+  - Daughter Vs Afternoon: 2.1142
+  - Daughter Vs Camera: 1.7597
+  - Daughter Vs Clock: 1.5271
+  - Daughter Vs Bill: 1.6169
+  - Daughter Vs Chair: 1.5717
+  - Daughter Vs Boy: 2.1882
+  - Daughter Vs Car: 1.6452
+  - Daughter Vs Crowd: 1.4325
+  - Daughter Vs Bad: 2.0544
+  - Daughter Vs Adult: 2.0121
+  - Daughter Vs Bus: 1.4844
+  - Bag Vs Blue: 2.1107
+  - Bag Vs Computer: 1.3649
+  - Bag Vs Court: 1.5964
+  - Bag Vs Cow: 1.2089
+  - Bag Vs Alright: 1.1690
+  - Bag Vs Author: 1.4144
+  - Bag Vs Attack: 1.7829
+  - Bag Vs Ball: 1.7238
+  - Bag Vs Blind: 2.4337
+  - Bag Vs Deaf: 2.3422
+  - Bag Vs Big Large: 1.2276
+  - Bag Vs Bird: 1.1760
+  - Bag Vs Clean: 1.1463
+  - Bag Vs Cool: 1.9641
+  - Bag Vs Cell Phone: 1.9939
+  - Bag Vs Doctor: 1.3177
+  - Bag Vs Bicycle: 1.4339
+  - Bag Vs Bank: 1.2744
+  - Bag Vs City: 1.3236
+  - Bag Vs Animal: 1.3403
+  - Bag Vs Beautiful: 2.0426
+  - Bag Vs Bathroom: 1.1444
+  - Bag Vs Brown: 1.5470
+  - Bag Vs Dead: 2.4709
+  - Bag Vs Child: 2.4389
+  - Bag Vs Box: 1.3611
+  - Bag Vs Clothing: 2.1600
+  - Bag Vs Dog: 1.3118
+  - Bag Vs Bedroom: 1.3471
+  - Bag Vs Colour: 2.1168
+  - Bag Vs Bed: 1.4082
+  - Bag Vs Cat: 1.3714
+  - Bag Vs Death: 1.1016
+  - Bag Vs Dress: 2.5408
+  - Bag Vs Book: 1.2657
+  - Bag Vs Curved: 2.2567
+  - Bag Vs Card: 1.1975
+  - Bag Vs Actor: 1.1911
+  - Bag Vs Brother: 2.1941
+  - Bag Vs Cheap: 2.1992
+  - Bag Vs Black: 2.0830
+  - Bag Vs Afternoon: 1.9731
+  - Bag Vs Camera: 1.4330
+  - Bag Vs Clock: 1.2831
+  - Bag Vs Bill: 1.2578
+  - Bag Vs Chair: 1.2323
+  - Bag Vs Boy: 2.1007
+  - Bag Vs Car: 1.3194
+  - Bag Vs Crowd: 1.0591
+  - Bag Vs Bad: 2.0698
+  - Bag Vs Adult: 1.9120
+  - Bag Vs Bus: 1.1578
+  - Blue Vs Computer: 2.5764
+  - Blue Vs Court: 1.9306
+  - Blue Vs Cow: 2.1644
+  - Blue Vs Alright: 2.0187
+  - Blue Vs Author: 2.5773
+  - Blue Vs Attack: 2.1638
+  - Blue Vs Ball: 1.6300
+  - Blue Vs Blind: 2.1209
+  - Blue Vs Deaf: 1.8925
+  - Blue Vs Big Large: 2.3642
+  - Blue Vs Bird: 2.2941
+  - Blue Vs Clean: 1.8523
+  - Blue Vs Cool: 2.0929
+  - Blue Vs Cell Phone: 2.4446
+  - Blue Vs Doctor: 1.9518
+  - Blue Vs Bicycle: 2.0596
+  - Blue Vs Bank: 1.8701
+  - Blue Vs City: 1.9182
+  - Blue Vs Animal: 2.4934
+  - Blue Vs Beautiful: 1.7586
+  - Blue Vs Bathroom: 2.1219
+  - Blue Vs Brown: 2.1830
+  - Blue Vs Dead: 2.0854
+  - Blue Vs Child: 2.4119
+  - Blue Vs Box: 2.5627
+  - Blue Vs Clothing: 2.2378
+  - Blue Vs Dog: 2.2164
+  - Blue Vs Bedroom: 2.5401
+  - Blue Vs Colour: 2.1406
+  - Blue Vs Bed: 2.2447
+  - Blue Vs Cat: 2.1740
+  - Blue Vs Death: 1.8952
+  - Blue Vs Dress: 2.0386
+  - Blue Vs Book: 2.2513
+  - Blue Vs Curved: 2.2253
+  - Blue Vs Card: 2.3579
+  - Blue Vs Actor: 1.9732
+  - Blue Vs Brother: 2.5058
+  - Blue Vs Cheap: 1.9264
+  - Blue Vs Black: 2.1922
+  - Blue Vs Afternoon: 2.4973
+  - Blue Vs Camera: 2.5315
+  - Blue Vs Clock: 2.0843
+  - Blue Vs Bill: 2.2760
+  - Blue Vs Chair: 2.2898
+  - Blue Vs Boy: 2.4239
+  - Blue Vs Car: 2.4697
+  - Blue Vs Crowd: 2.1849
+  - Blue Vs Bad: 2.0046
+  - Blue Vs Adult: 2.2970
+  - Blue Vs Bus: 2.2092
+  - Computer Vs Court: 2.2449
+  - Computer Vs Cow: 1.3927
+  - Computer Vs Alright: 1.6285
+  - Computer Vs Author: 1.1018
+  - Computer Vs Attack: 2.3528
+  - Computer Vs Ball: 2.2973
+  - Computer Vs Blind: 3.2218
+  - Computer Vs Deaf: 3.0900
+  - Computer Vs Big Large: 1.1557
+  - Computer Vs Bird: 1.2641
+  - Computer Vs Clean: 1.6829
+  - Computer Vs Cool: 2.5130
+  - Computer Vs Cell Phone: 2.4753
+  - Computer Vs Doctor: 1.7429
+  - Computer Vs Bicycle: 2.0240
+  - Computer Vs Bank: 1.7125
+  - Computer Vs City: 1.7207
+  - Computer Vs Animal: 1.3514
+  - Computer Vs Beautiful: 2.8377
+  - Computer Vs Bathroom: 1.3000
+  - Computer Vs Brown: 1.9522
+  - Computer Vs Dead: 3.2902
+  - Computer Vs Child: 2.9519
+  - Computer Vs Box: 1.2118
+  - Computer Vs Clothing: 2.7865
+  - Computer Vs Dog: 1.5263
+  - Computer Vs Bedroom: 1.1572
+  - Computer Vs Colour: 2.7004
+  - Computer Vs Bed: 1.7275
+  - Computer Vs Cat: 1.7074
+  - Computer Vs Death: 1.6314
+  - Computer Vs Dress: 3.2543
+  - Computer Vs Book: 1.2579
+  - Computer Vs Curved: 3.0750
+  - Computer Vs Card: 1.1844
+  - Computer Vs Actor: 1.4842
+  - Computer Vs Brother: 2.7454
+  - Computer Vs Cheap: 2.9749
+  - Computer Vs Black: 2.6495
+  - Computer Vs Afternoon: 2.2922
+  - Computer Vs Camera: 1.3028
+  - Computer Vs Clock: 1.7035
+  - Computer Vs Bill: 1.5924
+  - Computer Vs Chair: 1.2443
+  - Computer Vs Boy: 2.6075
+  - Computer Vs Car: 1.2070
+  - Computer Vs Crowd: 1.2476
+  - Computer Vs Bad: 2.6426
+  - Computer Vs Adult: 2.2728
+  - Computer Vs Bus: 1.2835
+  - Court Vs Cow: 1.7033
+  - Court Vs Alright: 1.5981
+  - Court Vs Author: 2.2879
+  - Court Vs Attack: 1.7390
+  - Court Vs Ball: 1.5488
+  - Court Vs Blind: 1.5748
+  - Court Vs Deaf: 1.5886
+  - Court Vs Big Large: 1.9814
+  - Court Vs Bird: 1.8143
+  - Court Vs Clean: 1.3816
+  - Court Vs Cool: 1.6980
+  - Court Vs Cell Phone: 1.9433
+  - Court Vs Doctor: 1.7688
+  - Court Vs Bicycle: 1.6245
+  - Court Vs Bank: 1.7486
+  - Court Vs City: 1.4080
+  - Court Vs Animal: 2.0615
+  - Court Vs Beautiful: 1.2714
+  - Court Vs Bathroom: 1.8708
+  - Court Vs Brown: 1.8081
+  - Court Vs Dead: 1.7645
+  - Court Vs Child: 2.2134
+  - Court Vs Box: 2.1808
+  - Court Vs Clothing: 1.8518
+  - Court Vs Dog: 1.7789
+  - Court Vs Bedroom: 2.1788
+  - Court Vs Colour: 1.9446
+  - Court Vs Bed: 1.7244
+  - Court Vs Cat: 1.6674
+  - Court Vs Death: 1.4523
+  - Court Vs Dress: 1.9923
+  - Court Vs Book: 2.0185
+  - Court Vs Curved: 1.5631
+  - Court Vs Card: 1.9984
+  - Court Vs Actor: 1.6561
+  - Court Vs Brother: 1.9899
+  - Court Vs Cheap: 1.4765
+  - Court Vs Black: 1.8280
+  - Court Vs Afternoon: 2.1443
+  - Court Vs Camera: 1.9932
+  - Court Vs Clock: 1.5969
+  - Court Vs Bill: 1.6724
+  - Court Vs Chair: 1.9427
+  - Court Vs Boy: 1.9369
+  - Court Vs Car: 2.1843
+  - Court Vs Crowd: 1.6926
+  - Court Vs Bad: 1.7395
+  - Court Vs Adult: 2.0477
+  - Court Vs Bus: 1.8705
+  - Cow Vs Alright: 1.3656
+  - Cow Vs Author: 1.4371
+  - Cow Vs Attack: 1.9364
+  - Cow Vs Ball: 1.8189
+  - Cow Vs Blind: 2.5282
+  - Cow Vs Deaf: 2.4208
+  - Cow Vs Big Large: 1.2922
+  - Cow Vs Bird: 1.2560
+  - Cow Vs Clean: 1.3069
+  - Cow Vs Cool: 2.0537
+  - Cow Vs Cell Phone: 2.1515
+  - Cow Vs Doctor: 1.4726
+  - Cow Vs Bicycle: 1.6357
+  - Cow Vs Bank: 1.4311
+  - Cow Vs City: 1.4153
+  - Cow Vs Animal: 1.4282
+  - Cow Vs Beautiful: 2.1477
+  - Cow Vs Bathroom: 1.2613
+  - Cow Vs Brown: 1.6815
+  - Cow Vs Dead: 2.5903
+  - Cow Vs Child: 2.5526
+  - Cow Vs Box: 1.4051
+  - Cow Vs Clothing: 2.2856
+  - Cow Vs Dog: 1.4430
+  - Cow Vs Bedroom: 1.4036
+  - Cow Vs Colour: 2.2417
+  - Cow Vs Bed: 1.5571
+  - Cow Vs Cat: 1.4794
+  - Cow Vs Death: 1.2774
+  - Cow Vs Dress: 2.6291
+  - Cow Vs Book: 1.3712
+  - Cow Vs Curved: 2.4131
+  - Cow Vs Card: 1.2639
+  - Cow Vs Actor: 1.2771
+  - Cow Vs Brother: 2.3220
+  - Cow Vs Cheap: 2.3028
+  - Cow Vs Black: 2.1900
+  - Cow Vs Afternoon: 2.0829
+  - Cow Vs Camera: 1.3801
+  - Cow Vs Clock: 1.4560
+  - Cow Vs Bill: 1.4302
+  - Cow Vs Chair: 1.3321
+  - Cow Vs Boy: 2.2268
+  - Cow Vs Car: 1.3940
+  - Cow Vs Crowd: 1.1845
+  - Cow Vs Bad: 2.1694
+  - Cow Vs Adult: 2.0207
+  - Cow Vs Bus: 1.2924
+  - Alright Vs Author: 1.5979
+  - Alright Vs Attack: 1.8166
+  - Alright Vs Ball: 1.6783
+  - Alright Vs Blind: 2.3438
+  - Alright Vs Deaf: 2.2336
+  - Alright Vs Big Large: 1.4232
+  - Alright Vs Bird: 1.3285
+  - Alright Vs Clean: 1.0567
+  - Alright Vs Cool: 1.9688
+  - Alright Vs Cell Phone: 2.1248
+  - Alright Vs Doctor: 1.4080
+  - Alright Vs Bicycle: 1.4874
+  - Alright Vs Bank: 1.3111
+  - Alright Vs City: 1.4152
+  - Alright Vs Animal: 1.4367
+  - Alright Vs Beautiful: 1.9671
+  - Alright Vs Bathroom: 1.3193
+  - Alright Vs Brown: 1.5758
+  - Alright Vs Dead: 2.2955
+  - Alright Vs Child: 2.4082
+  - Alright Vs Box: 1.6331
+  - Alright Vs Clothing: 2.0618
+  - Alright Vs Dog: 1.4770
+  - Alright Vs Bedroom: 1.6238
+  - Alright Vs Colour: 2.0283
+  - Alright Vs Bed: 1.6150
+  - Alright Vs Cat: 1.3838
+  - Alright Vs Death: 1.1753
+  - Alright Vs Dress: 2.3185
+  - Alright Vs Book: 1.4675
+  - Alright Vs Curved: 2.2167
+  - Alright Vs Card: 1.3707
+  - Alright Vs Actor: 1.2616
+  - Alright Vs Brother: 2.2304
+  - Alright Vs Cheap: 2.1196
+  - Alright Vs Black: 2.0688
+  - Alright Vs Afternoon: 2.1085
+  - Alright Vs Camera: 1.7305
+  - Alright Vs Clock: 1.4745
+  - Alright Vs Bill: 1.4607
+  - Alright Vs Chair: 1.4024
+  - Alright Vs Boy: 2.1414
+  - Alright Vs Car: 1.4679
+  - Alright Vs Crowd: 1.2143
+  - Alright Vs Bad: 2.0534
+  - Alright Vs Adult: 1.9494
+  - Alright Vs Bus: 1.2250
+  - Author Vs Attack: 2.4368
+  - Author Vs Ball: 2.3277
+  - Author Vs Blind: 3.3276
+  - Author Vs Deaf: 3.1744
+  - Author Vs Big Large: 1.0803
+  - Author Vs Bird: 1.2735
+  - Author Vs Clean: 1.6821
+  - Author Vs Cool: 2.5914
+  - Author Vs Cell Phone: 2.5502
+  - Author Vs Doctor: 1.8480
+  - Author Vs Bicycle: 2.1717
+  - Author Vs Bank: 1.7841
+  - Author Vs City: 1.7597
+  - Author Vs Animal: 1.3176
+  - Author Vs Beautiful: 2.9396
+  - Author Vs Bathroom: 1.2962
+  - Author Vs Brown: 2.0793
+  - Author Vs Dead: 3.3957
+  - Author Vs Child: 3.0111
+  - Author Vs Box: 1.3013
+  - Author Vs Clothing: 2.8577
+  - Author Vs Dog: 1.6023
+  - Author Vs Bedroom: 1.1217
+  - Author Vs Colour: 2.7763
+  - Author Vs Bed: 1.7782
+  - Author Vs Cat: 1.6914
+  - Author Vs Death: 1.7264
+  - Author Vs Dress: 3.3227
+  - Author Vs Book: 1.2293
+  - Author Vs Curved: 3.2076
+  - Author Vs Card: 1.1704
+  - Author Vs Actor: 1.4876
+  - Author Vs Brother: 2.8443
+  - Author Vs Cheap: 3.0839
+  - Author Vs Black: 2.7223
+  - Author Vs Afternoon: 2.3452
+  - Author Vs Camera: 1.3481
+  - Author Vs Clock: 1.8113
+  - Author Vs Bill: 1.6185
+  - Author Vs Chair: 1.2060
+  - Author Vs Boy: 2.6856
+  - Author Vs Car: 1.1219
+  - Author Vs Crowd: 1.2630
+  - Author Vs Bad: 2.7157
+  - Author Vs Adult: 2.3130
+  - Author Vs Bus: 1.2067
+  - Attack Vs Ball: 1.8294
+  - Attack Vs Blind: 1.9489
+  - Attack Vs Deaf: 1.9425
+  - Attack Vs Big Large: 2.1682
+  - Attack Vs Bird: 2.0324
+  - Attack Vs Clean: 1.6816
+  - Attack Vs Cool: 1.9098
+  - Attack Vs Cell Phone: 2.0983
+  - Attack Vs Doctor: 1.7823
+  - Attack Vs Bicycle: 1.7585
+  - Attack Vs Bank: 1.7583
+  - Attack Vs City: 1.7860
+  - Attack Vs Animal: 2.2167
+  - Attack Vs Beautiful: 1.7133
+  - Attack Vs Bathroom: 1.9536
+  - Attack Vs Brown: 1.9317
+  - Attack Vs Dead: 2.0081
+  - Attack Vs Child: 2.3052
+  - Attack Vs Box: 2.2803
+  - Attack Vs Clothing: 2.0280
+  - Attack Vs Dog: 1.9833
+  - Attack Vs Bedroom: 2.3178
+  - Attack Vs Colour: 2.0636
+  - Attack Vs Bed: 1.9134
+  - Attack Vs Cat: 1.9820
+  - Attack Vs Death: 1.6232
+  - Attack Vs Dress: 2.1968
+  - Attack Vs Book: 2.1170
+  - Attack Vs Curved: 1.8071
+  - Attack Vs Card: 2.1007
+  - Attack Vs Actor: 1.8111
+  - Attack Vs Brother: 2.0999
+  - Attack Vs Cheap: 1.7880
+  - Attack Vs Black: 2.0247
+  - Attack Vs Afternoon: 2.1930
+  - Attack Vs Camera: 2.2570
+  - Attack Vs Clock: 1.7950
+  - Attack Vs Bill: 1.9564
+  - Attack Vs Chair: 2.1204
+  - Attack Vs Boy: 2.0865
+  - Attack Vs Car: 2.2617
+  - Attack Vs Crowd: 1.9165
+  - Attack Vs Bad: 1.9675
+  - Attack Vs Adult: 2.1168
+  - Attack Vs Bus: 2.0167
+  - Ball Vs Blind: 1.7272
+  - Ball Vs Deaf: 1.5850
+  - Ball Vs Big Large: 2.0510
+  - Ball Vs Bird: 1.9561
+  - Ball Vs Clean: 1.5090
+  - Ball Vs Cool: 1.7788
+  - Ball Vs Cell Phone: 2.0677
+  - Ball Vs Doctor: 1.6790
+  - Ball Vs Bicycle: 1.7075
+  - Ball Vs Bank: 1.6055
+  - Ball Vs City: 1.5808
+  - Ball Vs Animal: 2.1907
+  - Ball Vs Beautiful: 1.4158
+  - Ball Vs Bathroom: 1.8276
+  - Ball Vs Brown: 1.8868
+  - Ball Vs Dead: 1.7936
+  - Ball Vs Child: 2.2004
+  - Ball Vs Box: 2.2609
+  - Ball Vs Clothing: 1.9500
+  - Ball Vs Dog: 1.8704
+  - Ball Vs Bedroom: 2.2473
+  - Ball Vs Colour: 1.9120
+  - Ball Vs Bed: 1.8522
+  - Ball Vs Cat: 1.8420
+  - Ball Vs Death: 1.5223
+  - Ball Vs Dress: 1.8771
+  - Ball Vs Book: 1.9637
+  - Ball Vs Curved: 1.8193
+  - Ball Vs Card: 2.0413
+  - Ball Vs Actor: 1.6988
+  - Ball Vs Brother: 2.1784
+  - Ball Vs Cheap: 1.6022
+  - Ball Vs Black: 1.9126
+  - Ball Vs Afternoon: 2.2015
+  - Ball Vs Camera: 2.1993
+  - Ball Vs Clock: 1.7207
+  - Ball Vs Bill: 1.8960
+  - Ball Vs Chair: 1.9979
+  - Ball Vs Boy: 2.1271
+  - Ball Vs Car: 2.2060
+  - Ball Vs Crowd: 1.8146
+  - Ball Vs Bad: 1.7211
+  - Ball Vs Adult: 2.0666
+  - Ball Vs Bus: 1.8971
+  - Blind Vs Deaf: 1.0109
+  - Blind Vs Big Large: 2.9504
+  - Blind Vs Bird: 2.7365
+  - Blind Vs Clean: 2.1110
+  - Blind Vs Cool: 1.7563
+  - Blind Vs Cell Phone: 1.9383
+  - Blind Vs Doctor: 2.3337
+  - Blind Vs Bicycle: 2.0540
+  - Blind Vs Bank: 2.3118
+  - Blind Vs City: 2.0537
+  - Blind Vs Animal: 2.9875
+  - Blind Vs Beautiful: 88.45%
+  - Blind Vs Bathroom: 2.7169
+  - Blind Vs Brown: 2.2967
+  - Blind Vs Dead: 1.1339
+  - Blind Vs Child: 2.0981
+  - Blind Vs Box: 3.0997
+  - Blind Vs Clothing: 1.7077
+  - Blind Vs Dog: 2.5166
+  - Blind Vs Bedroom: 3.1410
+  - Blind Vs Colour: 1.8767
+  - Blind Vs Bed: 2.3273
+  - Blind Vs Cat: 2.4219
+  - Blind Vs Death: 2.0815
+  - Blind Vs Dress: 1.6070
+  - Blind Vs Book: 2.8542
+  - Blind Vs Curved: 1.0585
+  - Blind Vs Card: 2.9019
+  - Blind Vs Actor: 2.4624
+  - Blind Vs Brother: 1.9595
+  - Blind Vs Cheap: 1.0489
+  - Blind Vs Black: 1.8208
+  - Blind Vs Afternoon: 2.4645
+  - Blind Vs Camera: 2.9175
+  - Blind Vs Clock: 2.1990
+  - Blind Vs Bill: 2.4861
+  - Blind Vs Chair: 2.8815
+  - Blind Vs Boy: 2.0529
+  - Blind Vs Car: 3.1444
+  - Blind Vs Crowd: 2.5994
+  - Blind Vs Bad: 1.6323
+  - Blind Vs Adult: 2.4065
+  - Blind Vs Bus: 2.7714
+  - Deaf Vs Big Large: 2.8165
+  - Deaf Vs Bird: 2.6285
+  - Deaf Vs Clean: 1.9975
+  - Deaf Vs Cool: 1.7579
+  - Deaf Vs Cell Phone: 2.0159
+  - Deaf Vs Doctor: 2.1915
+  - Deaf Vs Bicycle: 2.0032
+  - Deaf Vs Bank: 2.1543
+  - Deaf Vs City: 1.9697
+  - Deaf Vs Animal: 2.8753
+  - Deaf Vs Beautiful: 99.06%
+  - Deaf Vs Bathroom: 2.5665
+  - Deaf Vs Brown: 2.2315
+  - Deaf Vs Dead: 1.2642
+  - Deaf Vs Child: 2.1140
+  - Deaf Vs Box: 2.9870
+  - Deaf Vs Clothing: 1.7608
+  - Deaf Vs Dog: 2.4200
+  - Deaf Vs Bedroom: 3.0180
+  - Deaf Vs Colour: 1.8579
+  - Deaf Vs Bed: 2.2928
+  - Deaf Vs Cat: 2.3302
+  - Deaf Vs Death: 1.9914
+  - Deaf Vs Dress: 1.5815
+  - Deaf Vs Book: 2.7037
+  - Deaf Vs Curved: 1.2654
+  - Deaf Vs Card: 2.7739
+  - Deaf Vs Actor: 2.3149
+  - Deaf Vs Brother: 2.0265
+  - Deaf Vs Cheap: 1.1282
+  - Deaf Vs Black: 1.8382
+  - Deaf Vs Afternoon: 2.4367
+  - Deaf Vs Camera: 2.8224
+  - Deaf Vs Clock: 2.1305
+  - Deaf Vs Bill: 2.4166
+  - Deaf Vs Chair: 2.7467
+  - Deaf Vs Boy: 2.0926
+  - Deaf Vs Car: 2.9979
+  - Deaf Vs Crowd: 2.4891
+  - Deaf Vs Bad: 1.6283
+  - Deaf Vs Adult: 2.3310
+  - Deaf Vs Bus: 2.6296
+  - Big Large Vs Bird: 1.1850
+  - Big Large Vs Clean: 1.4357
+  - Big Large Vs Cool: 2.3277
+  - Big Large Vs Cell Phone: 2.2974
+  - Big Large Vs Doctor: 1.5992
+  - Big Large Vs Bicycle: 1.8954
+  - Big Large Vs Bank: 1.5201
+  - Big Large Vs City: 1.4816
+  - Big Large Vs Animal: 1.2984
+  - Big Large Vs Beautiful: 2.5686
+  - Big Large Vs Bathroom: 1.1976
+  - Big Large Vs Brown: 1.8703
+  - Big Large Vs Dead: 3.0482
+  - Big Large Vs Child: 2.7839
+  - Big Large Vs Box: 1.2936
+  - Big Large Vs Clothing: 2.5757
+  - Big Large Vs Dog: 1.4234
+  - Big Large Vs Bedroom: 1.1269
+  - Big Large Vs Colour: 2.4990
+  - Big Large Vs Bed: 1.5643
+  - Big Large Vs Cat: 1.5348
+  - Big Large Vs Death: 1.4344
+  - Big Large Vs Dress: 3.0188
+  - Big Large Vs Book: 1.1411
+  - Big Large Vs Curved: 2.8339
+  - Big Large Vs Card: 1.1312
+  - Big Large Vs Actor: 1.2909
+  - Big Large Vs Brother: 2.5524
+  - Big Large Vs Cheap: 2.7208
+  - Big Large Vs Black: 2.4516
+  - Big Large Vs Afternoon: 2.1238
+  - Big Large Vs Camera: 1.2627
+  - Big Large Vs Clock: 1.5560
+  - Big Large Vs Bill: 1.4270
+  - Big Large Vs Chair: 1.1931
+  - Big Large Vs Boy: 2.4421
+  - Big Large Vs Car: 1.1644
+  - Big Large Vs Crowd: 1.0678
+  - Big Large Vs Bad: 2.4363
+  - Big Large Vs Adult: 2.1310
+  - Big Large Vs Bus: 1.1425
+  - Bird Vs Clean: 1.3260
+  - Bird Vs Cool: 2.1840
+  - Bird Vs Cell Phone: 2.2452
+  - Bird Vs Doctor: 1.5268
+  - Bird Vs Bicycle: 1.6859
+  - Bird Vs Bank: 1.4881
+  - Bird Vs City: 1.4638
+  - Bird Vs Animal: 1.2862
+  - Bird Vs Beautiful: 2.3531
+  - Bird Vs Bathroom: 1.2540
+  - Bird Vs Brown: 1.7020
+  - Bird Vs Dead: 2.7871
+  - Bird Vs Child: 2.6597
+  - Bird Vs Box: 1.3099
+  - Bird Vs Clothing: 2.4008
+  - Bird Vs Dog: 1.3955
+  - Bird Vs Bedroom: 1.3083
+  - Bird Vs Colour: 2.3584
+  - Bird Vs Bed: 1.5777
+  - Bird Vs Cat: 1.4653
+  - Bird Vs Death: 1.3289
+  - Bird Vs Dress: 2.7942
+  - Bird Vs Book: 1.3082
+  - Bird Vs Curved: 2.5991
+  - Bird Vs Card: 1.1976
+  - Bird Vs Actor: 1.3012
+  - Bird Vs Brother: 2.4401
+  - Bird Vs Cheap: 2.5009
+  - Bird Vs Black: 2.3205
+  - Bird Vs Afternoon: 2.1370
+  - Bird Vs Camera: 1.3830
+  - Bird Vs Clock: 1.4974
+  - Bird Vs Bill: 1.4101
+  - Bird Vs Chair: 1.2468
+  - Bird Vs Boy: 2.3216
+  - Bird Vs Car: 1.2765
+  - Bird Vs Crowd: 1.0830
+  - Bird Vs Bad: 2.3086
+  - Bird Vs Adult: 2.0787
+  - Bird Vs Bus: 1.1911
+  - Clean Vs Cool: 1.8143
+  - Clean Vs Cell Phone: 2.0102
+  - Clean Vs Doctor: 1.2851
+  - Clean Vs Bicycle: 1.3870
+  - Clean Vs Bank: 1.1885
+  - Clean Vs City: 1.2537
+  - Clean Vs Animal: 1.4737
+  - Clean Vs Beautiful: 1.7198
+  - Clean Vs Bathroom: 1.3002
+  - Clean Vs Brown: 1.4981
+  - Clean Vs Dead: 2.0948
+  - Clean Vs Child: 2.2833
+  - Clean Vs Box: 1.6535
+  - Clean Vs Clothing: 1.9011
+  - Clean Vs Dog: 1.4343
+  - Clean Vs Bedroom: 1.6621
+  - Clean Vs Colour: 1.8873
+  - Clean Vs Bed: 1.5438
+  - Clean Vs Cat: 1.3324
+  - Clean Vs Death: 1.0430
+  - Clean Vs Dress: 2.1135
+  - Clean Vs Book: 1.4799
+  - Clean Vs Curved: 2.0007
+  - Clean Vs Card: 1.3778
+  - Clean Vs Actor: 1.1489
+  - Clean Vs Brother: 2.0741
+  - Clean Vs Cheap: 1.8782
+  - Clean Vs Black: 1.9159
+  - Clean Vs Afternoon: 2.0001
+  - Clean Vs Camera: 1.6699
+  - Clean Vs Clock: 1.3812
+  - Clean Vs Bill: 1.4152
+  - Clean Vs Chair: 1.4144
+  - Clean Vs Boy: 2.0100
+  - Clean Vs Car: 1.5113
+  - Clean Vs Crowd: 1.2030
+  - Clean Vs Bad: 1.8940
+  - Clean Vs Adult: 1.8530
+  - Clean Vs Bus: 1.2284
+  - Cool Vs Cell Phone: 2.1133
+  - Cool Vs Doctor: 1.9251
+  - Cool Vs Bicycle: 1.8427
+  - Cool Vs Bank: 1.8936
+  - Cool Vs City: 1.8431
+  - Cool Vs Animal: 2.3906
+  - Cool Vs Beautiful: 1.5296
+  - Cool Vs Bathroom: 2.1228
+  - Cool Vs Brown: 2.0215
+  - Cool Vs Dead: 1.8545
+  - Cool Vs Child: 2.2655
+  - Cool Vs Box: 2.4412
+  - Cool Vs Clothing: 1.9895
+  - Cool Vs Dog: 2.0903
+  - Cool Vs Bedroom: 2.4729
+  - Cool Vs Colour: 2.0303
+  - Cool Vs Bed: 2.0386
+  - Cool Vs Cat: 2.0750
+  - Cool Vs Death: 1.7776
+  - Cool Vs Dress: 2.0600
+  - Cool Vs Book: 2.2484
+  - Cool Vs Curved: 1.7114
+  - Cool Vs Card: 2.2764
+  - Cool Vs Actor: 1.9786
+  - Cool Vs Brother: 2.1102
+  - Cool Vs Cheap: 1.6379
+  - Cool Vs Black: 1.9936
+  - Cool Vs Afternoon: 2.2793
+  - Cool Vs Camera: 2.3640
+  - Cool Vs Clock: 1.8814
+  - Cool Vs Bill: 2.0906
+  - Cool Vs Chair: 2.2831
+  - Cool Vs Boy: 2.0946
+  - Cool Vs Car: 2.4487
+  - Cool Vs Crowd: 2.0748
+  - Cool Vs Bad: 1.8486
+  - Cool Vs Adult: 2.1775
+  - Cool Vs Bus: 2.1926
+  - Cell Phone Vs Doctor: 2.1024
+  - Cell Phone Vs Bicycle: 2.0926
+  - Cell Phone Vs Bank: 2.0689
+  - Cell Phone Vs City: 2.0097
+  - Cell Phone Vs Animal: 2.4431
+  - Cell Phone Vs Beautiful: 1.8222
+  - Cell Phone Vs Bathroom: 2.1580
+  - Cell Phone Vs Brown: 2.2585
+  - Cell Phone Vs Dead: 2.1552
+  - Cell Phone Vs Child: 2.4515
+  - Cell Phone Vs Box: 2.4396
+  - Cell Phone Vs Clothing: 2.2388
+  - Cell Phone Vs Dog: 2.1894
+  - Cell Phone Vs Bedroom: 2.3821
+  - Cell Phone Vs Colour: 2.2872
+  - Cell Phone Vs Bed: 2.0473
+  - Cell Phone Vs Cat: 2.2171
+  - Cell Phone Vs Death: 1.9193
+  - Cell Phone Vs Dress: 2.4469
+  - Cell Phone Vs Book: 2.2319
+  - Cell Phone Vs Curved: 1.8766
+  - Cell Phone Vs Card: 2.2761
+  - Cell Phone Vs Actor: 2.1158
+  - Cell Phone Vs Brother: 2.2620
+  - Cell Phone Vs Cheap: 1.9364
+  - Cell Phone Vs Black: 2.2014
+  - Cell Phone Vs Afternoon: 2.3372
+  - Cell Phone Vs Camera: 2.3475
+  - Cell Phone Vs Clock: 1.9931
+  - Cell Phone Vs Bill: 2.1322
+  - Cell Phone Vs Chair: 2.2958
+  - Cell Phone Vs Boy: 2.2734
+  - Cell Phone Vs Car: 2.4377
+  - Cell Phone Vs Crowd: 2.1310
+  - Cell Phone Vs Bad: 2.0975
+  - Cell Phone Vs Adult: 2.3618
+  - Cell Phone Vs Bus: 2.2487
+  - Doctor Vs Bicycle: 1.4652
+  - Doctor Vs Bank: 1.1739
+  - Doctor Vs City: 1.4665
+  - Doctor Vs Animal: 1.6731
+  - Doctor Vs Beautiful: 1.9245
+  - Doctor Vs Bathroom: 1.3738
+  - Doctor Vs Brown: 1.5661
+  - Doctor Vs Dead: 2.2704
+  - Doctor Vs Child: 2.3527
+  - Doctor Vs Box: 1.6881
+  - Doctor Vs Clothing: 2.0439
+  - Doctor Vs Dog: 1.5413
+  - Doctor Vs Bedroom: 1.7538
+  - Doctor Vs Colour: 1.9559
+  - Doctor Vs Bed: 1.6769
+  - Doctor Vs Cat: 1.6158
+  - Doctor Vs Death: 1.1876
+  - Doctor Vs Dress: 2.2585
+  - Doctor Vs Book: 1.5328
+  - Doctor Vs Curved: 2.1690
+  - Doctor Vs Card: 1.5083
+  - Doctor Vs Actor: 1.2696
+  - Doctor Vs Brother: 2.1271
+  - Doctor Vs Cheap: 2.0426
+  - Doctor Vs Black: 2.0510
+  - Doctor Vs Afternoon: 2.0052
+  - Doctor Vs Camera: 1.7712
+  - Doctor Vs Clock: 1.4289
+  - Doctor Vs Bill: 1.5759
+  - Doctor Vs Chair: 1.5946
+  - Doctor Vs Boy: 2.1042
+  - Doctor Vs Car: 1.6448
+  - Doctor Vs Crowd: 1.4000
+  - Doctor Vs Bad: 1.9893
+  - Doctor Vs Adult: 1.9028
+  - Doctor Vs Bus: 1.4666
+  - Bicycle Vs Bank: 1.4607
+  - Bicycle Vs City: 1.5696
+  - Bicycle Vs Animal: 1.8530
+  - Bicycle Vs Beautiful: 1.7021
+  - Bicycle Vs Bathroom: 1.6818
+  - Bicycle Vs Brown: 1.5182
+  - Bicycle Vs Dead: 1.9884
+  - Bicycle Vs Child: 2.2822
+  - Bicycle Vs Box: 1.8947
+  - Bicycle Vs Clothing: 1.9320
+  - Bicycle Vs Dog: 1.6466
+  - Bicycle Vs Bedroom: 2.0591
+  - Bicycle Vs Colour: 1.9244
+  - Bicycle Vs Bed: 1.7690
+  - Bicycle Vs Cat: 1.6906
+  - Bicycle Vs Death: 1.3193
+  - Bicycle Vs Dress: 2.0982
+  - Bicycle Vs Book: 1.8586
+  - Bicycle Vs Curved: 1.8786
+  - Bicycle Vs Card: 1.7888
+  - Bicycle Vs Actor: 1.5545
+  - Bicycle Vs Brother: 2.0851
+  - Bicycle Vs Cheap: 1.8241
+  - Bicycle Vs Black: 1.9754
+  - Bicycle Vs Afternoon: 2.1636
+  - Bicycle Vs Camera: 2.0213
+  - Bicycle Vs Clock: 1.5046
+  - Bicycle Vs Bill: 1.6668
+  - Bicycle Vs Chair: 1.8183
+  - Bicycle Vs Boy: 2.0385
+  - Bicycle Vs Car: 1.9671
+  - Bicycle Vs Crowd: 1.5683
+  - Bicycle Vs Bad: 1.8919
+  - Bicycle Vs Adult: 2.0118
+  - Bicycle Vs Bus: 1.7034
+  - Bank Vs City: 1.4179
+  - Bank Vs Animal: 1.6351
+  - Bank Vs Beautiful: 1.8877
+  - Bank Vs Bathroom: 1.3084
+  - Bank Vs Brown: 1.5567
+  - Bank Vs Dead: 2.2345
+  - Bank Vs Child: 2.3167
+  - Bank Vs Box: 1.6771
+  - Bank Vs Clothing: 2.0166
+  - Bank Vs Dog: 1.5213
+  - Bank Vs Bedroom: 1.7007
+  - Bank Vs Colour: 1.9073
+  - Bank Vs Bed: 1.6381
+  - Bank Vs Cat: 1.5585
+  - Bank Vs Death: 1.1364
+  - Bank Vs Dress: 2.2204
+  - Bank Vs Book: 1.4403
+  - Bank Vs Curved: 2.1541
+  - Bank Vs Card: 1.4569
+  - Bank Vs Actor: 1.2016
+  - Bank Vs Brother: 2.1142
+  - Bank Vs Cheap: 2.0184
+  - Bank Vs Black: 2.0128
+  - Bank Vs Afternoon: 1.9641
+  - Bank Vs Camera: 1.7564
+  - Bank Vs Clock: 1.4132
+  - Bank Vs Bill: 1.5568
+  - Bank Vs Chair: 1.5382
+  - Bank Vs Boy: 2.0856
+  - Bank Vs Car: 1.5777
+  - Bank Vs Crowd: 1.3514
+  - Bank Vs Bad: 1.9428
+  - Bank Vs Adult: 1.8614
+  - Bank Vs Bus: 1.3859
+  - City Vs Animal: 1.6806
+  - City Vs Beautiful: 1.6863
+  - City Vs Bathroom: 1.4479
+  - City Vs Brown: 1.6749
+  - City Vs Dead: 2.1670
+  - City Vs Child: 2.3304
+  - City Vs Box: 1.7228
+  - City Vs Clothing: 2.0204
+  - City Vs Dog: 1.5045
+  - City Vs Bedroom: 1.6798
+  - City Vs Colour: 2.0128
+  - City Vs Bed: 1.5469
+  - City Vs Cat: 1.5313
+  - City Vs Death: 1.2524
+  - City Vs Dress: 2.2375
+  - City Vs Book: 1.5371
+  - City Vs Curved: 1.9998
+  - City Vs Card: 1.5435
+  - City Vs Actor: 1.3210
+  - City Vs Brother: 2.1032
+  - City Vs Cheap: 1.8629
+  - City Vs Black: 1.9730
+  - City Vs Afternoon: 2.0036
+  - City Vs Camera: 1.6172
+  - City Vs Clock: 1.4375
+  - City Vs Bill: 1.4753
+  - City Vs Chair: 1.5416
+  - City Vs Boy: 2.0473
+  - City Vs Car: 1.6835
+  - City Vs Crowd: 1.3136
+  - City Vs Bad: 1.8946
+  - City Vs Adult: 1.9573
+  - City Vs Bus: 1.4655
+  - Animal Vs Beautiful: 2.6175
+  - Animal Vs Bathroom: 1.3892
+  - Animal Vs Brown: 1.8238
+  - Animal Vs Dead: 2.9972
+  - Animal Vs Child: 2.8274
+  - Animal Vs Box: 1.4064
+  - Animal Vs Clothing: 2.5524
+  - Animal Vs Dog: 1.5470
+  - Animal Vs Bedroom: 1.4202
+  - Animal Vs Colour: 2.5140
+  - Animal Vs Bed: 1.7822
+  - Animal Vs Cat: 1.5856
+  - Animal Vs Death: 1.5194
+  - Animal Vs Dress: 2.9722
+  - Animal Vs Book: 1.4353
+  - Animal Vs Curved: 2.8354
+  - Animal Vs Card: 1.2912
+  - Animal Vs Actor: 1.4392
+  - Animal Vs Brother: 2.6047
+  - Animal Vs Cheap: 2.7443
+  - Animal Vs Black: 2.5108
+  - Animal Vs Afternoon: 2.2919
+  - Animal Vs Camera: 1.5262
+  - Animal Vs Clock: 1.6920
+  - Animal Vs Bill: 1.5720
+  - Animal Vs Chair: 1.3760
+  - Animal Vs Boy: 2.4908
+  - Animal Vs Car: 1.3209
+  - Animal Vs Crowd: 1.2188
+  - Animal Vs Bad: 2.5252
+  - Animal Vs Adult: 2.2152
+  - Animal Vs Bus: 1.2718
+  - Beautiful Vs Bathroom: 2.3135
+  - Beautiful Vs Brown: 1.9538
+  - Beautiful Vs Dead: 1.0666
+  - Beautiful Vs Child: 1.9521
+  - Beautiful Vs Box: 2.7185
+  - Beautiful Vs Clothing: 1.5352
+  - Beautiful Vs Dog: 2.1477
+  - Beautiful Vs Bedroom: 2.7695
+  - Beautiful Vs Colour: 1.6449
+  - Beautiful Vs Bed: 2.0403
+  - Beautiful Vs Cat: 2.0484
+  - Beautiful Vs Death: 1.6980
+  - Beautiful Vs Dress: 1.4666
+  - Beautiful Vs Book: 2.4567
+  - Beautiful Vs Curved: 96.77%
+  - Beautiful Vs Card: 2.5197
+  - Beautiful Vs Actor: 2.0417
+  - Beautiful Vs Brother: 1.7898
+  - Beautiful Vs Cheap: 87.47%
+  - Beautiful Vs Black: 1.6174
+  - Beautiful Vs Afternoon: 2.2242
+  - Beautiful Vs Camera: 2.5737
+  - Beautiful Vs Clock: 1.8430
+  - Beautiful Vs Bill: 2.1234
+  - Beautiful Vs Chair: 2.4793
+  - Beautiful Vs Boy: 1.8341
+  - Beautiful Vs Car: 2.7504
+  - Beautiful Vs Crowd: 2.2276
+  - Beautiful Vs Bad: 1.4177
+  - Beautiful Vs Adult: 2.1217
+  - Beautiful Vs Bus: 2.3806
+  - Bathroom Vs Brown: 1.6988
+  - Bathroom Vs Dead: 2.7462
+  - Bathroom Vs Child: 2.5765
+  - Bathroom Vs Box: 1.3494
+  - Bathroom Vs Clothing: 2.3489
+  - Bathroom Vs Dog: 1.4357
+  - Bathroom Vs Bedroom: 1.2730
+  - Bathroom Vs Colour: 2.2568
+  - Bathroom Vs Bed: 1.5297
+  - Bathroom Vs Cat: 1.5093
+  - Bathroom Vs Death: 1.2534
+  - Bathroom Vs Dress: 2.7160
+  - Bathroom Vs Book: 1.2105
+  - Bathroom Vs Curved: 2.5843
+  - Bathroom Vs Card: 1.1540
+  - Bathroom Vs Actor: 1.1941
+  - Bathroom Vs Brother: 2.3763
+  - Bathroom Vs Cheap: 2.4643
+  - Bathroom Vs Black: 2.2477
+  - Bathroom Vs Afternoon: 2.0185
+  - Bathroom Vs Camera: 1.4091
+  - Bathroom Vs Clock: 1.4376
+  - Bathroom Vs Bill: 1.4434
+  - Bathroom Vs Chair: 1.2358
+  - Bathroom Vs Boy: 2.2827
+  - Bathroom Vs Car: 1.2269
+  - Bathroom Vs Crowd: 1.1643
+  - Bathroom Vs Bad: 2.2344
+  - Bathroom Vs Adult: 1.9695
+  - Bathroom Vs Bus: 1.1741
+  - Brown Vs Dead: 2.2241
+  - Brown Vs Child: 2.4379
+  - Brown Vs Box: 1.8525
+  - Brown Vs Clothing: 2.0948
+  - Brown Vs Dog: 1.7246
+  - Brown Vs Bedroom: 2.0143
+  - Brown Vs Colour: 2.0749
+  - Brown Vs Bed: 1.8828
+  - Brown Vs Cat: 1.7661
+  - Brown Vs Death: 1.4494
+  - Brown Vs Dress: 2.2845
+  - Brown Vs Book: 1.8611
+  - Brown Vs Curved: 2.1428
+  - Brown Vs Card: 1.7636
+  - Brown Vs Actor: 1.5990
+  - Brown Vs Brother: 2.2456
+  - Brown Vs Cheap: 2.0653
+  - Brown Vs Black: 2.1352
+  - Brown Vs Afternoon: 2.2567
+  - Brown Vs Camera: 1.9921
+  - Brown Vs Clock: 1.6357
+  - Brown Vs Bill: 1.7879
+  - Brown Vs Chair: 1.8229
+  - Brown Vs Boy: 2.1924
+  - Brown Vs Car: 1.9035
+  - Brown Vs Crowd: 1.6128
+  - Brown Vs Bad: 2.0912
+  - Brown Vs Adult: 2.1012
+  - Brown Vs Bus: 1.7133
+  - Dead Vs Child: 2.0629
+  - Dead Vs Box: 3.1580
+  - Dead Vs Clothing: 1.6009
+  - Dead Vs Dog: 2.5803
+  - Dead Vs Bedroom: 3.2499
+  - Dead Vs Colour: 1.7504
+  - Dead Vs Bed: 2.4812
+  - Dead Vs Cat: 2.4531
+  - Dead Vs Death: 2.0726
+  - Dead Vs Dress: 1.4109
+  - Dead Vs Book: 2.9220
+  - Dead Vs Curved: 1.1782
+  - Dead Vs Card: 2.9410
+  - Dead Vs Actor: 2.4591
+  - Dead Vs Brother: 2.0116
+  - Dead Vs Cheap: 1.1458
+  - Dead Vs Black: 1.8537
+  - Dead Vs Afternoon: 2.5836
+  - Dead Vs Camera: 3.0941
+  - Dead Vs Clock: 2.2846
+  - Dead Vs Bill: 2.5809
+  - Dead Vs Chair: 2.9222
+  - Dead Vs Boy: 2.0948
+  - Dead Vs Car: 3.1631
+  - Dead Vs Crowd: 2.6714
+  - Dead Vs Bad: 1.7224
+  - Dead Vs Adult: 2.4134
+  - Dead Vs Bus: 2.7829
+  - Child Vs Box: 2.8974
+  - Child Vs Clothing: 2.2874
+  - Child Vs Dog: 2.5625
+  - Child Vs Bedroom: 2.9113
+  - Child Vs Colour: 2.3182
+  - Child Vs Bed: 2.4815
+  - Child Vs Cat: 2.5402
+  - Child Vs Death: 2.2463
+  - Child Vs Dress: 2.2653
+  - Child Vs Book: 2.6901
+  - Child Vs Curved: 2.0446
+  - Child Vs Card: 2.7334
+  - Child Vs Actor: 2.4400
+  - Child Vs Brother: 2.4516
+  - Child Vs Cheap: 2.0131
+  - Child Vs Black: 2.3377
+  - Child Vs Afternoon: 2.6449
+  - Child Vs Camera: 2.8685
+  - Child Vs Clock: 2.3702
+  - Child Vs Bill: 2.5666
+  - Child Vs Chair: 2.7177
+  - Child Vs Boy: 2.4417
+  - Child Vs Car: 2.8710
+  - Child Vs Crowd: 2.5585
+  - Child Vs Bad: 2.2297
+  - Child Vs Adult: 2.5435
+  - Child Vs Bus: 2.6346
+  - Box Vs Clothing: 2.6952
+  - Box Vs Dog: 1.5357
+  - Box Vs Bedroom: 1.3092
+  - Box Vs Colour: 2.6260
+  - Box Vs Bed: 1.7490
+  - Box Vs Cat: 1.7121
+  - Box Vs Death: 1.5712
+  - Box Vs Dress: 3.1470
+  - Box Vs Book: 1.3851
+  - Box Vs Curved: 2.9348
+  - Box Vs Card: 1.2580
+  - Box Vs Actor: 1.5039
+  - Box Vs Brother: 2.6669
+  - Box Vs Cheap: 2.8513
+  - Box Vs Black: 2.5802
+  - Box Vs Afternoon: 2.2812
+  - Box Vs Camera: 1.3716
+  - Box Vs Clock: 1.6570
+  - Box Vs Bill: 1.6100
+  - Box Vs Chair: 1.3511
+  - Box Vs Boy: 2.5448
+  - Box Vs Car: 1.3201
+  - Box Vs Crowd: 1.2928
+  - Box Vs Bad: 2.5771
+  - Box Vs Adult: 2.2559
+  - Box Vs Bus: 1.3670
+  - Clothing Vs Dog: 2.3097
+  - Clothing Vs Bedroom: 2.7596
+  - Clothing Vs Colour: 1.9352
+  - Clothing Vs Bed: 2.2889
+  - Clothing Vs Cat: 2.2261
+  - Clothing Vs Death: 1.8916
+  - Clothing Vs Dress: 1.8420
+  - Clothing Vs Book: 2.5036
+  - Clothing Vs Curved: 1.6401
+  - Clothing Vs Card: 2.4819
+  - Clothing Vs Actor: 2.1209
+  - Clothing Vs Brother: 2.0942
+  - Clothing Vs Cheap: 1.5954
+  - Clothing Vs Black: 2.0350
+  - Clothing Vs Afternoon: 2.4341
+  - Clothing Vs Camera: 2.6743
+  - Clothing Vs Clock: 2.0992
+  - Clothing Vs Bill: 2.3061
+  - Clothing Vs Chair: 2.5200
+  - Clothing Vs Boy: 2.1560
+  - Clothing Vs Car: 2.6480
+  - Clothing Vs Crowd: 2.2852
+  - Clothing Vs Bad: 1.9633
+  - Clothing Vs Adult: 2.3145
+  - Clothing Vs Bus: 2.3660
+  - Dog Vs Bedroom: 1.5434
+  - Dog Vs Colour: 2.2571
+  - Dog Vs Bed: 1.6353
+  - Dog Vs Cat: 1.5918
+  - Dog Vs Death: 1.3771
+  - Dog Vs Dress: 2.6270
+  - Dog Vs Book: 1.4608
+  - Dog Vs Curved: 2.3864
+  - Dog Vs Card: 1.4479
+  - Dog Vs Actor: 1.4513
+  - Dog Vs Brother: 2.3457
+  - Dog Vs Cheap: 2.2988
+  - Dog Vs Black: 2.2387
+  - Dog Vs Afternoon: 2.1423
+  - Dog Vs Camera: 1.5701
+  - Dog Vs Clock: 1.5057
+  - Dog Vs Bill: 1.4993
+  - Dog Vs Chair: 1.4801
+  - Dog Vs Boy: 2.2556
+  - Dog Vs Car: 1.5615
+  - Dog Vs Crowd: 1.2675
+  - Dog Vs Bad: 2.1701
+  - Dog Vs Adult: 2.0795
+  - Dog Vs Bus: 1.4152
+  - Bedroom Vs Colour: 2.6747
+  - Bedroom Vs Bed: 1.6603
+  - Bedroom Vs Cat: 1.6972
+  - Bedroom Vs Death: 1.6140
+  - Bedroom Vs Dress: 3.2455
+  - Bedroom Vs Book: 1.2127
+  - Bedroom Vs Curved: 3.0011
+  - Bedroom Vs Card: 1.1959
+  - Bedroom Vs Actor: 1.4758
+  - Bedroom Vs Brother: 2.6921
+  - Bedroom Vs Cheap: 2.9153
+  - Bedroom Vs Black: 2.5954
+  - Bedroom Vs Afternoon: 2.2291
+  - Bedroom Vs Camera: 1.2958
+  - Bedroom Vs Clock: 1.6654
+  - Bedroom Vs Bill: 1.5524
+  - Bedroom Vs Chair: 1.2586
+  - Bedroom Vs Boy: 2.5608
+  - Bedroom Vs Car: 1.2285
+  - Bedroom Vs Crowd: 1.2590
+  - Bedroom Vs Bad: 2.5893
+  - Bedroom Vs Adult: 2.2375
+  - Bedroom Vs Bus: 1.2893
+  - Colour Vs Bed: 2.2778
+  - Colour Vs Cat: 2.2093
+  - Colour Vs Death: 1.8556
+  - Colour Vs Dress: 1.9267
+  - Colour Vs Book: 2.3914
+  - Colour Vs Curved: 1.8017
+  - Colour Vs Card: 2.4104
+  - Colour Vs Actor: 2.0651
+  - Colour Vs Brother: 2.1748
+  - Colour Vs Cheap: 1.7296
+  - Colour Vs Black: 2.0748
+  - Colour Vs Afternoon: 2.4465
+  - Colour Vs Camera: 2.6297
+  - Colour Vs Clock: 2.0598
+  - Colour Vs Bill: 2.2837
+  - Colour Vs Chair: 2.4505
+  - Colour Vs Boy: 2.2159
+  - Colour Vs Car: 2.5710
+  - Colour Vs Crowd: 2.2371
+  - Colour Vs Bad: 1.9851
+  - Colour Vs Adult: 2.2868
+  - Colour Vs Bus: 2.3024
+  - Bed Vs Cat: 1.7311
+  - Bed Vs Death: 1.4656
+  - Bed Vs Dress: 2.6334
+  - Bed Vs Book: 1.5954
+  - Bed Vs Curved: 2.1817
+  - Bed Vs Card: 1.6116
+  - Bed Vs Actor: 1.5548
+  - Bed Vs Brother: 2.2713
+  - Bed Vs Cheap: 2.1706
+  - Bed Vs Black: 2.1631
+  - Bed Vs Afternoon: 2.0783
+  - Bed Vs Camera: 1.6925
+  - Bed Vs Clock: 1.5766
+  - Bed Vs Bill: 1.5843
+  - Bed Vs Chair: 1.6106
+  - Bed Vs Boy: 2.1896
+  - Bed Vs Car: 1.7410
+  - Bed Vs Crowd: 1.4467
+  - Bed Vs Bad: 2.1186
+  - Bed Vs Adult: 2.0800
+  - Bed Vs Bus: 1.5859
+  - Cat Vs Death: 1.4001
+  - Cat Vs Dress: 2.5206
+  - Cat Vs Book: 1.5914
+  - Cat Vs Curved: 2.3134
+  - Cat Vs Card: 1.5278
+  - Cat Vs Actor: 1.4546
+  - Cat Vs Brother: 2.3291
+  - Cat Vs Cheap: 2.2148
+  - Cat Vs Black: 2.1952
+  - Cat Vs Afternoon: 2.2003
+  - Cat Vs Camera: 1.7276
+  - Cat Vs Clock: 1.6004
+  - Cat Vs Bill: 1.5663
+  - Cat Vs Chair: 1.5532
+  - Cat Vs Boy: 2.2364
+  - Cat Vs Car: 1.6277
+  - Cat Vs Crowd: 1.3704
+  - Cat Vs Bad: 2.1594
+  - Cat Vs Adult: 2.0870
+  - Cat Vs Bus: 1.4491
+  - Death Vs Dress: 2.1524
+  - Death Vs Book: 1.4348
+  - Death Vs Curved: 1.9269
+  - Death Vs Card: 1.3578
+  - Death Vs Actor: 1.1419
+  - Death Vs Brother: 1.9851
+  - Death Vs Cheap: 1.8448
+  - Death Vs Black: 1.8839
+  - Death Vs Afternoon: 1.9121
+  - Death Vs Camera: 1.6098
+  - Death Vs Clock: 1.2707
+  - Death Vs Bill: 1.3628
+  - Death Vs Chair: 1.4226
+  - Death Vs Boy: 1.9487
+  - Death Vs Car: 1.5363
+  - Death Vs Crowd: 1.1911
+  - Death Vs Bad: 1.8514
+  - Death Vs Adult: 1.8183
+  - Death Vs Bus: 1.2981
+  - Dress Vs Book: 2.9053
+  - Dress Vs Curved: 1.7131
+  - Dress Vs Card: 2.9207
+  - Dress Vs Actor: 2.4128
+  - Dress Vs Brother: 2.2997
+  - Dress Vs Cheap: 1.5338
+  - Dress Vs Black: 2.0830
+  - Dress Vs Afternoon: 2.7292
+  - Dress Vs Camera: 3.1237
+  - Dress Vs Clock: 2.4081
+  - Dress Vs Bill: 2.6818
+  - Dress Vs Chair: 2.9039
+  - Dress Vs Boy: 2.3510
+  - Dress Vs Car: 3.0960
+  - Dress Vs Crowd: 2.6754
+  - Dress Vs Bad: 1.9363
+  - Dress Vs Adult: 2.4972
+  - Dress Vs Bus: 2.7351
+  - Book Vs Curved: 2.7329
+  - Book Vs Card: 1.2123
+  - Book Vs Actor: 1.3318
+  - Book Vs Brother: 2.4866
+  - Book Vs Cheap: 2.6150
+  - Book Vs Black: 2.3814
+  - Book Vs Afternoon: 2.0808
+  - Book Vs Camera: 1.4061
+  - Book Vs Clock: 1.5319
+  - Book Vs Bill: 1.4989
+  - Book Vs Chair: 1.2829
+  - Book Vs Boy: 2.3878
+  - Book Vs Car: 1.2612
+  - Book Vs Crowd: 1.2031
+  - Book Vs Bad: 2.3240
+  - Book Vs Adult: 2.0734
+  - Book Vs Bus: 1.2301
+  - Curved Vs Card: 2.7547
+  - Curved Vs Actor: 2.3322
+  - Curved Vs Brother: 1.7883
+  - Curved Vs Cheap: 1.0488
+  - Curved Vs Black: 1.7651
+  - Curved Vs Afternoon: 2.3272
+  - Curved Vs Camera: 2.8092
+  - Curved Vs Clock: 2.0504
+  - Curved Vs Bill: 2.3307
+  - Curved Vs Chair: 2.7465
+  - Curved Vs Boy: 1.8800
+  - Curved Vs Car: 2.9929
+  - Curved Vs Crowd: 2.4762
+  - Curved Vs Bad: 1.6505
+  - Curved Vs Adult: 2.2647
+  - Curved Vs Bus: 2.6409
+  - Card Vs Actor: 1.2723
+  - Card Vs Brother: 2.4875
+  - Card Vs Cheap: 2.6556
+  - Card Vs Black: 2.3938
+  - Card Vs Afternoon: 2.1248
+  - Card Vs Camera: 1.3270
+  - Card Vs Clock: 1.5278
+  - Card Vs Bill: 1.4766
+  - Card Vs Chair: 1.2192
+  - Card Vs Boy: 2.3890
+  - Card Vs Car: 1.1624
+  - Card Vs Crowd: 1.1375
+  - Card Vs Bad: 2.4088
+  - Card Vs Adult: 2.0841
+  - Card Vs Bus: 1.1515
+  - Actor Vs Brother: 2.1794
+  - Actor Vs Cheap: 2.1819
+  - Actor Vs Black: 2.0917
+  - Actor Vs Afternoon: 1.9589
+  - Actor Vs Camera: 1.4929
+  - Actor Vs Clock: 1.4078
+  - Actor Vs Bill: 1.4271
+  - Actor Vs Chair: 1.3523
+  - Actor Vs Boy: 2.1330
+  - Actor Vs Car: 1.3597
+  - Actor Vs Crowd: 1.1859
+  - Actor Vs Bad: 2.0817
+  - Actor Vs Adult: 1.8877
+  - Actor Vs Bus: 1.2298
+  - Brother Vs Cheap: 1.8348
+  - Brother Vs Black: 2.1712
+  - Brother Vs Afternoon: 2.3532
+  - Brother Vs Camera: 2.5743
+  - Brother Vs Clock: 2.1013
+  - Brother Vs Bill: 2.2971
+  - Brother Vs Chair: 2.5524
+  - Brother Vs Boy: 2.1649
+  - Brother Vs Car: 2.6573
+  - Brother Vs Crowd: 2.3205
+  - Brother Vs Bad: 2.1527
+  - Brother Vs Adult: 2.3262
+  - Brother Vs Bus: 2.4398
+  - Cheap Vs Black: 1.7168
+  - Cheap Vs Afternoon: 2.2984
+  - Cheap Vs Camera: 2.7129
+  - Cheap Vs Clock: 1.9885
+  - Cheap Vs Bill: 2.2772
+  - Cheap Vs Chair: 2.6369
+  - Cheap Vs Boy: 1.9015
+  - Cheap Vs Car: 2.8816
+  - Cheap Vs Crowd: 2.3763
+  - Cheap Vs Bad: 1.5592
+  - Cheap Vs Adult: 2.1944
+  - Cheap Vs Bus: 2.5246
+  - Black Vs Afternoon: 2.3861
+  - Black Vs Camera: 2.5074
+  - Black Vs Clock: 2.0332
+  - Black Vs Bill: 2.2206
+  - Black Vs Chair: 2.4077
+  - Black Vs Boy: 2.1805
+  - Black Vs Car: 2.5623
+  - Black Vs Crowd: 2.2128
+  - Black Vs Bad: 1.9913
+  - Black Vs Adult: 2.2724
+  - Black Vs Bus: 2.3113
+  - Afternoon Vs Camera: 2.2234
+  - Afternoon Vs Clock: 2.0075
+  - Afternoon Vs Bill: 2.1226
+  - Afternoon Vs Chair: 2.1801
+  - Afternoon Vs Boy: 2.3714
+  - Afternoon Vs Car: 2.2340
+  - Afternoon Vs Crowd: 2.0180
+  - Afternoon Vs Bad: 2.3527
+  - Afternoon Vs Adult: 2.3172
+  - Afternoon Vs Bus: 2.1104
+  - Camera Vs Clock: 1.6480
+  - Camera Vs Bill: 1.5486
+  - Camera Vs Chair: 1.4139
+  - Camera Vs Boy: 2.4829
+  - Camera Vs Car: 1.4180
+  - Camera Vs Crowd: 1.3183
+  - Camera Vs Bad: 2.5030
+  - Camera Vs Adult: 2.2483
+  - Camera Vs Bus: 1.4492
+  - Clock Vs Bill: 1.4787
+  - Clock Vs Chair: 1.5818
+  - Clock Vs Boy: 2.0471
+  - Clock Vs Car: 1.6896
+  - Clock Vs Crowd: 1.3666
+  - Clock Vs Bad: 1.9593
+  - Clock Vs Adult: 1.9485
+  - Clock Vs Bus: 1.5211
+  - Bill Vs Chair: 1.4758
+  - Bill Vs Boy: 2.2143
+  - Bill Vs Car: 1.5877
+  - Bill Vs Crowd: 1.2783
+  - Bill Vs Bad: 2.1858
+  - Bill Vs Adult: 2.0832
+  - Bill Vs Bus: 1.4359
+  - Chair Vs Boy: 2.4128
+  - Chair Vs Car: 1.2552
+  - Chair Vs Crowd: 1.2045
+  - Chair Vs Bad: 2.3832
+  - Chair Vs Adult: 2.1224
+  - Chair Vs Bus: 1.2152
+  - Boy Vs Car: 2.5407
+  - Boy Vs Crowd: 2.2232
+  - Boy Vs Bad: 2.1453
+  - Boy Vs Adult: 2.2947
+  - Boy Vs Bus: 2.3324
+  - Car Vs Crowd: 1.2358
+  - Car Vs Bad: 2.5825
+  - Car Vs Adult: 2.1854
+  - Car Vs Bus: 1.1907
+  - Crowd Vs Bad: 2.1872
+  - Crowd Vs Adult: 1.9846
+  - Crowd Vs Bus: 1.0883
+  - Bad Vs Adult: 2.2503
+  - Bad Vs Bus: 2.3011
+  - Adult Vs Bus: 2.0332
+
+- **Intra Class Variance:**
+  - Dream: 0.005594538
+  - Baby: 0.010825731
+  - Alive: 0.0021425078
+  - Dirty: 0.002999124
+  - Door: 0.0062593757
+  - Deep: 0.0013712626
+  - Cold: 0.011448149
+  - Artist: 0.012446287
+  - Boat: 0.006405638
+  - Daughter: 0.011314696
+  - Bag: 0.0042209066
+  - Blue: 0.013226382
+  - Computer: 0.005468369
+  - Court: 0.0052502435
+  - Cow: 0.007910429
+  - Alright: 0.0053693377
+  - Author: 0.003864224
+  - Attack: 0.017119505
+  - Ball: 0.008915602
+  - Blind: 0.0032676116
+  - Deaf: 0.005580807
+  - Big Large: 0.004681601
+  - Bird: 0.006760957
+  - Clean: 0.0034717175
+  - Cool: 0.016921123
+  - Cell Phone: 0.022527747
+  - Doctor: 0.006728829
+  - Bicycle: 0.0076220823
+  - Bank: 0.0050022616
+  - City: 0.0075560473
+  - Animal: 0.008014382
+  - Beautiful: 0.0017572704
+  - Bathroom: 0.005322269
+  - Brown: 0.011500845
+  - Dead: 0.0043839174
+  - Child: 0.03023338
+  - Box: 0.0069345287
+  - Clothing: 0.016815243
+  - Dog: 0.0097591225
+  - Bedroom: 0.006075659
+  - Colour: 0.018421318
+  - Bed: 0.012994361
+  - Cat: 0.011485393
+  - Death: 0.004533506
+  - Dress: 0.010275845
+  - Book: 0.0065750717
+  - Curved: 0.0041746316
+  - Card: 0.0057182396
+  - Actor: 0.0049822037
+  - Brother: 0.0212949
+  - Cheap: 0.0048626666
+  - Black: 0.02039811
+  - Afternoon: 0.026795236
+  - Camera: 0.0062659285
+  - Clock: 0.008627566
+  - Bill: 0.009217137
+  - Chair: 0.007022435
+  - Boy: 0.023922987
+  - Car: 0.006126975
+  - Crowd: 0.0037120173
+  - Bad: 0.01598709
+  - Adult: 0.02415615
+  - Bus: 0.005310801
+
+
+## Landmark Importance
+
+- **Landmark Variance:** 2 items
+  - [[0.0, 0.0, 0.0], [0.013197578489780426, 0.01902800053358078, 0.0011367009719833732], [0.037293940782547, 0.09623998403549194, 0.0026302633341401815], [0.060126855969429016, 0.20504271984100342, 0.004359858110547066], [0.07994629442691803, 0.3052015006542206, 0.0068437387235462666], [0.024581938982009888, 0.22755150496959686, 0.0035922799725085497], [0.05347536504268646, 0.41363850235939026, 0.006534938234835863], [0.07262357324361801, 0.44529375433921814, 0.008937261998653412], [0.08626416325569153, 0.46331390738487244, 0.010844646953046322], [0.017031315714120865, 0.22051915526390076, 0.003409767523407936], [0.043994687497615814, 0.38454920053482056, 0.006625291891396046], [0.0598156712949276, 0.3921956717967987, 0.007950155064463615], [0.07140415161848068, 0.3933451175689697, 0.009159182198345661], [0.014343001879751682, 0.19145779311656952, 0.0042592380195856094], [0.03557697683572769, 0.3240021765232086, 0.007633655797690153], [0.04618922621011734, 0.32802441716194153, 0.007849733345210552], [0.05411670729517937, 0.32704398036003113, 0.008063795045018196], [0.014619938097894192, 0.15623177587985992, 0.006253341678529978], [0.02842617966234684, 0.25091636180877686, 0.008955682627856731], [0.03520115837454796, 0.2606581151485443, 0.009008506312966347], [0.04071233794093132, 0.2609131932258606, 0.009182294830679893]]
+  - [[0.0, 0.0, 0.0], [0.009321206249296665, 0.012031475082039833, 0.0010113130556419492], [0.025424733757972717, 0.06107424199581146, 0.002338223159313202], [0.04022933915257454, 0.13199616968631744, 0.00385927758179605], [0.05305604264140129, 0.19867515563964844, 0.005924337077885866], [0.015489728190004826, 0.1435367465019226, 0.002830487210303545], [0.03431650996208191, 0.26514309644699097, 0.005490066483616829], [0.047410447150468826, 0.2865983247756958, 0.007685441058129072], [0.05665262043476105, 0.3004569709300995, 0.009328318759799004], [0.010778919793665409, 0.13975025713443756, 0.0026965676806867123], [0.028006454929709435, 0.24600200355052948, 0.005338773597031832], [0.03874046355485916, 0.25278598070144653, 0.006465647369623184], [0.04658355563879013, 0.25493788719177246, 0.007471765857189894], [0.009504804387688637, 0.12229982018470764, 0.0032699545845389366], [0.022835904732346535, 0.20823030173778534, 0.005908811464905739], [0.02993874065577984, 0.2127309888601303, 0.006000380963087082], [0.03534337133169174, 0.2133028209209442, 0.006105032283812761], [0.009992334991693497, 0.10144570469856262, 0.0046117412857711315], [0.01859578862786293, 0.16401325166225433, 0.006646719295531511], [0.02309064380824566, 0.1713937222957611, 0.00656265951693058], [0.026812003925442696, 0.17187117040157318, 0.006585565861314535]]
+
+- **Landmark Movement:** 2 items
+  - [[0.0, 0.0, 0.0], [0.12088916450738907, 0.10316743701696396, 0.03316081315279007], [0.20351876318454742, 0.22002510726451874, 0.05172180384397507], [0.2572275400161743, 0.31738659739494324, 0.06669893860816956], [0.29491090774536133, 0.3883568346500397, 0.08267027884721756], [0.15743502974510193, 0.31826260685920715, 0.06004248559474945], [0.23405754566192627, 0.4326876103878021, 0.0807182788848877], [0.2735065221786499, 0.45473653078079224, 0.09350146353244781], [0.2966832220554352, 0.46842971444129944, 0.10195063054561615], [0.12528420984745026, 0.3127771317958832, 0.056146103888750076], [0.2061518132686615, 0.4200173318386078, 0.07764826714992523], [0.2426876574754715, 0.42936328053474426, 0.08441242575645447], [0.263254314661026, 0.43374091386795044, 0.08989440649747849], [0.11309962719678879, 0.29545047879219055, 0.05847598984837532], [0.18109261989593506, 0.392021507024765, 0.07885898649692535], [0.20770159363746643, 0.397244930267334, 0.07954391837120056], [0.22261735796928406, 0.3985121250152588, 0.07994682341814041], [0.11709726601839066, 0.27493685483932495, 0.0670740008354187], [0.1626015305519104, 0.3546072244644165, 0.0816071480512619], [0.18148761987686157, 0.3643196225166321, 0.08166664093732834], [0.19360695779323578, 0.36670446395874023, 0.08199109137058258]]
+  - [[0.0, 0.0, 0.0], [0.10312336683273315, 0.09319861233234406, 0.03048880398273468], [0.17138154804706573, 0.2034067064523697, 0.0474797785282135], [0.2151637226343155, 0.29592421650886536, 0.06107199564576149], [0.24629276990890503, 0.36289656162261963, 0.07498214393854141], [0.12768547236919403, 0.2987845838069916, 0.05332965403795242], [0.19166666269302368, 0.4093533754348755, 0.07405822724103928], [0.22705721855163574, 0.42911359667778015, 0.08719611167907715], [0.24812103807926178, 0.4400237500667572, 0.09543336182832718], [0.10104648768901825, 0.2946585416793823, 0.050216853618621826], [0.1680932193994522, 0.39793485403060913, 0.07081388682126999], [0.20116128027439117, 0.40685638785362244, 0.07785084843635559], [0.2200891077518463, 0.40845927596092224, 0.08334098011255264], [0.09467486292123795, 0.2781909704208374, 0.05283718183636665], [0.14868241548538208, 0.37084656953811646, 0.07182079553604126], [0.17225244641304016, 0.3765469789505005, 0.07229947298765182], [0.1861167699098587, 0.3756851255893707, 0.07245766371488571], [0.10027863830327988, 0.25832414627075195, 0.06104988604784012], [0.1356087327003479, 0.33525991439819336, 0.07415344566106796], [0.15125848352909088, 0.34537196159362793, 0.07347662001848221], [0.16179867088794708, 0.346009224653244, 0.07320176064968109]]
+
+- **Importance Scores:** 2 items
+  - [[0.0, 0.0, 0.0], [0.1340867429971695, 0.12219543755054474, 0.03429751470685005], [0.24081270396709442, 0.3162651062011719, 0.05435206741094589], [0.31735438108444214, 0.522429347038269, 0.07105879485607147], [0.37485718727111816, 0.6935583353042603, 0.08951401710510254], [0.18201696872711182, 0.5458140969276428, 0.06363476812839508], [0.2875329256057739, 0.8463261127471924, 0.08725322037935257], [0.3461301028728485, 0.900030255317688, 0.10243872553110123], [0.3829473853111267, 0.9317436218261719, 0.11279527842998505], [0.14231552183628082, 0.5332962870597839, 0.05955587327480316], [0.2501465082168579, 0.804566502571106, 0.084273561835289], [0.3025033175945282, 0.821558952331543, 0.09236258268356323], [0.3346584737300873, 0.8270860314369202, 0.09905359148979187], [0.1274426281452179, 0.4869082570075989, 0.06273522973060608], [0.21666958928108215, 0.7160236835479736, 0.0864926427602768], [0.2538908123970032, 0.7252693176269531, 0.08739364892244339], [0.27673405408859253, 0.7255561351776123, 0.08801061660051346], [0.13171720504760742, 0.4311686158180237, 0.07332734018564224], [0.1910277158021927, 0.6055235862731934, 0.09056282788515091], [0.21668878197669983, 0.624977707862854, 0.09067514538764954], [0.2343192994594574, 0.6276176571846008, 0.09117338806390762]]
+  - [[0.0, 0.0, 0.0], [0.11244457215070724, 0.10523008555173874, 0.03150011599063873], [0.19680628180503845, 0.26448094844818115, 0.0498180016875267], [0.25539305806159973, 0.427920401096344, 0.06493127346038818], [0.2993488013744354, 0.5615717172622681, 0.08090648055076599], [0.14317519962787628, 0.4423213303089142, 0.05616014078259468], [0.2259831726551056, 0.6744964718818665, 0.07954829186201096], [0.27446767687797546, 0.7157119512557983, 0.09488154947757721], [0.3047736585140228, 0.7404807209968567, 0.10476168245077133], [0.11182540655136108, 0.4344087839126587, 0.052913419902324677], [0.1960996687412262, 0.6439368724822998, 0.07615265995264053], [0.23990175127983093, 0.6596423387527466, 0.08431649208068848], [0.26667267084121704, 0.6633971929550171, 0.09081274271011353], [0.10417966544628143, 0.40049079060554504, 0.056107137352228165], [0.17151832580566406, 0.579076886177063, 0.07772960513830185], [0.20219118893146515, 0.589277982711792, 0.07829985022544861], [0.22146013379096985, 0.5889879465103149, 0.07856269925832748], [0.11027097702026367, 0.3597698509693146, 0.06566162407398224], [0.15420451760292053, 0.4992731809616089, 0.08080016821622849], [0.1743491291999817, 0.5167657136917114, 0.08003927767276764], [0.18861067295074463, 0.517880380153656, 0.07978732883930206]]
+
+
+## Occlusion
+
+- **Occluded Frames:** 989
+- **Occlusion Rate:** 98.90%
+- **Avg Occlusion Per Frame:** 32.46%
+
+## Lighting Robustness
+
+- **Lighting Analysis:** Requires video frame analysis
+- **Lighting Conditions:**
+
+
+## Angle Robustness
+
+- **Angle Analysis:** Requires multi-angle test data
+- **Per Angle Accuracy:**
+
+
+## Transition Stability
+
+- **Total Transitions:** 989
+- **Transition Errors:** 12
+- **Transition Error Rate:** 1.21%
+
+## Idle Detection
+
+- **Idle Detection:** Requires idle state labeling
+
+## Temporal Consistency
+
+- **Stable Frames:** 0
+- **Total Frames:** 1000
+- **Consistency Score:** 0.00%
+
+## Embedding Visualization
+
+- **Pca Explained Variance:** 2 items
+  - 0.6211694478988647
+  - 0.20778165757656097
+
+- **Pca Coordinates:** 1000 items
+  - [-1.4760715961456299, -0.16182029247283936]
+  - [-0.9104798436164856, -0.21330659091472626]
+  - [-0.6838182806968689, 0.22612451016902924]
+  - [-1.093009114265442, -0.057523228228092194]
+  - [0.040880635380744934, 0.2962554395198822]
+  - [0.2660859525203705, 0.3557337820529938]
+  - [-0.08893509954214096, 0.22703641653060913]
+  - [-0.5838866233825684, 0.4569683372974396]
+  - [-0.3887769281864166, 0.28601011633872986]
+  - [-0.32822373509407043, 0.005668323487043381]
+  - ... and 990 more items
+
+- **Cluster Overlap Count:** 767
+
+## Data Leakage
+
+- **Signer Overlap:**
+  - Train Val: 0
+  - Train Test: 0
+  - Val Test: 0
+
+
+## Stress Test
+
+- **Stress Test:** Requires live user testing
+- **Test Scenarios:**
+
+- **Failure Modes:** 0 items
+
+
+## Sequence Alignment
+
+- **Length Variation:**
+  - Min: 30
+  - Max: 30
+  - Std: 0.00%
+  - Cv: 0.00%
+
+- **Dtw Analysis:** Requires scipy for Dynamic Time Warping
+
+## Confidence Calibration
+
+- **Calibration:**
+  - 0.3: {'accuracy': 0.025806451612903226, 'total': 155}
+  - 0.4: {'accuracy': 0.018867924528301886, 'total': 159}
+  - 0.5: {'accuracy': 0.018072289156626505, 'total': 166}
+  - 0.6: {'accuracy': 0.007042253521126761, 'total': 142}
+  - 0.7: {'accuracy': 0.0, 'total': 151}
+  - 0.8: {'accuracy': 0.006711409395973154, 'total': 149}
+  - 0.9: {'accuracy': 0.01282051282051282, 'total': 78}
+
+
+## Failure Categorization
+
+- **Failure Categories:**
+  - Occlusion: 0
+  - Motion Blur: 0
+  - Low Light: 0
+  - Partial Frame: 0
+  - Ambiguous Gesture: 987
+  - Tracking Loss: 0
+  - Signer Variation: 0
+  - Other: 0
+
+- **Total Failures:** 987
+
+## Recommendations
+
+- Address dataset imbalance through data augmentation or class weighting
+- Collect data from more diverse signers to reduce overfitting risk
+- Implement prediction smoothing or temporal modeling to reduce flicker
+- Improve model architecture or training methodology
+- Improve landmark stability through better preprocessing or filtering
+- Address occlusion issues through better recording guidelines or occlusion handling
+
+## Methodology
+
+This analysis was performed using a comprehensive evaluation framework that examines 20 different aspects of the sign language ML system. Each metric provides insights into different dimensions of system performance, from data quality to real-time behavior.
+
+The analysis includes:
+- MediaPipe stability metrics (detection rate, jitter, switching)
+- Dataset quality metrics (balance, diversity, sequence statistics)
+- Model behavior metrics (confidence, flicker, confusion matrix)
+- Temporal analysis (motion magnitude, gesture detection)
+- Normalization metrics (coordinate ranges, scaling)
+- Real-time performance (FPS, latency)
+- Feature separability (inter-class distance, intra-class variance)
+- Landmark importance analysis
+- Occlusion metrics
+- And 8 more specialized analyses
