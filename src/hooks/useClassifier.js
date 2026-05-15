@@ -4,6 +4,8 @@ import { GESTURE_CLASSES, DEMO_SEQUENCE } from '../utils/gestureMap.js'
 import { classifyGesture, classifyTwoHandGesture, classifyISLDigit } from '../utils/geoClassifier.js'
 import { disambiguate } from '../utils/fingerDisambiguator.js'
 import { MotionAnalyzer } from '../utils/motionAnalyzer.js'
+// Register custom Keras layers for the temporal transformer model
+import '../utils/customLayers.js'
 
 const TEMPORAL_MODEL_PATH = '/model/tfjs_model/model.json'
 const TEMPORAL_LABEL_MAP = '/model/label_map.json'
@@ -28,6 +30,7 @@ const CONFIDENCE_THRESHOLD_STATIC = 0.75
 const MARGIN_LOW = 0.12
 const MARGIN_HIGH = 0.35
 const REJECTION_RATE_WINDOW = 30
+const ENTROPY_THRESHOLD = null  // null = auto-compute from nClasses
 
 const PredictionState = { CONFIDENT: 2, UNCERTAIN: 1, UNKNOWN: 0 }
 
@@ -342,14 +345,43 @@ export function useClassifier() {
     try {
       await tf.ready()
       setProgress(20)
-      const [temporalResult, temporalLabels, calibrationData, staticResult, staticLabels] =
+      // Clear stale v3 cache from before the model.json Keras3→TFjs patch
+      try { await tf.io.removeModel('indexeddb://temporal-model-v3') } catch (_) {}
+      try { await tf.io.removeModel('indexeddb://static-model-v3') } catch (_) {}
+
+      const loadCachedModel = async (path, cacheName) => {
+        try {
+          const cached = await tf.loadLayersModel('indexeddb://' + cacheName)
+          console.log(`[LexiSight] Loaded ${cacheName} from IndexedDB cache`)
+          return { model: cached, ok: true }
+        } catch (e) {
+          console.log(`[LexiSight] Cache miss for ${cacheName}, loading from network...`)
+          try {
+            const fresh = await tf.loadLayersModel(path)
+            console.log(`[LexiSight] Loaded ${cacheName} from network OK`)
+            try { await fresh.save('indexeddb://' + cacheName) } catch (saveErr) { console.warn('Cache save failed', saveErr) }
+            return { model: fresh, ok: true }
+          } catch (err) {
+            console.error(`[LexiSight] Failed to load model from ${path}:`, err)
+            return { model: null, ok: false }
+          }
+        }
+      }
+
+      const [temporalRes, temporalLabelsRes, calibrationDataRes, staticRes, staticLabelsRes] =
         await Promise.allSettled([
-          tf.loadLayersModel(TEMPORAL_MODEL_PATH).then(m => ({ model: m, ok: true })).catch(() => ({ model: null, ok: false })),
+          loadCachedModel(TEMPORAL_MODEL_PATH, 'temporal-model-v4'),
           fetch(TEMPORAL_LABEL_MAP).then(r => r.ok ? r.json() : null).catch(() => null),
           fetch(TEMPORAL_CALIBRATION).then(r => r.ok ? r.json() : null).catch(() => ({ temperature: 1.0 })),
-          tf.loadLayersModel(STATIC_MODEL_PATH).then(m => ({ model: m, ok: true })).catch(() => ({ model: null, ok: false })),
+          loadCachedModel(STATIC_MODEL_PATH, 'static-model-v4'),
           fetch(STATIC_LABEL_MAP).then(r => r.ok ? r.json() : null).catch(() => null),
         ])
+
+      const temporalResult = temporalRes.value || { model: null, ok: false }
+      const temporalLabels = temporalLabelsRes.value || null
+      const calibrationData = calibrationDataRes.value || { temperature: 1.0 }
+      const staticResult = staticRes.value || { model: null, ok: false }
+      const staticLabels = staticLabelsRes.value || null
 
       modelsRef.current = { temporal: temporalResult.model, static: staticResult.model }
       labelMapsRef.current = { temporal: temporalLabels, static: staticLabels }
@@ -357,6 +389,13 @@ export function useClassifier() {
         temporal: calibrationData?.temperature ?? 1.0,
         static: 1.0,
       }
+
+      console.log('[LexiSight] Model load results:', {
+        temporal: !!temporalResult.model,
+        static: !!staticResult.model,
+        temporalLabels: temporalLabels ? Object.keys(temporalLabels).length + ' classes' : 'null',
+        staticLabels: staticLabels ? Object.keys(staticLabels).length + ' classes' : 'null',
+      })
 
       if (modelsRef.current.temporal) {
         oosRef.current = new OOSDetector(
@@ -366,6 +405,7 @@ export function useClassifier() {
 
       setProgress(100)
       if (!temporalResult.model && !staticResult.model) {
+        console.warn('[LexiSight] No models loaded — falling back to geometric classifier')
         setStatus('geometric')
         return
       }
@@ -468,7 +508,10 @@ export function useClassifier() {
         return r
       }
       return tf.tidy(() => {
-        const input = tf.tensor2d([landmarks])
+        const frame = new Float32Array(126)
+        frame.set(landmarks, 0)
+        if (landmarks2 && landmarks2.length === 63) frame.set(landmarks2, 63)
+        const input = tf.tensor2d([Array.from(frame)])
         const rawLogits = model.predict(input)
         let probs = Array.from(rawLogits.dataSync())
         if (temp !== 1.0) {

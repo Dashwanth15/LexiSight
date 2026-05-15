@@ -453,11 +453,27 @@ export default function Translator() {
             boxShadow: `0 0 4px ${classifier.status === 'ready' ? '#00ff88' : classifier.status === 'geometric' ? '#00d4ff' : '#ffaa00'}`,
             flexShrink: 0,
           }} />
-        <span style={{ color: '#6b8ba4' }}>
-          MDL:<span style={{ color: classifier.status === 'ready' || classifier.status === 'geometric' ? '#00d4ff' : '#ffaa00' }}>
-            {classifier.isDemoMode ? 'DEMO' : classifier.status === 'geometric' ? 'GEO_FALLBACK' : classifier.status === 'loading' ? `${classifier.progress}%` : classifier.status === 'ready' ? `${classifier.numClasses}cls` : 'ERR'}
-          </span>
-        </span>
+        <span style={{ color: '#6b8ba4' }}>MDL:</span>
+        <select
+          value={classifier.mode}
+          onChange={(e) => classifier.setMode(e.target.value)}
+          style={{
+            background: 'transparent',
+            color: classifier.status === 'ready' || classifier.status === 'geometric' ? '#00d4ff' : '#ffaa00',
+            border: 'none',
+            fontFamily: 'inherit',
+            fontSize: 'inherit',
+            outline: 'none',
+            cursor: 'pointer',
+            padding: 0,
+            appearance: 'none',
+          }}
+        >
+          <option value="number" style={{ background: '#0d1520' }}>Geo Fallback</option>
+          <option value="letter" style={{ background: '#0d1520' }}>v2 (Static)</option>
+          <option value="word" style={{ background: '#0d1520' }}>v3 (Temporal)</option>
+        </select>
+        {classifier.status === 'loading' && <span style={{ color: '#ffaa00', marginLeft: 4 }}>{classifier.progress}%</span>}
       </div>
 
       <span style={{ color: '#1a2535' }}>│</span>
@@ -530,7 +546,7 @@ export default function Translator() {
       <div className="flex-1 min-w-0">
         <div className="hud-label mb-1">Detected Gesture</div>
         <div
-          className="font-syne font-black leading-none"
+          className="font-dm font-black leading-none"
           style={{
             fontSize: 'clamp(2.8rem, 5vw, 5rem)',
             color: currentPrediction ? '#00ff88' : '#2a3545',
@@ -612,73 +628,50 @@ export default function Translator() {
   )
 
   const SignControls = (
-    <div className="flex flex-wrap items-center gap-2">
-      <div className="flex items-center" style={{ background: '#1a2535', borderRadius: '8px', padding: '2px', marginRight: '8px' }}>
-        <button
-          className="text-xs font-dm transition-colors"
-          style={{
-            padding: '4px 10px',
-            borderRadius: '6px',
-            background: classifier.mode === 'word' ? '#00d4ff' : 'transparent',
-            color: classifier.mode === 'word' ? '#020408' : '#6b8ba4',
-            fontWeight: classifier.mode === 'word' ? 'bold' : 'normal',
-          }}
-          onClick={() => classifier.setMode('word')}
-        >Word</button>
-        <button
-          className="text-xs font-dm transition-colors"
-          style={{
-            padding: '4px 10px',
-            borderRadius: '6px',
-            background: classifier.mode === 'letter' ? '#00d4ff' : 'transparent',
-            color: classifier.mode === 'letter' ? '#020408' : '#6b8ba4',
-            fontWeight: classifier.mode === 'letter' ? 'bold' : 'normal',
-          }}
-          onClick={() => classifier.setMode('letter')}
-        >Letter</button>
-        <button
-          className="text-xs font-dm transition-colors"
-          style={{
-            padding: '4px 10px',
-            borderRadius: '6px',
-            background: classifier.mode === 'number' ? '#00d4ff' : 'transparent',
-            color: classifier.mode === 'number' ? '#020408' : '#6b8ba4',
-            fontWeight: classifier.mode === 'number' ? 'bold' : 'normal',
-          }}
-          onClick={() => classifier.setMode('number')}
-        >Number</button>
+    <div className="flex flex-col gap-3">
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="hud-label mr-2">ISOLATION MODE:</span>
+        <button className={classifier.mode === 'word' ? 'btn-primary' : 'btn-secondary'} 
+          onClick={() => classifier.setMode('word')} style={{ padding: '6px 12px', fontSize: '0.75rem' }}>Word</button>
+        <button className={classifier.mode === 'letter' ? 'btn-primary' : 'btn-secondary'} 
+          onClick={() => classifier.setMode('letter')} style={{ padding: '6px 12px', fontSize: '0.75rem' }}>Letter</button>
+        <button className={classifier.mode === 'number' ? 'btn-primary' : 'btn-secondary'} 
+          onClick={() => classifier.setMode('number')} style={{ padding: '6px 12px', fontSize: '0.75rem' }}>Number</button>
       </div>
-      <label className="toggle">
-        <input type="checkbox" checked={autoSpeak} onChange={e => setAutoSpeak(e.target.checked)} aria-label="Auto speak" />
-        <span className="toggle-slider" />
-      </label>
-      <span className="text-xs font-dm" style={{ color: '#6b8ba4' }}>Auto Speak</span>
-      <button className="btn-primary" style={{ padding: '7px 14px', fontSize: '0.8rem', minHeight: 36 }}
-        disabled={!currentPrediction}
-        onClick={() => handleSpeak(currentPrediction?.label)}>
-        {synth.speaking ? '⏸ Speaking...' : '▶ Speak'}
-      </button>
-      <VoiceSelector voices={synth.voices} selectedVoice={synth.selectedVoice} onSelect={synth.changeVoice} />
-      
-      <select 
-        value={synth.targetLang}
-        onChange={(e) => synth.setTargetLang(e.target.value)}
-        className="btn-secondary"
-        style={{ padding: '6px 10px', fontSize: '0.75rem', minHeight: 36, backgroundColor: 'rgba(8,13,20,0.88)' }}
-      >
-        {synth.LANG_OPTIONS.map(opt => (
-          <option key={opt.code} value={opt.code}>{opt.label}</option>
-        ))}
-      </select>
 
-      <button className={demoMode ? 'btn-danger' : 'btn-secondary'}
-        style={{ padding: '7px 12px', fontSize: '0.8rem', minHeight: 36 }}
-        onClick={() => setDemoMode(d => !d)}>
-        {demoMode ? '⏹ Stop Demo' : '⚡ Demo'}
-      </button>
-      <button className="btn-danger" style={{ padding: '7px 10px', fontSize: '0.75rem', minHeight: 36 }} onClick={handleClearLog}>
-        Clear
-      </button>
+      <div className="flex flex-wrap items-center gap-2">
+        <label className="toggle">
+          <input type="checkbox" checked={autoSpeak} onChange={e => setAutoSpeak(e.target.checked)} aria-label="Auto speak" />
+          <span className="toggle-slider" />
+        </label>
+        <span className="text-xs font-dm" style={{ color: '#6b8ba4' }}>Auto Speak</span>
+        <button className="btn-primary" style={{ padding: '7px 14px', fontSize: '0.8rem', minHeight: 36 }}
+          disabled={!currentPrediction}
+          onClick={() => handleSpeak(currentPrediction?.label)}>
+          {synth.speaking ? '⏸ Speaking...' : '▶ Speak'}
+        </button>
+        <VoiceSelector voices={synth.voices} selectedVoice={synth.selectedVoice} onSelect={synth.changeVoice} />
+        
+        <select 
+          value={synth.targetLang}
+          onChange={(e) => synth.setTargetLang(e.target.value)}
+          className="btn-secondary"
+          style={{ padding: '6px 10px', fontSize: '0.75rem', minHeight: 36, backgroundColor: 'rgba(8,13,20,0.88)' }}
+        >
+          {synth.LANG_OPTIONS.map(opt => (
+            <option key={opt.code} value={opt.code}>{opt.label}</option>
+          ))}
+        </select>
+
+        <button className={demoMode ? 'btn-danger' : 'btn-secondary'}
+          style={{ padding: '7px 12px', fontSize: '0.8rem', minHeight: 36 }}
+          onClick={() => setDemoMode(d => !d)}>
+          {demoMode ? '⏹ Stop Demo' : '⚡ Demo'}
+        </button>
+        <button className="btn-danger" style={{ padding: '7px 10px', fontSize: '0.75rem', minHeight: 36 }} onClick={handleClearLog}>
+          Clear
+        </button>
+      </div>
     </div>
   )
 

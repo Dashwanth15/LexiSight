@@ -11,6 +11,7 @@ const NAV_LINKS = [
   { to: '/impact', label: 'Impact' },
   { to: '/community', label: 'Community' },
   { to: '/about', label: 'About' },
+  { to: '/settings', label: 'Settings' },
 ]
 
 export default function Navbar() {
