@@ -14,7 +14,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { useSharedClassifier } from '../contexts/ClassifierContext.jsx'
 import { drawLandmarks, normalizeLandmarks } from '../utils/landmarks'
 
-const MEDIAPIPE_CDN = 'https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1646424915/hands.js'
+const MEDIAPIPE_CDN = 'https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1675469240/hands.js'
 const SAMPLE_FPS = 15
 const SAMPLE_INTERVAL = 1000 / SAMPLE_FPS  // ~66.7 ms
 const PROCESSING_TIMEOUT = 15000  // 15 seconds for video processing
@@ -82,7 +82,7 @@ export function useVideoMode() {
 
         const hands = new window.Hands({
           locateFile: (file) =>
-            `https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1646424915/${file}`,
+            `https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1675469240/${file}`,
         })
 
         hands.setOptions({

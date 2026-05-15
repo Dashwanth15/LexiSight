@@ -12,7 +12,7 @@
  *  13-16 = Ring   (MCP, PIP, DIP, TIP)
  *  17-20 = Pinky  (MCP, PIP, DIP, TIP)
  *
- * Coordinates: x,y in [0,1] normalized; y=0 at top, increases downward.
+ 
  */
 
 // ── Utility helpers ──────────────────────────────────────────────────────────
@@ -39,6 +39,17 @@ function isCurled(lm, tipIdx, pipIdx) {
 /** Thumb extension: tip is far from index MCP (works for both hands) */
 function thumbExtended(lm) {
   return dist2D(lm[4], lm[5]) > 0.07
+}
+
+/** NEW: Check if thumb is folded across palm (characteristic of "4" gesture) */
+function thumbFoldedAcross(lm) {
+  // Thumb tip (4) should be close to index finger base (5) or middle finger base (9)
+  // AND thumb should NOT be pointing upward
+  const thumbNearIndex = dist2D(lm[4], lm[5]) < 0.12
+  const thumbNearMiddle = dist2D(lm[4], lm[9]) < 0.15
+  const thumbNotUp = !thumbPointingUp(lm)
+  
+  return (thumbNearIndex || thumbNearMiddle) && thumbNotUp
 }
 
 /** Thumb pointing upward (tip above IP joint) */
@@ -204,9 +215,7 @@ export function classifyGesture(lm) {
 
   // ══ Gesture Rules (priority order) ═══════════════════════════
 
-  // ── FIX: 4 fingers up, thumb across — check BEFORE open-hand/HELLO ──
-  // A 4-finger pose is often misclassified as HELLO because spread is wide.
-  // Check 4-finger FIRST so it takes priority.
+  // ── 4 fingers up, thumb across ──
   if (!T && I && M && R && P) return make('4', 0.88, ['B', 'FOUR', 'NO'])
 
   // ── Open hand (all 5) ───────────────────────────────────────

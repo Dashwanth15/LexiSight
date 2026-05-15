@@ -3,7 +3,6 @@ import * as tf from '@tensorflow/tfjs'
 import { GESTURE_CLASSES, DEMO_SEQUENCE } from '../utils/gestureMap.js'
 import { classifyGesture, classifyTwoHandGesture, classifyISLDigit } from '../utils/geoClassifier.js'
 import { disambiguate } from '../utils/fingerDisambiguator.js'
-import { MotionAnalyzer } from '../utils/motionAnalyzer.js'
 
 // ═══════════════════════════════════════════════════════════════════════════
 // Register custom Keras layers so tf.loadLayersModel() can deserialize them.
@@ -21,7 +20,7 @@ class PositionalEncoding extends tf.layers.Layer {
 
   build(inputShape) {
     this.posEmbedding = this.addWeight(
-      'pos_embedding',
+      'pos_encoding/pos_embedding',
       [1, this.maxLen, this.dModel],
       'float32',
       tf.initializers.zeros()
@@ -57,28 +56,29 @@ class TransformerEncoderBlock extends tf.layers.Layer {
     const d = this.dModel
     const h = this.numHeads
     const dk = Math.floor(d / h)
+    const prefix = this.name + '/'
 
-    // Multi-head attention weights
-    this.wQ = this.addWeight('kernel', [d, h, dk], 'float32', tf.initializers.glorotUniform())
-    this.bQ = this.addWeight('bias', [h, dk], 'float32', tf.initializers.zeros())
-    this.wK = this.addWeight('kernel', [d, h, dk], 'float32', tf.initializers.glorotUniform())
-    this.bK = this.addWeight('bias', [h, dk], 'float32', tf.initializers.zeros())
-    this.wV = this.addWeight('kernel', [d, h, dk], 'float32', tf.initializers.glorotUniform())
-    this.bV = this.addWeight('bias', [h, dk], 'float32', tf.initializers.zeros())
-    this.wO = this.addWeight('kernel', [h, dk, d], 'float32', tf.initializers.glorotUniform())
-    this.bO = this.addWeight('bias', [d], 'float32', tf.initializers.zeros())
+    // Multi-head attention weights — unique names matching model.json manifest
+    this.wQ = this.addWeight(prefix + 'wQ_kernel', [d, h, dk], 'float32', tf.initializers.glorotUniform())
+    this.bQ = this.addWeight(prefix + 'wQ_bias', [h, dk], 'float32', tf.initializers.zeros())
+    this.wK = this.addWeight(prefix + 'wK_kernel', [d, h, dk], 'float32', tf.initializers.glorotUniform())
+    this.bK = this.addWeight(prefix + 'wK_bias', [h, dk], 'float32', tf.initializers.zeros())
+    this.wV = this.addWeight(prefix + 'wV_kernel', [d, h, dk], 'float32', tf.initializers.glorotUniform())
+    this.bV = this.addWeight(prefix + 'wV_bias', [h, dk], 'float32', tf.initializers.zeros())
+    this.wO = this.addWeight(prefix + 'wO_kernel', [h, dk, d], 'float32', tf.initializers.glorotUniform())
+    this.bO = this.addWeight(prefix + 'wO_bias', [d], 'float32', tf.initializers.zeros())
 
     // Feed-forward weights
-    this.ff1W = this.addWeight('kernel', [d, this.dFF], 'float32', tf.initializers.glorotUniform())
-    this.ff1B = this.addWeight('bias', [this.dFF], 'float32', tf.initializers.zeros())
-    this.ff2W = this.addWeight('kernel', [this.dFF, d], 'float32', tf.initializers.glorotUniform())
-    this.ff2B = this.addWeight('bias', [d], 'float32', tf.initializers.zeros())
+    this.ff1W = this.addWeight(prefix + 'ff1_kernel', [d, this.dFF], 'float32', tf.initializers.glorotUniform())
+    this.ff1B = this.addWeight(prefix + 'ff1_bias', [this.dFF], 'float32', tf.initializers.zeros())
+    this.ff2W = this.addWeight(prefix + 'ff2_kernel', [this.dFF, d], 'float32', tf.initializers.glorotUniform())
+    this.ff2B = this.addWeight(prefix + 'ff2_bias', [d], 'float32', tf.initializers.zeros())
 
     // Layer norm weights
-    this.ln1G = this.addWeight('gamma', [d], 'float32', tf.initializers.ones())
-    this.ln1B = this.addWeight('beta', [d], 'float32', tf.initializers.zeros())
-    this.ln2G = this.addWeight('gamma', [d], 'float32', tf.initializers.ones())
-    this.ln2B = this.addWeight('beta', [d], 'float32', tf.initializers.zeros())
+    this.ln1G = this.addWeight(prefix + 'ln1_gamma', [d], 'float32', tf.initializers.ones())
+    this.ln1B = this.addWeight(prefix + 'ln1_beta', [d], 'float32', tf.initializers.zeros())
+    this.ln2G = this.addWeight(prefix + 'ln2_gamma', [d], 'float32', tf.initializers.ones())
+    this.ln2B = this.addWeight(prefix + 'ln2_beta', [d], 'float32', tf.initializers.zeros())
 
     super.build(inputShape)
   }
@@ -472,7 +472,6 @@ export function useClassifier() {
   const temporalFrameCountRef = useRef(0)
   const lastTemporalResultRef = useRef(null)
   const smootherRef = useRef(new TemporalSmoother())
-  const motionRef = useRef(new MotionAnalyzer())
   const oosRef = useRef(null)
   const metricsRef = useRef(new SystemMetricsCollector())
   const embeddingCacheRef = useRef(null)
@@ -498,11 +497,24 @@ export function useClassifier() {
       setProgress(20)
       const [temporalResult, temporalLabels, calibrationData, staticResult, staticLabels] =
         await Promise.allSettled([
-          tf.loadLayersModel(TEMPORAL_MODEL_PATH).then(m => ({ model: m, ok: true })).catch(() => ({ model: null, ok: false })),
+          tf.loadLayersModel(TEMPORAL_MODEL_PATH)
+            .then(m => ({ model: m, ok: true }))
+            .catch(err => {
+              console.error('[LexiSight] Failed to load temporal model:', err)
+              return { model: null, ok: false }
+            }),
           fetch(TEMPORAL_LABEL_MAP).then(r => r.ok ? r.json() : null).catch(() => null),
           fetch(TEMPORAL_CALIBRATION).then(r => r.ok ? r.json() : null).catch(() => ({ temperature: 1.0 })),
-          tf.loadLayersModel(STATIC_MODEL_PATH).then(m => ({ model: m, ok: true })).catch(() => ({ model: null, ok: false })),
-          fetch(STATIC_LABEL_MAP).then(r => r.ok ? r.json() : null).catch(() => null),
+          tf.loadLayersModel(STATIC_MODEL_PATH)
+            .then(m => ({ model: m, ok: true }))
+            .catch(err => {
+              console.error('[LexiSight] Failed to load static model:', err)
+              return { model: null, ok: false }
+            }),
+          fetch(STATIC_LABEL_MAP).then(r => r.ok ? r.json() : null).catch(err => {
+            console.error('[LexiSight] Failed to load static label map:', err)
+            return null
+          }),
         ])
 
       // Promise.allSettled wraps each result in { status, value } — must unwrap
@@ -638,7 +650,11 @@ export function useClassifier() {
         return r
       }
       return tf.tidy(() => {
-        const input = tf.tensor2d([landmarks])
+        // Static model expects 126 features (2 hands × 63). Pad second hand with zeros if missing.
+        const frame126 = new Float32Array(126)
+        frame126.set(landmarks, 0)
+        if (landmarks2 && landmarks2.length === 63) frame126.set(landmarks2, 63)
+        const input = tf.tensor2d([Array.from(frame126)])
         const rawLogits = model.predict(input)
         let probs = Array.from(rawLogits.dataSync())
         if (temp !== 1.0) {
@@ -727,13 +743,7 @@ export function useClassifier() {
     frame.set(landmarks, 0)
     if (landmarks2?.length === 63) frame.set(landmarks2, 63)
 
-    // Motion Analyzer Interception — catches dynamic gestures (WHAT, NO, COME, etc.)
-    const motionResult = motionRef.current.push(rawLandmarks).analyze()
-    if (motionResult) {
-      return motionResult
-    }
-
-    // Add frame to rolling buffer
+    // Add frame to rolling buffer (pure ML — no hardcoded motion rules)
     bufferRef.current.push(Array.from(frame))
     if (bufferRef.current.length > BUFFER_SIZE) bufferRef.current.shift()
 
@@ -786,7 +796,7 @@ export function useClassifier() {
   // copies of the landmark vector for noise-robust single-frame inference.
   // ═══════════════════════════════════════════════════════════════════════
   const predictStatic = useCallback((landmarks, rawLandmarks, options = {}) => {
-    const { jitterCount = 6, jitterScale = 0.008, confThreshold = 0.55 } = options  // FIX: lowered from 0.70 to 0.55
+    const { jitterCount = 6, jitterScale = 0.008, confThreshold = 0.55, useGeometricOnly = false } = options
     if (!landmarks || landmarks.length !== 63) return null
     const t0 = performance.now()
 
@@ -794,8 +804,13 @@ export function useClassifier() {
     const labelMap = labelMapsRef.current.static
     const temp = calibrationRef.current.static
 
-    // If static model missing → graceful geometric fallback
+    // DEBUG: Log model availability
+    console.log('[predictStatic] model:', model ? 'loaded' : 'missing', 'labelMap:', labelMap ? 'loaded' : 'missing')
+
+    // PRIMARY: Use static MLP model for prediction
+    // FALLBACK: Only use geometric if ML model is missing or fails
     if (!model || !labelMap) {
+      console.warn('[predictStatic] ML model not available (Keras 3.0 format incompatible with TF.js 4.22), using geometric fallback')
       if (rawLandmarks && rawLandmarks.length === 21) {
         const r = classifyGesture(rawLandmarks)
         metricsRef.current.record(performance.now() - t0, r?.confidence || 0, null, !r, 'geometric')
@@ -804,13 +819,20 @@ export function useClassifier() {
       return null
     }
 
+    console.log('[predictStatic] Using static MLP model')
+
     return tf.tidy(() => {
+      // Static model expects 126 features (2 hands × 63). Pad second hand with zeros.
+      const padded = new Float32Array(126)
+      padded.set(landmarks, 0)
+      const base = Array.from(padded)
+
       // Build a batch: original + N jittered variants
-      const batch = [Array.from(landmarks)]
+      const batch = [base]
       for (let i = 0; i < jitterCount; i++) {
-        const jittered = new Array(63)
-        for (let k = 0; k < 63; k++) {
-          jittered[k] = landmarks[k] + (Math.random() - 0.5) * 2 * jitterScale
+        const jittered = new Array(126)
+        for (let k = 0; k < 126; k++) {
+          jittered[k] = base[k] + (Math.random() - 0.5) * 2 * jitterScale
         }
         batch.push(jittered)
       }
@@ -885,7 +907,6 @@ export function useClassifier() {
     temporalFrameCountRef.current = 0
     lastTemporalResultRef.current = null
     smootherRef.current.reset()
-    motionRef.current.reset()
   }, [])
 
   const getBufferProgress = useCallback(
@@ -911,7 +932,6 @@ export function useClassifier() {
   const startContinuous = useCallback(() => {
     isContinuousRef.current = true
     bufferRef.current = []
-    motionRef.current.reset()
     smootherRef.current.reset()
     smootherRef.current.state = SignState.IDLE
     setStatus('continuous')
