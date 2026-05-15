@@ -29,3 +29,7 @@ desktop.ini
 .env
 .env.*
 !.env.example
+
+# Lexisight Auxiliary Files
+TODO_REMAINING_CHANGES.md
+lexisight_silence_v11.html
