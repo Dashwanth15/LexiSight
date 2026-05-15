@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import * as tf from '@tensorflow/tfjs'
+import { useSettings } from './useSettings.jsx'
 import { GESTURE_CLASSES, DEMO_SEQUENCE } from '../utils/gestureMap.js'
 import { classifyGesture, classifyTwoHandGesture, classifyISLDigit } from '../utils/geoClassifier.js'
 import { disambiguate } from '../utils/fingerDisambiguator.js'
@@ -313,6 +314,7 @@ class SystemMetricsCollector {
 
 
 export function useClassifier() {
+  const { settings } = useSettings()
   const modelsRef = useRef({ temporal: null, static: null })
   const labelMapsRef = useRef({ temporal: null, static: null })
   const calibrationRef = useRef({ temporal: 1.0, static: 1.0 })
@@ -439,7 +441,9 @@ export function useClassifier() {
       const topK = buildTopK(probs, labelMap, 3)
       const topConf = topK[0]?.confidence || 0
 
-      if (topConf < CONFIDENCE_THRESHOLD_WORD) {
+      // Use settings-based threshold if available, otherwise fallback
+      const thresh = settings.confidenceThreshold || CONFIDENCE_THRESHOLD_WORD
+      if (topConf < thresh) {
         return null
       }
 
@@ -527,7 +531,9 @@ export function useClassifier() {
         const state = classifyState(probs, nClasses)
         const topK = buildTopK(probs, labelMap, 3)
         const topConf = topK[0]?.confidence || 0
-        if (topConf < CONFIDENCE_THRESHOLD_STATIC) {
+        
+        const thresh = settings.confidenceThreshold || CONFIDENCE_THRESHOLD_STATIC
+        if (topConf < thresh) {
           metricsRef.current.record(performance.now() - t0, topConf, null, true, 'low_conf')
           return null
         }

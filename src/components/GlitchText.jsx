@@ -32,7 +32,7 @@ export default function GlitchText({ text, className = '', style = {}, tag: Tag 
         aria-hidden="true"
         className="absolute inset-0"
         style={{
-          color: '#00d4ff',
+          color: 'var(--cyan)',
           opacity: glitching ? 1 : 0,
           transform: glitching ? 'translate(-3px, 1px)' : 'translate(0)',
           clipPath: glitching ? 'polygon(0 20%, 100% 20%, 100% 45%, 0 45%)' : 'none',
@@ -48,7 +48,7 @@ export default function GlitchText({ text, className = '', style = {}, tag: Tag 
         aria-hidden="true"
         className="absolute inset-0"
         style={{
-          color: '#8b5cf6',
+          color: 'var(--violet)',
           opacity: glitching ? 0.8 : 0,
           transform: glitching ? 'translate(3px, -1px)' : 'translate(0)',
           clipPath: glitching ? 'polygon(0 60%, 100% 60%, 100% 80%, 0 80%)' : 'none',

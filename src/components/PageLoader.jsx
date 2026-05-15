@@ -83,7 +83,7 @@ export default function PageLoader() {
     <div
       style={{
         minHeight: '100dvh',
-        background: '#4B3BCE',
+        background: 'var(--splash-bg)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -125,9 +125,9 @@ export default function PageLoader() {
                 letterSpacing: '0.13em',
                 whiteSpace: 'nowrap',
                 padding: i === activeIdx ? '2px 8px' : '2px 0',
-                color: i === activeIdx ? '#fff' : 'rgba(255,255,255,0.3)',
+                color: i === activeIdx ? 'var(--splash-text)' : 'var(--text-secondary)',
                 background:
-                  i === activeIdx ? 'rgba(255,255,255,0.18)' : 'transparent',
+                  i === activeIdx ? 'var(--glass-border)' : 'transparent',
                 borderRadius: i === activeIdx ? 2 : 0,
                 marginLeft: i === activeIdx ? -8 : 0,
                 transition: 'all 0.2s ease',
@@ -150,7 +150,7 @@ export default function PageLoader() {
           maxWidth: 180,
           fontSize: 10,
           letterSpacing: '0.09em',
-          color: 'rgba(255,255,255,0.25)',
+          color: 'var(--text-secondary)',
           lineHeight: 1.85,
         }}
       >
@@ -205,14 +205,14 @@ export default function PageLoader() {
             textShadow: interactiveMode ? `0 0 20px ${INTERACTIVE_SIGNS[currentSign].color}40` : 'none',
           }}
         >
-          Lexi<span style={{ color: 'rgba(255,255,255,0.6)' }}>Sight</span>
+          Lexi<span style={{ color: 'var(--text-secondary)' }}>Sight</span>
         </div>
         
         {interactiveMode && (
           <div
             style={{
               fontSize: 'clamp(12px, 2vw, 16px)',
-              color: 'rgba(255,255,255,0.8)',
+              color: 'var(--splash-text)',
               fontFamily: "'Courier New', monospace",
               letterSpacing: '0.1em',
               animation: 'fade-in 0.5s ease-out',
@@ -231,7 +231,7 @@ export default function PageLoader() {
                 width: 6,
                 height: 6,
                 borderRadius: '50%',
-                background: i === currentSign ? sign.color : 'rgba(255,255,255,0.3)',
+                background: i === currentSign ? sign.color : 'var(--border)',
                 animation: i === currentSign ? 'splash-dot-pulse 1s ease-in-out infinite' : 'none',
                 transition: 'all 0.3s ease',
               }}
@@ -243,7 +243,7 @@ export default function PageLoader() {
           <div
             style={{
               fontSize: '10px',
-              color: 'rgba(255,255,255,0.5)',
+              color: 'var(--text-secondary)',
               fontFamily: "'Courier New', monospace",
               letterSpacing: '0.05em',
               marginTop: 8,
@@ -256,17 +256,17 @@ export default function PageLoader() {
       </div>
 
       {/* Corner markers */}
-      <div style={{ position: 'absolute', top: 20, left: 20, width: 14, height: 14, borderTop: '2px solid rgba(255,255,255,0.12)', borderLeft: '2px solid rgba(255,255,255,0.12)' }} />
-      <div style={{ position: 'absolute', top: 20, right: 20, width: 14, height: 14, borderTop: '2px solid rgba(255,255,255,0.12)', borderRight: '2px solid rgba(255,255,255,0.12)' }} />
-      <div style={{ position: 'absolute', bottom: 20, left: 20, width: 14, height: 14, borderBottom: '2px solid rgba(255,255,255,0.12)', borderLeft: '2px solid rgba(255,255,255,0.12)' }} />
-      <div style={{ position: 'absolute', bottom: 20, right: 20, width: 14, height: 14, borderBottom: '2px solid rgba(255,255,255,0.12)', borderRight: '2px solid rgba(255,255,255,0.12)' }} />
+      <div style={{ position: 'absolute', top: 20, left: 20, width: 14, height: 14, borderTop: '2px solid var(--border)', borderLeft: '2px solid var(--border)' }} />
+      <div style={{ position: 'absolute', top: 20, right: 20, width: 14, height: 14, borderTop: '2px solid var(--border)', borderRight: '2px solid var(--border)' }} />
+      <div style={{ position: 'absolute', bottom: 20, left: 20, width: 14, height: 14, borderBottom: '2px solid var(--border)', borderLeft: '2px solid var(--border)' }} />
+      <div style={{ position: 'absolute', bottom: 20, right: 20, width: 14, height: 14, borderBottom: '2px solid var(--border)', borderRight: '2px solid var(--border)' }} />
 
       {/* Bottom progress bar */}
-      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 3, background: 'rgba(255,255,255,0.06)' }}>
+      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 3, background: 'var(--glass-bg)' }}>
         <div
           style={{
             height: '100%',
-            background: 'rgba(255,255,255,0.45)',
+            background: 'var(--splash-text)',
             borderRadius: 2,
             transition: 'width 0.35s ease',
             width: `${((activeIdx + 1) / LINES.length) * 100}%`,

@@ -5,6 +5,8 @@ import { useSpeechSynth } from '../hooks/useSpeechSynth.js'
 import { useSpeechRecog } from '../hooks/useSpeechRecog.js'
 import { usePhotoMode } from '../hooks/usePhotoMode.js'
 import { useVideoMode } from '../hooks/useVideoMode.js'
+import { useSettings } from '../hooks/useSettings.jsx'
+import { useTranslation } from '../hooks/useTranslation.js'
 import { PredictionSmoother, SentenceBuilder } from '../utils/smoothing.js'
 import { DEMO_SEQUENCE } from '../utils/gestureMap.js'
 import HandOverlay from '../components/HandOverlay.jsx'
@@ -38,6 +40,7 @@ function CameraPanel({
   compact,
   showCameraMenu,
   setShowCameraMenu,
+  settings,
 }) {
   return (
     <div
@@ -52,7 +55,7 @@ function CameraPanel({
         background: '#000',
         border: handDetected
           ? '1.5px solid rgba(0,255,136,0.5)'
-          : '1.5px solid #1a2535',
+          : '1.5px solid var(--border)',
         boxShadow: handDetected ? '0 0 30px rgba(0,255,136,0.08)' : 'none',
         transition: 'border-color 0.3s, box-shadow 0.3s',
         flexShrink: 0,
@@ -82,7 +85,7 @@ function CameraPanel({
       />
 
       {/* ── Hand skeleton on top of video ──────────────────────── */}
-      {isReady && (
+      {isReady && settings.handOverlay !== false && (
         <div style={{ position: 'absolute', inset: 0, zIndex: 2, pointerEvents: 'none' }}>
           <HandOverlay
             rawLandmarks={rawLandmarks}
@@ -104,13 +107,13 @@ function CameraPanel({
           {cameraPermission === 'denied' ? (
             <>
               <p className="text-sm font-dm" style={{ color: '#ff3366' }}>Camera access denied</p>
-              <p className="text-xs font-dm max-w-xs" style={{ color: '#6b8ba4' }}>
+              <p className="text-xs font-dm max-w-xs" style={{ color: 'var(--text-secondary)' }}>
                 Allow camera access in browser settings, then refresh.
               </p>
             </>
           ) : (
             <>
-              <p className="text-sm font-dm" style={{ color: '#6b8ba4' }}>Camera not started</p>
+              <p className="text-sm font-dm" style={{ color: 'var(--text-secondary)' }}>Camera not started</p>
               <button
                 className="btn-primary"
                 style={{ minHeight: 44 }}
@@ -119,7 +122,7 @@ function CameraPanel({
               >
                 Enable Camera
               </button>
-              <p className="text-xs font-dm max-w-xs" style={{ color: '#6b8ba4' }}>
+              <p className="text-xs font-dm max-w-xs" style={{ color: 'var(--text-secondary)' }}>
                 Uses your laptop/built-in webcam by default.
               </p>
             </>
@@ -135,8 +138,8 @@ function CameraPanel({
             style={{
               background: 'rgba(8,13,20,0.88)',
               backdropFilter: 'blur(8px)',
-              border: '1px solid #1a2535',
-              color: '#6b8ba4',
+              border: '1px solid var(--border)',
+              color: 'var(--text-secondary)',
               borderRadius: 8,
               padding: '5px 10px',
               fontSize: '0.65rem',
@@ -159,8 +162,8 @@ function CameraPanel({
                 top: '100%',
                 right: 0,
                 marginTop: 4,
-                background: '#0d1520',
-                border: '1px solid #1a2535',
+                background: 'var(--surface)',
+                border: '1px solid var(--border)',
                 borderRadius: 10,
                 overflow: 'hidden',
                 minWidth: 210,
@@ -186,8 +189,8 @@ function CameraPanel({
                       fontSize: '0.78rem',
                       fontFamily: 'DM Sans, sans-serif',
                       background: isSel ? 'rgba(0,212,255,0.09)' : 'transparent',
-                      color: isSel ? '#00d4ff' : '#6b8ba4',
-                      borderBottom: i < availableCameras.length - 1 ? '1px solid #1a2535' : 'none',
+                      color: isSel ? 'var(--cyan)' : 'var(--text-secondary)',
+                      borderBottom: i < availableCameras.length - 1 ? '1px solid var(--border)' : 'none',
                       cursor: 'pointer',
                       whiteSpace: 'nowrap',
                       overflow: 'hidden',
@@ -249,6 +252,9 @@ function useIsDesktop() {
 
 // ─────────────────────────────────────────────────────────────────────────────
 export default function Translator() {
+  const { settings } = useSettings()
+  const { t } = useTranslation()
+  const [mode, setMode] = useState('word') // 'word', 'letter', 'number'
   // JS-based layout switch — only ONE CameraPanel in DOM at a time
   const isDesktop = useIsDesktop()
 
@@ -438,7 +444,7 @@ export default function Translator() {
       className="flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-1.5 overflow-x-auto no-scrollbar border-b shrink-0"
       style={{
         background: 'rgba(2,4,8,0.98)',
-        borderColor: '#1a2535',
+        borderColor: 'var(--border)',
         fontFamily: 'JetBrains Mono, monospace',
         minHeight: 32,
         fontSize: '0.62rem',
@@ -449,17 +455,17 @@ export default function Translator() {
       <div className="flex items-center gap-1.5 shrink-0">
         <span className="w-1.5 h-1.5 rounded-full"
           style={{
-            background: classifier.status === 'ready' ? '#00ff88' : classifier.status === 'geometric' ? '#00d4ff' : '#ffaa00',
-            boxShadow: `0 0 4px ${classifier.status === 'ready' ? '#00ff88' : classifier.status === 'geometric' ? '#00d4ff' : '#ffaa00'}`,
+            background: classifier.status === 'ready' ? '#00ff88' : classifier.status === 'geometric' ? 'var(--cyan)' : '#ffaa00',
+            boxShadow: `0 0 4px ${classifier.status === 'ready' ? '#00ff88' : classifier.status === 'geometric' ? 'var(--cyan)' : '#ffaa00'}`,
             flexShrink: 0,
           }} />
-        <span style={{ color: '#6b8ba4' }}>MDL:</span>
+        <span style={{ color: 'var(--text-secondary)' }}>{t('mdl_status')}</span>
         <select
           value={classifier.mode}
           onChange={(e) => classifier.setMode(e.target.value)}
           style={{
             background: 'transparent',
-            color: classifier.status === 'ready' || classifier.status === 'geometric' ? '#00d4ff' : '#ffaa00',
+            color: classifier.status === 'ready' || classifier.status === 'geometric' ? 'var(--cyan)' : '#ffaa00',
             border: 'none',
             fontFamily: 'inherit',
             fontSize: 'inherit',
@@ -469,20 +475,20 @@ export default function Translator() {
             appearance: 'none',
           }}
         >
-          <option value="number" style={{ background: '#0d1520' }}>Geo Fallback</option>
-          <option value="letter" style={{ background: '#0d1520' }}>v2 (Static)</option>
-          <option value="word" style={{ background: '#0d1520' }}>v3 (Temporal)</option>
+          <option value="number" style={{ background: 'var(--surface)' }}>Geo Fallback</option>
+          <option value="letter" style={{ background: 'var(--surface)' }}>v2 (Static)</option>
+          <option value="word" style={{ background: 'var(--surface)' }}>v3 (Temporal)</option>
         </select>
         {classifier.status === 'loading' && <span style={{ color: '#ffaa00', marginLeft: 4 }}>{classifier.progress}%</span>}
       </div>
 
-      <span style={{ color: '#1a2535' }}>│</span>
+      <span style={{ color: 'var(--border)' }}>│</span>
 
-      <span style={{ color: '#6b8ba4', flexShrink: 0 }}>
-        FPS:<span style={{ color: mediapipe.fps > 20 ? '#00ff88' : mediapipe.fps > 0 ? '#ffaa00' : '#6b8ba4' }}>{mediapipe.fps}</span>
+      <span style={{ color: 'var(--text-secondary)', flexShrink: 0 }}>
+        {t('fps_label')}<span style={{ color: mediapipe.fps > 20 ? '#00ff88' : mediapipe.fps > 0 ? '#ffaa00' : 'var(--text-secondary)' }}>{mediapipe.fps}</span>
       </span>
 
-      <span style={{ color: '#1a2535' }}>│</span>
+      <span style={{ color: 'var(--border)' }}>│</span>
 
       <div className="flex items-center gap-1.5 shrink-0">
         <span className="w-1.5 h-1.5 rounded-full"
@@ -492,22 +498,22 @@ export default function Translator() {
             animation: mediapipe.handDetected ? 'node-pulse 1s ease-in-out infinite' : 'none',
             flexShrink: 0,
           }} />
-        <span style={{ color: mediapipe.handDetected ? '#00ff88' : '#6b8ba4' }}>
+        <span style={{ color: mediapipe.handDetected ? '#00ff88' : 'var(--text-secondary)' }}>
           {mediapipe.handDetected ? 'HAND ✓' : 'NO HAND'}
         </span>
       </div>
 
       {demoMode && (
         <>
-          <span style={{ color: '#1a2535' }}>│</span>
+          <span style={{ color: 'var(--border)' }}>│</span>
           <span style={{ color: '#ffaa00', flexShrink: 0 }}>⚡ DEMO</span>
         </>
       )}
 
       {mediapipe.isReady && mediapipe.availableCameras.length > 0 && (
         <div className="ml-auto shrink-0 hidden sm:flex items-center gap-1">
-          <span style={{ color: '#6b8ba4' }}>CAM:</span>
-          <span style={{ color: '#00d4ff', maxWidth: 160, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          <span style={{ color: 'var(--text-secondary)' }}>CAM:</span>
+          <span style={{ color: 'var(--cyan)', maxWidth: 160, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
             {mediapipe.availableCameras.find(c => c.deviceId === mediapipe.selectedCameraId)
               ?.label?.split('(')[0]?.trim() || 'Default'}
           </span>
@@ -522,18 +528,18 @@ export default function Translator() {
       <div className="min-h-screen flex items-center justify-center pt-16 px-4" style={{ background: 'var(--void)' }}>
         <div className="text-center space-y-5 max-w-xs w-full">
           <div className="w-14 h-14 rounded-full mx-auto border-2"
-            style={{ borderColor: 'transparent', borderTopColor: '#00d4ff', borderRightColor: '#8b5cf6', animation: 'spin-slow 1s linear infinite' }} />
-          <h2 className="text-xl font-syne font-bold" style={{ color: '#e8f4fd' }}>Initializing LexiSight</h2>
+            style={{ borderColor: 'transparent', borderTopColor: 'var(--cyan)', borderRightColor: '#8b5cf6', animation: 'spin-slow 1s linear infinite' }} />
+          <h2 className="text-xl font-syne font-bold" style={{ color: 'var(--text-primary)' }}>{t('status_loading')}</h2>
           <div>
             <div className="flex justify-between mb-1">
               <span className="hud-label">Progress</span>
-              <span style={{ color: '#00d4ff', fontFamily: 'JetBrains Mono, monospace', fontSize: '0.75rem' }}>{classifier.progress}%</span>
+              <span style={{ color: 'var(--cyan)', fontFamily: 'JetBrains Mono, monospace', fontSize: '0.75rem' }}>{classifier.progress}%</span>
             </div>
             <div className="confidence-bar-track" style={{ height: 6 }}>
               <div className="confidence-bar-fill high" style={{ width: `${classifier.progress}%`, transition: 'width 0.3s' }} />
             </div>
           </div>
-          <p className="text-xs" style={{ color: '#6b8ba4' }}>No model? Demo Mode activates automatically.</p>
+          <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>No model? Demo Mode activates automatically.</p>
         </div>
       </div>
     )
@@ -544,7 +550,7 @@ export default function Translator() {
   const PredictionBlock = (
     <div className="flex items-end gap-3">
       <div className="flex-1 min-w-0">
-        <div className="hud-label mb-1">Detected Gesture</div>
+        <div className="hud-label mb-1">{t('detected_gesture')}</div>
         <div
           className="font-dm font-black leading-none"
           style={{
@@ -569,8 +575,8 @@ export default function Translator() {
   const SentenceBlock = sentence ? (
     <div className="glass-card-cyan p-3 flex items-start justify-between gap-3">
       <div className="min-w-0">
-        <div className="hud-label mb-1">Sentence</div>
-        <div className="text-sm font-dm break-words" style={{ color: '#e8f4fd' }}>{sentence}</div>
+        <div className="hud-label mb-1">{t('sentence_builder')}</div>
+        <div className="text-sm font-dm break-words" style={{ color: 'var(--text-primary)' }}>{sentence}</div>
       </div>
       <div className="flex gap-2 shrink-0">
         <button className="btn-secondary" style={{ padding: '5px 10px', fontSize: '0.73rem' }}
@@ -582,10 +588,10 @@ export default function Translator() {
               navigator.clipboard?.writeText(sentence)
               toast.success('Copied!')
             }
-          }}>{typeof navigator !== 'undefined' && navigator.share ? 'Share' : 'Copy'}
+          }}>{typeof navigator !== 'undefined' && navigator.share ? 'Share' : t('btn_copy')}
         </button>
         <button className="btn-primary" style={{ padding: '5px 10px', fontSize: '0.73rem' }}
-          onClick={() => handleSpeak(sentence)}>Speak</button>
+          onClick={() => handleSpeak(sentence)}>{t('btn_speak')}</button>
       </div>
     </div>
   ) : null
@@ -610,7 +616,7 @@ export default function Translator() {
   const DetectionLog = (
     <div className="terminal-log" style={{ maxHeight: 130 }}>
       {detectionLog.length === 0
-        ? <span style={{ color: '#1a2535' }}>No detections yet...</span>
+        ? <span style={{ color: 'var(--border)' }}>No detections yet...</span>
         : detectionLog.map((e, i) => (
           <div key={i} className="flex items-center gap-2 py-0.5">
             <span style={{ color: '#1a4535', fontSize: '0.6rem' }}>[{e.time}]</span>
@@ -644,7 +650,7 @@ export default function Translator() {
           <input type="checkbox" checked={autoSpeak} onChange={e => setAutoSpeak(e.target.checked)} aria-label="Auto speak" />
           <span className="toggle-slider" />
         </label>
-        <span className="text-xs font-dm" style={{ color: '#6b8ba4' }}>Auto Speak</span>
+        <span className="text-xs font-dm" style={{ color: 'var(--text-secondary)' }}>Auto Speak</span>
         <button className="btn-primary" style={{ padding: '7px 14px', fontSize: '0.8rem', minHeight: 36 }}
           disabled={!currentPrediction}
           onClick={() => handleSpeak(currentPrediction?.label)}>
@@ -698,14 +704,14 @@ export default function Translator() {
           {recognition.isListening ? '⏹' : '🎤'}
         </button>
       </div>
-      <div className="mt-2 hud-label">{recognition.isListening ? '● Listening...' : 'Tap mic to speak'}</div>
+      <div className="mt-2 hud-label">{recognition.isListening ? t('status_listening') || '● Listening...' : t('mic_prompt') || 'Tap mic to speak'}</div>
     </div>
   )
 
   // NEW: Enhanced transcript for Speech→Word — larger, more accessible
   const TranscriptBlock = (
     <div>
-      <div className="hud-label mb-1.5">Live Transcript</div>
+      <div className="hud-label mb-1.5">{t('live_transcript') || 'Live Transcript'}</div>
       <div
         className="glass-card rounded-xl"
         style={{
@@ -718,10 +724,10 @@ export default function Translator() {
         }}
       >
         {!recognition.transcript && !recognition.interimTranscript
-          ? <span style={{ color: '#2a3545', fontSize: '1rem' }}>Start speaking — text appears here</span>
+          ? <span style={{ color: '#2a3545', fontSize: '1rem' }}>{t('transcript_prompt') || 'Start speaking — text appears here'}</span>
           : (
             <>
-              <span style={{ color: '#e8f4fd', fontSize: '1.05rem', fontWeight: 500 }}>{recognition.transcript}</span>
+              <span style={{ color: 'var(--text-primary)', fontSize: '1.05rem', fontWeight: 500 }}>{recognition.transcript}</span>
               <span style={{ color: '#8b5cf6', fontSize: '1.05rem', fontStyle: 'italic', opacity: 0.8 }}>{recognition.interimTranscript}</span>
             </>
           )}
@@ -737,7 +743,7 @@ export default function Translator() {
         background: recognition.lastFinalChunk
           ? 'linear-gradient(135deg, rgba(139,92,246,0.08), rgba(0,212,255,0.05))'
           : 'rgba(8,13,20,0.5)',
-        border: recognition.lastFinalChunk ? '1px solid rgba(139,92,246,0.3)' : '1px solid #1a2535',
+        border: recognition.lastFinalChunk ? '1px solid rgba(139,92,246,0.3)' : '1px solid var(--border)',
         minHeight: 140,
         padding: '28px 20px',
         transition: 'all 0.4s ease',
@@ -749,7 +755,7 @@ export default function Translator() {
           className="font-syne font-bold text-center"
           style={{
             fontSize: 'clamp(1.4rem, 4vw, 2.4rem)',
-            color: '#e8f4fd',
+            color: 'var(--text-primary)',
             textShadow: '0 0 24px rgba(139,92,246,0.25)',
             lineHeight: 1.35,
             maxWidth: '100%',
@@ -762,7 +768,7 @@ export default function Translator() {
       ) : (
         <div className="text-center" style={{ color: '#2a3545' }}>
           <div style={{ fontSize: '2.2rem', marginBottom: 8 }}>💬</div>
-          <div className="text-sm font-dm" style={{ color: '#3a4555' }}>Spoken words appear here</div>
+          <div className="text-sm font-dm" style={{ color: '#3a4555' }}>{t('latest_word_prompt') || 'Spoken words appear here'}</div>
         </div>
       )}
     </div>
@@ -792,17 +798,17 @@ export default function Translator() {
           {/* LEFT: Sign → Speech */}
           <div
             className="relative flex flex-col gap-3 p-5 xl:p-6 overflow-y-auto"
-            style={{ width: '55%', background: 'var(--obsidian)', borderRight: '1px solid #1a2535' }}
+            style={{ width: '55%', background: 'var(--obsidian)', borderRight: '1px solid var(--border)' }}
           >
             <div className="scan-line" />
-            <div className="panel-title">Sign Detection</div>
+            <div className="panel-title">{t('panel_sign_detection') || 'Sign Detection'}</div>
 
             {/* ─── Input Mode Selector ────────────────────────────── */}
-            <div className="flex items-center gap-1.5 p-1.5 rounded-lg" style={{ background: '#1a2535', width: 'fit-content' }}>
+            <div className="flex items-center gap-1.5 p-1.5 rounded-lg" style={{ background: 'var(--border)', width: 'fit-content' }}>
               {[
-                { mode: 'live', icon: '📹', label: 'Live' },
-                { mode: 'photo', icon: '📷', label: 'Photo' },
-                { mode: 'video', icon: '🎬', label: 'Video' },
+                { mode: 'live', icon: '📹', label: t('mode_live') || 'Live' },
+                { mode: 'photo', icon: '📷', label: t('mode_photo') || 'Photo' },
+                { mode: 'video', icon: '🎬', label: t('mode_video') || 'Video' },
               ].map(({ mode, icon, label }) => (
                 <button
                   key={mode}
@@ -811,8 +817,8 @@ export default function Translator() {
                   style={{
                     padding: '5px 12px',
                     borderRadius: '5px',
-                    background: inputMode === mode ? '#00d4ff' : 'transparent',
-                    color: inputMode === mode ? '#020408' : '#6b8ba4',
+                    background: inputMode === mode ? 'var(--cyan)' : 'transparent',
+                    color: inputMode === mode ? '#020408' : 'var(--text-secondary)',
                     fontWeight: inputMode === mode ? 'bold' : 'normal',
                     cursor: 'pointer',
                     whiteSpace: 'nowrap',
@@ -825,7 +831,7 @@ export default function Translator() {
             </div>
 
             {/* THE input panel on desktop (Live, Photo, or Video) */}
-            {inputMode === 'live' && <CameraPanel {...camProps} height={320} />}
+            {inputMode === 'live' && <CameraPanel {...camProps} settings={settings} height={320} />}
             {inputMode === 'photo' && <PhotoTranslator 
               photoUrl={photoMode.photoUrl}
               isLoaded={photoMode.isLoaded}
@@ -854,7 +860,7 @@ export default function Translator() {
 
             {/* Quick Phrase Tabs */}
             <div className="mt-2">
-              <div className="hud-label mb-1">Quick Phrase Add</div>
+              <div className="hud-label mb-1">{t('quick_phrase_add') || 'Quick Phrase Add'}</div>
               <div className="flex flex-wrap gap-1.5 max-h-[80px] overflow-y-auto no-scrollbar">
                 {PHRASE_PACKS[0].phrases.map(ph => (
                   <button key={ph.word} onClick={() => {
@@ -868,12 +874,12 @@ export default function Translator() {
             </div>
 
             <div className="flex items-center justify-between mb-1.5 mt-2">
-              <div className="hud-label">Detection Log</div>
+              <div className="hud-label">{t('detection_log') || 'Detection Log'}</div>
               <button className="btn-danger" style={{ padding: '3px 8px', fontSize: '0.65rem' }} onClick={handleClearLog}>Clear</button>
             </div>
             {DetectionLog}
 
-            <div className="pt-3" style={{ borderTop: '1px solid #1a2535' }}>
+            <div className="pt-3" style={{ borderTop: '1px solid var(--border)' }}>
               {SignControls}
             </div>
           </div>
@@ -882,8 +888,8 @@ export default function Translator() {
           <div className="relative flex items-center justify-center shrink-0" style={{ width: 24, background: 'var(--void)' }}>
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg,transparent,rgba(0,212,255,0.05) 50%,transparent)' }} />
             <div className="flex flex-col items-center gap-2 z-10">
-              <div className="w-1 h-1 rounded-full" style={{ background: '#00d4ff', boxShadow: '0 0 4px #00d4ff' }} />
-              <div className="w-px h-10" style={{ background: 'linear-gradient(to bottom,transparent,#00d4ff40,transparent)' }} />
+              <div className="w-1 h-1 rounded-full" style={{ background: 'var(--cyan)', boxShadow: '0 0 4px var(--cyan)' }} />
+              <div className="w-px h-10" style={{ background: 'linear-gradient(to bottom,transparent,var(--cyan)40,transparent)' }} />
               <div className="w-1 h-1 rounded-full" style={{ background: '#8b5cf6', boxShadow: '0 0 4px #8b5cf6' }} />
             </div>
           </div>
@@ -893,13 +899,13 @@ export default function Translator() {
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
               <span style={{ display: 'block', width: 3, height: 14, background: '#8b5cf6', borderRadius: 2, boxShadow: '0 0 8px #8b5cf6' }} />
               <span className="font-syne font-bold tracking-widest uppercase" style={{ color: '#8b5cf6', fontSize: '0.75rem', letterSpacing: '0.2em' }}>
-                Speech → Word
+                {t('mode_speech_word') || 'Speech → Word'}
               </span>
             </div>
             {MicBlock}
             {TranscriptBlock}
             {LatestWordBlock}
-            <div className="space-y-3 pt-3" style={{ borderTop: '1px solid #1a2535' }}>
+            <div className="space-y-3 pt-3" style={{ borderTop: '1px solid var(--border)' }}>
               <div className="flex gap-2">
                 <button className="btn-secondary flex-1" style={{ fontSize: '0.8rem', minHeight: 36 }} onClick={recognition.clear}>Clear</button>
                 <button className="btn-primary flex-1" style={{ fontSize: '0.8rem', minHeight: 36 }} onClick={handleCopyTranscript}>📋 Copy</button>
@@ -918,7 +924,7 @@ export default function Translator() {
             {activeTab === 'sign' ? (
               <>
                 {/* ─── Input Mode Selector (Mobile) ────────────────────── */}
-                <div className="flex items-center gap-1 p-1 rounded-lg" style={{ background: '#1a2535', width: 'fit-content' }}>
+                <div className="flex items-center gap-1 p-1 rounded-lg" style={{ background: 'var(--border)', width: 'fit-content' }}>
                   {[
                     { mode: 'live', icon: '📹', label: 'Live' },
                     { mode: 'photo', icon: '📷', label: 'Photo' },
@@ -931,8 +937,8 @@ export default function Translator() {
                       style={{
                         padding: '4px 10px',
                         borderRadius: '4px',
-                        background: inputMode === mode ? '#00d4ff' : 'transparent',
-                        color: inputMode === mode ? '#020408' : '#6b8ba4',
+                        background: inputMode === mode ? 'var(--cyan)' : 'transparent',
+                        color: inputMode === mode ? '#020408' : 'var(--text-secondary)',
                         fontWeight: inputMode === mode ? 'bold' : 'normal',
                         cursor: 'pointer',
                         whiteSpace: 'nowrap',
@@ -944,7 +950,7 @@ export default function Translator() {
                 </div>
 
                 {/* THE input panel on mobile (Live, Photo, or Video) */}
-                {inputMode === 'live' && <CameraPanel {...camProps} height={240} compact />}
+                {inputMode === 'live' && <CameraPanel {...camProps} settings={settings} height={240} compact />}
                 {inputMode === 'photo' && <PhotoTranslator 
                   photoUrl={photoMode.photoUrl}
                   isLoaded={photoMode.isLoaded}
@@ -973,7 +979,7 @@ export default function Translator() {
                 {SignControls}
                 <div className="terminal-log" style={{ maxHeight: 90 }}>
                   {detectionLog.length === 0
-                    ? <span style={{ color: '#1a2535' }}>No detections yet</span>
+                    ? <span style={{ color: 'var(--border)' }}>No detections yet</span>
                     : detectionLog.slice(0, 5).map((e, i) => (
                       <div key={i} className="flex gap-2">
                         <span style={{ color: '#1a4535', fontSize: '0.6rem' }}>{e.time}</span>
@@ -1000,10 +1006,10 @@ export default function Translator() {
           {/* Tab Bar */}
           <div
             className="flex border-t shrink-0"
-            style={{ background: 'var(--obsidian)', borderColor: '#1a2535', paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
+            style={{ background: 'var(--obsidian)', borderColor: 'var(--border)', paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
           >
             {[
-              { tab: 'sign', icon: '✋', label: 'Sign → Speech', color: '#00d4ff' },
+              { tab: 'sign', icon: '✋', label: 'Sign → Speech', color: 'var(--cyan)' },
               { tab: 'speech', icon: '🎤', label: 'Speech → Word', color: '#8b5cf6' },
             ].map(({ tab, icon, label, color }) => (
               <button
@@ -1011,7 +1017,7 @@ export default function Translator() {
                 onClick={() => setActiveTab(tab)}
                 className="flex-1 flex flex-col items-center justify-center gap-1 py-3 transition-all duration-200 cursor-pointer"
                 style={{
-                  color: activeTab === tab ? color : '#6b8ba4',
+                  color: activeTab === tab ? color : 'var(--text-secondary)',
                   background: activeTab === tab ? `${color}08` : 'transparent',
                   borderTop: activeTab === tab ? `2px solid ${color}` : '2px solid transparent',
                   minHeight: 56,

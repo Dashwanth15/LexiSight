@@ -1,39 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useSettings } from '../hooks/useSettings.jsx'
 import ParticleCanvas from '../components/ParticleCanvas.jsx'
 import GlitchText from '../components/GlitchText.jsx'
-
-const TAGLINES = [
-  '63 million Indians cannot be heard.',
-  'LexiSight changes that.',
-]
-
-const STATS = [
-  { value: '63M+', label: 'Affected in India', color: '#00d4ff' },
-  { value: '100%', label: 'Free & Open Source', color: '#00ff88' },
-  { value: '0', label: 'Servers Required', color: '#8b5cf6' },
-]
-
-const STEPS = [
-  {
-    icon: '◈',
-    title: 'Show Your Hand',
-    desc: 'Point your camera at your hand. MediaPipe detects 21 precise landmarks in real-time.',
-    color: '#00d4ff',
-  },
-  {
-    icon: '⬡',
-    title: 'AI Classifies',
-    desc: 'TensorFlow.js neural network trained on ISL dataset classifies your gesture instantly.',
-    color: '#8b5cf6',
-  },
-  {
-    icon: '◎',
-    title: 'Speak & Sign',
-    desc: 'Converted to speech in Indian English. Or speak — and watch the hand avatar sign it back.',
-    color: '#00ff88',
-  },
-]
+import { useTranslation } from '../hooks/useTranslation.js'
 
 function CountUpStat({ value, label, color }) {
   const ref = useRef(null)
@@ -86,6 +56,41 @@ function CountUpStat({ value, label, color }) {
 }
 
 export default function Landing() {
+  const { t } = useTranslation()
+  const { settings } = useSettings()
+
+  const taglines = [
+    t('tagline_1'),
+    t('tagline_2'),
+  ]
+
+  const stats = [
+    { value: '63M+', label: t('stat_affected'), color: 'var(--cyan)' },
+    { value: '100%', label: t('stat_free'), color: 'var(--green)' },
+    { value: '0', label: t('stat_local'), color: 'var(--violet)' },
+  ]
+
+  const steps = [
+    {
+      icon: '◈',
+      title: t('step_1_title'),
+      desc: t('step_1_desc'),
+      color: 'var(--cyan)',
+    },
+    {
+      icon: '⬡',
+      title: t('step_2_title'),
+      desc: t('step_2_desc'),
+      color: 'var(--violet)',
+    },
+    {
+      icon: '◎',
+      title: t('step_3_title'),
+      desc: t('step_3_desc'),
+      color: 'var(--green)',
+    },
+  ]
+
   const [typeText, setTypeText] = useState('')
   const [lineIdx, setLineIdx] = useState(0)
   const [charIdx, setCharIdx] = useState(0)
@@ -96,9 +101,16 @@ export default function Landing() {
     return () => clearTimeout(t)
   }, [])
 
+  // Reset typewriter when language changes
   useEffect(() => {
-    if (lineIdx >= TAGLINES.length) return
-    const line = TAGLINES[lineIdx]
+    setTypeText('')
+    setLineIdx(0)
+    setCharIdx(0)
+  }, [settings.uiLanguage])
+
+  useEffect(() => {
+    if (lineIdx >= taglines.length) return
+    const line = taglines[lineIdx]
     if (charIdx < line.length) {
       const t = setTimeout(() => {
         setTypeText(prev => prev + line[charIdx])
@@ -107,7 +119,7 @@ export default function Landing() {
       return () => clearTimeout(t)
     } else {
       const t = setTimeout(() => {
-        if (lineIdx < TAGLINES.length - 1) {
+        if (lineIdx < taglines.length - 1) {
           setTypeText(prev => prev + '\n')
           setLineIdx(l => l + 1)
           setCharIdx(0)
@@ -131,62 +143,67 @@ export default function Landing() {
         <div className="relative z-10 w-full px-4 sm:px-6 lg:px-12 max-w-6xl mx-auto">
 
           {/* SDG Badge */}
-          <div
-            className={`inline-flex items-center gap-2 mb-6 px-3 sm:px-4 py-2 rounded-full transition-all duration-700 ${visible ? 'animate-slide-up' : 'opacity-0'}`}
-            style={{ background: 'rgba(0,212,255,0.06)', border: '1px solid rgba(0,212,255,0.2)' }}
-          >
-            <span className="text-xs" style={{ color: '#00d4ff' }}>◉</span>
-            <span
-              className="font-mono font-semibold tracking-widest hidden sm:inline"
-              style={{ color: '#00d4ff', fontFamily: 'JetBrains Mono, monospace', fontSize: '0.65rem' }}
+          {/* SDG Badge — Fixed overlap by moving to right and increasing spacing */}
+          <div className={`flex justify-end mb-24 transition-all duration-700 ${visible ? 'animate-slide-up' : 'opacity-0'}`}>
+            <div
+              className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full"
+              style={{ background: 'var(--void)', border: '1px solid var(--cyan)' }}
             >
-              SDG 3 · 4 · 8 · 10 · 17
-            </span>
-            <span
-              className="font-mono font-semibold tracking-widest sm:hidden"
-              style={{ color: '#00d4ff', fontFamily: 'JetBrains Mono, monospace', fontSize: '0.6rem' }}
-            >
-              SDG MULTI
-            </span>
-            <span
-              style={{
-                background: '#00d4ff', color: '#020408',
-                borderRadius: 4, padding: '1px 6px',
-                fontWeight: 700, fontFamily: 'JetBrains Mono, monospace',
-                fontSize: '0.6rem',
-              }}
-            >
-              AIESEC 2026
-            </span>
+              <span className="text-xs" style={{ color: 'var(--cyan)' }}>◉</span>
+              <span
+                className="font-mono font-semibold tracking-widest hidden sm:inline"
+                style={{ color: 'var(--cyan)', fontFamily: 'JetBrains Mono, monospace', fontSize: '0.65rem' }}
+              >
+                SDG 3 · 4 · 8 · 10 · 17
+              </span>
+              <span
+                className="font-mono font-semibold tracking-widest sm:hidden"
+                style={{ color: 'var(--cyan)', fontFamily: 'JetBrains Mono, monospace', fontSize: '0.6rem' }}
+              >
+                SDG MULTI
+              </span>
+              <span
+                style={{
+                  background: 'var(--cyan)', color: 'var(--void)',
+                  borderRadius: 4, padding: '1px 6px',
+                  fontWeight: 700, fontFamily: 'JetBrains Mono, monospace',
+                  fontSize: '0.6rem',
+                }}
+              >
+                AIESEC 2026
+              </span>
+            </div>
           </div>
 
           {/* Main title — responsive clamp */}
           <div className={`mb-6 sm:mb-8 transition-all duration-700 delay-100 ${visible ? 'animate-slide-up' : 'opacity-0'}`}>
             <h1
-              className="block leading-none tracking-tighter font-syne font-black"
+              className="block tracking-tighter font-syne font-black mb-4 sm:mb-8"
               style={{
                 fontSize: 'clamp(4rem, 18vw, 12rem)',
-                color: '#e8f4fd',
+                color: 'var(--text-primary)',
+                lineHeight: 1.1,
               }}
             >
-              <GlitchText text="LEXI" />
+              <GlitchText text={t('app_name_part1')} />
             </h1>
-            <div className="flex items-end gap-2 sm:gap-4" style={{ marginLeft: 'clamp(1rem, 4vw, 6rem)' }}>
+            <div className="flex items-end gap-2 sm:gap-4" style={{ marginLeft: 'clamp(0.5rem, 2vw, 3rem)' }}>
               <span
-                className="block leading-none tracking-tighter font-syne font-black"
+                className="block tracking-tighter font-syne font-black"
                 style={{
                   fontSize: 'clamp(4rem, 18vw, 12rem)',
                   color: 'transparent',
-                  WebkitTextStroke: 'clamp(1px, 0.3vw, 2px) #00d4ff',
-                  textShadow: '0 0 40px rgba(0,212,255,0.3)',
+                  WebkitTextStroke: 'clamp(1px, 0.3vw, 2px) var(--cyan)',
+                  textShadow: 'var(--glow-cyan)',
+                  lineHeight: 1.1,
                 }}
               >
-                SIGHT
+                {t('app_name_part2')}
               </span>
               <div className="mb-2 sm:mb-4 md:mb-6">
                 <div
                   className="w-2 h-2 sm:w-3 sm:h-3 rounded-full mb-1"
-                  style={{ background: '#00ff88', boxShadow: '0 0 12px #00ff88' }}
+                  style={{ background: 'var(--green)', boxShadow: '0 0 12px var(--green)' }}
                 />
                 <div className="hud-label" style={{ fontSize: '0.55rem' }}>ISL</div>
               </div>
@@ -198,16 +215,16 @@ export default function Landing() {
             <p
               className="font-dm font-light max-w-xl"
               style={{
-                color: '#6b8ba4',
+                color: 'var(--text-secondary)',
                 whiteSpace: 'pre-line',
-                borderRight: lineIdx < TAGLINES.length ? '2px solid #00d4ff' : '2px solid transparent',
+                borderRight: lineIdx < taglines.length ? '2px solid var(--cyan)' : '2px solid transparent',
                 animation: 'typing-cursor 0.75s step-end infinite',
                 fontSize: 'clamp(1rem, 3vw, 1.5rem)',
               }}
             >
-              <span style={{ color: '#e8f4fd' }}>{typeText.split('\n')[0]}</span>
+              <span style={{ color: 'var(--text-primary)' }}>{typeText.split('\n')[0]}</span>
               {typeText.includes('\n') && (
-                <><br /><span style={{ color: '#00d4ff' }}>{typeText.split('\n')[1]}</span></>
+                <><br /><span style={{ color: 'var(--cyan)' }}>{typeText.split('\n')[1]}</span></>
               )}
             </p>
           </div>
@@ -222,7 +239,7 @@ export default function Landing() {
               style={{ padding: 'clamp(10px,2vw,14px) clamp(18px,4vw,32px)', fontSize: 'clamp(0.8rem,2vw,0.95rem)', minHeight: 48 }}
               aria-label="Start translating Indian Sign Language"
             >
-              <span>↗</span> Start Translating
+              <span>↗</span> {t('btn_start_translating') || 'Start Translating'}
             </Link>
             <div className="flex gap-2 sm:gap-3 flex-wrap">
               <Link
@@ -230,28 +247,28 @@ export default function Landing() {
                 className="btn-secondary"
                 style={{ padding: 'clamp(8px,1.5vw,12px) clamp(14px,2.5vw,20px)', minHeight: 40, fontSize: '0.8rem' }}
               >
-                How It Works
+                {t('btn_how_it_works') || 'How It Works'}
               </Link>
               <Link
                 to="/learn"
                 className="btn-secondary"
                 style={{ padding: 'clamp(8px,1.5vw,12px) clamp(14px,2.5vw,20px)', minHeight: 40, fontSize: '0.8rem' }}
               >
-                📚 Learn ISL
+                📚 {t('btn_learn_isl') || 'Learn ISL'}
               </Link>
               <Link
                 to="/impact"
                 className="btn-secondary"
                 style={{ padding: 'clamp(8px,1.5vw,12px) clamp(14px,2.5vw,20px)', minHeight: 40, fontSize: '0.8rem' }}
               >
-                🌍 Impact
+                🌍 {t('nav_impact') || 'Impact'}
               </Link>
               <Link
                 to="/dictionary"
                 className="btn-secondary"
                 style={{ padding: 'clamp(8px,1.5vw,12px) clamp(14px,2.5vw,20px)', minHeight: 40, fontSize: '0.8rem' }}
               >
-                📖 Dictionary
+                📖 {t('nav_dictionary') || 'Dictionary'}
               </Link>
             </div>
           </div>
@@ -270,7 +287,7 @@ export default function Landing() {
                   className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center shrink-0"
                   style={{ background: 'rgba(0,212,255,0.1)', border: '1px solid rgba(0,212,255,0.2)' }}
                 >
-                  <span style={{ color: '#00d4ff', fontSize: '1.3rem' }}>✋</span>
+                  <span style={{ color: 'var(--cyan)', fontSize: '1.3rem' }}>✋</span>
                 </div>
                 <div>
                   <div className="font-syne font-black text-glow-green" style={{ fontSize: 'clamp(1.2rem,4vw,1.8rem)' }}>HELLO</div>
@@ -298,7 +315,7 @@ export default function Landing() {
                     style={{ border: '1px solid rgba(139,92,246,0.3)', animation: 'pulse-ring 2s ease-out infinite' }} />
                 </div>
                 <div className="min-w-0">
-                  <div className="text-sm font-dm truncate" style={{ color: '#e8f4fd' }}>"Thank you very much"</div>
+                  <div className="text-sm font-dm truncate" style={{ color: 'var(--text-primary)' }}>"Thank you very much"</div>
                   <div className="hud-label mt-1">Live transcript</div>
                 </div>
               </div>
@@ -314,7 +331,7 @@ export default function Landing() {
         {/* Scroll indicator */}
         <div className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce-y">
           <div className="hud-label" style={{ fontSize: '0.55rem' }}>Scroll</div>
-          <div className="w-px h-6 sm:h-8" style={{ background: 'linear-gradient(to bottom, #00d4ff, transparent)' }} />
+          <div className="w-px h-6 sm:h-8" style={{ background: 'linear-gradient(to bottom, var(--cyan), transparent)' }} />
         </div>
       </section>
 
@@ -322,7 +339,7 @@ export default function Landing() {
       <section className="py-12 sm:py-20 px-4 sm:px-6 lg:px-12" style={{ background: 'var(--obsidian)' }}>
         <div className="max-w-4xl mx-auto">
           <div className="grid grid-cols-3 gap-4 sm:gap-8">
-            {STATS.map(s => <CountUpStat key={s.label} {...s} />)}
+            {stats.map(s => <CountUpStat key={s.label} {...s} />)}
           </div>
         </div>
       </section>
@@ -334,11 +351,11 @@ export default function Landing() {
             <div className="hud-label mb-3 sm:mb-4">System Overview</div>
             <h2
               className="font-syne font-black"
-              style={{ fontSize: 'clamp(1.8rem, 6vw, 3.5rem)', color: '#e8f4fd' }}
+              style={{ fontSize: 'clamp(1.8rem, 6vw, 3.5rem)', color: 'var(--text-primary)' }}
             >
-              How It Works
+              {t('btn_how_it_works') || 'How It Works'}
             </h2>
-            <p className="mt-3 sm:mt-4 font-dm max-w-xl mx-auto px-4" style={{ color: '#6b8ba4', fontSize: 'clamp(0.85rem, 2vw, 1rem)' }}>
+            <p className="mt-3 sm:mt-4 font-dm max-w-xl mx-auto px-4" style={{ color: 'var(--text-secondary)', fontSize: 'clamp(0.85rem, 2vw, 1rem)' }}>
               Three steps from hand to voice — all running locally in your browser.
             </p>
           </div>
@@ -347,11 +364,11 @@ export default function Landing() {
             {/* Connecting line — hidden on mobile */}
             <div
               className="absolute top-14 left-16 right-16 h-px hidden md:block"
-              style={{ background: 'linear-gradient(90deg, #00d4ff22, #8b5cf666, #00ff8822)' }}
+              style={{ background: 'linear-gradient(90deg, var(--cyan)22, var(--violet)66, var(--green)22)' }}
             />
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-8">
-              {STEPS.map((step, i) => (
+              {steps.map((step, i) => (
                 <div
                   key={i}
                   className="glass-card p-5 sm:p-6 text-center hover:scale-105 transition-transform duration-300"
@@ -369,10 +386,10 @@ export default function Landing() {
                   >
                     {step.icon}
                   </div>
-                  <h3 className="font-syne font-bold mb-2 sm:mb-3" style={{ color: '#e8f4fd', fontSize: 'clamp(0.95rem, 2vw, 1.1rem)' }}>
+                  <h3 className="font-syne font-bold mb-2 sm:mb-3" style={{ color: 'var(--text-primary)', fontSize: 'clamp(0.95rem, 2vw, 1.1rem)' }}>
                     {step.title}
                   </h3>
-                  <p className="font-dm leading-relaxed" style={{ color: '#6b8ba4', fontSize: 'clamp(0.8rem, 1.5vw, 0.875rem)' }}>
+                  <p className="font-dm leading-relaxed" style={{ color: 'var(--text-secondary)', fontSize: 'clamp(0.8rem, 1.5vw, 0.875rem)' }}>
                     {step.desc}
                   </p>
                   <div className="mt-3 sm:mt-4 hud-label" style={{ color: step.color }}>Step {i + 1}</div>
@@ -390,18 +407,18 @@ export default function Landing() {
             <div className="hud-label mb-3 sm:mb-4">See LexiSight in Action</div>
             <h2
               className="font-syne font-black"
-              style={{ fontSize: 'clamp(1.8rem, 6vw, 3.5rem)', color: '#e8f4fd' }}
+              style={{ fontSize: 'clamp(1.8rem, 6vw, 3.5rem)', color: 'var(--text-primary)' }}
             >
               90-Second Demo
             </h2>
           </div>
           
           <div className="relative aspect-video rounded-2xl overflow-hidden glass-card flex items-center justify-center" style={{ border: '1px solid rgba(0,212,255,0.3)', boxShadow: '0 0 40px rgba(0,212,255,0.1)' }}>
-            <div className="absolute inset-0 bg-[#0d1520] flex flex-col items-center justify-center">
-              <div className="w-16 h-16 rounded-full flex items-center justify-center mb-4 cursor-pointer hover:scale-110 transition-transform" style={{ background: '#00d4ff', color: '#020408' }}>
+            <div className="absolute inset-0 bg-[var(--surface)] flex flex-col items-center justify-center">
+              <div className="w-16 h-16 rounded-full flex items-center justify-center mb-4 cursor-pointer hover:scale-110 transition-transform" style={{ background: 'var(--cyan)', color: 'var(--void)' }}>
                 <span style={{ fontSize: '24px', marginLeft: '4px' }}>▶</span>
               </div>
-              <p className="font-syne text-[#e8f4fd] font-bold text-lg">LexiSight Platform Demo</p>
+              <p className="font-syne text-[var(--text-primary)] font-bold text-lg">LexiSight Platform Demo</p>
               <p className="hud-label mt-2">Coming Soon</p>
             </div>
           </div>
@@ -416,7 +433,7 @@ export default function Landing() {
             style={{
               background: 'rgba(0,255,136,0.06)',
               border: '1px solid rgba(0,255,136,0.2)',
-              color: '#00ff88',
+              color: 'var(--green)',
               fontFamily: 'JetBrains Mono, monospace',
               fontSize: 'clamp(0.55rem, 1.5vw, 0.7rem)',
             }}
@@ -425,10 +442,10 @@ export default function Landing() {
           </div>
           <h2
             className="font-syne font-black mb-5 sm:mb-6"
-            style={{ fontSize: 'clamp(1.8rem, 6vw, 3.5rem)', color: '#e8f4fd' }}
+            style={{ fontSize: 'clamp(1.8rem, 6vw, 3.5rem)', color: 'var(--text-primary)' }}
           >
             Break the silence.<br />
-            <span style={{ color: '#00d4ff' }}>Start now.</span>
+            <span style={{ color: 'var(--cyan)' }}>Start now.</span>
           </h2>
           <Link
             to="/translate"
@@ -440,16 +457,16 @@ export default function Landing() {
             }}
             aria-label="Open LexiSight translator"
           >
-            ↗ Open Translator
+            {t('nav_translate') || 'Open Translator'}
           </Link>
         </div>
       </section>
 
       {/* ── FOOTER ─────────────────── */}
-      <footer className="py-8 sm:py-10 px-4 sm:px-6 lg:px-12 border-t" style={{ borderColor: '#1a2535' }}>
+      <footer className="py-8 sm:py-10 px-4 sm:px-6 lg:px-12 border-t" style={{ borderColor: 'var(--border)' }}>
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 text-center sm:text-left">
           <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
-            <span className="font-syne font-bold text-base sm:text-lg" style={{ color: '#e8f4fd' }}>LexiSight</span>
+            <span className="font-syne font-bold text-base sm:text-lg" style={{ color: 'var(--text-primary)' }}>LexiSight</span>
             <span className="hud-label hidden sm:inline">Built for AIESEC Youth Speak Ideathon 2026</span>
           </div>
           <div className="flex items-center gap-3 sm:gap-6 flex-wrap justify-center">
@@ -458,9 +475,9 @@ export default function Landing() {
               className="flex items-center gap-1.5 px-3 py-1 rounded-full"
               style={{ background: 'rgba(0,212,255,0.06)', border: '1px solid rgba(0,212,255,0.2)' }}
             >
-              <span style={{ color: '#00d4ff', fontSize: '0.65rem', fontFamily: 'JetBrains Mono, monospace' }}>SDG 3,4,8,10,17</span>
+              <span style={{ color: 'var(--cyan)', fontSize: '0.65rem', fontFamily: 'JetBrains Mono, monospace' }}>SDG 3,4,8,10,17</span>
             </div>
-            <Link to="/community" style={{ color: '#8b5cf6', fontSize: '0.75rem', fontFamily: 'DM Sans, sans-serif', textDecoration: 'none' }}>
+            <Link to="/community" style={{ color: 'var(--violet)', fontSize: '0.75rem', fontFamily: 'DM Sans, sans-serif', textDecoration: 'none' }}>
               Gesture Bank
             </Link>
           </div>

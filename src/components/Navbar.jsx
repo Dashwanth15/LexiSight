@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import GlitchText from './GlitchText.jsx'
 import ThemeToggle, { useTheme } from './ThemeToggle.jsx'
+import { useTranslation } from '../hooks/useTranslation.js'
 
 const NAV_LINKS = [
   { to: '/', label: 'Home' },
@@ -15,9 +16,21 @@ const NAV_LINKS = [
 ]
 
 export default function Navbar() {
+  const { t } = useTranslation()
   const location = useLocation()
   const [drawerOpen, setDrawerOpen] = useState(false)
   const { theme, toggle } = useTheme()
+
+  const navLinks = [
+    { to: '/', label: t('nav_home') || 'Home' },
+    { to: '/translate', label: t('nav_translate') },
+    { to: '/learn', label: t('nav_learn'), badge: 'NEW' },
+    { to: '/dictionary', label: t('nav_dictionary') || 'Dictionary', badge: 'NEW' },
+    { to: '/impact', label: t('nav_impact') },
+    { to: '/community', label: t('nav_community') },
+    { to: '/about', label: t('nav_about') },
+    { to: '/settings', label: t('nav_settings') },
+  ]
 
   const isActive = useCallback((to) => {
     if (to === '/') return location.pathname === '/'
@@ -31,10 +44,10 @@ export default function Navbar() {
       <nav
         className="fixed top-0 left-0 right-0 z-50 h-16 flex items-center"
         style={{
-          background: 'rgba(2, 4, 8, 0.92)',
+          background: 'var(--void)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
-          borderBottom: '1px solid rgba(26, 37, 53, 0.8)',
+          borderBottom: '1px solid var(--border)',
         }}
       >
         <div className="w-full flex items-center px-4 sm:px-6 lg:px-8">
@@ -46,30 +59,30 @@ export default function Navbar() {
               style={{ borderColor: 'rgba(0,212,255,0.4)', boxShadow: '0 0 12px rgba(0,212,255,0.25)' }}
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                <ellipse cx="12" cy="12" rx="10" ry="6" stroke="#00d4ff" strokeWidth="1.5" />
-                <circle cx="12" cy="12" r="3" fill="#00d4ff" />
-                <circle cx="12" cy="12" r="1.5" fill="#020408" />
-                <line x1="2" y1="12" x2="5" y2="12" stroke="#00d4ff" strokeWidth="1.5" />
-                <line x1="19" y1="12" x2="22" y2="12" stroke="#00d4ff" strokeWidth="1.5" />
+                <ellipse cx="12" cy="12" rx="10" ry="6" stroke="var(--cyan)" strokeWidth="1.5" />
+                <circle cx="12" cy="12" r="3" fill="var(--cyan)" />
+                <circle cx="12" cy="12" r="1.5" fill="var(--void)" />
+                <line x1="2" y1="12" x2="5" y2="12" stroke="var(--cyan)" strokeWidth="1.5" />
+                <line x1="19" y1="12" x2="22" y2="12" stroke="var(--cyan)" strokeWidth="1.5" />
               </svg>
             </div>
             <GlitchText
-              text="LexiSight"
+              text={t('app_name')}
               className="text-base sm:text-lg font-bold font-syne tracking-tight"
-              style={{ color: '#e8f4fd' }}
+              style={{ color: 'var(--text-primary)' }}
             />
           </Link>
 
           {/* Desktop Nav */}
           <div className="hidden lg:flex items-center gap-1">
-            {NAV_LINKS.map(({ to, label, badge }) => (
+            {navLinks.map(({ to, label, badge }) => (
               <Link
                 key={to}
                 to={to}
                 className="relative px-3 py-2 rounded-lg text-sm font-dm font-medium transition-all duration-300 no-underline flex items-center gap-1.5"
                 style={{
-                  color: isActive(to) ? '#00d4ff' : '#6b8ba4',
-                  background: isActive(to) ? 'rgba(0,212,255,0.07)' : 'transparent',
+                  color: isActive(to) ? 'var(--cyan)' : 'var(--text-secondary)',
+                  background: isActive(to) ? 'var(--cyan-glow)' : 'transparent',
                   fontSize: '0.82rem',
                 }}
               >
@@ -77,7 +90,7 @@ export default function Navbar() {
                 {badge && (
                   <span style={{
                     fontSize: '0.5rem', letterSpacing: '0.08em',
-                    background: 'rgba(0,255,136,0.15)', color: '#00ff88',
+                    background: 'var(--green-glow)', color: 'var(--green)',
                     border: '1px solid rgba(0,255,136,0.3)', borderRadius: 20,
                     padding: '1px 5px', fontFamily: 'JetBrains Mono, monospace',
                   }}>{badge}</span>
@@ -85,7 +98,7 @@ export default function Navbar() {
                 {isActive(to) && (
                   <span
                     className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 rounded-full"
-                    style={{ background: '#00d4ff', boxShadow: '0 0 6px #00d4ff' }}
+                    style={{ background: 'var(--cyan)', boxShadow: '0 0 6px var(--cyan)' }}
                   />
                 )}
               </Link>
@@ -99,7 +112,7 @@ export default function Navbar() {
                 onClick={handleNav}
                 aria-label="Start translating"
               >
-                <span>↗</span> Translate
+                {t('nav_translate') || 'Translate'}
               </Link>
             </div>
           </div>
@@ -110,7 +123,7 @@ export default function Navbar() {
             <button
               className="flex flex-col gap-1.5 p-2 rounded-lg cursor-pointer transition-all duration-200"
               style={{
-                background: drawerOpen ? 'rgba(0,212,255,0.06)' : 'transparent',
+                background: drawerOpen ? 'var(--cyan-glow)' : 'transparent',
                 border: drawerOpen ? '1px solid rgba(0,212,255,0.2)' : '1px solid transparent',
                 minWidth: 44, minHeight: 44,
                 alignItems: 'center', justifyContent: 'center',
@@ -121,7 +134,7 @@ export default function Navbar() {
             >
               {[0, 1, 2].map(i => (
                 <span key={i} className="block transition-all duration-300" style={{
-                  width: 20, height: 2, background: '#00d4ff', borderRadius: 2,
+                  width: 20, height: 2, background: 'var(--cyan)', borderRadius: 2,
                   transform: i === 0 && drawerOpen ? 'rotate(45deg) translate(3px, 3px)' : i === 2 && drawerOpen ? 'rotate(-45deg) translate(3px, -3px)' : 'none',
                   opacity: i === 1 && drawerOpen ? 0 : 1,
                 }} />
@@ -155,16 +168,16 @@ export default function Navbar() {
             overflowY: 'auto',
           }}
         >
-          {NAV_LINKS.map(({ to, label, badge }) => (
+          {navLinks.map(({ to, label, badge }) => (
             <Link
               key={to}
               to={to}
               onClick={handleNav}
               className="flex items-center gap-3 px-4 py-3 rounded-xl no-underline transition-all duration-200"
               style={{
-                color: isActive(to) ? '#00d4ff' : '#6b8ba4',
-                background: isActive(to) ? 'rgba(0,212,255,0.07)' : 'transparent',
-                borderLeft: isActive(to) ? '3px solid #00d4ff' : '3px solid transparent',
+                color: isActive(to) ? 'var(--cyan)' : '#6b8ba4',
+                background: isActive(to) ? 'var(--cyan-glow)' : 'transparent',
+                borderLeft: isActive(to) ? '3px solid var(--cyan)' : '3px solid transparent',
                 fontSize: '0.95rem', fontFamily: 'DM Sans, sans-serif', fontWeight: 500,
                 minHeight: 48,
               }}
@@ -172,7 +185,7 @@ export default function Navbar() {
               {label}
               {badge && (
                 <span style={{
-                  fontSize: '0.5rem', background: 'rgba(0,255,136,0.15)', color: '#00ff88',
+                  fontSize: '0.5rem', background: 'var(--green-glow)', color: 'var(--green)',
                   border: '1px solid rgba(0,255,136,0.3)', borderRadius: 20,
                   padding: '1px 5px', fontFamily: 'JetBrains Mono, monospace',
                 }}>{badge}</span>
@@ -187,7 +200,7 @@ export default function Navbar() {
               className="btn-primary w-full justify-center"
               style={{ minHeight: 48, fontSize: '0.9rem' }}
             >
-              ↗ Start Translating
+              {t('btn_start_translating') || 'Start Translating'}
             </Link>
           </div>
 

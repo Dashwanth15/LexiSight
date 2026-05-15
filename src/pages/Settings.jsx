@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react'
 import { useSettings } from '../hooks/useSettings.jsx'
+import { useTranslation } from '../hooks/useTranslation.js'
 
 // ── Sub-components ──
 function Toggle({ checked, onChange, label, desc }) {
@@ -73,6 +74,7 @@ function ActionButton({ onClick, label, icon, color='var(--cyan)', danger=false 
 
 // ── Main Settings Page ──
 export default function Settings() {
+  const { t } = useTranslation()
   const { settings: s, updateSetting, resetSettings, exportSettings, importSettings, DEFAULTS } = useSettings()
   const [toast, setToast] = useState(null)
   const fileRef = useRef(null)
@@ -82,10 +84,24 @@ export default function Settings() {
 
   const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(null), 2500) }
 
+  const handleReset = () => {
+    resetSettings()
+    showToast(t('settings_toast_reset'))
+  }
+
+  const handleExport = () => {
+    exportSettings()
+    showToast(t('settings_toast_export'))
+  }
+
+  const handleImport = async (e) => {
+    const ok = await importSettings(e)
+    if (ok) showToast(t('settings_toast_import'))
+  }
+
   const LANGS = [
     { value:'en', label:'English' }, { value:'hi', label:'Hindi' }, { value:'te', label:'Telugu' },
-    { value:'ta', label:'Tamil' }, { value:'kn', label:'Kannada' }, { value:'ml', label:'Malayalam' },
-    { value:'mr', label:'Marathi' }, { value:'bn', label:'Bengali' },
+    { value:'ta', label:'Tamil' }, { value:'kn', label:'Kannada' }
   ]
 
   return (
@@ -95,16 +111,16 @@ export default function Settings() {
         {/* Header */}
         <div style={{ marginBottom:24 }}>
           <h1 style={{ fontFamily:'Syne, sans-serif', fontSize:'1.8rem', fontWeight:800, color:'var(--text-primary)' }}>
-            ⚙️ Settings
+            ⚙️ {t('settings_title')}
           </h1>
           <p style={{ color:'var(--text-secondary)', fontSize:'0.82rem', marginTop:4 }}>
-            Configure LexiSight to work perfectly for you
+            {t('settings_desc')}
           </p>
         </div>
 
         {/* ── Language & Speech ── */}
-        <Section icon="🌐" title="Language & Speech" defaultOpen={true}>
-          <Select label="App Language" desc="UI display language" value={s.uiLanguage} onChange={v => set('uiLanguage', v)} options={LANGS} />
+        <Section icon="🌐" title={t('settings_general')} defaultOpen={true}>
+          <Select label={t('ui_language')} desc="UI display language" value={s.uiLanguage} onChange={v => set('uiLanguage', v)} options={LANGS} />
           <Select label="Speech Output Language" desc="Language for translated speech" value={s.speechLanguage} onChange={v => set('speechLanguage', v)} options={LANGS} />
           <Select label="Voice Type" value={s.voiceGender} onChange={v => set('voiceGender', v)} options={[
             { value:'female', label:'Female' }, { value:'male', label:'Male' }, { value:'system', label:'System Default' },
@@ -124,7 +140,7 @@ export default function Settings() {
         </Section>
 
         {/* ── Camera ── */}
-        <Section icon="📷" title="Camera">
+        <Section icon="📷" title={t('settings_camera') || "Camera"}>
           <Select label="Camera" value={s.cameraFacing} onChange={v => set('cameraFacing', v)} options={[
             { value:'user', label:'Front Camera' }, { value:'environment', label:'Back Camera' }, { value:'external', label:'External Webcam' },
           ]} />
@@ -140,7 +156,7 @@ export default function Settings() {
         </Section>
 
         {/* ── Performance ── */}
-        <Section icon="⚡" title="Performance">
+        <Section icon="⚡" title={t('settings_ai')}>
           <Select label="Mode" value={s.performanceMode} onChange={v => set('performanceMode', v)} options={[
             { value:'low-latency', label:'Low Latency (Fast)' }, { value:'balanced', label:'Balanced' }, { value:'high-accuracy', label:'High Accuracy' },
           ]} />
@@ -157,8 +173,8 @@ export default function Settings() {
         </Section>
 
         {/* ── Detection & Recognition ── */}
-        <Section icon="🖐️" title="Detection & Recognition">
-          <Toggle label="Hand Landmark Overlay" desc="Show skeleton on camera" checked={s.handOverlay} onChange={v => set('handOverlay', v)} />
+        <Section icon="🖐️" title={t('settings_visuals')}>
+          <Toggle label={t('hand_overlay')} desc="Show skeleton on camera" checked={s.handOverlay} onChange={v => set('handOverlay', v)} />
           <Slider label="Skeleton Thickness" value={s.skeletonThickness} onChange={v => set('skeletonThickness', v)} min={1} max={5} step={1} unit="px" />
           <Slider label="Landmark Point Size" value={s.landmarkSize} onChange={v => set('landmarkSize', v)} min={2} max={8} step={1} unit="px" />
           <Toggle label="Show Confidence %" desc="Display prediction confidence" checked={s.showConfidence} onChange={v => set('showConfidence', v)} />
@@ -170,7 +186,7 @@ export default function Settings() {
             { value:'strict', label:'Strict' }, { value:'balanced', label:'Balanced' }, { value:'sensitive', label:'Sensitive' },
           ]} />
           <Slider label="Gesture Timeout" desc="Seconds before sign resets" value={s.gestureTimeout} onChange={v => set('gestureTimeout', v)} min={1} max={10} step={1} unit="s" />
-          <Slider label="Confidence Threshold" desc="Min confidence to show prediction" value={s.confidenceThreshold} onChange={v => set('confidenceThreshold', v)} min={0.3} max={0.95} step={0.05} />
+          <Slider label={t('confidence_thresh')} desc="Min confidence to show prediction" value={s.confidenceThreshold} onChange={v => set('confidenceThreshold', v)} min={0.3} max={0.95} step={0.05} />
           <Toggle label="Motion Smoothing" desc="Stabilize jittery hand movement" checked={s.motionSmoothing} onChange={v => set('motionSmoothing', v)} />
           <Toggle label="Single Hand Mode" desc="Faster, simpler detection" checked={s.singleHandMode} onChange={v => set('singleHandMode', v)} />
           <Select label="Dominant Hand" value={s.dominantHand} onChange={v => set('dominantHand', v)} options={[
@@ -179,7 +195,7 @@ export default function Settings() {
         </Section>
 
         {/* ── Translation ── */}
-        <Section icon="💬" title="Translation">
+        <Section icon="💬" title={t('settings_translation') || "Translation"}>
           <Toggle label="Continuous Mode" desc="Runs continuously for conversations" checked={s.continuousMode} onChange={v => set('continuousMode', v)} />
           <Toggle label="Sentence Builder" desc="Combine words into sentences" checked={s.sentenceBuilder} onChange={v => set('sentenceBuilder', v)} />
           <Toggle label="Grammar Correction" desc='"I FOOD EAT" → "I am eating food"' checked={s.grammarCorrection} onChange={v => set('grammarCorrection', v)} />
@@ -191,7 +207,7 @@ export default function Settings() {
         </Section>
 
         {/* ── History ── */}
-        <Section icon="📜" title="History">
+        <Section icon="📜" title={t('settings_history') || "History"}>
           <Toggle label="Save Translation History" checked={s.translationHistory} onChange={v => set('translationHistory', v)} />
           <Select label="History Length" value={s.historyLength} onChange={v => set('historyLength', parseInt(v))} options={[
             { value:'10', label:'Last 10' }, { value:'50', label:'Last 50' }, { value:'500', label:'Unlimited' },
@@ -210,7 +226,7 @@ export default function Settings() {
         </Section>
 
         {/* ── Accessibility ── */}
-        <Section icon="♿" title="Accessibility">
+        <Section icon="♿" title={t('settings_accessibility') || "Accessibility"}>
           <Toggle label="Large Text Mode" checked={s.largeText} onChange={v => set('largeText', v)} />
           <Toggle label="High Contrast Mode" checked={s.highContrast} onChange={v => set('highContrast', v)} />
           <Select label="Font Size" value={s.fontSize} onChange={v => set('fontSize', v)} options={[
@@ -224,7 +240,7 @@ export default function Settings() {
         </Section>
 
         {/* ── Emergency ── */}
-        <Section icon="🚨" title="Emergency Mode">
+        <Section icon="🚨" title={t('settings_emergency') || "Emergency Mode"}>
           <p style={{ color:'var(--text-secondary)', fontSize:'0.78rem', marginBottom:12 }}>Quick-access phrases for urgent situations</p>
           <div style={{ display:'flex', flexWrap:'wrap', gap:8, marginBottom:12 }}>
             {s.emergencyPhrases.map((p, i) => (
@@ -237,7 +253,7 @@ export default function Settings() {
         </Section>
 
         {/* ── Privacy ── */}
-        <Section icon="🔒" title="Privacy & Security">
+        <Section icon="🔒" title={t('settings_privacy') || "Privacy & Security"}>
           <Toggle label="Privacy Mode" desc="Block all external requests" checked={s.privacyMode} onChange={v => set('privacyMode', v)} />
           <Toggle label="Disable Analytics" desc="No telemetry collection" checked={s.disableAnalytics} onChange={v => set('disableAnalytics', v)} />
           <div style={{ background:'rgba(0,255,136,0.05)', border:'1px solid rgba(0,255,136,0.2)', borderRadius:8, padding:12, marginTop:8 }}>
@@ -247,7 +263,7 @@ export default function Settings() {
         </Section>
 
         {/* ── Developer ── */}
-        <Section icon="🛠️" title="Developer & Debug">
+        <Section icon="🛠️" title={t('settings_developer') || "Developer & Debug"}>
           <Toggle label="Debug Mode" desc="Show raw landmarks & bounding boxes" checked={s.debugMode} onChange={v => set('debugMode', v)} />
           <Toggle label="FPS Monitor" desc="Live performance stats" checked={s.showFPS} onChange={v => set('showFPS', v)} />
           <Toggle label="Inference Speed" desc="Show model prediction time" checked={s.showInferenceSpeed} onChange={v => set('showInferenceSpeed', v)} />
@@ -262,24 +278,24 @@ export default function Settings() {
         </Section>
 
         {/* ── Data Management ── */}
-        <Section icon="💾" title="Data Management">
-          <ActionButton label="Export Settings" icon="📤" onClick={() => {
+        <Section icon="💾" title={t('settings_data') || "Data Management"}>
+          <ActionButton label={t('settings_export')} icon="📤" onClick={() => {
             exportSettings()
-            showToast('Settings exported!')
+            showToast(t('settings_toast_export'))
           }} />
-          <ActionButton label="Import Settings" icon="📥" onClick={() => fileRef.current?.click()} />
+          <ActionButton label={t('settings_import')} icon="📥" onClick={() => fileRef.current?.click()} />
           <input ref={fileRef} type="file" accept=".json" style={{ display:'none' }} onChange={e => {
             const f = e.target.files[0]; if (!f) return
             importSettings(f)
-            showToast('Settings imported!')
+            showToast(t('settings_toast_import'))
           }} />
-          <ActionButton label="Reset All Settings" icon="⚠️" danger onClick={() => {
-            resetSettings(); showToast('Settings reset to defaults')
+          <ActionButton label={t('settings_reset')} icon="⚠️" danger onClick={() => {
+            resetSettings(); showToast(t('settings_toast_reset'))
           }} />
         </Section>
 
         {/* ── About ── */}
-        <Section icon="ℹ️" title="About LexiSight">
+        <Section icon="ℹ️" title={t('settings_about') || "About LexiSight"}>
           <div style={{ fontSize:'0.82rem', color:'var(--text-secondary)', lineHeight:1.8 }}>
             <p><strong style={{ color:'var(--text-primary)' }}>Version:</strong> 1.0.0</p>
             <p><strong style={{ color:'var(--text-primary)' }}>Model:</strong> Temporal Transformer v2 (95.2% acc)</p>

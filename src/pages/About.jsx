@@ -1,4 +1,5 @@
 import { useRef, useEffect, useState } from 'react'
+import { useTranslation } from '../hooks/useTranslation.js'
 
 const PIPELINE_NODES = [
   { id: 'cam', label: 'Webcam', sub: 'getUserMedia()', x: 60, y: 120, color: '#00d4ff' },
@@ -11,13 +12,13 @@ const PIPELINE_NODES = [
 
 const TECH_STACK = [
   { name: 'TensorFlow.js', desc: 'In-browser ML inference', color: '#ff6f00', icon: '🧠' },
-  { name: 'MediaPipe Hands', desc: '21-point hand landmarks', color: '#00d4ff', icon: '✋' },
+  { name: 'MediaPipe Hands', desc: '21-point hand landmarks', color: 'var(--cyan)', icon: '✋' },
   { name: 'React 18', desc: 'UI framework', color: '#61dafb', icon: '⚛' },
   { name: 'Vite PWA', desc: 'Offline-first app', color: '#a855f7', icon: '⚡' },
   { name: 'Web Speech API', desc: 'TTS + STT native', color: '#00ff88', icon: '🎤' },
   { name: 'Tailwind CSS', desc: 'Utility-first styling', color: '#38bdf8', icon: '🎨' },
-  { name: 'ISL CSLRT', desc: 'Dataset 1: 24 classes', color: '#6b8ba4', icon: '📁' },
-  { name: 'ISL Gestures', desc: 'Dataset 2: 37 classes', color: '#6b8ba4', icon: '📁' },
+  { name: 'ISL CSLRT', desc: 'Dataset 1: 24 classes', color: 'var(--text-secondary)', icon: '📁' },
+  { name: 'ISL Gestures', desc: 'Dataset 2: 37 classes', color: 'var(--text-secondary)', icon: '📁' },
 ]
 
 function PipelineCanvas() {
@@ -80,6 +81,18 @@ function PipelineCanvas() {
       }
 
       // Draw nodes
+      const rootStyle = getComputedStyle(document.documentElement)
+      const surfaceColor = rootStyle.getPropertyValue('--surface').trim() || '#0d1520'
+      const borderColor = rootStyle.getPropertyValue('--border').trim() || 'rgba(255,255,255,0.1)'
+      
+      const hexToRgba = (hex, alpha) => {
+        if (!hex.startsWith('#')) return `rgba(0, 212, 255, ${alpha})`
+        const r = parseInt(hex.slice(1, 3), 16)
+        const g = parseInt(hex.slice(3, 5), 16)
+        const b = parseInt(hex.slice(5, 7), 16)
+        return `rgba(${r}, ${g}, ${b}, ${alpha})`
+      }
+
       for (const node of PIPELINE_NODES) {
         const nx = scale(node.x)
         const ny = node.y
@@ -87,8 +100,8 @@ function PipelineCanvas() {
         // Node circle
         ctx.beginPath()
         ctx.arc(nx, ny, 42, 0, Math.PI * 2)
-        ctx.fillStyle = 'rgba(13, 21, 32, 0.95)'
-        ctx.strokeStyle = `${node.color}60`
+        ctx.fillStyle = surfaceColor
+        ctx.strokeStyle = hexToRgba(node.color, 0.4)
         ctx.lineWidth = 1.5
         ctx.fill()
         ctx.stroke()
@@ -97,8 +110,8 @@ function PipelineCanvas() {
         ctx.beginPath()
         ctx.arc(nx, ny, 42, 0, Math.PI * 2)
         const grd = ctx.createRadialGradient(nx, ny, 10, nx, ny, 42)
-        grd.addColorStop(0, `${node.color}10`)
-        grd.addColorStop(1, 'transparent')
+        grd.addColorStop(0, hexToRgba(node.color, 0.15))
+        grd.addColorStop(1, hexToRgba(node.color, 0))
         ctx.fillStyle = grd
         ctx.fill()
 
@@ -108,7 +121,7 @@ function PipelineCanvas() {
         ctx.textAlign = 'center'
         ctx.fillText(node.label, nx, ny - 6)
 
-        ctx.fillStyle = '#6b8ba4'
+        ctx.fillStyle = 'var(--text-secondary)'
         ctx.font = `9px "DM Sans", sans-serif`
         ctx.fillText(node.sub, nx, ny + 10)
       }
@@ -133,6 +146,7 @@ function PipelineCanvas() {
 }
 
 export default function About() {
+  const { t } = useTranslation()
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
@@ -146,16 +160,14 @@ export default function About() {
       {/* ── HERO ─────────────────── */}
       <section className="py-24 px-6 lg:px-12">
         <div className="max-w-4xl mx-auto">
-          <div className="hud-label mb-4 animate-slide-up">About LexiSight</div>
+          <div className="hud-label mb-4 animate-slide-up">{t('about_hero_title')}</div>
           <h1 className={`text-5xl md:text-7xl font-syne font-black mb-6 leading-tight transition-all duration-700 ${visible ? 'opacity-100' : 'opacity-0'}`}
-            style={{ color: '#e8f4fd' }}>
-            Breaking barriers<br />
-            <span className="text-glow-cyan">with AI.</span>
+            style={{ color: 'var(--text-primary)' }}>
+            {t('about_hero_h1_1')}<br />
+            <span className="text-glow-cyan">{t('about_hero_h1_2')}</span>
           </h1>
-          <p className="text-lg font-dm leading-relaxed max-w-2xl" style={{ color: '#6b8ba4' }}>
-            LexiSight is a fully browser-based Indian Sign Language translator built with no servers,
-            no cost, and no barriers. It runs your TensorFlow.js model locally — your data never
-            leaves your device.
+          <p className="text-lg font-dm leading-relaxed max-w-2xl" style={{ color: 'var(--text-secondary)' }}>
+            {t('about_hero_p')}
           </p>
         </div>
       </section>
@@ -164,14 +176,12 @@ export default function About() {
       <section className="py-16 px-6 lg:px-12" style={{ background: 'var(--obsidian)' }}>
         <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 items-center">
           <div className="animate-slide-left">
-            <div className="hud-label mb-4">SDG 10 Alignment</div>
-            <h2 className="text-4xl font-syne font-black mb-4" style={{ color: '#e8f4fd' }}>
-              Reduced<br />Inequalities
+            <div className="hud-label mb-4">{t('mission_title') || 'SDG 10 Alignment'}</div>
+            <h2 className="text-4xl font-syne font-black mb-4" style={{ color: 'var(--text-primary)' }}>
+              {t('about_mission_h2')}
             </h2>
-            <p className="text-base font-dm leading-relaxed mb-6" style={{ color: '#6b8ba4' }}>
-              Over 63 million deaf and hard-of-hearing individuals in India face daily communication
-              barriers. Sign language interpreters are expensive and scarce. LexiSight provides
-              a free, instant, always-available bridge between ISL and spoken English.
+            <p className="text-base font-dm leading-relaxed mb-6" style={{ color: 'var(--text-secondary)' }}>
+              {t('about_mission_p')}
             </p>
             <div className="space-y-3">
               {[
@@ -182,7 +192,7 @@ export default function About() {
               ].map(([title, desc]) => (
                 <div key={title} className="flex items-center gap-3">
                   <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: '#00ff88', boxShadow: '0 0 4px #00ff88' }} />
-                  <span className="text-sm font-dm"><strong style={{ color: '#e8f4fd' }}>{title}</strong> — <span style={{ color: '#6b8ba4' }}>{desc}</span></span>
+                  <span className="text-sm font-dm"><strong style={{ color: 'var(--text-primary)' }}>{title}</strong> — <span style={{ color: 'var(--text-secondary)' }}>{desc}</span></span>
                 </div>
               ))}
             </div>
@@ -207,9 +217,9 @@ export default function About() {
               >
                 ⚖
               </div>
-              <div className="text-3xl font-syne font-black" style={{ color: '#00d4ff' }}>SDG 10</div>
-              <div className="text-lg font-dm font-semibold mt-1" style={{ color: '#e8f4fd' }}>Reduced Inequalities</div>
-              <div className="text-sm font-dm mt-3" style={{ color: '#6b8ba4' }}>
+              <div className="text-3xl font-syne font-black" style={{ color: 'var(--cyan)' }}>SDG 10</div>
+              <div className="text-lg font-dm font-semibold mt-1" style={{ color: 'var(--text-primary)' }}>Reduced Inequalities</div>
+              <div className="text-sm font-dm mt-3" style={{ color: 'var(--text-secondary)' }}>
                 AIESEC Youth Speak Ideathon 2026<br />IIIT Hyderabad
               </div>
             </div>
@@ -222,10 +232,10 @@ export default function About() {
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
             <div className="hud-label mb-4">Architecture</div>
-            <h2 className="text-4xl font-syne font-black" style={{ color: '#e8f4fd' }}>
-              How the AI Pipeline Works
+            <h2 className="text-4xl font-syne font-black" style={{ color: 'var(--text-primary)' }}>
+              {t('about_pipeline_title') || 'How the AI Pipeline Works'}
             </h2>
-            <p className="mt-3 text-sm font-dm" style={{ color: '#6b8ba4' }}>
+            <p className="mt-3 text-sm font-dm" style={{ color: 'var(--text-secondary)' }}>
               Real-time data flow from webcam to spoken word — all in the browser
             </p>
           </div>
@@ -249,8 +259,8 @@ export default function About() {
             ].map(s => (
               <div key={s.step} className="glass-card p-4">
                 <div className="font-mono text-xs mb-2" style={{ color: '#8b5cf6', fontFamily: 'JetBrains Mono, monospace' }}>{s.step}</div>
-                <div className="text-sm font-syne font-bold mb-1" style={{ color: '#e8f4fd' }}>{s.title}</div>
-                <div className="text-xs font-dm" style={{ color: '#6b8ba4' }}>{s.desc}</div>
+                <div className="text-sm font-syne font-bold mb-1" style={{ color: 'var(--text-primary)' }}>{s.title}</div>
+                <div className="text-xs font-dm" style={{ color: 'var(--text-secondary)' }}>{s.desc}</div>
               </div>
             ))}
           </div>
@@ -262,7 +272,7 @@ export default function About() {
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
             <div className="hud-label mb-4">Built With</div>
-            <h2 className="text-4xl font-syne font-black" style={{ color: '#e8f4fd' }}>Tech Stack</h2>
+            <h2 className="text-4xl font-syne font-black" style={{ color: 'var(--text-primary)' }}>{t('about_tech_title') || 'Tech Stack'}</h2>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {TECH_STACK.map((tech, i) => (
@@ -275,8 +285,8 @@ export default function About() {
                 }}
               >
                 <div className="text-2xl">{tech.icon}</div>
-                <div className="text-sm font-syne font-bold" style={{ color: '#e8f4fd' }}>{tech.name}</div>
-                <div className="text-xs font-dm" style={{ color: '#6b8ba4' }}>{tech.desc}</div>
+                <div className="text-sm font-syne font-bold" style={{ color: 'var(--text-primary)' }}>{tech.name}</div>
+                <div className="text-xs font-dm" style={{ color: 'var(--text-secondary)' }}>{tech.desc}</div>
                 <div className="w-full h-0.5 rounded-full mt-auto" style={{ background: `${tech.color}30` }} />
               </div>
             ))}
@@ -294,7 +304,7 @@ export default function About() {
                 title: 'ISL Gesture Images',
                 badge: 'PRIMARY',
                 stats: [['37 classes', '0-9, A-Z, _'], ['1,500 samples/class', '55,500 total'], ['~2KB per image', 'Normalized gestures']],
-                color: '#00d4ff',
+                color: 'var(--cyan)',
                 desc: 'Full alphabet A-Z plus digits 0-9. Used as the primary training dataset — broad vocabulary coverage.',
               },
               {
@@ -307,17 +317,17 @@ export default function About() {
             ].map(d => (
               <div key={d.title} className="glass-card p-6" style={{ borderTop: `2px solid ${d.color}40` }}>
                 <div className="flex items-center gap-3 mb-4">
-                  <h3 className="text-lg font-syne font-bold" style={{ color: '#e8f4fd' }}>{d.title}</h3>
+                  <h3 className="text-lg font-syne font-bold" style={{ color: 'var(--text-primary)' }}>{d.title}</h3>
                   <span className="font-mono text-xs px-2 py-0.5 rounded"
                     style={{ background: `${d.color}15`, color: d.color, border: `1px solid ${d.color}30`, fontFamily: 'JetBrains Mono' }}>
                     {d.badge}
                   </span>
                 </div>
-                <p className="text-sm font-dm mb-4" style={{ color: '#6b8ba4' }}>{d.desc}</p>
+                <p className="text-sm font-dm mb-4" style={{ color: 'var(--text-secondary)' }}>{d.desc}</p>
                 <div className="space-y-2">
                   {d.stats.map(([key, val]) => (
                     <div key={key} className="flex justify-between text-xs">
-                      <span style={{ color: '#6b8ba4', fontFamily: 'JetBrains Mono' }}>{key}</span>
+                      <span style={{ color: 'var(--text-secondary)', fontFamily: 'JetBrains Mono' }}>{key}</span>
                       <span style={{ color: d.color, fontFamily: 'JetBrains Mono' }}>{val}</span>
                     </div>
                   ))}
@@ -329,7 +339,7 @@ export default function About() {
       </section>
 
       {/* Footer */}
-      <footer className="py-10 px-6 lg:px-12 border-t text-center" style={{ borderColor: '#1a2535' }}>
+      <footer className="py-10 px-6 lg:px-12 border-t text-center" style={{ borderColor: 'var(--border)' }}>
         <p className="hud-label">Built with ♥ for AIESEC Youth Speak Ideathon 2026 • SDG 10 · Reduced Inequalities</p>
       </footer>
     </div>

@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
+import { useSettings } from './useSettings.jsx'
 import { normalizeLandmarks } from '../utils/landmarks.js'
 
 const MEDIAPIPE_CDN = 'https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1646424915/hands.js'
 
 export function useMediaPipe() {
+  const { settings } = useSettings()
   const videoRef = useRef(null)
   const canvasRef = useRef(null)
   const handsRef = useRef(null)
@@ -45,17 +47,12 @@ export function useMediaPipe() {
       const videoDevices = devices.filter(d => d.kind === 'videoinput')
       setAvailableCameras(videoDevices)
 
-      // Prefer a camera that is NOT back-facing (rear) — pick webcam for laptops
-      // Avoid virtual cameras or phone link
+      // Prefer a camera that matches the user's facing preference (user/environment)
+      const targetFacing = settings.cameraFacing || 'user'
       const preferredCam = videoDevices.find(d => {
         const label = d.label.toLowerCase()
-        return !label.includes('back') &&
-               !label.includes('rear') &&
-               !label.includes('environment') &&
-               !label.includes('virtual') &&
-               !label.includes('phone link') &&
-               !label.includes('droidcam') &&
-               !label.includes('obs')
+        const isBack = label.includes('back') || label.includes('rear') || label.includes('environment')
+        return targetFacing === 'environment' ? isBack : !isBack
       }) || videoDevices[0]
 
       if (preferredCam && !selectedCameraId) {
