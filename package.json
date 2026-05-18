@@ -9,7 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@clerk/clerk-react": "^5.61.6",
     "@tensorflow/tfjs": "^4.22.0",
+    "convex": "^1.39.1",
     "framer-motion": "^11.0.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
