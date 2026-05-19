@@ -9,6 +9,7 @@ const NAV_LINKS = [
   { to: '/translate', label: 'Translate' },
   { to: '/learn', label: 'Learn', badge: 'NEW' },
   { to: '/dictionary', label: 'Dictionary', badge: 'NEW' },
+  { to: '/avatar3d', label: '3D Avatar', badge: '3D' }, // NEW CODE
   { to: '/impact', label: 'Impact' },
   { to: '/community', label: 'Community' },
   { to: '/room', label: 'Call', badge: 'LIVE' },   // NEW CODE — WebRTC call room link

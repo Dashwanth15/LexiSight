@@ -14,7 +14,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { useSharedClassifier } from '../contexts/ClassifierContext.jsx'
 import { normalizeLandmarks } from '../utils/landmarks'
 
-const MEDIAPIPE_CDN = 'https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1646424915/hands.js'
+const MEDIAPIPE_CDN = 'https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1675469240/hands.js'
 const WARMUP_TIMEOUT = 10000  // 10 seconds for WASM download
 const PROCESSING_TIMEOUT = 8000  // 8 seconds for photo processing
 const CONFIDENCE_THRESHOLD = 0.70  // FIX: only show predictions >= 70%
@@ -73,7 +73,7 @@ export function usePhotoMode() {
 
         const hands = new window.Hands({
           locateFile: (file) =>
-            `https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1646424915/${file}`,
+            `https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1675469240/${file}`,
         })
 
         hands.setOptions({

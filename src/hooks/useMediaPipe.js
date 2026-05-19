@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { normalizeLandmarks } from '../utils/landmarks.js'
 
-const MEDIAPIPE_CDN = 'https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1646424915/hands.js'
+const MEDIAPIPE_CDN = 'https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1675469240/hands.js'
 
 export function useMediaPipe() {
   const videoRef = useRef(null)
@@ -85,7 +85,7 @@ export function useMediaPipe() {
 
       const hands = new window.Hands({
         locateFile: (file) =>
-          `https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1646424915/${file}`
+          `https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1675469240/${file}`
       })
 
       hands.setOptions({

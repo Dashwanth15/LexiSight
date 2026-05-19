@@ -15,6 +15,8 @@ const Learn = lazy(() => import('./pages/Learn.jsx'))
 const Impact = lazy(() => import('./pages/Impact.jsx'))
 const Dictionary = lazy(() => import('./pages/Dictionary.jsx'))
 const Community = lazy(() => import('./pages/Community.jsx'))
+// NEW CODE — 3D Avatar dashboard page
+const Avatar3D = lazy(() => import('./pages/Avatar3D.jsx'))
 
 // NEW CODE — WebRTC calling room (isolated from AI pipelines)
 const CallRoom = lazy(() => import('./pages/CallRoom.jsx'))
@@ -65,6 +67,8 @@ export default function App() {
             <Route path="/impact" element={<Impact />} />
             <Route path="/dictionary" element={<Dictionary />} />
             <Route path="/community" element={<Community />} />
+            {/* NEW CODE — 3D Avatar route */}
+            <Route path="/avatar3d" element={<Avatar3D />} />
             {/* NEW CODE — Call room route */}
             <Route path="/room/:roomCode?" element={<CallRoom />} />
             <Route path="*" element={<Landing />} />
