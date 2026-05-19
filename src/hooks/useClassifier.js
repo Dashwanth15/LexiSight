@@ -518,8 +518,8 @@ export function useClassifier() {
         ])
 
       // Promise.allSettled wraps each result in { status, value } — must unwrap
-      const tModel  = temporalResult.value?.model ?? null
-      const sModel  = staticResult.value?.model ?? null
+      const tModel = temporalResult.value?.model ?? null
+      const sModel = staticResult.value?.model ?? null
       const tLabels = temporalLabels.value ?? null
       const sLabels = staticLabels.value ?? null
       const calData = calibrationData.value ?? { temperature: 1.0 }

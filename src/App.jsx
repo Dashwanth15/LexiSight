@@ -15,6 +15,8 @@ const Learn = lazy(() => import('./pages/Learn.jsx'))
 const Impact = lazy(() => import('./pages/Impact.jsx'))
 const Dictionary = lazy(() => import('./pages/Dictionary.jsx'))
 const Community = lazy(() => import('./pages/Community.jsx'))
+// NEW CODE — 3D Avatar dashboard page
+const Avatar3D = lazy(() => import('./pages/Avatar3D.jsx'))
 
 function LoadingScreen() {
   return (
@@ -62,6 +64,8 @@ export default function App() {
             <Route path="/impact" element={<Impact />} />
             <Route path="/dictionary" element={<Dictionary />} />
             <Route path="/community" element={<Community />} />
+            {/* NEW CODE — 3D Avatar route */}
+            <Route path="/avatar3d" element={<Avatar3D />} />
             <Route path="*" element={<Landing />} />
           </Routes>
         </Suspense>

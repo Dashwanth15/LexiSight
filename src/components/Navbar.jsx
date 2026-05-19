@@ -8,6 +8,7 @@ const NAV_LINKS = [
   { to: '/translate', label: 'Translate' },
   { to: '/learn', label: 'Learn', badge: 'NEW' },
   { to: '/dictionary', label: 'Dictionary', badge: 'NEW' },
+  { to: '/avatar3d', label: '3D Avatar', badge: '3D' }, // NEW CODE
   { to: '/impact', label: 'Impact' },
   { to: '/community', label: 'Community' },
   { to: '/about', label: 'About' },
