@@ -18,6 +18,9 @@ const Community = lazy(() => import('./pages/Community.jsx'))
 // NEW CODE — 3D Avatar dashboard page
 const Avatar3D = lazy(() => import('./pages/Avatar3D.jsx'))
 
+// NEW CODE — WebRTC calling room (isolated from AI pipelines)
+const CallRoom = lazy(() => import('./pages/CallRoom.jsx'))
+
 function LoadingScreen() {
   return (
     <div className="min-h-screen flex items-center justify-center" style={{ background: '#020408' }}>
@@ -66,6 +69,8 @@ export default function App() {
             <Route path="/community" element={<Community />} />
             {/* NEW CODE — 3D Avatar route */}
             <Route path="/avatar3d" element={<Avatar3D />} />
+            {/* NEW CODE — Call room route */}
+            <Route path="/room/:roomCode?" element={<CallRoom />} />
             <Route path="*" element={<Landing />} />
           </Routes>
         </Suspense>

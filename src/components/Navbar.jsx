@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { SignInButton, UserButton, SignedIn, SignedOut } from '@clerk/clerk-react'
 import GlitchText from './GlitchText.jsx'
 import ThemeToggle, { useTheme } from './ThemeToggle.jsx'
 
@@ -11,6 +12,7 @@ const NAV_LINKS = [
   { to: '/avatar3d', label: '3D Avatar', badge: '3D' }, // NEW CODE
   { to: '/impact', label: 'Impact' },
   { to: '/community', label: 'Community' },
+  { to: '/room', label: 'Call', badge: 'LIVE' },   // NEW CODE — WebRTC call room link
   { to: '/about', label: 'About' },
 ]
 
@@ -92,6 +94,23 @@ export default function Navbar() {
             ))}
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginLeft: 8 }}>
               <ThemeToggle theme={theme} onToggle={toggle} compact />
+              <SignedOut>
+                <SignInButton mode="modal">
+                  <button
+                    className="btn-primary"
+                    style={{ padding: '7px 14px', fontSize: '0.78rem', minHeight: 36, cursor: 'pointer' }}
+                  >
+                    Sign In
+                  </button>
+                </SignInButton>
+              </SignedOut>
+              <SignedIn>
+                <UserButton
+                  appearance={{
+                    elements: { avatarBox: { width: 32, height: 32 } }
+                  }}
+                />
+              </SignedIn>
               <Link
                 to="/translate"
                 className="btn-primary"
