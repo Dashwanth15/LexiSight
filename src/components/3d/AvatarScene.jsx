@@ -21,7 +21,7 @@ export default function AvatarScene({ gesture = 'idle', isActive = false, speed 
   return (
     <div className={className} style={{ width: '100%', height: '100%', minHeight: 420 }}>
       <Canvas
-        camera={{ position: [0, -0.05, 2.0], fov: 52, near: 0.01, far: 200 }}
+        camera={{ position: [0, 1.0, 3.8], fov: 52, near: 0.01, far: 200 }}
         gl={{ antialias: true, alpha: true, powerPreference: 'default' }}
         shadows
         dpr={[1, 1.5]}
@@ -44,7 +44,7 @@ export default function AvatarScene({ gesture = 'idle', isActive = false, speed 
 
         {/* Dynamic gesture accent */}
         <pointLight
-          position={[0, -0.25, 1.5]}
+          position={[0, 1.0, 1.5]}
           intensity={isActive ? 4.5 : 1.8}
           color={isActive ? '#00ff88' : '#00d4ff'}
           distance={5}
@@ -58,10 +58,10 @@ export default function AvatarScene({ gesture = 'idle', isActive = false, speed 
           <shadowMaterial opacity={0.15} />
         </mesh>
 
-        {/* Glow ring — small radius so hands dominate the view */}
+        {/* Glow ring — small radius so hands dominate the view, pushed way down */}
         {isActive && (
-          <mesh position={[0, -0.25, 0]}>
-            <torusGeometry args={[0.14, 0.008, 8, 64]} />
+          <mesh position={[0, -0.4, 0]}>
+            <torusGeometry args={[0.3, 0.008, 8, 64]} />
             <meshStandardMaterial
               color="#00ff88" emissive="#00ff88"
               emissiveIntensity={5} transparent opacity={0.8}
@@ -73,12 +73,12 @@ export default function AvatarScene({ gesture = 'idle', isActive = false, speed 
           <HandAvatar3D gesture={gesture} isActive={isActive} speed={speed} />
         </Suspense>
 
-        {/* Camera aims at the new lower hand level */}
+        {/* Camera aims at the hands */}
         <OrbitControls
-          target={[0, -0.25, 0]}
+          target={[0, 1.0, 0]}
           enablePan={false}
           minDistance={0.6}
-          maxDistance={5}
+          maxDistance={10}
           autoRotate={false}
           enableDamping
           dampingFactor={0.2}
