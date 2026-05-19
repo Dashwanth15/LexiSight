@@ -67,10 +67,13 @@ export default function App() {
             <Route path="/impact" element={<Impact />} />
             <Route path="/dictionary" element={<Dictionary />} />
             <Route path="/community" element={<Community />} />
+<<<<<<< HEAD
             {/* NEW CODE — 3D Avatar route */}
             <Route path="/avatar3d" element={<Avatar3D />} />
+=======
             {/* NEW CODE — Call room route */}
             <Route path="/room/:roomCode?" element={<CallRoom />} />
+>>>>>>> 6233111f5041b0c3b15dd59e4772a1c57cfd3704
             <Route path="*" element={<Landing />} />
           </Routes>
         </Suspense>
