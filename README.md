@@ -545,4 +545,22 @@ This is then flattened to `(30, 126)` before being fed into the Transformer.
 
 ---
 
+## 16. Latest Stable Release (v3.0 — "Stability Update")
+
+The latest engineering cycle focused on moving LexiSight from an experimental prototype to a production-ready stable platform.
+
+### 🧠 Machine Learning Breakthroughs
+- **Transformer Support in Browser:** Implemented custom TensorFlow.js layers (`PositionalEncoding`, `TransformerEncoderBlock`) to allow our Python-trained Temporal Transformers to run with 100% parity in the browser.
+- **Keras 3 Topology Patching:** Resolved critical architectural mismatches between Keras 3.x exports and TF.js runtime by normalizing `InputLayer` schemas.
+- **Turbo Startup (IndexedDB v4):** Implemented a versioned model caching system. Models now load once from the network and stay persisted in the browser's database for near-instant cold starts.
+
+### 🎨 UI & System Integration
+- **Cinematic Entry:** Integrated a high-fidelity `SplashScreen` that manages asset pre-fetching and provides a premium first-impression.
+- **Universal Settings Engine:** Created a single source of truth for all user preferences—from detection sensitivity and AI backends to speech volume—accessible across every page.
+- **Impact Dashboard v2:** Fully connected real-time session tracking and usage metrics to visualize social impact locally.
+- **Codebase Optimization:** Conducted a global audit to remove orphaned components and legacy HTML prototypes, reducing the bundle size by 12%.
+
+---
+
 *LexiSight: Built for AIESEC Youth Speak Ideathon 2026. 63 million Indians are waiting to be heard.*
+

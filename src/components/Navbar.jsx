@@ -14,6 +14,7 @@ const NAV_LINKS = [
   { to: '/community', label: 'Community' },
   { to: '/room', label: 'Call', badge: 'LIVE' },   // NEW CODE — WebRTC call room link
   { to: '/about', label: 'About' },
+  { to: '/settings', label: 'Settings' },
 ]
 
 export default function Navbar() {
