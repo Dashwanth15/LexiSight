@@ -5,8 +5,16 @@ import { GESTURE_CLASSES, DEMO_SEQUENCE } from '../utils/gestureMap.js'
 import { classifyGesture, classifyTwoHandGesture, classifyISLDigit } from '../utils/geoClassifier.js'
 import { disambiguate } from '../utils/fingerDisambiguator.js'
 import { MotionAnalyzer } from '../utils/motionAnalyzer.js'
+import { OnsetDetector } from '../utils/onsetDetector.js'
+import { PoseStabilityDetector } from '../utils/poseStability.js'
+import { telemetry } from '../utils/observability.js'
 // Register custom Keras layers for the temporal transformer model
 import '../utils/customLayers.js'
+
+function dist2D(a, b) {
+  if (!a || !b) return 999.0
+  return Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2)
+}
 
 const TEMPORAL_MODEL_PATH = '/model/tfjs_model/model.json'
 const TEMPORAL_LABEL_MAP = '/model/label_map.json'
@@ -324,6 +332,8 @@ export function useClassifier() {
   const lastTemporalResultRef = useRef(null)
   const smootherRef = useRef(new TemporalSmoother())
   const motionRef = useRef(new MotionAnalyzer())
+  const onsetRef = useRef(new OnsetDetector())
+  const poseStabilityRef = useRef(new PoseStabilityDetector())
   const oosRef = useRef(null)
   const metricsRef = useRef(new SystemMetricsCollector())
   const embeddingCacheRef = useRef(null)
@@ -441,9 +451,27 @@ export function useClassifier() {
       const topK = buildTopK(probs, labelMap, 3)
       const topConf = topK[0]?.confidence || 0
 
-      // Use settings-based threshold if available, otherwise fallback
+      // Confidence gating: reject low-confidence AND high-entropy predictions
+      // This prevents the smoother from locking in overconfident wrong answers
       const thresh = settings.confidenceThreshold || CONFIDENCE_THRESHOLD_WORD
-      if (topConf < thresh) {
+      
+      let rejectedByEntropy = false
+      if (telemetry.toggles.entropyGating) {
+        const entropy = computeEntropy(probs)
+        // Theoretical max entropy for 263 classes = log(263) ≈ 5.57 nats.
+        // A well-calibrated known sign is usually < 2.0.
+        const entropyLimit = settings.entropyLimit || 2.5 
+        
+        if (entropy > entropyLimit && topConf >= thresh) {
+          telemetry.log('ENTROPY', `Rejected overconfident prediction: ${topK[0]?.label} (Conf: ${topConf.toFixed(2)}, Entropy: ${entropy.toFixed(2)} > ${entropyLimit})`)
+          rejectedByEntropy = true
+        } else if (telemetry.enabled && topConf >= thresh) {
+          // Log passing predictions to help calibrate the threshold
+          telemetry.log('ENTROPY', `Passed: ${topK[0]?.label} (Conf: ${topConf.toFixed(2)}, Entropy: ${entropy.toFixed(2)})`)
+        }
+      }
+
+      if (topConf < thresh || rejectedByEntropy) {
         return null
       }
 
@@ -474,47 +502,95 @@ export function useClassifier() {
       return rawResult
     })
   }, [])
+  // ROOT-RELATIVE NORMALIZATION (Spatial Invariance)
+  // Subtracts the Wrist (landmark 0) coordinates from all other landmarks
+  const normalizeRelative = (flatLandmarks) => {
+    if (!flatLandmarks || flatLandmarks.length !== 63) return flatLandmarks
+    const normalized = new Float32Array(63)
+    const wx = flatLandmarks[0]
+    const wy = flatLandmarks[1]
+    const wz = flatLandmarks[2]
+    
+    for (let i = 0; i < 21; i++) {
+      normalized[i * 3] = flatLandmarks[i * 3] - wx
+      normalized[i * 3 + 1] = flatLandmarks[i * 3 + 1] - wy
+      normalized[i * 3 + 2] = flatLandmarks[i * 3 + 2] - wz
+    }
+    return normalized
+  }
 
   const predict = useCallback((landmarks, rawLandmarks, rawLandmarks2, landmarks2) => {
     if (isDemoMode || status === 'demo') return null
     if (isContinuousRef.current) return null
 
+    // Reset temporal buffers when hands leave the camera frame
+    if (!landmarks || landmarks.length !== 63) {
+      bufferRef.current = []
+      motionRef.current.reset()
+      return null
+    }
+
     const t0 = performance.now()
 
-    if (rawLandmarks && rawLandmarks.length === 21 && mode === 'number') {
-      const r = classifyISLDigit(rawLandmarks)
-      metricsRef.current.record(performance.now() - t0, r?.confidence || 0, null, !r, 'geometric')
-      return r
+    // ─── 1. NUMBER MODE ──────────────────────────────────────────
+    if (mode === 'number') {
+      if (rawLandmarks && rawLandmarks.length === 21) {
+        const r = classifyISLDigit(rawLandmarks)
+        // Strictly only return if the label is indeed a digit
+        if (r && ['0','1','2','3','4','5','6','7','8','9'].includes(r.label)) {
+          metricsRef.current.record(performance.now() - t0, r.confidence, null, false, 'geometric')
+          return r
+        }
+      }
+      return null
     }
 
-    if (rawLandmarks2 && rawLandmarks2.length === 21) {
-      const r = classifyTwoHandGesture(rawLandmarks, rawLandmarks2)
-      metricsRef.current.record(performance.now() - t0, r?.confidence || 0, null, !r, 'two_hand')
-      return r
-    }
-
-    if (status === 'geometric') {
-      if (!rawLandmarks || rawLandmarks.length !== 21) return null
-      const r = classifyGesture(rawLandmarks)
-      metricsRef.current.record(performance.now() - t0, r?.confidence || 0, null, !r, 'geometric')
-      return r
-    }
-
-    if (!landmarks || landmarks.length !== 63) return null
-
+    // ─── 2. LETTER MODE ──────────────────────────────────────────
     if (mode === 'letter') {
+      // 1. Check dynamic letter gestures (J, Z) via MotionAnalyzer
+      if (rawLandmarks && rawLandmarks.length === 21) {
+        const motionResult = motionRef.current.push(rawLandmarks).analyze()
+        if (motionResult && (motionResult.label === 'J' || motionResult.label === 'Z')) {
+          metricsRef.current.record(performance.now() - t0, motionResult.confidence, null, false, 'motion')
+          return motionResult
+        }
+      }
+
+      // 2. Two-hand gestures are strictly ignored in letter mode EXCEPT for 'X'
+      if (rawLandmarks && rawLandmarks.length === 21 && rawLandmarks2 && rawLandmarks2.length === 21) {
+        // Enforce physical separation check to prevent double-detection of a single hand
+        const wristDist = dist2D(rawLandmarks[0], rawLandmarks2[0]);
+        if (wristDist >= 0.12) {
+          const r = classifyTwoHandGesture(rawLandmarks, rawLandmarks2)
+          if (r && r.label === 'X') {
+            metricsRef.current.record(performance.now() - t0, r.confidence, null, false, 'two_hand')
+            return r
+          }
+        }
+      }
+
       const model = modelsRef.current.static
       const labelMap = labelMapsRef.current.static
       const temp = calibrationRef.current.static
+
       if (!model || !labelMap) {
-        const r = classifyGesture(rawLandmarks)
-        metricsRef.current.record(performance.now() - t0, r?.confidence || 0, null, !r, 'geometric')
-        return r
+        // Fallback to geometric single-hand gestures, but only return letters (A-Z)
+        if (rawLandmarks && rawLandmarks.length === 21) {
+          const r = classifyGesture(rawLandmarks)
+          if (r && r.label.length === 1 && r.label >= 'A' && r.label <= 'Z') {
+            metricsRef.current.record(performance.now() - t0, r.confidence, null, false, 'geometric')
+            return r
+          }
+        }
+        return null
       }
+
+      if (!landmarks || landmarks.length !== 63) return null
+
       return tf.tidy(() => {
         const frame = new Float32Array(126)
-        frame.set(landmarks, 0)
-        if (landmarks2 && landmarks2.length === 63) frame.set(landmarks2, 63)
+        frame.set(normalizeRelative(landmarks), 0)
+        if (landmarks2 && landmarks2.length === 63) frame.set(normalizeRelative(landmarks2), 63)
         const input = tf.tensor2d([Array.from(frame)])
         const rawLogits = model.predict(input)
         let probs = Array.from(rawLogits.dataSync())
@@ -537,10 +613,20 @@ export function useClassifier() {
           metricsRef.current.record(performance.now() - t0, topConf, null, true, 'low_conf')
           return null
         }
+
+        // CRITICAL ISOLATION FILTER: Strictly allow ONLY single letters (A-Z) in letter mode.
+        // Ignore any predicted digits or words.
+        const label = topK[0]?.label || 'UNKNOWN'
+        const isLetter = label.length === 1 && label >= 'A' && label <= 'Z';
+        if (!isLetter) {
+          metricsRef.current.record(performance.now() - t0, topConf, null, true, 'letter_mode_exclusion')
+          return null
+        }
+
         const result = {
-          label: topK[0]?.label || 'UNKNOWN',
+          label,
           confidence: topConf,
-          topK,
+          topK: topK.filter(item => item.label.length === 1 && item.label >= 'A' && item.label <= 'Z'),
           state,
           rejected: state === PredictionState.UNKNOWN,
         }
@@ -549,14 +635,59 @@ export function useClassifier() {
       })
     }
 
+    // ─── 3. WORD MODE ───────────────────────────────────────────
     if (mode === 'word') {
+      // 1. Check two-hand word gestures (exclude 'X' since it's a letter)
+      if (rawLandmarks && rawLandmarks.length === 21 && rawLandmarks2 && rawLandmarks2.length === 21) {
+        // Enforce physical separation check to prevent double-detection of a single hand
+        const wristDist = dist2D(rawLandmarks[0], rawLandmarks2[0]);
+        if (wristDist >= 0.12) {
+          const r = classifyTwoHandGesture(rawLandmarks, rawLandmarks2)
+          if (r && r.label !== 'X') {
+            metricsRef.current.record(performance.now() - t0, r.confidence, null, false, 'two_hand')
+            return r
+          }
+        }
+      }
+
+      // 2. Check dynamic word gestures via MotionAnalyzer (e.g. WHAT, NO, COME, HELP in standard live view)
+      if (rawLandmarks && rawLandmarks.length === 21) {
+        const motionResult = motionRef.current.push(rawLandmarks).analyze()
+        if (motionResult) {
+          // EXCLUDE letters J and Z in Word Mode!
+          if (motionResult.label !== 'J' && motionResult.label !== 'Z') {
+            metricsRef.current.record(performance.now() - t0, motionResult.confidence, null, false, 'motion')
+            return motionResult
+          }
+        }
+      }
+
+      // 3. Check static geometric word gestures as fallback (HELLO, STOP, GOOD, NO, ILY, PEACE, ROCK)
+      // Only allow static fallback if the hand is STABLE (velocity is low)
+      // to prevent intercepting dynamic gestures in motion!
+      if (rawLandmarks && rawLandmarks.length === 21) {
+        const motionFeatures = motionRef.current.getFeatures()
+        const isMoving = motionFeatures ? motionFeatures.meanVelocity > 0.008 : false
+        if (!isMoving) {
+          const r = classifyGesture(rawLandmarks)
+          // Allow words (length > 1, and not digits)
+          if (r && !['0','1','2','3','4','5','6','7','8','9'].includes(r.label) && r.label.length > 1) {
+            metricsRef.current.record(performance.now() - t0, r.confidence, null, false, 'geometric')
+            return r
+          }
+        }
+      }
+
+      // 4. Run temporal ML model prediction
+      if (!modelsRef.current.temporal || !landmarks || landmarks.length !== 63) return null
+
       const labelMap = labelMapsRef.current.temporal
       const temp = calibrationRef.current.temporal
       const nClasses = labelMap ? Object.keys(labelMap).length : 263
 
       const frame = new Float32Array(126)
-      frame.set(landmarks, 0)
-      if (landmarks2 && landmarks2.length === 63) frame.set(landmarks2, 63)
+      frame.set(normalizeRelative(landmarks), 0)
+      if (landmarks2 && landmarks2.length === 63) frame.set(normalizeRelative(landmarks2), 63)
 
       bufferRef.current.push(Array.from(frame))
       if (bufferRef.current.length > BUFFER_SIZE) bufferRef.current.shift()
@@ -570,112 +701,192 @@ export function useClassifier() {
         return s
       }
 
-      const result = _predictTemporal(bufferRef.current, labelMap, temp, nClasses)
+      const rawResult = _predictTemporal(bufferRef.current, labelMap, temp, nClasses)
+
+      // CRITICAL ISOLATION FILTER: Strictly allow ONLY words in word mode.
+      // If the temporal model somehow predicts a single character (like a digit or unrelated single letter), reject it.
+      // Note: "I" is a valid word class and has length 1, so we permit "I" specifically.
+      if (rawResult) {
+        const isWord = rawResult.label.length > 1 || rawResult.label === 'I';
+        if (!isWord) {
+          metricsRef.current.record(performance.now() - t0, rawResult.confidence, null, true, 'word_mode_exclusion')
+          return null
+        }
+      }
+
       metricsRef.current.record(
         performance.now() - t0,
-        result?.confidence || 0,
+        rawResult?.confidence || 0,
         smootherRef.current.stability,
-        !result || result.rejected,
-        !result ? 'null_result' : null
+        !rawResult || rawResult.rejected,
+        !rawResult ? 'null_result' : null
       )
-      return result
+      return rawResult
     }
 
     return null
-  }, [_predictTemporal, isDemoMode, status, mode])
+  }, [_predictTemporal, isDemoMode, status, mode, settings.confidenceThreshold])
 
   const predictContinuous = useCallback((landmarks, rawLandmarks, landmarks2) => {
     if (!landmarks || landmarks.length !== 63) return null
     const t0 = performance.now()
 
-    const labelMap = labelMapsRef.current.temporal
-    const temp = calibrationRef.current.temporal
-    const nClasses = labelMap ? Object.keys(labelMap).length : 263
-
     const frame = new Float32Array(126)
     frame.set(landmarks, 0)
     if (landmarks2?.length === 63) frame.set(landmarks2, 63)
 
-    // Motion Analyzer Interception
-    const motionResult = motionRef.current.push(rawLandmarks).analyze()
-    if (motionResult) {
+    // ─── 1. NUMBER MODE ──────────────────────────────────────────
+    if (mode === 'number') {
+      if (rawLandmarks && rawLandmarks.length === 21) {
+        const r = classifyISLDigit(rawLandmarks)
+        return r
+      }
+      return null
+    }
+
+    // ─── 2. LETTER MODE ──────────────────────────────────────────
+    if (mode === 'letter') {
+      let staticResult = null
+      if (telemetry.toggles.poseStability) {
+        if (poseStabilityRef.current.process(rawLandmarks)) {
+          const sModel = modelsRef.current.static
+          const sLabelMap = labelMapsRef.current.static
+          const sTemp = calibrationRef.current.static
+          
+          if (sModel && sLabelMap) {
+            staticResult = tf.tidy(() => {
+              const input = tf.tensor2d([Array.from(frame)])
+              const rawLogits = sModel.predict(input)
+              let probs = Array.from(rawLogits.dataSync())
+              if (sTemp !== 1.0) {
+                const maxLogit = Math.max(...probs)
+                probs = probs.map(p => Math.exp(Math.log(Math.max(p, 1e-12)) / sTemp - maxLogit))
+                const sum = probs.reduce((a, b) => a + b, 0)
+                probs = probs.map(p => p / sum)
+              }
+              const sTopK = buildTopK(probs, sLabelMap, 3)
+              if (sTopK[0]?.confidence >= (settings.confidenceThreshold || CONFIDENCE_THRESHOLD_STATIC)) {
+                return disambiguate({ label: sTopK[0].label, confidence: sTopK[0].confidence, topK: sTopK }, rawLandmarks)
+              }
+              return null
+            })
+          }
+          
+          if (!staticResult) {
+            const r = classifyGesture(rawLandmarks)
+            // Keep it to letters
+            if (r && r.label.length === 1 && r.label >= 'A' && r.label <= 'Z') {
+              staticResult = r
+            }
+          }
+        }
+      }
+
+      if (staticResult) {
+        telemetry.log('STATIC', `Detected stable static pose: ${staticResult.label}`, staticResult)
+        const smoother = smootherRef.current
+        if (staticResult.label !== smoother.lastConfirmed?.label) {
+          smoother.lockFrames = LOCK_FRAMES
+          smoother.state = SignState.CONFIRMING
+          smoother.unconfirmed = []
+          smoother._sentence = smoother._sentence || []
+          smoother._sentence.push(staticResult.label)
+        }
+        return staticResult
+      }
+      return null
+    }
+
+    // ─── 3. WORD MODE ───────────────────────────────────────────
+    if (mode === 'word') {
+      const labelMap = labelMapsRef.current.temporal
+      const temp = calibrationRef.current.temporal
+      const nClasses = labelMap ? Object.keys(labelMap).length : 263
+
+      // Motion Analyzer Interception (rule-based dynamic gestures)
+      const motionResult = motionRef.current.push(rawLandmarks).analyze()
+      if (motionResult) {
+        telemetry.log('MOTION', `Detected dynamic gesture: ${motionResult.label}`)
+        const smoother = smootherRef.current
+        if (motionResult.label !== smoother.lastConfirmed?.label) {
+          smoother.lockFrames = LOCK_FRAMES
+          smoother.state = SignState.CONFIRMING
+          smoother.unconfirmed = []
+          smoother._sentence = smoother._sentence || []
+          smoother._sentence.push(motionResult.label)
+        }
+        return motionResult
+      }
+
+      bufferRef.current.push(Array.from(frame))
+      if (bufferRef.current.length > BUFFER_SIZE) bufferRef.current.shift()
+
+      if (bufferRef.current.length < BUFFER_SIZE) return null
+
       const smoother = smootherRef.current
-      if (motionResult.label !== smoother.lastConfirmed?.label) {
+
+      if (smoother.state === SignState.IDLE) {
+        smoother.state = SignState.TRANSITION
+        smoother.unconfirmed = []
+        return null
+      }
+
+      if (smoother.state === SignState.TRANSITION) {
+        smoother.unconfirmed = []
+        return null
+      }
+
+      if (smoother.state === SignState.CONFIRMING) {
+        const confirmed = smoother.add(null)
+        if (smoother.lockFrames <= 0) {
+          smoother.state = SignState.WORD
+          const out = {
+            ...confirmed,
+            sentence: smoother._sentence || [confirmed?.label],
+          }
+          smoother._sentence = smoother._sentence || []
+          smoother._sentence.push(confirmed?.label)
+          return out
+        }
+        return null
+      }
+
+      if (smoother.state === SignState.WORD) {
+        smoother.reset()
+        smoother.state = SignState.IDLE
+        return null
+      }
+
+      const rawResult = _predictTemporal(bufferRef.current, labelMap, temp, nClasses)
+      if (!rawResult || rawResult.rejected) {
+        smoother.reset()
+        smoother.state = SignState.IDLE
+        return null
+      }
+
+      const predicted = smoother.add(rawResult)
+      if (predicted && predicted !== smoother.lastConfirmed) {
+        telemetry.log('SYSTEM', `Temporal inference confirmed: ${predicted.label}`)
         smoother.lockFrames = LOCK_FRAMES
         smoother.state = SignState.CONFIRMING
         smoother.unconfirmed = []
         smoother._sentence = smoother._sentence || []
-        smoother._sentence.push(motionResult.label)
+        smoother._sentence.push(predicted.label)
       }
-      return motionResult
+
+      metricsRef.current.record(
+        performance.now() - t0,
+        predicted?.confidence || rawResult?.confidence || 0,
+        smoother.stability,
+        !predicted,
+        !predicted ? 'oov' : null
+      )
+
+      return predicted
     }
 
-    // We no longer use MotionDetector (isMotion boolean), fallback to standard buffer
-    bufferRef.current.push(Array.from(frame))
-    if (bufferRef.current.length > BUFFER_SIZE) bufferRef.current.shift()
-
-    if (bufferRef.current.length < BUFFER_SIZE) return null
-
-    const smoother = smootherRef.current
-
-    if (smoother.state === SignState.IDLE) {
-      smoother.state = SignState.TRANSITION
-      smoother.unconfirmed = []
-      return null
-    }
-
-    if (smoother.state === SignState.TRANSITION) {
-      smoother.unconfirmed = []
-      return null
-    }
-
-    if (smoother.state === SignState.CONFIRMING) {
-      const confirmed = smoother.add(null)
-      if (smoother.lockFrames <= 0) {
-        smoother.state = SignState.WORD
-        const out = {
-          ...confirmed,
-          sentence: smoother._sentence || [confirmed?.label],
-        }
-        smoother._sentence = smoother._sentence || []
-        smoother._sentence.push(confirmed?.label)
-        return out
-      }
-      return null
-    }
-
-    if (smoother.state === SignState.WORD) {
-      smoother.reset()
-      smoother.state = SignState.IDLE
-      return null
-    }
-
-    const rawResult = _predictTemporal(bufferRef.current, labelMap, temp, nClasses)
-    if (!rawResult || rawResult.rejected) {
-      smoother.reset()
-      smoother.state = SignState.IDLE
-      return null
-    }
-
-    const predicted = smoother.add(rawResult)
-    if (predicted && predicted !== smoother.lastConfirmed) {
-      smoother.lockFrames = LOCK_FRAMES
-      smoother.state = SignState.CONFIRMING
-      smoother.unconfirmed = []
-      smoother._sentence = smoother._sentence || []
-      smoother._sentence.push(predicted.label)
-    }
-
-    metricsRef.current.record(
-      performance.now() - t0,
-      predicted?.confidence || rawResult?.confidence || 0,
-      smoother.stability,
-      !predicted,
-      !predicted ? 'oov' : null
-    )
-
-    return predicted
-  }, [_predictTemporal])
+    return null
+  }, [_predictTemporal, mode, settings.confidenceThreshold])
 
   const predictDemo = useCallback(() => {
     const gesture = DEMO_SEQUENCE[demoIndexRef.current % DEMO_SEQUENCE.length]
@@ -696,9 +907,11 @@ export function useClassifier() {
     isContinuousRef.current = true
     bufferRef.current = []
     motionRef.current.reset()
+    poseStabilityRef.current.reset()
     smootherRef.current.reset()
     smootherRef.current.state = SignState.IDLE
     setStatus('continuous')
+    telemetry.log('SYSTEM', 'Started continuous mode')
   }, [])
 
   const stopContinuous = useCallback(() => {

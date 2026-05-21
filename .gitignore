@@ -1,7 +1,12 @@
 # ── Raw video datasets (too large for GitHub) ──
 Datasets/
+New Datasets/
 
-# ── Processed .npy files (Allowed to push) ──
+# ── Processed model files & logs (Too large for GitHub) ──
+*.npy
+*.h5
+*.keras
+
 
 # ── Node modules (regenerate with npm install) ──
 node_modules/

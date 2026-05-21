@@ -41,6 +41,7 @@ function CameraPanel({
   showCameraMenu,
   setShowCameraMenu,
   settings,
+  predictionLabel,
 }) {
   return (
     <div
@@ -227,6 +228,37 @@ function CameraPanel({
           ◎ Show your hand to the camera
         </div>
       )}
+
+      {/* Real-time HUD Pill */}
+      {isReady && (
+        <div style={{
+          position: 'absolute',
+          top: 12,
+          left: 12,
+          zIndex: 10,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 8,
+          padding: '6px 12px',
+          background: 'rgba(8, 13, 20, 0.85)',
+          backdropFilter: 'blur(8px)',
+          border: handDetected ? (predictionLabel ? '1px solid rgba(0, 255, 136, 0.3)' : '1px solid rgba(255, 170, 0, 0.3)') : '1px solid rgba(255, 51, 102, 0.3)',
+          borderRadius: '20px',
+          boxShadow: handDetected ? (predictionLabel ? '0 0 15px rgba(0, 255, 136, 0.1)' : '0 0 15px rgba(255, 170, 0, 0.1)') : '0 4px 12px rgba(0,0,0,0.4)',
+          transition: 'all 0.3s ease',
+        }}>
+          <span style={{
+            width: 8,
+            height: 8,
+            borderRadius: '50%',
+            background: handDetected ? (predictionLabel ? '#00ff88' : '#ffaa00') : '#ff3366',
+            boxShadow: handDetected ? `0 0 8px ${predictionLabel ? '#00ff88' : '#ffaa00'}` : '0 0 4px #ff3366',
+          }} />
+          <span style={{ color: '#ffffff', fontFamily: 'JetBrains Mono, monospace', fontSize: '0.7rem', fontWeight: 'bold' }}>
+            {handDetected ? (predictionLabel ? `${predictionLabel} (${(confidence * 100).toFixed(0)}%)` : 'TRACKING...') : 'SEARCHING HANDS...'}
+          </span>
+        </div>
+      )}
     </div>
   )
 }
@@ -289,6 +321,13 @@ export default function Translator() {
     if (!mediapipe.handDetected || !mediapipe.landmarks) {
       noHandRef.current++
       if (noHandRef.current > 90) setShowHandPrompt(true)
+      
+      // Notify classifier of no hand to reset sequence buffers
+      classifier.predict(null, null, null, null)
+
+      // Graceful decay of prediction smoother when hand leaves the camera frame
+      const smoothed = smoother.add(null)
+      setCurrentPrediction(smoothed)
       return
     }
     noHandRef.current = 0
@@ -297,13 +336,21 @@ export default function Translator() {
     if (demoMode || classifier.isDemoMode || classifier.status === 'demo') return
 
     // Pass both normalized landmarks array AND raw objects for Geometric fallback
-    const raw = classifier.predict(mediapipe.landmarks, mediapipe.rawLandmarks, mediapipe.rawLandmarks2, mediapipe.landmarks2)
-    if (!raw) return
+    const raw = classifier.predict(
+      mediapipe.landmarks,
+      mediapipe.rawLandmarks,
+      mediapipe.rawLandmarks2,
+      mediapipe.landmarks2
+    )
 
     const smoothed = smoother.add(raw)
+    
+    // Update live fluctuating prediction HUD on EVERY single frame
+    setCurrentPrediction(smoothed)
+
+    // Sentence building and speech feedback only triggers on a NEW distinct word detection
     if (smoothed && smoothed.label !== lastAddedRef.current) {
       lastAddedRef.current = smoothed.label
-      setCurrentPrediction(smoothed)
       const now = new Date().toLocaleTimeString('en-IN', { hour12: false })
       setDetectionLog(prev => [{ label: smoothed.label, confidence: smoothed.confidence, time: now }, ...prev.slice(0, 29)])
       setSentence(sentenceBuilder.addWord(smoothed.label))
@@ -322,7 +369,19 @@ export default function Translator() {
         localStorage.setItem('lxi_stat_gestures', curGestures + 1)
       }
     }
-  }, [mediapipe.landmarks, mediapipe.handDetected])
+  }, [
+    mediapipe.landmarks,
+    mediapipe.handDetected,
+    mediapipe.rawLandmarks,
+    mediapipe.rawLandmarks2,
+    mediapipe.landmarks2,
+    classifier.predict,
+    demoMode,
+    classifier.isDemoMode,
+    classifier.status,
+    autoSpeak,
+    synth,
+  ])
 
   // ── Photo/Video mode detection handling ─────────────────────
   useEffect(() => {
@@ -355,7 +414,8 @@ export default function Translator() {
     setDetectionLog([])
     setSentence('')
     sentenceBuilder.clear()
-  }, [inputMode])
+    smoother.reset()
+  }, [inputMode, classifier.mode])
   useEffect(() => {
     if (demoMode) {
       demoIntervalRef.current = setInterval(() => {
@@ -436,6 +496,7 @@ export default function Translator() {
     onEnable: handleStartCamera,
     showCameraMenu,
     setShowCameraMenu,
+    predictionLabel: currentPrediction?.label || null,
   }
 
   // ── Status bar ───────────────────────────────────────────────
@@ -475,9 +536,9 @@ export default function Translator() {
             appearance: 'none',
           }}
         >
-          <option value="number" style={{ background: 'var(--surface)' }}>Geo Fallback</option>
-          <option value="letter" style={{ background: 'var(--surface)' }}>v2 (Static)</option>
-          <option value="word" style={{ background: 'var(--surface)' }}>v3 (Temporal)</option>
+          <option value="word" style={{ background: 'var(--surface)' }}>Word Mode (v4 Temporal) [Ver1]</option>
+          <option value="letter" style={{ background: 'var(--surface)' }}>Letter Mode (v2 MLP)</option>
+          <option value="number" style={{ background: 'var(--surface)' }}>Number Mode (Geometric)</option>
         </select>
         {classifier.status === 'loading' && <span style={{ color: '#ffaa00', marginLeft: 4 }}>{classifier.progress}%</span>}
       </div>
