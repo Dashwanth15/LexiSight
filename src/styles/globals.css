@@ -779,6 +779,14 @@ video:not(.call-video) {
   min-height: 100dvh;
 }
 
+
+@keyframes splash-grow-font {
+  0%   { font-size: 4px;    opacity: 0; }
+  15%  { font-size: 48px;   opacity: 1; }
+  55%  { font-size: 48px;   opacity: 1; }
+  100% { font-size: 600px;  opacity: 1; }
+}
+
 /* ============================================================
    VIDEO FIX — Call Video Card
    ============================================================ */

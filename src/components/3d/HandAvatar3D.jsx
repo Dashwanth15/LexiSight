@@ -18,20 +18,20 @@ const FINGER_NAMES = ['thumb', 'index', 'middle', 'ring', 'pinky']
 
 // Confirmed names from useGLTF.nodes log (Three.js strips dots)
 const BONE_MAP_R = {
-  thumb:  ['thumb01R_023',    'thumb02R_024',    'thumb03R_025'],
-  index:  ['f_index01R_027',  'f_index02R_028',  'f_index03R_029'],
+  thumb: ['thumb01R_023', 'thumb02R_024', 'thumb03R_025'],
+  index: ['f_index01R_027', 'f_index02R_028', 'f_index03R_029'],
   middle: ['f_middle01R_016', 'f_middle02R_017', 'f_middle03R_018'],
-  ring:   ['f_ring01R_020',   'f_ring02R_021',   'f_ring03R_022'],
-  pinky:  ['f_pinky01R_012',  'f_pinky02R_013',  'f_pinky03R_014'],
-  wrist:  'handR_010',
+  ring: ['f_ring01R_020', 'f_ring02R_021', 'f_ring03R_022'],
+  pinky: ['f_pinky01R_012', 'f_pinky02R_013', 'f_pinky03R_014'],
+  wrist: 'handR_010',
 }
 const BONE_MAP_L = {
-  thumb:  ['thumb01L_048',    'thumb02L_049',    'thumb03L_050'],
-  index:  ['f_index01L_037',  'f_index02L_038',  'f_index03L_039'],
+  thumb: ['thumb01L_048', 'thumb02L_049', 'thumb03L_050'],
+  index: ['f_index01L_037', 'f_index02L_038', 'f_index03L_039'],
   middle: ['f_middle01L_045', 'f_middle02L_046', 'f_middle03L_047'],
-  ring:   ['f_ring01L_041',   'f_ring02L_042',   'f_ring03L_043'],
-  pinky:  ['f_pinky01L_033',  'f_pinky02L_034',  'f_pinky03L_035'],
-  wrist:  'handL_031',
+  ring: ['f_ring01L_041', 'f_ring02L_042', 'f_ring03L_043'],
+  pinky: ['f_pinky01L_033', 'f_pinky02L_034', 'f_pinky03L_035'],
+  wrist: 'handL_031',
 }
 
 // Only the two forearm bones — the ONLY safe bones to drive for this FPS rig
@@ -50,18 +50,18 @@ function resolveBones(nodes, boneMap) {
   const out = { fingers: {}, wrist: null, restQ: {} }
   for (const f of FINGER_NAMES) {
     out.fingers[f] = boneMap[f].map(n => nodes[n] ?? null)
-    out.restQ[f]   = boneMap[f].map(n => nodes[n]?.quaternion.clone() ?? new THREE.Quaternion())
+    out.restQ[f] = boneMap[f].map(n => nodes[n]?.quaternion.clone() ?? new THREE.Quaternion())
   }
   const w = nodes[boneMap.wrist] ?? null
-  out.wrist       = w
+  out.wrist = w
   out.restQ.wrist = w?.quaternion.clone() ?? new THREE.Quaternion()
   return out
 }
 
 function applyFingerPose(bones, target, curr, lf, chirality) {
   for (const finger of FINGER_NAMES) {
-    const boneList  = bones.fingers[finger]
-    const restList  = bones.restQ[finger]
+    const boneList = bones.fingers[finger]
+    const restList = bones.restQ[finger]
     const tgtAngles = target[finger] ?? [0, 0, 0]
     for (let i = 0; i < 3; i++) {
       curr[finger][i] = THREE.MathUtils.lerp(curr[finger][i], tgtAngles[i] ?? 0, lf)
@@ -87,13 +87,13 @@ export default function HandAvatar3D({ gesture = 'idle', isActive = false, speed
   const { scene, nodes } = useGLTF('/models/first_person_hands_rigged.glb')
 
   const groupRef = useRef()
-  const bonesR   = useRef(null)
-  const bonesL   = useRef(null)
-  const clock    = useRef(0)
+  const bonesR = useRef(null)
+  const bonesL = useRef(null)
+  const clock = useRef(0)
 
   // Forearm bone refs + their rest quaternions
-  const fArmR     = useRef(null)
-  const fArmL     = useRef(null)
+  const fArmR = useRef(null)
+  const fArmL = useRef(null)
   const fArmRestR = useRef(null)
   const fArmRestL = useRef(null)
 
@@ -102,14 +102,12 @@ export default function HandAvatar3D({ gesture = 'idle', isActive = false, speed
   const armL = useRef({ lift: 0, roll: 0 })
 
   // Lerped root-group position — moves whole arm (elbow+hand) to sign-specific location
-  // Start lower (-0.65) so hands sit in the lower portion of the canvas, safely
-  // below the "CURRENT SIGN" text block that is now in its own flex row above.
-  const groupPos = useRef({ x: 0, y: -0.65, z: 0 })
+  const groupPos = useRef({ x: 0.1, y: -0.65, z: 0 })
 
-  const currR = useRef({ thumb:[0,0,0], index:[0,0,0], middle:[0,0,0], ring:[0,0,0], pinky:[0,0,0], palmRotate:0 })
-  const currL = useRef({ thumb:[0,0,0], index:[0,0,0], middle:[0,0,0], ring:[0,0,0], pinky:[0,0,0], palmRotate:0 })
+  const currR = useRef({ thumb: [0, 0, 0], index: [0, 0, 0], middle: [0, 0, 0], ring: [0, 0, 0], pinky: [0, 0, 0], palmRotate: 0 })
+  const currL = useRef({ thumb: [0, 0, 0], index: [0, 0, 0], middle: [0, 0, 0], ring: [0, 0, 0], pinky: [0, 0, 0], palmRotate: 0 })
 
-  const targetRef   = useRef(getPoseForGesture(gesture))
+  const targetRef = useRef(getPoseForGesture(gesture))
   const lastGestRef = useRef(gesture)
   useEffect(() => {
     targetRef.current = getPoseForGesture(gesture)
@@ -131,8 +129,8 @@ export default function HandAvatar3D({ gesture = 'idle', isActive = false, speed
     bonesR.current = resolveBones(nodes, BONE_MAP_R)
     bonesL.current = resolveBones(nodes, BONE_MAP_L)
 
-    fArmR.current     = nodes[FOREARM_R] ?? null
-    fArmL.current     = nodes[FOREARM_L] ?? null
+    fArmR.current = nodes[FOREARM_R] ?? null
+    fArmL.current = nodes[FOREARM_L] ?? null
     fArmRestR.current = fArmR.current?.quaternion.clone() ?? null
     fArmRestL.current = fArmL.current?.quaternion.clone() ?? null
 
@@ -153,7 +151,7 @@ export default function HandAvatar3D({ gesture = 'idle', isActive = false, speed
 
     // Finger lerp — fast (5 Hz)
     const lf = 1 - Math.pow(0.02, dt * 5)
-    applyFingerPose(bonesR.current, targetRef.current, currR.current, lf,  1)
+    applyFingerPose(bonesR.current, targetRef.current, currR.current, lf, 1)
     applyFingerPose(bonesL.current, targetRef.current, currL.current, lf, -1)
 
     // ── ROOT GROUP POSITION — moves entire arm including elbow ─────────────
@@ -161,8 +159,9 @@ export default function HandAvatar3D({ gesture = 'idle', isActive = false, speed
     // Bone rotations only bend joints; translating the root moves everything.
     const tp = targetRef.current.pos ?? { x: 0, y: 0, z: 0 }
     const plf = 1 - Math.pow(0.02, dt * 2.2)  // ~2.2 Hz — weighty arm movement
-    groupPos.current.x = THREE.MathUtils.lerp(groupPos.current.x, tp.x ?? 0, plf)
-    // Base Y is -0.65 (lower start) + per-gesture offset — keeps hands clear of text
+    // Base X is 0.1 (shifted slightly right)
+    groupPos.current.x = THREE.MathUtils.lerp(groupPos.current.x, 0.1 + (tp.x ?? 0), plf)
+    // Base Y is -0.65 + per-gesture offset
     groupPos.current.y = THREE.MathUtils.lerp(groupPos.current.y, -0.65 + (tp.y ?? 0), plf)
     groupPos.current.z = THREE.MathUtils.lerp(groupPos.current.z, tp.z ?? 0, plf)
 
@@ -179,7 +178,7 @@ export default function HandAvatar3D({ gesture = 'idle', isActive = false, speed
     // lift = degrees of X-axis rotation on forearm bone.
     // forearm bone ORIGIN = elbow joint. Rotating it pivots the hand around the elbow.
     // -50° lift = arm raised near face (eat/drink). -35° = raised wave (hello). 0° = rest.
-    const ta  = targetRef.current.arm ?? { lift: 0, roll: 0 }
+    const ta = targetRef.current.arm ?? { lift: 0, roll: 0 }
     const alf = 1 - Math.pow(0.02, dt * 3)   // 3 Hz — visible, weighty arm movement
     armR.current.lift = THREE.MathUtils.lerp(armR.current.lift, ta.lift ?? 0, alf)
     armR.current.roll = THREE.MathUtils.lerp(armR.current.roll, ta.roll ?? 0, alf)
@@ -208,9 +207,9 @@ export default function HandAvatar3D({ gesture = 'idle', isActive = false, speed
   return (
     <group
       ref={groupRef}
-      position={[0, -0.65, 0]}
+      position={[0.1, -0.65, 0]}
       scale={0.022}
-      rotation={[0, Math.PI, 0]}
+      rotation={[0, Math.PI - 0.2, 0]}
     >
       <primitive object={scene} />
     </group>

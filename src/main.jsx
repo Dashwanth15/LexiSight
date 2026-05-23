@@ -5,6 +5,7 @@ import { ClerkProvider, useAuth } from '@clerk/clerk-react'
 import { ConvexProviderWithClerk } from 'convex/react-clerk'
 import { ConvexReactClient } from 'convex/react'
 import App from './App.jsx'
+import { SettingsProvider } from './hooks/useSettings.jsx'
 import './styles/globals.css'
 
 // FIX: Disable StrictMode in development to prevent double-mounting issues
@@ -41,7 +42,9 @@ const convex = new ConvexReactClient(CONVEX_URL)
 const appContent = (
   <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
     <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
-      <App />
+      <SettingsProvider>
+        <App />
+      </SettingsProvider>
     </ConvexProviderWithClerk>
   </ClerkProvider>
 )

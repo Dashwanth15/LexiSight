@@ -1,44 +1,35 @@
-import { lazy, Suspense, useEffect, Component } from 'react'
+import { lazy, Suspense, useState, useEffect, Component } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar.jsx'
 import ToastNotif from './components/ToastNotif.jsx'
 import OnboardingModal from './components/OnboardingModal.jsx'
 import PWAInstallBanner from './components/PWAInstallBanner.jsx'
+import SplashScreen from './components/SplashScreen.jsx'
 import Landing from './pages/Landing.jsx'
 import { ClassifierProvider } from './contexts/ClassifierContext.jsx'
+import PageLoader from './components/PageLoader.jsx'
+
+// Enforce a minimum 800ms loading time so the terminal animation is visible
+const lazyWithDelay = (importFunc, delay = 800) => 
+  lazy(() => Promise.all([
+    importFunc(),
+    new Promise(resolve => setTimeout(resolve, delay))
+  ]).then(([module]) => module))
 
 // Lazy load heavy pages
-const Translator = lazy(() => import('./pages/Translator.jsx'))
-const About = lazy(() => import('./pages/About.jsx'))
-const Train = lazy(() => import('./pages/Train.jsx'))
-const Learn = lazy(() => import('./pages/Learn.jsx'))
-const Impact = lazy(() => import('./pages/Impact.jsx'))
-const Dictionary = lazy(() => import('./pages/Dictionary.jsx'))
-const Community = lazy(() => import('./pages/Community.jsx'))
+const Translator = lazyWithDelay(() => import('./pages/Translator.jsx'))
+const About = lazyWithDelay(() => import('./pages/About.jsx'))
+const Train = lazyWithDelay(() => import('./pages/Train.jsx'))
+const Learn = lazyWithDelay(() => import('./pages/Learn.jsx'))
+const Impact = lazyWithDelay(() => import('./pages/Impact.jsx'))
+const Dictionary = lazyWithDelay(() => import('./pages/Dictionary.jsx'))
+const Community = lazyWithDelay(() => import('./pages/Community.jsx'))
+const Settings = lazyWithDelay(() => import('./pages/Settings.jsx'))
 // NEW CODE — 3D Avatar dashboard page
-const Avatar3D = lazy(() => import('./pages/Avatar3D.jsx'))
-
+const Avatar3D = lazyWithDelay(() => import('./pages/Avatar3D.jsx'))
 // NEW CODE — WebRTC calling room (isolated from AI pipelines)
-const CallRoom = lazy(() => import('./pages/CallRoom.jsx'))
+const CallRoom = lazyWithDelay(() => import('./pages/CallRoom.jsx'))
 
-function LoadingScreen() {
-  return (
-    <div className="min-h-screen flex items-center justify-center" style={{ background: '#020408' }}>
-      <div className="flex flex-col items-center gap-4">
-        <div
-          className="w-10 h-10 rounded-full border-2"
-          style={{
-            borderColor: 'transparent',
-            borderTopColor: '#00d4ff',
-            borderRightColor: '#8b5cf6',
-            animation: 'spin-slow 1s linear infinite',
-          }}
-        />
-        <span className="hud-label">Loading...</span>
-      </div>
-    </div>
-  )
-}
 
 // FIX — ErrorBoundary prevents lazy-load/render crashes from producing
 // a chrome-error://chromewebdata/ blank screen
@@ -87,6 +78,11 @@ class ErrorBoundary extends Component {
 }
 
 export default function App() {
+  const [showSplash, setShowSplash] = useState(() => {
+    // Only show splash once per session
+    return !sessionStorage.getItem('lxi_splash_shown')
+  })
+
   useEffect(() => {
     if (!sessionStorage.getItem('lxi_session_counted')) {
       const cur = parseInt(localStorage.getItem('lxi_stat_sessions') || '28', 10)
@@ -95,33 +91,42 @@ export default function App() {
     }
   }, [])
 
+  const handleSplashFinished = () => {
+    setShowSplash(false)
+    sessionStorage.setItem('lxi_splash_shown', 'true')
+  }
+
   // FIX — ClassifierProvider inside BrowserRouter but OUTSIDE Suspense
   // so lazy-loaded pages can access the context immediately.
   return (
     <BrowserRouter>
+      {showSplash && <SplashScreen onFinished={handleSplashFinished} />}
       <ClassifierProvider>
-        <Navbar />
-        <OnboardingModal />
-        <PWAInstallBanner />
-        <ErrorBoundary>
-        <Suspense fallback={<LoadingScreen />}>
-          <Routes>
-            <Route path="/" element={<Landing />} />
-            <Route path="/translate" element={<Translator />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/train" element={<Train />} />
-            <Route path="/learn" element={<Learn />} />
-            <Route path="/impact" element={<Impact />} />
-            <Route path="/dictionary" element={<Dictionary />} />
-            <Route path="/community" element={<Community />} />
-            {/* NEW CODE — 3D Avatar route */}
-            <Route path="/avatar3d" element={<Avatar3D />} />
-            {/* NEW CODE — Call room route */}
-            <Route path="/room/:roomCode?" element={<CallRoom />} />
-            <Route path="*" element={<Landing />} />
-          </Routes>
-        </Suspense>
-        </ErrorBoundary>
+        <div className="min-h-screen flex flex-col" style={{ background: 'var(--void)' }}>
+          <Navbar />
+          <OnboardingModal />
+          <PWAInstallBanner />
+          <ErrorBoundary>
+            <Suspense fallback={<PageLoader />}>
+              <Routes>
+                <Route path="/" element={<Landing />} />
+                <Route path="/translate" element={<Translator />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/train" element={<Train />} />
+                <Route path="/learn" element={<Learn />} />
+                <Route path="/impact" element={<Impact />} />
+                <Route path="/dictionary" element={<Dictionary />} />
+                <Route path="/community" element={<Community />} />
+                <Route path="/settings" element={<Settings />} />
+                {/* NEW CODE — 3D Avatar route */}
+                <Route path="/avatar3d" element={<Avatar3D />} />
+                {/* NEW CODE — Call room route */}
+                <Route path="/room/:roomCode?" element={<CallRoom />} />
+                <Route path="*" element={<Landing />} />
+              </Routes>
+            </Suspense>
+          </ErrorBoundary>
+        </div>
         <ToastNotif />
       </ClassifierProvider>
     </BrowserRouter>

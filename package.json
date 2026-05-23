@@ -4,9 +4,13 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "sync-models": "node scripts/sync-models.js",
+    "predev": "npm run sync-models",
     "dev": "vite",
+    "prebuild": "npm run sync-models",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "postinstall": "npm run sync-models"
   },
   "dependencies": {
     "@clerk/clerk-react": "^5.61.6",
@@ -14,7 +18,7 @@
     "@react-three/fiber": "^8.17.10",
     "@tensorflow/tfjs": "^4.22.0",
     "convex": "^1.39.1",
-    "framer-motion": "^11.0.0",
+    "framer-motion": "^11.18.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.28.0",

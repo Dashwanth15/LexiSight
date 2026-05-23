@@ -3,139 +3,9 @@ import * as tf from '@tensorflow/tfjs'
 import { GESTURE_CLASSES, DEMO_SEQUENCE } from '../utils/gestureMap.js'
 import { classifyGesture, classifyTwoHandGesture, classifyISLDigit } from '../utils/geoClassifier.js'
 import { disambiguate } from '../utils/fingerDisambiguator.js'
-
-// ═══════════════════════════════════════════════════════════════════════════
-// Register custom Keras layers so tf.loadLayersModel() can deserialize them.
-// The temporal model uses PositionalEncoding and TransformerEncoderBlock
-// which are custom Python classes — we must provide JS equivalents.
-// ═══════════════════════════════════════════════════════════════════════════
-
-/** Positional Encoding — adds learned position embeddings to frame sequences */
-class PositionalEncoding extends tf.layers.Layer {
-  constructor(config) {
-    super(config)
-    this.maxLen = config.max_len || config.maxLen || 30
-    this.dModel = config.d_model || config.dModel || 128
-  }
-
-  build(inputShape) {
-    this.posEmbedding = this.addWeight(
-      'pos_encoding/pos_embedding',
-      [1, this.maxLen, this.dModel],
-      'float32',
-      tf.initializers.zeros()
-    )
-    super.build(inputShape)
-  }
-
-  call(inputs) {
-    const x = Array.isArray(inputs) ? inputs[0] : inputs
-    return tf.add(x, this.posEmbedding.read())
-  }
-
-  static get className() { return 'PositionalEncoding' }
-
-  getConfig() {
-    const config = super.getConfig()
-    return { ...config, max_len: this.maxLen, d_model: this.dModel }
-  }
-}
-tf.serialization.registerClass(PositionalEncoding)
-
-/** Transformer Encoder Block — multi-head attention + feed-forward */
-class TransformerEncoderBlock extends tf.layers.Layer {
-  constructor(config) {
-    super(config)
-    this.dModel = config.d_model || config.dModel || 128
-    this.numHeads = config.num_heads || config.numHeads || 4
-    this.dFF = config.d_ff || config.dFF || 256
-    this.dropoutRate = config.dropout || 0.3
-  }
-
-  build(inputShape) {
-    const d = this.dModel
-    const h = this.numHeads
-    const dk = Math.floor(d / h)
-    const prefix = this.name + '/'
-
-    // Multi-head attention weights — unique names matching model.json manifest
-    this.wQ = this.addWeight(prefix + 'wQ_kernel', [d, h, dk], 'float32', tf.initializers.glorotUniform())
-    this.bQ = this.addWeight(prefix + 'wQ_bias', [h, dk], 'float32', tf.initializers.zeros())
-    this.wK = this.addWeight(prefix + 'wK_kernel', [d, h, dk], 'float32', tf.initializers.glorotUniform())
-    this.bK = this.addWeight(prefix + 'wK_bias', [h, dk], 'float32', tf.initializers.zeros())
-    this.wV = this.addWeight(prefix + 'wV_kernel', [d, h, dk], 'float32', tf.initializers.glorotUniform())
-    this.bV = this.addWeight(prefix + 'wV_bias', [h, dk], 'float32', tf.initializers.zeros())
-    this.wO = this.addWeight(prefix + 'wO_kernel', [h, dk, d], 'float32', tf.initializers.glorotUniform())
-    this.bO = this.addWeight(prefix + 'wO_bias', [d], 'float32', tf.initializers.zeros())
-
-    // Feed-forward weights
-    this.ff1W = this.addWeight(prefix + 'ff1_kernel', [d, this.dFF], 'float32', tf.initializers.glorotUniform())
-    this.ff1B = this.addWeight(prefix + 'ff1_bias', [this.dFF], 'float32', tf.initializers.zeros())
-    this.ff2W = this.addWeight(prefix + 'ff2_kernel', [this.dFF, d], 'float32', tf.initializers.glorotUniform())
-    this.ff2B = this.addWeight(prefix + 'ff2_bias', [d], 'float32', tf.initializers.zeros())
-
-    // Layer norm weights
-    this.ln1G = this.addWeight(prefix + 'ln1_gamma', [d], 'float32', tf.initializers.ones())
-    this.ln1B = this.addWeight(prefix + 'ln1_beta', [d], 'float32', tf.initializers.zeros())
-    this.ln2G = this.addWeight(prefix + 'ln2_gamma', [d], 'float32', tf.initializers.ones())
-    this.ln2B = this.addWeight(prefix + 'ln2_beta', [d], 'float32', tf.initializers.zeros())
-
-    super.build(inputShape)
-  }
-
-  call(inputs, kwargs) {
-    const x = Array.isArray(inputs) ? inputs[0] : inputs
-    return tf.tidy(() => {
-      // Simplified: just pass through with residual connections
-      // The weights are loaded from the trained model, so the math is correct
-      const [batch, seqLen, dim] = x.shape
-
-      // Multi-head self-attention (simplified — reshape approach)
-      const q = tf.add(tf.matMul(x, this.wQ.read().reshape([dim, -1])), this.bQ.read().reshape([1, -1]))
-      const k = tf.add(tf.matMul(x, this.wK.read().reshape([dim, -1])), this.bK.read().reshape([1, -1]))
-      const v = tf.add(tf.matMul(x, this.wV.read().reshape([dim, -1])), this.bV.read().reshape([1, -1]))
-
-      const dk = Math.floor(dim / this.numHeads)
-      const scale = Math.sqrt(dk)
-      const attnScores = tf.div(tf.matMul(q, k, false, true), tf.scalar(scale))
-      const attnWeights = tf.softmax(attnScores, -1)
-      const attnOut = tf.matMul(attnWeights, v)
-
-      // Project back
-      const projected = tf.add(
-        tf.matMul(attnOut, this.wO.read().reshape([-1, dim])),
-        this.bO.read()
-      )
-
-      // Residual + LayerNorm 1
-      const res1 = tf.add(x, projected)
-      const ln1 = this._layerNorm(res1, this.ln1G.read(), this.ln1B.read())
-
-      // Feed-forward
-      const ff1 = tf.relu(tf.add(tf.matMul(ln1, this.ff1W.read()), this.ff1B.read()))
-      const ff2 = tf.add(tf.matMul(ff1, this.ff2W.read()), this.ff2B.read())
-
-      // Residual + LayerNorm 2
-      const res2 = tf.add(ln1, ff2)
-      return this._layerNorm(res2, this.ln2G.read(), this.ln2B.read())
-    })
-  }
-
-  _layerNorm(x, gamma, beta) {
-    const mean = tf.mean(x, -1, true)
-    const variance = tf.mean(tf.squaredDifference(x, mean), -1, true)
-    const normalized = tf.div(tf.sub(x, mean), tf.sqrt(tf.add(variance, 1e-6)))
-    return tf.add(tf.mul(normalized, gamma), beta)
-  }
-
-  static get className() { return 'TransformerEncoderBlock' }
-
-  getConfig() {
-    const config = super.getConfig()
-    return { ...config, d_model: this.dModel, num_heads: this.numHeads, d_ff: this.dFF, dropout: this.dropoutRate }
-  }
-}
-tf.serialization.registerClass(TransformerEncoderBlock)
+import { MotionAnalyzer } from '../utils/motionAnalyzer.js'
+// Register custom Keras layers for the temporal transformer model
+import '../utils/customLayers.js'
 
 const TEMPORAL_MODEL_PATH = '/model/tfjs_model/model.json'
 const TEMPORAL_LABEL_MAP = '/model/label_map.json'
@@ -495,56 +365,67 @@ export function useClassifier() {
     try {
       await tf.ready()
       setProgress(20)
-      const [temporalResult, temporalLabels, calibrationData, staticResult, staticLabels] =
+      // Clear stale v3 cache from before the model.json Keras3→TFjs patch
+      try { await tf.io.removeModel('indexeddb://temporal-model-v3') } catch (_) {}
+      try { await tf.io.removeModel('indexeddb://static-model-v3') } catch (_) {}
+
+      const loadCachedModel = async (path, cacheName) => {
+        try {
+          const cached = await tf.loadLayersModel('indexeddb://' + cacheName)
+          console.log(`[LexiSight] Loaded ${cacheName} from IndexedDB cache`)
+          return { model: cached, ok: true }
+        } catch (e) {
+          console.log(`[LexiSight] Cache miss for ${cacheName}, loading from network...`)
+          try {
+            const fresh = await tf.loadLayersModel(path)
+            console.log(`[LexiSight] Loaded ${cacheName} from network OK`)
+            try { await fresh.save('indexeddb://' + cacheName) } catch (saveErr) { console.warn('Cache save failed', saveErr) }
+            return { model: fresh, ok: true }
+          } catch (err) {
+            console.error(`[LexiSight] Failed to load model from ${path}:`, err)
+            return { model: null, ok: false }
+          }
+        }
+      }
+
+      const [temporalRes, temporalLabelsRes, calibrationDataRes, staticRes, staticLabelsRes] =
         await Promise.allSettled([
-          tf.loadLayersModel(TEMPORAL_MODEL_PATH)
-            .then(m => ({ model: m, ok: true }))
-            .catch(err => {
-              console.error('[LexiSight] Failed to load temporal model:', err)
-              return { model: null, ok: false }
-            }),
+          loadCachedModel(TEMPORAL_MODEL_PATH, 'temporal-model-v4'),
           fetch(TEMPORAL_LABEL_MAP).then(r => r.ok ? r.json() : null).catch(() => null),
           fetch(TEMPORAL_CALIBRATION).then(r => r.ok ? r.json() : null).catch(() => ({ temperature: 1.0 })),
-          tf.loadLayersModel(STATIC_MODEL_PATH)
-            .then(m => ({ model: m, ok: true }))
-            .catch(err => {
-              console.error('[LexiSight] Failed to load static model:', err)
-              return { model: null, ok: false }
-            }),
-          fetch(STATIC_LABEL_MAP).then(r => r.ok ? r.json() : null).catch(err => {
-            console.error('[LexiSight] Failed to load static label map:', err)
-            return null
-          }),
+          loadCachedModel(STATIC_MODEL_PATH, 'static-model-v4'),
+          fetch(STATIC_LABEL_MAP).then(r => r.ok ? r.json() : null).catch(() => null),
         ])
 
-      // Promise.allSettled wraps each result in { status, value } — must unwrap
-      const tModel = temporalResult.value?.model ?? null
-      const sModel = staticResult.value?.model ?? null
-      const tLabels = temporalLabels.value ?? null
-      const sLabels = staticLabels.value ?? null
-      const calData = calibrationData.value ?? { temperature: 1.0 }
+      const temporalResult = temporalRes.value || { model: null, ok: false }
+      const temporalLabels = temporalLabelsRes.value || null
+      const calibrationData = calibrationDataRes.value || { temperature: 1.0 }
+      const staticResult = staticRes.value || { model: null, ok: false }
+      const staticLabels = staticLabelsRes.value || null
 
-      modelsRef.current = { temporal: tModel, static: sModel }
-      labelMapsRef.current = { temporal: tLabels, static: sLabels }
+      modelsRef.current = { temporal: temporalResult.model, static: staticResult.model }
+      labelMapsRef.current = { temporal: temporalLabels, static: staticLabels }
       calibrationRef.current = {
-        temporal: calData?.temperature ?? 1.0,
+        temporal: calibrationData?.temperature ?? 1.0,
         static: 1.0,
       }
 
-      console.log('[LexiSight] Models loaded —',
-        'temporal:', tModel ? 'OK' : 'MISSING',
-        'static:', sModel ? 'OK' : 'MISSING',
-        'labels:', tLabels ? Object.keys(tLabels).length + 'cls' : 'MISSING'
-      )
+      console.log('[LexiSight] Model load results:', {
+        temporal: !!temporalResult.model,
+        static: !!staticResult.model,
+        temporalLabels: temporalLabels ? Object.keys(temporalLabels).length + ' classes' : 'null',
+        staticLabels: staticLabels ? Object.keys(staticLabels).length + ' classes' : 'null',
+      })
 
-      if (tModel) {
+      if (modelsRef.current.temporal) {
         oosRef.current = new OOSDetector(
-          Object.keys(tLabels || {}).length || 263
+          Object.keys(temporalLabels || {}).length || 263
         )
       }
 
       setProgress(100)
-      if (!tModel && !sModel) {
+      if (!temporalResult.model && !staticResult.model) {
+        console.warn('[LexiSight] No models loaded — falling back to geometric classifier')
         setStatus('geometric')
         return
       }
