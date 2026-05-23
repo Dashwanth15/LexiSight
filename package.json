@@ -4,9 +4,13 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "sync-models": "node scripts/sync-models.js",
+    "predev": "npm run sync-models",
     "dev": "vite",
+    "prebuild": "npm run sync-models",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "postinstall": "npm run sync-models"
   },
   "dependencies": {
     "@clerk/clerk-react": "^5.61.6",
