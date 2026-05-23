@@ -1,0 +1,31 @@
+{
+  "Daily": {
+    "strategy": "all_train"
+  },
+  "Emergency": {
+    "strategy": "by_signer_id",
+    "val_signers": [
+      "27",
+      "61",
+      "10",
+      "34",
+      "2",
+      "91",
+      "73"
+    ],
+    "test_signers": [
+      "80",
+      "53",
+      "63",
+      "11",
+      "90",
+      "75",
+      "16"
+    ]
+  },
+  "INCLUDE": {
+    "strategy": "by_video_index",
+    "val_ratio": 0.15,
+    "test_ratio": 0.15
+  }
+}

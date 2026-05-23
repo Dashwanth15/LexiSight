@@ -87,10 +87,10 @@ export default function Train() {
       <div className="max-w-4xl mx-auto">
         <div className="mb-10">
           <div className="hud-label mb-3">Custom Gesture Training</div>
-          <h1 className="text-4xl md:text-5xl font-syne font-black mb-3" style={{ color: '#e8f4fd' }}>
+          <h1 className="text-4xl md:text-5xl font-syne font-black mb-3" style={{ color: 'var(--text-primary)' }}>
             Train New Gestures
           </h1>
-          <p className="text-base font-dm" style={{ color: '#6b8ba4' }}>
+          <p className="text-base font-dm" style={{ color: 'var(--text-secondary)' }}>
             Record your own custom gestures to extend the classifier.
             Collected data can be used with the Python training pipeline.
           </p>
@@ -107,16 +107,16 @@ export default function Train() {
                 <div
                   className="flex items-center justify-center w-8 h-8 rounded-full text-xs font-mono font-bold"
                   style={{
-                    background: isDone ? '#00ff88' : isActive ? 'rgba(0,212,255,0.2)' : 'rgba(255,255,255,0.04)',
-                    border: `1px solid ${isDone ? '#00ff88' : isActive ? '#00d4ff' : '#1a2535'}`,
-                    color: isDone ? '#020408' : isActive ? '#00d4ff' : '#6b8ba4',
+                    background: isDone ? 'var(--green)' : isActive ? 'color-mix(in srgb, var(--cyan) 20%, transparent)' : 'var(--glass-bg)',
+                    border: `1px solid ${isDone ? 'var(--green)' : isActive ? 'var(--cyan)' : 'var(--border)'}`,
+                    color: isDone ? 'var(--void)' : isActive ? 'var(--cyan)' : 'var(--text-secondary)',
                     fontFamily: 'JetBrains Mono, monospace',
                   }}
                 >
                   {isDone ? '✓' : num}
                 </div>
-                <span className="text-xs font-dm hidden sm:block" style={{ color: isActive ? '#e8f4fd' : '#6b8ba4' }}>{label}</span>
-                {i < 2 && <div className="w-8 h-px" style={{ background: '#1a2535' }} />}
+                <span className="text-xs font-dm hidden sm:block" style={{ color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)' }}>{label}</span>
+                {i < 2 && <div className="w-8 h-px" style={{ background: 'var(--border)' }} />}
               </div>
             )
           })}
@@ -130,7 +130,7 @@ export default function Train() {
               <div className="glass-card p-6 space-y-4">
                 <div className="hud-label">Step 1: Name Your Gesture</div>
                 <div>
-                  <label className="text-sm font-dm mb-2 block" style={{ color: '#6b8ba4' }}>
+                  <label className="text-sm font-dm mb-2 block" style={{ color: 'var(--text-secondary)' }}>
                     Gesture Label
                   </label>
                   <input
@@ -140,9 +140,9 @@ export default function Train() {
                     placeholder="e.g. NAMASTE, LOVE, OK"
                     className="w-full px-4 py-3 rounded-lg outline-none text-sm font-syne font-bold"
                     style={{
-                      background: '#0d1520',
-                      border: '1px solid #1a2535',
-                      color: '#00d4ff',
+                      background: 'var(--surface)',
+                      border: '1px solid var(--border)',
+                      color: 'var(--cyan)',
                       fontFamily: 'Syne, sans-serif',
                     }}
                     onKeyDown={e => e.key === 'Enter' && gestureName.trim() && setStep(2)}
@@ -168,8 +168,8 @@ export default function Train() {
                 {/* Progress */}
                 <div>
                   <div className="flex justify-between mb-2">
-                    <span className="text-sm font-dm" style={{ color: '#6b8ba4' }}>Samples</span>
-                    <span className="font-mono text-sm" style={{ color: '#00d4ff', fontFamily: 'JetBrains Mono, monospace' }}>
+                    <span className="text-sm font-dm" style={{ color: 'var(--text-secondary)' }}>Samples</span>
+                    <span className="font-mono text-sm" style={{ color: 'var(--cyan)', fontFamily: 'JetBrains Mono, monospace' }}>
                       {samplesCollected} / {TARGET_SAMPLES}
                     </span>
                   </div>
@@ -181,7 +181,7 @@ export default function Train() {
                   </div>
                 </div>
 
-                <div className="text-sm font-dm" style={{ color: '#6b8ba4' }}>
+                <div className="text-sm font-dm" style={{ color: 'var(--text-secondary)' }}>
                   {isRecording
                     ? '● Recording... hold your gesture steady!'
                     : 'Click record and hold your gesture in front of the camera.'}
@@ -214,10 +214,10 @@ export default function Train() {
             {step === 3 && (
               <div className="glass-card p-6 space-y-4">
                 <div className="flex items-center gap-3">
-                  <span style={{ color: '#00ff88', fontSize: '1.5rem' }}>✓</span>
+                  <span style={{ color: 'var(--green)', fontSize: '1.5rem' }}>✓</span>
                   <div>
                     <div className="hud-label">Samples Collected</div>
-                    <div className="text-xl font-syne font-bold" style={{ color: '#00ff88' }}>
+                    <div className="text-xl font-syne font-bold" style={{ color: 'var(--green)' }}>
                       {gestureName}: {samplesRef.current.length} samples
                     </div>
                   </div>
@@ -243,10 +243,10 @@ export default function Train() {
                   {collectedData.map((g, i) => (
                     <div key={i} className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                        <span style={{ color: '#00ff88', fontFamily: 'JetBrains Mono, monospace', fontSize: '0.75rem' }}>✓</span>
-                        <span className="font-syne font-bold" style={{ color: '#e8f4fd' }}>{g.label}</span>
+                        <span style={{ color: 'var(--green)', fontFamily: 'JetBrains Mono, monospace', fontSize: '0.75rem' }}>✓</span>
+                        <span className="font-syne font-bold" style={{ color: 'var(--text-primary)' }}>{g.label}</span>
                       </div>
-                      <span className="font-mono text-xs" style={{ color: '#6b8ba4', fontFamily: 'JetBrains Mono, monospace' }}>
+                      <span className="font-mono text-xs" style={{ color: 'var(--text-secondary)', fontFamily: 'JetBrains Mono, monospace' }}>
                         {g.count} samples
                       </span>
                     </div>
@@ -270,8 +270,8 @@ export default function Train() {
               className="relative rounded-xl overflow-hidden"
               style={{
                 height: 300,
-                background: '#000',
-                border: mediapipe.handDetected ? '1.5px solid rgba(0,255,136,0.4)' : '1.5px solid #1a2535',
+                background: 'var(--obsidian)',
+                border: mediapipe.handDetected ? '1.5px solid color-mix(in srgb, var(--green) 40%, transparent)' : '1.5px solid var(--border)',
               }}
             >
               {!mediapipe.isReady ? (
@@ -296,9 +296,9 @@ export default function Train() {
               {/* Recording indicator */}
               {isRecording && (
                 <div className="absolute top-3 left-3 flex items-center gap-2 px-3 py-1 rounded-full"
-                  style={{ background: 'rgba(255,51,102,0.2)', border: '1px solid rgba(255,51,102,0.4)' }}>
-                  <div className="w-2 h-2 rounded-full" style={{ background: '#ff3366', animation: 'node-pulse 0.5s ease-in-out infinite' }} />
-                  <span className="text-xs font-mono" style={{ color: '#ff3366', fontFamily: 'JetBrains Mono, monospace' }}>REC</span>
+                  style={{ background: 'color-mix(in srgb, var(--red) 20%, transparent)', border: '1px solid color-mix(in srgb, var(--red) 40%, transparent)' }}>
+                  <div className="w-2 h-2 rounded-full" style={{ background: 'var(--red)', animation: 'node-pulse 0.5s ease-in-out infinite' }} />
+                  <span className="text-xs font-mono" style={{ color: 'var(--red)', fontFamily: 'JetBrains Mono, monospace' }}>REC</span>
                 </div>
               )}
             </div>
@@ -306,7 +306,7 @@ export default function Train() {
             {/* Instructions */}
             <div className="glass-card p-4">
               <div className="hud-label mb-3">Instructions</div>
-              <ol className="space-y-2 text-sm font-dm" style={{ color: '#6b8ba4' }}>
+              <ol className="space-y-2 text-sm font-dm" style={{ color: 'var(--text-secondary)' }}>
                 {[
                   'Enable camera and position your hand clearly',
                   'Enter the gesture label (e.g. NAMASTE)',
@@ -315,7 +315,7 @@ export default function Train() {
                   'Run python scripts/train_model.py with your new data',
                 ].map((s, i) => (
                   <li key={i} className="flex gap-3">
-                    <span className="font-mono shrink-0" style={{ color: '#8b5cf6', fontFamily: 'JetBrains Mono, monospace', fontSize: '0.7rem' }}>{String(i + 1).padStart(2, '0')}</span>
+                    <span className="font-mono shrink-0" style={{ color: 'var(--violet)', fontFamily: 'JetBrains Mono, monospace', fontSize: '0.7rem' }}>{String(i + 1).padStart(2, '0')}</span>
                     {s}
                   </li>
                 ))}

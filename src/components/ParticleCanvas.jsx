@@ -45,8 +45,21 @@ export default function ParticleCanvas({ className = '' }) {
     window.addEventListener('resize', handleResize)
 
     const draw = () => {
-      ctx.clearRect(0, 0, w, h)
+      // Read current theme color from CSS variables
+      const rootStyle = getComputedStyle(document.documentElement)
+      const cyanColor = rootStyle.getPropertyValue('--cyan').trim() || '#00d4ff'
+      
+      // Convert hex/named to rgba helper
+      const hexToRgba = (hex, alpha) => {
+        if (hex.startsWith('var')) return `rgba(59, 130, 246, ${alpha})` // Fallback for raw var strings
+        if (!hex.startsWith('#')) return `rgba(0, 212, 255, ${alpha})`
+        const r = parseInt(hex.slice(1, 3), 16)
+        const g = parseInt(hex.slice(3, 5), 16)
+        const b = parseInt(hex.slice(5, 7), 16)
+        return `rgba(${r}, ${g}, ${b}, ${alpha})`
+      }
 
+      ctx.clearRect(0, 0, w, h)
       const particles = particlesRef.current
 
       // Draw connections
@@ -61,9 +74,9 @@ export default function ParticleCanvas({ className = '' }) {
           const dist = Math.sqrt(dx * dx + dy * dy)
 
           if (dist < CONNECTION_DISTANCE) {
-            const alpha = (1 - dist / CONNECTION_DISTANCE) * 0.2
+            const alpha = (1 - dist / CONNECTION_DISTANCE) * 0.15
             ctx.beginPath()
-            ctx.strokeStyle = `rgba(0, 212, 255, ${alpha})`
+            ctx.strokeStyle = hexToRgba(cyanColor, alpha)
             ctx.lineWidth = 0.5
             ctx.moveTo(p.x, p.y)
             ctx.lineTo(q.x, q.y)
@@ -80,8 +93,8 @@ export default function ParticleCanvas({ className = '' }) {
 
         // Outer glow
         const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, r * 4)
-        gradient.addColorStop(0, `rgba(0, 212, 255, ${p.opacity * 0.3})`)
-        gradient.addColorStop(1, 'rgba(0, 212, 255, 0)')
+        gradient.addColorStop(0, hexToRgba(cyanColor, p.opacity * 0.2))
+        gradient.addColorStop(1, hexToRgba(cyanColor, 0))
         ctx.beginPath()
         ctx.arc(p.x, p.y, r * 4, 0, Math.PI * 2)
         ctx.fillStyle = gradient
@@ -90,7 +103,7 @@ export default function ParticleCanvas({ className = '' }) {
         // Core dot
         ctx.beginPath()
         ctx.arc(p.x, p.y, r, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(0, 212, 255, ${p.opacity})`
+        ctx.fillStyle = hexToRgba(cyanColor, p.opacity * 0.8)
         ctx.fill()
 
         // Move

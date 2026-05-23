@@ -1,13 +1,19 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
+import { useSettings } from './useSettings.jsx'
 import { normalizeLandmarks } from '../utils/landmarks.js'
+import { LandmarkKalmanFilter } from '../utils/kalmanFilter.js'
+import { telemetry } from '../utils/observability.js'
 
 const MEDIAPIPE_CDN = 'https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1675469240/hands.js'
 
 export function useMediaPipe() {
+  const { settings } = useSettings()
   const videoRef = useRef(null)
   const canvasRef = useRef(null)
   const handsRef = useRef(null)
   const animFrameRef = useRef(null)
+  const kalmanRef = useRef(new LandmarkKalmanFilter())
+  const kalman2Ref = useRef(new LandmarkKalmanFilter())
   const streamRef = useRef(null)
 
   const [landmarks, setLandmarks] = useState(null)
@@ -45,17 +51,12 @@ export function useMediaPipe() {
       const videoDevices = devices.filter(d => d.kind === 'videoinput')
       setAvailableCameras(videoDevices)
 
-      // Prefer a camera that is NOT back-facing (rear) — pick webcam for laptops
-      // Avoid virtual cameras or phone link
+      // Prefer a camera that matches the user's facing preference (user/environment)
+      const targetFacing = settings.cameraFacing || 'user'
       const preferredCam = videoDevices.find(d => {
         const label = d.label.toLowerCase()
-        return !label.includes('back') &&
-               !label.includes('rear') &&
-               !label.includes('environment') &&
-               !label.includes('virtual') &&
-               !label.includes('phone link') &&
-               !label.includes('droidcam') &&
-               !label.includes('obs')
+        const isBack = label.includes('back') || label.includes('rear') || label.includes('environment')
+        return targetFacing === 'environment' ? isBack : !isBack
       }) || videoDevices[0]
 
       if (preferredCam && !selectedCameraId) {
@@ -98,28 +99,47 @@ export function useMediaPipe() {
       hands.onResults((results) => {
         const multi = results.multiHandLandmarks || []
 
-        // ── Primary hand ───────────────────────────────────────────────────
+        // ── Primary hand (with Kalman filter for missing frames) ─────────
         if (multi.length > 0) {
           const lms = multi[0]
+          if (telemetry.toggles.kalmanFilter) kalmanRef.current.update(lms)
           setRawLandmarks(lms)
           setLandmarks(normalizeLandmarks(lms))
           setHandDetected(true)
         } else {
-          setHandDetected(false)
-          setLandmarks(null)
-          setRawLandmarks(null)
+          // Kalman prediction instead of zero-filling
+          const predicted = telemetry.toggles.kalmanFilter ? kalmanRef.current.predict() : null
+          if (predicted) {
+            telemetry.log('KALMAN', 'Predicted missing primary hand landmarks')
+            setRawLandmarks(predicted)
+            setLandmarks(normalizeLandmarks(predicted))
+            setHandDetected(true) // Keep detected=true during prediction
+          } else {
+            setHandDetected(false)
+            setLandmarks(null)
+            setRawLandmarks(null)
+          }
         }
 
-        // ── Secondary hand (two-hand signs) ───────────────────────────────
+        // ── Secondary hand (with Kalman filter) ──────────────────────────
         if (multi.length > 1) {
           const lms2 = multi[1]
+          if (telemetry.toggles.kalmanFilter) kalman2Ref.current.update(lms2)
           setRawLandmarks2(lms2)
           setLandmarks2(normalizeLandmarks(lms2))
           setHand2Detected(true)
         } else {
-          setHand2Detected(false)
-          setLandmarks2(null)
-          setRawLandmarks2(null)
+          const predicted2 = telemetry.toggles.kalmanFilter ? kalman2Ref.current.predict() : null
+          if (predicted2) {
+            telemetry.log('KALMAN', 'Predicted missing secondary hand landmarks')
+            setRawLandmarks2(predicted2)
+            setLandmarks2(normalizeLandmarks(predicted2))
+            setHand2Detected(true)
+          } else {
+            setHand2Detected(false)
+            setLandmarks2(null)
+            setRawLandmarks2(null)
+          }
         }
 
         const counter = fpsCounterRef.current

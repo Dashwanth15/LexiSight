@@ -3,7 +3,7 @@
   "generatedBy": "keras v2.15.0",
   "convertedBy": "TensorFlow.js Converter v4.22.0",
   "modelTopology": {
-    "keras_version": "2.15.0",
+    "keras_version": "2.20.0",
     "backend": "tensorflow",
     "model_config": {
       "class_name": "Functional",

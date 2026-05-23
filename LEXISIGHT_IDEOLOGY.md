@@ -233,12 +233,58 @@ The first temporal model training run revealed **Spatial Memorization** — the 
 | Training Loss | 0.05 |
 | Validation Loss | **2.5+** |
 
-### Root Causes
+### Phase 1: Defending the Pipeline (Current Status)
+1. **Kalman Inference Recovery:** Deployed `LandmarkKalmanFilter` to predict trajectories up to 5 frames when MediaPipe occludes, eliminating phantom zero-point geometry.
+2. **Entropy-Based Gating:** Exposed configurable `settings.entropyLimit` (Default: 2.5 nats). High-confidence but high-entropy (confused) predictions are immediately discarded to protect the temporal smoother.
+3. **Static Pose Bypass:** Deployed `PoseStabilityDetector` to calculate wrist spatial variance. If motion holds near-zero for 5 frames, temporal buffers are bypassed, and static geometric inference fires directly for alphabets.
+4. **EMA Onset Detection (Paused):** Built but safely disabled. Resampled continuous windows change the velocity profile of a model trained on ring buffers, causing massive Out-of-Distribution (OOD) errors. Must retrain before enabling.
+5. **The "Face/Lip" Gating Reality:** Previous assumptions of a 117-dimensional face feature vector were false. The tensor shape is strictly `[126]` (2 hands × 21 landmarks × 3 coords). Face features are deliberately omitted to preserve the 32.4 FPS browser constraint.
 
-1. **No Wrist-Relative Normalization:** Raw screen-space coordinates changed based on signer position.
-2. **No Scale Normalization:** Closer signers produced larger values than farther ones.
-3. **Insufficient Dropout:** Too many parameters, not enough regularization.
-4. **No Data Augmentation:** Training data used as-is with no noise, scaling, or temporal jitter.
+### Phase 2: The Honest Data Strategy
+
+#### The Real Numbers
+Where the "80,000+" comes from: roughly 63,000 of those are static alphabet images, not videos. Your actual video data for word-level temporal recognition is closer to 17,000 videos. That distinction matters enormously for training strategy.
+
+#### Dataset-by-Dataset Honest Assessment
+*   **INCLUDE_FULL — Your backbone. Use it fully.**
+    262 classes, ~21 videos each from AI4Bharat's controlled multi-signer recording. This is your highest-quality word-level data. The per-class depth is thin but the signer quality is verified. Every training run should include this entirely.
+*   **CISLR — Your biggest problem.**
+    7,050 videos across 4,700 words means an average of 1.5 videos per class. Read that again. Many classes have a single video from a single signer. Including all 4,700 CISLR classes would create a dataset where the majority of your vocabulary has effectively zero generalization capability. A model trained on 1.5 videos per class learns nothing useful for that class — it memorizes one person's single performance.
+    *Do not train on all 4,700 CISLR classes.* Use CISLR selectively — only classes that also appear in INCLUDE or ISL_Daily_Words, giving you additional signer coverage for an already-represented word. Filter out any CISLR class with fewer than 3 videos. This probably leaves you with 200-400 useful CISLR entries rather than 4,700 unusable ones.
+*   **ISL_Daily_Words — Your best word-level dataset.**
+    61 words at ~60 videos each is the strongest per-class depth of any word dataset you have. 60 videos per class — assuming multiple signers — is actually meaningful training data. This is where real generalization can happen. Prioritize this dataset and find out how many unique signers it contains. If it's 10+ signers across 60 videos, this is genuinely production-ready data for those 61 words.
+*   **ISL_Alphabet_1 + ISL_Alphabet_Voxera — Excellent for static model.**
+    1,200 + 600 = 1,800 samples per letter class from two independent sources. This is your strongest data by far. Two different sources means two different signing styles, which is exactly the regional variance coverage the plan called for. Your static letter recognition should be excellent after training on this. (Must ensure these are landmark-extracted before training).
+*   **ISL_Emergency — Small but strategically critical.**
+    800 videos across 8 classes means ~100 videos per class. With 26 signers this is your most signer-diverse dataset by a significant margin. These 8 words — accident, call, doctor, help, pain, thief and the others — should have near-production accuracy after training because you have genuine signer diversity for them. This is your proof of concept vocabulary.
+
+#### The Vocabulary Decision You Need To Make Now
+You cannot train a single model on all of this without a clear strategy. Here's what the data actually supports:
+
+| Vocabulary Tier | Dataset Sources | Classes | Avg Videos/Class | Expected Quality |
+| :--- | :--- | :--- | :--- | :--- |
+| **Emergency core** | ISL_Emergency | 8 | ~100 | Production-ready |
+| **Daily core** | ISL_Daily_Words | 61 | ~60 | Near production |
+| **Research core** | INCLUDE_FULL | 262 | ~21 | Good |
+| **Extended (selective)** | CISLR filtered | ~200-300 | 3+ only | Acceptable |
+| **Fingerspelling** | Both alphabet sets | 35 | ~1800 images | Excellent |
+
+The total defensible vocabulary is roughly 330-350 word signs plus 35 fingerspelling classes. That is what your data can actually support with meaningful per-class coverage.
+
+#### The Class Overlap Problem
+INCLUDE, CISLR, and ISL_Daily_Words will have significant overlap. "Hello," "Thank You," "Doctor," "Help" appear in multiple datasets. This is actually good — treat overlapping classes as an opportunity. Merge all videos of the same sign from different datasets into one class. A sign that appears in INCLUDE (21 videos) AND ISL_Daily_Words (60 videos) AND CISLR (3 videos) now has 84 videos from multiple independent sources. That merged class has genuine signer diversity.
+Building a merge map — a dictionary that maps the same concept across dataset naming conventions — should be your first data engineering task before any training run.
+
+#### What's Missing From This Inventory
+**ISL-CSLTR** — the Andhra Pradesh native deaf signer dataset we found — is not in this list. 700 sentence-level videos with time boundary annotations and 2 native deaf signers from AP. Given you're in Hyderabad this is geographically your most relevant data for natural signing patterns. Add it.
+
+Signer counts per dataset are unknown for most entries. ISL_Daily_Words at 60 videos per class could be 60 videos of one person or 10 videos each from 6 people — these are completely different training situations. Before any training decision, you need this number. Run a signer diversity audit on ISL_Daily_Words specifically since it's your most important word dataset.
+
+#### The Immediate Action
+Before retraining anything, do three things in this order:
+1. Build the merge map across all datasets — identify which class names refer to the same sign and consolidate them.
+2. Run a signer audit on ISL_Daily_Words — how many unique signers contributed to those 60 videos per class.
+3. Filter CISLR to only classes with 3+ videos that overlap with your other datasets — this turns an unusable 4,700-class problem into a useful 200-300 class supplement.
 
 ### The Lesson
 A model scoring 97% on training and 40% on validation has learned **nothing useful**. It memorized a specific person's movements in a specific location. It is a person-recognizer, not a sign-recognizer.

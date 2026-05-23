@@ -15,7 +15,7 @@ export class PredictionSmoother {
   add(prediction) {
     if (!prediction) {
       this.framesSinceLast++
-      if (this.framesSinceLast > 30) {
+      if (this.framesSinceLast > 15) {
         this.lastConfirmed = null
         this.history = []
       }

@@ -28,26 +28,40 @@
   --glow-violet: 0 0 20px rgba(139, 92, 246, 0.4);
   --glow-green: 0 0 30px rgba(0, 255, 136, 0.5);
   --glow-red: 0 0 20px rgba(255, 51, 102, 0.4);
+  --glass-bg: rgba(8, 13, 20, 0.6);
+  --glass-border: rgba(26, 37, 53, 0.8);
+  --cyan-glow: rgba(0, 212, 255, 0.1);
+  --green-glow: rgba(0, 255, 136, 0.1);
+  --splash-bg: #4B3BCE;
+  --splash-bg-end: #0d0d0d;
+  --splash-text: #ffffff;
 }
 
-/* ============ CSS Variables — Light Mode ============ */
+/* ============ CSS Variables — Light Mode (Heritage) ============ */
 [data-theme="light"] {
-  --void: #f0f4f8;
+  --void: #fcf9f2;
   --obsidian: #ffffff;
-  --surface: #f8fafc;
-  --border: #d0dae6;
-  --cyan: #0099cc;
-  --violet: #6d40d1;
-  --green: #00994d;
-  --amber: #cc7700;
-  --red: #cc1a3a;
-  --text-primary: #0f1e2e;
-  --text-secondary: #4a6070;
-  --text-data: #0099cc;
-  --glow-cyan: 0 0 12px rgba(0, 153, 204, 0.25);
-  --glow-violet: 0 0 12px rgba(109, 64, 209, 0.25);
-  --glow-green: 0 0 16px rgba(0, 153, 77, 0.3);
-  --glow-red: 0 0 12px rgba(204, 26, 58, 0.25);
+  --surface: #e4d2ba;
+  --border: rgba(92, 62, 32, 0.16);
+  --cyan: #e8621a;
+  --violet: #c51f2e;
+  --green: #2d6a4f;
+  --amber: #c48a00;
+  --red: #c51f2e;
+  --text-primary: #3d2b1f;
+  --text-secondary: #745c47;
+  --text-data: #e8621a;
+  --glow-cyan: 0 2px 12px rgba(196, 138, 0, 0.22), 0 0 40px rgba(196, 138, 0, 0.08);
+  --glow-violet: 0 2px 12px rgba(197, 31, 46, 0.15);
+  --glow-green: 0 2px 12px rgba(45, 106, 79, 0.15);
+  --glow-red: 0 2px 12px rgba(197, 31, 46, 0.2);
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(92, 62, 32, 0.1);
+  --cyan-glow: rgba(232, 98, 26, 0.1);
+  --green-glow: rgba(45, 106, 79, 0.1);
+  --splash-bg: #e4d2ba;
+  --splash-bg-end: #fcf9f2;
+  --splash-text: #3d2b1f;
 }
 
 /* ── Light mode scanline: remove dark overlay ── */
@@ -254,10 +268,10 @@ code, pre, .mono {
 
 /* Glassmorphism card */
 .glass-card {
-  background: rgba(8, 13, 20, 0.6);
+  background: var(--glass-bg);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(26, 37, 53, 0.8);
+  border: 1px solid var(--glass-border);
   border-radius: 12px;
 }
 

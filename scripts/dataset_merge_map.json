@@ -1,0 +1,14716 @@
+{
+  "isl daily words": {
+    "Daily": 61
+  },
+  "bear": {
+    "Daily": 60,
+    "CISLR": 2
+  },
+  "break": {
+    "Daily": 60,
+    "CISLR": 1
+  },
+  "brinjal": {
+    "Daily": 60,
+    "CISLR": 1
+  },
+  "budget": {
+    "Daily": 60,
+    "CISLR": 1
+  },
+  "busy": {
+    "Daily": 60,
+    "CISLR": 3
+  },
+  "cabbage": {
+    "Daily": 60,
+    "CISLR": 2
+  },
+  "carrot": {
+    "Daily": 60,
+    "CISLR": 2
+  },
+  "cauliflower": {
+    "Daily": 60,
+    "CISLR": 1
+  },
+  "chilli": {
+    "Daily": 60,
+    "CISLR": 1
+  },
+  "clean": {
+    "Daily": 60,
+    "INCLUDE": 8,
+    "CISLR": 2
+  },
+  "close": {
+    "Daily": 60,
+    "CISLR": 3
+  },
+  "come": {
+    "Daily": 60,
+    "CISLR": 3
+  },
+  "cook": {
+    "Daily": 60,
+    "CISLR": 3
+  },
+  "crocodile": {
+    "Daily": 60,
+    "CISLR": 2
+  },
+  "cry": {
+    "Daily": 60,
+    "CISLR": 1
+  },
+  "cucumber": {
+    "Daily": 60,
+    "CISLR": 1
+  },
+  "deer": {
+    "Daily": 60,
+    "CISLR": 4
+  },
+  "drink": {
+    "Daily": 60,
+    "CISLR": 1
+  },
+  "elephant": {
+    "Daily": 60,
+    "CISLR": 4
+  },
+  "exam": {
+    "Daily": 60,
+    "CISLR": 1
+  },
+  "fedup": {
+    "Daily": 60
+  },
+  "fever": {
+    "Daily": 60,
+    "CISLR": 1
+  },
+  "giraffe": {
+    "Daily": 60,
+    "CISLR": 2
+  },
+  "give": {
+    "Daily": 60,
+    "CISLR": 1
+  },
+  "good afternoon": {
+    "Daily": 60,
+    "INCLUDE": 22,
+    "CISLR": 1
+  },
+  "good morning": {
+    "Daily": 60,
+    "INCLUDE": 21,
+    "CISLR": 1
+  },
+  "hello": {
+    "Daily": 60,
+    "INCLUDE": 21
+  },
+  "hug": {
+    "Daily": 60,
+    "CISLR": 2
+  },
+  "injury": {
+    "Daily": 60,
+    "CISLR": 1
+  },
+  "interview": {
+    "Daily": 60,
+    "CISLR": 2
+  },
+  "jump": {
+    "Daily": 60,
+    "CISLR": 2
+  },
+  "karnataka": {
+    "Daily": 60,
+    "CISLR": 1
+  },
+  "key": {
+    "Daily": 60,
+    "INCLUDE": 14,
+    "CISLR": 4
+  },
+  "knife": {
+    "Daily": 60,
+    "CISLR": 5
+  },
+  "lemon": {
+    "Daily": 60,
+    "CISLR": 2
+  },
+  "lion": {
+    "Daily": 60,
+    "CISLR": 3
+  },
+  "man": {
+    "Daily": 60,
+    "INCLUDE": 20,
+    "CISLR": 3
+  },
+  "maths": {
+    "Daily": 60,
+    "CISLR": 1
+  },
+  "maybe": {
+    "Daily": 60,
+    "CISLR": 1
+  },
+  "monkey": {
+    "Daily": 60,
+    "CISLR": 4
+  },
+  "onion": {
+    "Daily": 60,
+    "CISLR": 3
+  },
+  "peacock": {
+    "Daily": 60,
+    "CISLR": 4
+  },
+  "pigeon": {
+    "Daily": 60
+  },
+  "pour": {
+    "Daily": 60,
+    "CISLR": 1
+  },
+  "radish": {
+    "Daily": 60,
+    "CISLR": 1
+  },
+  "sparrow": {
+    "Daily": 60,
+    "CISLR": 2
+  },
+  "still": {
+    "Daily": 30,
+    "CISLR": 1
+  },
+  "switch": {
+    "Daily": 60,
+    "CISLR": 3
+  },
+  "tea": {
+    "Daily": 60,
+    "CISLR": 2
+  },
+  "temple": {
+    "Daily": 60,
+    "INCLUDE": 20,
+    "CISLR": 2
+  },
+  "thank you": {
+    "Daily": 60,
+    "INCLUDE": 21,
+    "CISLR": 6
+  },
+  "tiger": {
+    "Daily": 60,
+    "CISLR": 2
+  },
+  "turtle": {
+    "Daily": 60
+  },
+  "umbrella": {
+    "Daily": 60,
+    "CISLR": 4
+  },
+  "uncle": {
+    "Daily": 60,
+    "CISLR": 1
+  },
+  "vegetables": {
+    "Daily": 60,
+    "CISLR": 1
+  },
+  "volcano": {
+    "Daily": 60,
+    "CISLR": 5
+  },
+  "what is your name": {
+    "Daily": 60,
+    "CISLR": 1
+  },
+  "wife": {
+    "Daily": 60,
+    "INCLUDE": 20,
+    "CISLR": 4
+  },
+  "writer": {
+    "Daily": 60,
+    "CISLR": 1
+  },
+  "wrong": {
+    "Daily": 60,
+    "CISLR": 3
+  },
+  "accident": {
+    "Emergency": 104,
+    "CISLR": 2
+  },
+  "call": {
+    "Emergency": 104,
+    "CISLR": 4
+  },
+  "doctor": {
+    "Emergency": 104,
+    "INCLUDE": 14,
+    "CISLR": 1
+  },
+  "help": {
+    "Emergency": 104,
+    "CISLR": 2
+  },
+  "hot": {
+    "Emergency": 104,
+    "INCLUDE": 21,
+    "CISLR": 6
+  },
+  "lose": {
+    "Emergency": 100,
+    "CISLR": 2
+  },
+  "pain": {
+    "Emergency": 104,
+    "CISLR": 5
+  },
+  "thief": {
+    "Emergency": 100,
+    "CISLR": 2
+  },
+  "loud": {
+    "INCLUDE": 21
+  },
+  "mean": {
+    "INCLUDE": 8,
+    "CISLR": 2
+  },
+  "rich": {
+    "INCLUDE": 8,
+    "CISLR": 2
+  },
+  "poor": {
+    "INCLUDE": 8,
+    "CISLR": 2
+  },
+  "thick": {
+    "INCLUDE": 8,
+    "CISLR": 1
+  },
+  "thin": {
+    "INCLUDE": 4,
+    "CISLR": 2
+  },
+  "expensive": {
+    "INCLUDE": 8,
+    "CISLR": 4
+  },
+  "cheap": {
+    "INCLUDE": 8,
+    "CISLR": 2
+  },
+  "flat": {
+    "INCLUDE": 8,
+    "CISLR": 1
+  },
+  "curved": {
+    "INCLUDE": 8,
+    "CISLR": 1
+  },
+  "male": {
+    "INCLUDE": 8
+  },
+  "quiet": {
+    "INCLUDE": 21,
+    "CISLR": 1
+  },
+  "female": {
+    "INCLUDE": 8
+  },
+  "tight": {
+    "INCLUDE": 8,
+    "CISLR": 3
+  },
+  "loose": {
+    "INCLUDE": 8,
+    "CISLR": 1
+  },
+  "high": {
+    "INCLUDE": 8,
+    "CISLR": 1
+  },
+  "low": {
+    "INCLUDE": 8,
+    "CISLR": 1
+  },
+  "soft": {
+    "INCLUDE": 8,
+    "CISLR": 2
+  },
+  "hard": {
+    "INCLUDE": 8,
+    "CISLR": 5
+  },
+  "deep": {
+    "INCLUDE": 8
+  },
+  "shallow": {
+    "INCLUDE": 8,
+    "CISLR": 2
+  },
+  "happy": {
+    "INCLUDE": 21,
+    "CISLR": 3
+  },
+  "dirty": {
+    "INCLUDE": 8,
+    "CISLR": 2
+  },
+  "strong": {
+    "INCLUDE": 8,
+    "CISLR": 3
+  },
+  "weak": {
+    "INCLUDE": 8,
+    "CISLR": 5
+  },
+  "dead": {
+    "INCLUDE": 8
+  },
+  "alive": {
+    "INCLUDE": 8,
+    "CISLR": 3
+  },
+  "heavy": {
+    "INCLUDE": 8,
+    "CISLR": 1
+  },
+  "light": {
+    "INCLUDE": 8,
+    "CISLR": 7
+  },
+  "famous": {
+    "INCLUDE": 8,
+    "CISLR": 2
+  },
+  "sad": {
+    "INCLUDE": 8,
+    "CISLR": 3
+  },
+  "beautiful": {
+    "INCLUDE": 8,
+    "CISLR": 3
+  },
+  "ugly": {
+    "INCLUDE": 8,
+    "CISLR": 1
+  },
+  "deaf": {
+    "INCLUDE": 8,
+    "CISLR": 2
+  },
+  "long": {
+    "INCLUDE": 21
+  },
+  "short": {
+    "INCLUDE": 21,
+    "CISLR": 2
+  },
+  "blind": {
+    "INCLUDE": 8,
+    "CISLR": 1
+  },
+  "tall": {
+    "INCLUDE": 21,
+    "CISLR": 5
+  },
+  "wide": {
+    "INCLUDE": 21,
+    "CISLR": 1
+  },
+  "narrow": {
+    "INCLUDE": 21,
+    "CISLR": 2
+  },
+  "big large": {
+    "INCLUDE": 21
+  },
+  "small little": {
+    "INCLUDE": 21
+  },
+  "slow": {
+    "INCLUDE": 21,
+    "CISLR": 2
+  },
+  "fast": {
+    "INCLUDE": 21,
+    "CISLR": 1
+  },
+  "cold": {
+    "INCLUDE": 20,
+    "CISLR": 5
+  },
+  "warm": {
+    "INCLUDE": 21,
+    "CISLR": 3
+  },
+  "nice": {
+    "INCLUDE": 4,
+    "CISLR": 2
+  },
+  "cool": {
+    "INCLUDE": 21
+  },
+  "new": {
+    "INCLUDE": 21,
+    "CISLR": 2
+  },
+  "old": {
+    "INCLUDE": 21,
+    "CISLR": 4
+  },
+  "young": {
+    "INCLUDE": 21,
+    "CISLR": 2
+  },
+  "good": {
+    "INCLUDE": 21,
+    "CISLR": 6
+  },
+  "bad": {
+    "INCLUDE": 21,
+    "CISLR": 6
+  },
+  "wet": {
+    "INCLUDE": 21,
+    "CISLR": 2
+  },
+  "dry": {
+    "INCLUDE": 21,
+    "CISLR": 2
+  },
+  "sick": {
+    "INCLUDE": 21,
+    "CISLR": 6
+  },
+  "healthy": {
+    "INCLUDE": 21
+  },
+  "dog": {
+    "INCLUDE": 20,
+    "CISLR": 4
+  },
+  "cat": {
+    "INCLUDE": 20,
+    "CISLR": 6
+  },
+  "fish": {
+    "INCLUDE": 20,
+    "CISLR": 2
+  },
+  "bird": {
+    "INCLUDE": 20,
+    "CISLR": 1
+  },
+  "cow": {
+    "INCLUDE": 21,
+    "CISLR": 2
+  },
+  "mouse": {
+    "INCLUDE": 20,
+    "CISLR": 1
+  },
+  "horse": {
+    "INCLUDE": 20,
+    "CISLR": 2
+  },
+  "animal": {
+    "INCLUDE": 20
+  },
+  "hat": {
+    "INCLUDE": 20,
+    "CISLR": 1
+  },
+  "dress": {
+    "INCLUDE": 20,
+    "CISLR": 2
+  },
+  "suit": {
+    "INCLUDE": 19
+  },
+  "skirt": {
+    "INCLUDE": 19,
+    "CISLR": 3
+  },
+  "shirt": {
+    "INCLUDE": 20,
+    "CISLR": 2
+  },
+  "t shirt": {
+    "INCLUDE": 20
+  },
+  "pant": {
+    "INCLUDE": 20,
+    "CISLR": 2
+  },
+  "shoes": {
+    "INCLUDE": 20,
+    "CISLR": 1
+  },
+  "pocket": {
+    "INCLUDE": 20
+  },
+  "clothing": {
+    "INCLUDE": 20
+  },
+  "red": {
+    "INCLUDE": 20,
+    "CISLR": 4
+  },
+  "green": {
+    "INCLUDE": 20,
+    "CISLR": 4
+  },
+  "blue": {
+    "INCLUDE": 20,
+    "CISLR": 4
+  },
+  "yellow": {
+    "INCLUDE": 20,
+    "CISLR": 8
+  },
+  "brown": {
+    "INCLUDE": 21,
+    "CISLR": 4
+  },
+  "pink": {
+    "INCLUDE": 20,
+    "CISLR": 3
+  },
+  "orange": {
+    "INCLUDE": 20,
+    "CISLR": 5
+  },
+  "black": {
+    "INCLUDE": 20,
+    "CISLR": 4
+  },
+  "white": {
+    "INCLUDE": 20,
+    "CISLR": 3
+  },
+  "grey": {
+    "INCLUDE": 21,
+    "CISLR": 3
+  },
+  "colour": {
+    "INCLUDE": 20,
+    "CISLR": 2
+  },
+  "sunday": {
+    "INCLUDE": 14,
+    "CISLR": 7
+  },
+  "monday": {
+    "INCLUDE": 14,
+    "CISLR": 13
+  },
+  "tuesday": {
+    "INCLUDE": 14,
+    "CISLR": 8
+  },
+  "wednesday": {
+    "INCLUDE": 14,
+    "CISLR": 7
+  },
+  "thursday": {
+    "INCLUDE": 14,
+    "CISLR": 11
+  },
+  "friday": {
+    "INCLUDE": 14,
+    "CISLR": 9
+  },
+  "saturday": {
+    "INCLUDE": 14,
+    "CISLR": 6
+  },
+  "today": {
+    "INCLUDE": 14,
+    "CISLR": 3
+  },
+  "tomorrow": {
+    "INCLUDE": 14,
+    "CISLR": 3
+  },
+  "yesterday": {
+    "INCLUDE": 14,
+    "CISLR": 3
+  },
+  "week": {
+    "INCLUDE": 14,
+    "CISLR": 6
+  },
+  "month": {
+    "INCLUDE": 14,
+    "CISLR": 6
+  },
+  "year": {
+    "INCLUDE": 15,
+    "CISLR": 5
+  },
+  "hour": {
+    "INCLUDE": 14,
+    "CISLR": 2
+  },
+  "minute": {
+    "INCLUDE": 14,
+    "CISLR": 2
+  },
+  "second": {
+    "INCLUDE": 15,
+    "CISLR": 2
+  },
+  "morning": {
+    "INCLUDE": 14,
+    "CISLR": 4
+  },
+  "afternoon": {
+    "INCLUDE": 14,
+    "CISLR": 3
+  },
+  "evening": {
+    "INCLUDE": 14,
+    "CISLR": 5
+  },
+  "night": {
+    "INCLUDE": 15,
+    "CISLR": 4
+  },
+  "time": {
+    "INCLUDE": 15,
+    "CISLR": 3
+  },
+  "clock": {
+    "INCLUDE": 13,
+    "CISLR": 3
+  },
+  "lamp": {
+    "INCLUDE": 14,
+    "CISLR": 1
+  },
+  "fan": {
+    "INCLUDE": 15,
+    "CISLR": 2
+  },
+  "cell phone": {
+    "INCLUDE": 14
+  },
+  "computer": {
+    "INCLUDE": 14,
+    "CISLR": 2
+  },
+  "laptop": {
+    "INCLUDE": 14,
+    "CISLR": 2
+  },
+  "screen": {
+    "INCLUDE": 14,
+    "CISLR": 1
+  },
+  "camera": {
+    "INCLUDE": 14,
+    "CISLR": 1
+  },
+  "television": {
+    "INCLUDE": 14,
+    "CISLR": 3
+  },
+  "radio": {
+    "INCLUDE": 14,
+    "CISLR": 4
+  },
+  "how are you": {
+    "INCLUDE": 21
+  },
+  "alright": {
+    "INCLUDE": 21
+  },
+  "good evening": {
+    "INCLUDE": 21
+  },
+  "good night": {
+    "INCLUDE": 21,
+    "CISLR": 1
+  },
+  "pleased": {
+    "INCLUDE": 21
+  },
+  "table": {
+    "INCLUDE": 14,
+    "CISLR": 3
+  },
+  "chair": {
+    "INCLUDE": 14,
+    "CISLR": 2
+  },
+  "bed": {
+    "INCLUDE": 14,
+    "CISLR": 2
+  },
+  "dream": {
+    "INCLUDE": 14,
+    "CISLR": 2
+  },
+  "window": {
+    "INCLUDE": 14,
+    "CISLR": 3
+  },
+  "door": {
+    "INCLUDE": 14,
+    "CISLR": 3
+  },
+  "bedroom": {
+    "INCLUDE": 14,
+    "CISLR": 3
+  },
+  "kitchen": {
+    "INCLUDE": 14,
+    "CISLR": 5
+  },
+  "bathroom": {
+    "INCLUDE": 14,
+    "CISLR": 3
+  },
+  "pencil": {
+    "INCLUDE": 14,
+    "CISLR": 9
+  },
+  "pen": {
+    "INCLUDE": 14,
+    "CISLR": 5
+  },
+  "photograph": {
+    "INCLUDE": 14,
+    "CISLR": 3
+  },
+  "soap": {
+    "INCLUDE": 14,
+    "CISLR": 2
+  },
+  "book": {
+    "INCLUDE": 14,
+    "CISLR": 2
+  },
+  "page": {
+    "INCLUDE": 14,
+    "CISLR": 1
+  },
+  "paint": {
+    "INCLUDE": 15,
+    "CISLR": 4
+  },
+  "letter": {
+    "INCLUDE": 14,
+    "CISLR": 2
+  },
+  "paper": {
+    "INCLUDE": 14,
+    "CISLR": 2
+  },
+  "lock": {
+    "INCLUDE": 14,
+    "CISLR": 3
+  },
+  "telephone": {
+    "INCLUDE": 14,
+    "CISLR": 2
+  },
+  "bag": {
+    "INCLUDE": 14,
+    "CISLR": 2
+  },
+  "box": {
+    "INCLUDE": 14,
+    "CISLR": 1
+  },
+  "gift": {
+    "INCLUDE": 14,
+    "CISLR": 1
+  },
+  "card": {
+    "INCLUDE": 14,
+    "CISLR": 1
+  },
+  "ring": {
+    "INCLUDE": 14,
+    "CISLR": 2
+  },
+  "tool": {
+    "INCLUDE": 14,
+    "CISLR": 2
+  },
+  "teacher": {
+    "INCLUDE": 14,
+    "CISLR": 2
+  },
+  "student": {
+    "INCLUDE": 14,
+    "CISLR": 2
+  },
+  "lawyer": {
+    "INCLUDE": 14,
+    "CISLR": 3
+  },
+  "patient": {
+    "INCLUDE": 14
+  },
+  "waiter": {
+    "INCLUDE": 14
+  },
+  "secretary": {
+    "INCLUDE": 14,
+    "CISLR": 1
+  },
+  "priest": {
+    "INCLUDE": 15,
+    "CISLR": 2
+  },
+  "police": {
+    "INCLUDE": 14,
+    "CISLR": 3
+  },
+  "soldier": {
+    "INCLUDE": 14,
+    "CISLR": 2
+  },
+  "artist": {
+    "INCLUDE": 14
+  },
+  "author": {
+    "INCLUDE": 14
+  },
+  "manager": {
+    "INCLUDE": 14,
+    "CISLR": 1
+  },
+  "reporter": {
+    "INCLUDE": 14,
+    "CISLR": 3
+  },
+  "actor": {
+    "INCLUDE": 14,
+    "CISLR": 1
+  },
+  "job": {
+    "INCLUDE": 14,
+    "CISLR": 3
+  },
+  "plane": {
+    "INCLUDE": 21,
+    "CISLR": 1
+  },
+  "car": {
+    "INCLUDE": 20,
+    "CISLR": 2
+  },
+  "truck": {
+    "INCLUDE": 21,
+    "CISLR": 2
+  },
+  "bicycle": {
+    "INCLUDE": 20
+  },
+  "bus": {
+    "INCLUDE": 20,
+    "CISLR": 3
+  },
+  "boat": {
+    "INCLUDE": 21,
+    "CISLR": 1
+  },
+  "train ticket": {
+    "INCLUDE": 21
+  },
+  "transportation": {
+    "INCLUDE": 21
+  },
+  "train": {
+    "INCLUDE": 21,
+    "CISLR": 4
+  },
+  "son": {
+    "INCLUDE": 20,
+    "CISLR": 3
+  },
+  "daughter": {
+    "INCLUDE": 20,
+    "CISLR": 2
+  },
+  "mother": {
+    "INCLUDE": 20,
+    "CISLR": 8
+  },
+  "father": {
+    "INCLUDE": 20,
+    "CISLR": 2
+  },
+  "parent": {
+    "INCLUDE": 20,
+    "CISLR": 1
+  },
+  "baby": {
+    "INCLUDE": 20,
+    "CISLR": 2
+  },
+  "woman": {
+    "INCLUDE": 20,
+    "CISLR": 3
+  },
+  "brother": {
+    "INCLUDE": 21,
+    "CISLR": 4
+  },
+  "sister": {
+    "INCLUDE": 20,
+    "CISLR": 3
+  },
+  "family": {
+    "INCLUDE": 17,
+    "CISLR": 2
+  },
+  "grandfather": {
+    "INCLUDE": 17,
+    "CISLR": 3
+  },
+  "grandmother": {
+    "INCLUDE": 17,
+    "CISLR": 2
+  },
+  "husband": {
+    "INCLUDE": 20,
+    "CISLR": 4
+  },
+  "king": {
+    "INCLUDE": 20,
+    "CISLR": 3
+  },
+  "queen": {
+    "INCLUDE": 20,
+    "CISLR": 3
+  },
+  "president": {
+    "INCLUDE": 20,
+    "CISLR": 1
+  },
+  "neighbour": {
+    "INCLUDE": 20,
+    "CISLR": 3
+  },
+  "boy": {
+    "INCLUDE": 21,
+    "CISLR": 2
+  },
+  "girl": {
+    "INCLUDE": 20,
+    "CISLR": 3
+  },
+  "child": {
+    "INCLUDE": 20,
+    "CISLR": 1
+  },
+  "adult": {
+    "INCLUDE": 20,
+    "CISLR": 5
+  },
+  "friend": {
+    "INCLUDE": 20,
+    "CISLR": 3
+  },
+  "player": {
+    "INCLUDE": 20
+  },
+  "crowd": {
+    "INCLUDE": 20
+  },
+  "city": {
+    "INCLUDE": 20,
+    "CISLR": 3
+  },
+  "house": {
+    "INCLUDE": 20,
+    "CISLR": 2
+  },
+  "street or road": {
+    "INCLUDE": 20
+  },
+  "train station": {
+    "INCLUDE": 20
+  },
+  "restaurant": {
+    "INCLUDE": 20,
+    "CISLR": 2
+  },
+  "court": {
+    "INCLUDE": 20,
+    "CISLR": 1
+  },
+  "school": {
+    "INCLUDE": 20,
+    "CISLR": 2
+  },
+  "office": {
+    "INCLUDE": 20,
+    "CISLR": 3
+  },
+  "university": {
+    "INCLUDE": 20,
+    "CISLR": 2
+  },
+  "park": {
+    "INCLUDE": 20
+  },
+  "store or shop": {
+    "INCLUDE": 20
+  },
+  "library": {
+    "INCLUDE": 20,
+    "CISLR": 2
+  },
+  "hospital": {
+    "INCLUDE": 20,
+    "CISLR": 1
+  },
+  "market": {
+    "INCLUDE": 20,
+    "CISLR": 1
+  },
+  "india": {
+    "INCLUDE": 20,
+    "CISLR": 7
+  },
+  "ground": {
+    "INCLUDE": 20
+  },
+  "bank": {
+    "INCLUDE": 20,
+    "CISLR": 1
+  },
+  "location": {
+    "INCLUDE": 20
+  },
+  "i": {
+    "INCLUDE": 21,
+    "CISLR": 1
+  },
+  "you": {
+    "INCLUDE": 21,
+    "CISLR": 3
+  },
+  "he": {
+    "INCLUDE": 21,
+    "CISLR": 2
+  },
+  "she": {
+    "INCLUDE": 21,
+    "CISLR": 2
+  },
+  "it": {
+    "INCLUDE": 21,
+    "CISLR": 2
+  },
+  "we": {
+    "INCLUDE": 21,
+    "CISLR": 2
+  },
+  "you (plural)": {
+    "INCLUDE": 21
+  },
+  "they": {
+    "INCLUDE": 21,
+    "CISLR": 2
+  },
+  "summer": {
+    "INCLUDE": 14,
+    "CISLR": 1
+  },
+  "spring": {
+    "INCLUDE": 14,
+    "CISLR": 1
+  },
+  "winter": {
+    "INCLUDE": 14,
+    "CISLR": 1
+  },
+  "fall": {
+    "INCLUDE": 15,
+    "CISLR": 1
+  },
+  "season": {
+    "INCLUDE": 14,
+    "CISLR": 2
+  },
+  "ex. monsoon": {
+    "INCLUDE": 14
+  },
+  "religion": {
+    "INCLUDE": 14,
+    "CISLR": 2
+  },
+  "energy": {
+    "INCLUDE": 14,
+    "CISLR": 1
+  },
+  "war": {
+    "INCLUDE": 14,
+    "CISLR": 2
+  },
+  "peace": {
+    "INCLUDE": 14
+  },
+  "attack": {
+    "INCLUDE": 15
+  },
+  "election": {
+    "INCLUDE": 14,
+    "CISLR": 2
+  },
+  "newspaper": {
+    "INCLUDE": 14,
+    "CISLR": 2
+  },
+  "gun": {
+    "INCLUDE": 14,
+    "CISLR": 3
+  },
+  "sport": {
+    "INCLUDE": 14
+  },
+  "exercise": {
+    "INCLUDE": 14,
+    "CISLR": 3
+  },
+  "ball": {
+    "INCLUDE": 15,
+    "CISLR": 2
+  },
+  "death": {
+    "INCLUDE": 14
+  },
+  "price": {
+    "INCLUDE": 14,
+    "CISLR": 2
+  },
+  "sign": {
+    "INCLUDE": 14,
+    "CISLR": 2
+  },
+  "science": {
+    "INCLUDE": 14,
+    "CISLR": 2
+  },
+  "god": {
+    "INCLUDE": 14,
+    "CISLR": 1
+  },
+  "medicine": {
+    "INCLUDE": 14,
+    "CISLR": 1
+  },
+  "money": {
+    "INCLUDE": 14,
+    "CISLR": 1
+  },
+  "bill": {
+    "INCLUDE": 14,
+    "CISLR": 7
+  },
+  "marriage": {
+    "INCLUDE": 14
+  },
+  "team": {
+    "INCLUDE": 14,
+    "CISLR": 2
+  },
+  "race (ethnicity)": {
+    "INCLUDE": 14
+  },
+  "technology": {
+    "INCLUDE": 14,
+    "CISLR": 1
+  },
+  "branch": {
+    "CISLR": 2
+  },
+  "divorce petition": {
+    "CISLR": 1
+  },
+  "air conditioner": {
+    "CISLR": 1
+  },
+  "stapoo": {
+    "CISLR": 1
+  },
+  "application": {
+    "CISLR": 2
+  },
+  "purple flowered plants": {
+    "CISLR": 1
+  },
+  "school uniform": {
+    "CISLR": 1
+  },
+  "squeeze": {
+    "CISLR": 1
+  },
+  "electrical energy": {
+    "CISLR": 1
+  },
+  "raid": {
+    "CISLR": 1
+  },
+  "defend": {
+    "CISLR": 1
+  },
+  "win": {
+    "CISLR": 2
+  },
+  "preliminary": {
+    "CISLR": 1
+  },
+  "testify": {
+    "CISLR": 2
+  },
+  "pig": {
+    "CISLR": 4
+  },
+  "ladder": {
+    "CISLR": 4
+  },
+  "cup": {
+    "CISLR": 1
+  },
+  "cosmetics": {
+    "CISLR": 2
+  },
+  "agra": {
+    "CISLR": 3
+  },
+  "halter top": {
+    "CISLR": 1
+  },
+  "compact disc": {
+    "CISLR": 1
+  },
+  "land acquisition": {
+    "CISLR": 1
+  },
+  "think": {
+    "CISLR": 3
+  },
+  "sexual reproduction": {
+    "CISLR": 1
+  },
+  "circus": {
+    "CISLR": 1
+  },
+  "coconut": {
+    "CISLR": 4
+  },
+  "amplitude": {
+    "CISLR": 1
+  },
+  "mushroom production": {
+    "CISLR": 1
+  },
+  "immiscibility": {
+    "CISLR": 1
+  },
+  "twitter": {
+    "CISLR": 2
+  },
+  "blood pressure": {
+    "CISLR": 4
+  },
+  "eclipse": {
+    "CISLR": 4
+  },
+  "reservation": {
+    "CISLR": 6
+  },
+  "gujarat": {
+    "CISLR": 5
+  },
+  "rollerpaint": {
+    "CISLR": 1
+  },
+  "unencumbered": {
+    "CISLR": 1
+  },
+  "polo shrit": {
+    "CISLR": 1
+  },
+  "lame": {
+    "CISLR": 1
+  },
+  "severally": {
+    "CISLR": 2
+  },
+  "nine": {
+    "CISLR": 1
+  },
+  "increase": {
+    "CISLR": 7
+  },
+  "tennis": {
+    "CISLR": 2
+  },
+  "fixed rate": {
+    "CISLR": 1
+  },
+  "yolk": {
+    "CISLR": 1
+  },
+  "can": {
+    "CISLR": 4
+  },
+  "tired": {
+    "CISLR": 2
+  },
+  "undertaking": {
+    "CISLR": 1
+  },
+  "complaint": {
+    "CISLR": 1
+  },
+  "basic": {
+    "CISLR": 1
+  },
+  "kilometer": {
+    "CISLR": 1
+  },
+  "day after": {
+    "CISLR": 3
+  },
+  "calendar year": {
+    "CISLR": 1
+  },
+  "prospectus": {
+    "CISLR": 1
+  },
+  "ripe": {
+    "CISLR": 1
+  },
+  "neutral": {
+    "CISLR": 1
+  },
+  "diaeases": {
+    "CISLR": 1
+  },
+  "par above": {
+    "CISLR": 1
+  },
+  "arrest": {
+    "CISLR": 2
+  },
+  "rafter": {
+    "CISLR": 1
+  },
+  "negligence": {
+    "CISLR": 1
+  },
+  "trouble": {
+    "CISLR": 4
+  },
+  "insects": {
+    "CISLR": 1
+  },
+  "family tree": {
+    "CISLR": 1
+  },
+  "cobbler": {
+    "CISLR": 3
+  },
+  "blouse": {
+    "CISLR": 5
+  },
+  "difference": {
+    "CISLR": 2
+  },
+  "cancel": {
+    "CISLR": 2
+  },
+  "sometimes": {
+    "CISLR": 3
+  },
+  "criticize": {
+    "CISLR": 1
+  },
+  "iron": {
+    "CISLR": 7
+  },
+  "statlonary wave": {
+    "CISLR": 1
+  },
+  "best": {
+    "CISLR": 3
+  },
+  "speclfic heat": {
+    "CISLR": 1
+  },
+  "see you tomorrow": {
+    "CISLR": 1
+  },
+  "table tennis": {
+    "CISLR": 2
+  },
+  "invent": {
+    "CISLR": 2
+  },
+  "panaji": {
+    "CISLR": 2
+  },
+  "ruler": {
+    "CISLR": 2
+  },
+  "taxable": {
+    "CISLR": 1
+  },
+  "anonymous": {
+    "CISLR": 3
+  },
+  "with": {
+    "CISLR": 1
+  },
+  "understand": {
+    "CISLR": 5
+  },
+  "trust deed": {
+    "CISLR": 1
+  },
+  "residence": {
+    "CISLR": 1
+  },
+  "fork": {
+    "CISLR": 1
+  },
+  "hack saw blade": {
+    "CISLR": 1
+  },
+  "motivate": {
+    "CISLR": 1
+  },
+  "yellow flowered plants": {
+    "CISLR": 1
+  },
+  "united nations": {
+    "CISLR": 1
+  },
+  "subtract": {
+    "CISLR": 2
+  },
+  "air vistara": {
+    "CISLR": 1
+  },
+  "rough": {
+    "CISLR": 2
+  },
+  "lok janshakti party": {
+    "CISLR": 1
+  },
+  "boil": {
+    "CISLR": 2
+  },
+  "depth": {
+    "CISLR": 1
+  },
+  "spendthrift": {
+    "CISLR": 1
+  },
+  "pani puri": {
+    "CISLR": 1
+  },
+  "average": {
+    "CISLR": 2
+  },
+  "seizure": {
+    "CISLR": 1
+  },
+  "idle talk": {
+    "CISLR": 2
+  },
+  "method": {
+    "CISLR": 1
+  },
+  "bucket": {
+    "CISLR": 3
+  },
+  "judge": {
+    "CISLR": 2
+  },
+  "whale": {
+    "CISLR": 2
+  },
+  "frock": {
+    "CISLR": 1
+  },
+  "notesheet": {
+    "CISLR": 1
+  },
+  "bharatiya janata party": {
+    "CISLR": 4
+  },
+  "driver": {
+    "CISLR": 2
+  },
+  "accommodation": {
+    "CISLR": 1
+  },
+  "designer": {
+    "CISLR": 1
+  },
+  "colombia": {
+    "CISLR": 1
+  },
+  "leaders": {
+    "CISLR": 1
+  },
+  "weather": {
+    "CISLR": 1
+  },
+  "movie": {
+    "CISLR": 1
+  },
+  "footpath": {
+    "CISLR": 1
+  },
+  "attractive force": {
+    "CISLR": 1
+  },
+  "put": {
+    "CISLR": 4
+  },
+  "diving": {
+    "CISLR": 1
+  },
+  "artificial": {
+    "CISLR": 1
+  },
+  "polisher": {
+    "CISLR": 1
+  },
+  "school bus": {
+    "CISLR": 1
+  },
+  "zonal": {
+    "CISLR": 1
+  },
+  "torch": {
+    "CISLR": 3
+  },
+  "national capital region": {
+    "CISLR": 1
+  },
+  "reverse": {
+    "CISLR": 2
+  },
+  "coolie": {
+    "CISLR": 1
+  },
+  "sari": {
+    "CISLR": 4
+  },
+  "adjustment": {
+    "CISLR": 1
+  },
+  "disappear": {
+    "CISLR": 2
+  },
+  "input": {
+    "CISLR": 2
+  },
+  "promotion": {
+    "CISLR": 5
+  },
+  "institution": {
+    "CISLR": 1
+  },
+  "backdoor": {
+    "CISLR": 1
+  },
+  "godet": {
+    "CISLR": 1
+  },
+  "slip": {
+    "CISLR": 2
+  },
+  "funny": {
+    "CISLR": 3
+  },
+  "receipt": {
+    "CISLR": 2
+  },
+  "hearing": {
+    "CISLR": 2
+  },
+  "precaution": {
+    "CISLR": 1
+  },
+  "propeller pump": {
+    "CISLR": 1
+  },
+  "bank of maharashtra": {
+    "CISLR": 1
+  },
+  "interest": {
+    "CISLR": 10
+  },
+  "window dressing": {
+    "CISLR": 1
+  },
+  "mahavir jayanti": {
+    "CISLR": 2
+  },
+  "squirrel": {
+    "CISLR": 2
+  },
+  "minority": {
+    "CISLR": 2
+  },
+  "breeds of poultry": {
+    "CISLR": 1
+  },
+  "marth": {
+    "CISLR": 1
+  },
+  "mature": {
+    "CISLR": 1
+  },
+  "until": {
+    "CISLR": 2
+  },
+  "translate": {
+    "CISLR": 2
+  },
+  "backdate": {
+    "CISLR": 2
+  },
+  "conference": {
+    "CISLR": 3
+  },
+  "full stomach": {
+    "CISLR": 2
+  },
+  "sacrifice": {
+    "CISLR": 1
+  },
+  "bell": {
+    "CISLR": 5
+  },
+  "oviparous": {
+    "CISLR": 1
+  },
+  "exporting graphics": {
+    "CISLR": 1
+  },
+  "jharkhand": {
+    "CISLR": 1
+  },
+  "obedience": {
+    "CISLR": 1
+  },
+  "indigo": {
+    "CISLR": 2
+  },
+  "ranveer singh": {
+    "CISLR": 1
+  },
+  "amritsar": {
+    "CISLR": 3
+  },
+  "paraguay": {
+    "CISLR": 1
+  },
+  "vision": {
+    "CISLR": 3
+  },
+  "circle": {
+    "CISLR": 3
+  },
+  "tldal energy": {
+    "CISLR": 1
+  },
+  "aam aadmi party": {
+    "CISLR": 2
+  },
+  "circular motion": {
+    "CISLR": 1
+  },
+  "bowled out": {
+    "CISLR": 1
+  },
+  "sundry debtors": {
+    "CISLR": 1
+  },
+  "meditate": {
+    "CISLR": 1
+  },
+  "scold": {
+    "CISLR": 2
+  },
+  "particulars": {
+    "CISLR": 1
+  },
+  "manage": {
+    "CISLR": 2
+  },
+  "roof garden": {
+    "CISLR": 1
+  },
+  "this": {
+    "CISLR": 3
+  },
+  "diesel": {
+    "CISLR": 2
+  },
+  "vault": {
+    "CISLR": 1
+  },
+  "sorry": {
+    "CISLR": 4
+  },
+  "drop": {
+    "CISLR": 2
+  },
+  "listen": {
+    "CISLR": 3
+  },
+  "dirndl skirt": {
+    "CISLR": 1
+  },
+  "audiologist": {
+    "CISLR": 1
+  },
+  "milter hat": {
+    "CISLR": 1
+  },
+  "audit": {
+    "CISLR": 1
+  },
+  "box pleats": {
+    "CISLR": 1
+  },
+  "world federation of the deaf youth section": {
+    "CISLR": 1
+  },
+  "ball bearing": {
+    "CISLR": 1
+  },
+  "eleven": {
+    "CISLR": 1
+  },
+  "angry": {
+    "CISLR": 7
+  },
+  "day": {
+    "CISLR": 5
+  },
+  "person": {
+    "CISLR": 3
+  },
+  "kind": {
+    "CISLR": 2
+  },
+  "legal": {
+    "CISLR": 2
+  },
+  "g": {
+    "CISLR": 3
+  },
+  "security": {
+    "CISLR": 1
+  },
+  "cut line": {
+    "CISLR": 1
+  },
+  "july": {
+    "CISLR": 3
+  },
+  "grow": {
+    "CISLR": 6
+  },
+  "metre": {
+    "CISLR": 2
+  },
+  "national": {
+    "CISLR": 2
+  },
+  "hurt": {
+    "CISLR": 1
+  },
+  "resign": {
+    "CISLR": 2
+  },
+  "june": {
+    "CISLR": 3
+  },
+  "v neck": {
+    "CISLR": 1
+  },
+  "parents": {
+    "CISLR": 2
+  },
+  "share": {
+    "CISLR": 4
+  },
+  "hire charges": {
+    "CISLR": 1
+  },
+  "wifi": {
+    "CISLR": 3
+  },
+  "south pole": {
+    "CISLR": 1
+  },
+  "matchbox": {
+    "CISLR": 2
+  },
+  "ellipse tool": {
+    "CISLR": 1
+  },
+  "poultry science": {
+    "CISLR": 1
+  },
+  "expertise": {
+    "CISLR": 1
+  },
+  "stand": {
+    "CISLR": 2
+  },
+  "pure": {
+    "CISLR": 2
+  },
+  "discuss": {
+    "CISLR": 2
+  },
+  "air deccan": {
+    "CISLR": 1
+  },
+  "mouth": {
+    "CISLR": 3
+  },
+  "race": {
+    "CISLR": 1
+  },
+  "kotak mahindra bank": {
+    "CISLR": 1
+  },
+  "tap": {
+    "CISLR": 2
+  },
+  "elbow": {
+    "CISLR": 2
+  },
+  "semi solid": {
+    "CISLR": 1
+  },
+  "safe": {
+    "CISLR": 2
+  },
+  "humid": {
+    "CISLR": 2
+  },
+  "dhothi": {
+    "CISLR": 2
+  },
+  "lorry": {
+    "CISLR": 3
+  },
+  "private": {
+    "CISLR": 1
+  },
+  "deposit slip": {
+    "CISLR": 1
+  },
+  "soup": {
+    "CISLR": 2
+  },
+  "device setting": {
+    "CISLR": 1
+  },
+  "nepal": {
+    "CISLR": 3
+  },
+  "online banking": {
+    "CISLR": 1
+  },
+  "year of harvest": {
+    "CISLR": 1
+  },
+  "selfish": {
+    "CISLR": 2
+  },
+  "assume": {
+    "CISLR": 1
+  },
+  "hard drive": {
+    "CISLR": 2
+  },
+  "hygiene": {
+    "CISLR": 3
+  },
+  "hope": {
+    "CISLR": 2
+  },
+  "line": {
+    "CISLR": 1
+  },
+  "grammar": {
+    "CISLR": 1
+  },
+  "ninth": {
+    "CISLR": 1
+  },
+  "yoke": {
+    "CISLR": 1
+  },
+  "hanuman": {
+    "CISLR": 4
+  },
+  "pisciculture": {
+    "CISLR": 1
+  },
+  "draftsmen": {
+    "CISLR": 1
+  },
+  "ground water": {
+    "CISLR": 1
+  },
+  "suffer": {
+    "CISLR": 1
+  },
+  "gas stove": {
+    "CISLR": 4
+  },
+  "before": {
+    "CISLR": 3
+  },
+  "kidney cancer renal cell": {
+    "CISLR": 1
+  },
+  "sample": {
+    "CISLR": 1
+  },
+  "ready": {
+    "CISLR": 1
+  },
+  "vietnam": {
+    "CISLR": 2
+  },
+  "deadline": {
+    "CISLR": 3
+  },
+  "me": {
+    "CISLR": 2
+  },
+  "syndication": {
+    "CISLR": 1
+  },
+  "pay": {
+    "CISLR": 2
+  },
+  "prime minister": {
+    "CISLR": 2
+  },
+  "corruption": {
+    "CISLR": 2
+  },
+  "resonance": {
+    "CISLR": 1
+  },
+  "mountain": {
+    "CISLR": 3
+  },
+  "popcorn": {
+    "CISLR": 1
+  },
+  "client": {
+    "CISLR": 1
+  },
+  "volkswagen": {
+    "CISLR": 2
+  },
+  "attitude": {
+    "CISLR": 2
+  },
+  "all india foundation of deaf women": {
+    "CISLR": 1
+  },
+  "double entry": {
+    "CISLR": 1
+  },
+  "language": {
+    "CISLR": 1
+  },
+  "backache": {
+    "CISLR": 1
+  },
+  "snakes": {
+    "CISLR": 1
+  },
+  "escape": {
+    "CISLR": 4
+  },
+  "wrestling": {
+    "CISLR": 3
+  },
+  "balance": {
+    "CISLR": 2
+  },
+  "insect": {
+    "CISLR": 3
+  },
+  "stock closing": {
+    "CISLR": 1
+  },
+  "gold": {
+    "CISLR": 4
+  },
+  "gulab jamun": {
+    "CISLR": 1
+  },
+  "e office portal": {
+    "CISLR": 1
+  },
+  "tuberculosis": {
+    "CISLR": 3
+  },
+  "reward": {
+    "CISLR": 3
+  },
+  "warn": {
+    "CISLR": 2
+  },
+  "similar": {
+    "CISLR": 4
+  },
+  "announce": {
+    "CISLR": 1
+  },
+  "milk bottle": {
+    "CISLR": 1
+  },
+  "berth": {
+    "CISLR": 1
+  },
+  "engineer": {
+    "CISLR": 2
+  },
+  "death certificate": {
+    "CISLR": 1
+  },
+  "lacing": {
+    "CISLR": 1
+  },
+  "lunch": {
+    "CISLR": 2
+  },
+  "scared": {
+    "CISLR": 1
+  },
+  "complete": {
+    "CISLR": 1
+  },
+  "email": {
+    "CISLR": 1
+  },
+  "calculator": {
+    "CISLR": 5
+  },
+  "dissent": {
+    "CISLR": 3
+  },
+  "vector graphics": {
+    "CISLR": 1
+  },
+  "isl": {
+    "CISLR": 2
+  },
+  "hate": {
+    "CISLR": 3
+  },
+  "simultaneous": {
+    "CISLR": 2
+  },
+  "guilt": {
+    "CISLR": 1
+  },
+  "drive": {
+    "CISLR": 3
+  },
+  "oriya": {
+    "CISLR": 3
+  },
+  "leave compensatory": {
+    "CISLR": 1
+  },
+  "legged robots": {
+    "CISLR": 1
+  },
+  "welding hand screen": {
+    "CISLR": 1
+  },
+  "divorce": {
+    "CISLR": 1
+  },
+  "rupee": {
+    "CISLR": 1
+  },
+  "shaving razor": {
+    "CISLR": 2
+  },
+  "fine": {
+    "CISLR": 3
+  },
+  "parliament": {
+    "CISLR": 3
+  },
+  "mho": {
+    "CISLR": 1
+  },
+  "krishna": {
+    "CISLR": 2
+  },
+  "flood": {
+    "CISLR": 2
+  },
+  "colllsion": {
+    "CISLR": 1
+  },
+  "sit": {
+    "CISLR": 4
+  },
+  "decrease": {
+    "CISLR": 3
+  },
+  "video relay service": {
+    "CISLR": 1
+  },
+  "nephew": {
+    "CISLR": 1
+  },
+  "jasminum sambac": {
+    "CISLR": 1
+  },
+  "balcony": {
+    "CISLR": 2
+  },
+  "taste": {
+    "CISLR": 4
+  },
+  "shy": {
+    "CISLR": 3
+  },
+  "get up": {
+    "CISLR": 1
+  },
+  "straight": {
+    "CISLR": 3
+  },
+  "laboratary": {
+    "CISLR": 1
+  },
+  "suspend": {
+    "CISLR": 1
+  },
+  "paytm payments bank": {
+    "CISLR": 1
+  },
+  "inauguration": {
+    "CISLR": 1
+  },
+  "accounts": {
+    "CISLR": 1
+  },
+  "keying": {
+    "CISLR": 1
+  },
+  "sugar": {
+    "CISLR": 3
+  },
+  "scissors": {
+    "CISLR": 2
+  },
+  "parrot": {
+    "CISLR": 3
+  },
+  "meghalaya": {
+    "CISLR": 2
+  },
+  "flush door": {
+    "CISLR": 1
+  },
+  "nose": {
+    "CISLR": 3
+  },
+  "engine": {
+    "CISLR": 4
+  },
+  "rank": {
+    "CISLR": 2
+  },
+  "ghee": {
+    "CISLR": 1
+  },
+  "burden": {
+    "CISLR": 1
+  },
+  "coherent": {
+    "CISLR": 1
+  },
+  "kuwait": {
+    "CISLR": 1
+  },
+  "term of office": {
+    "CISLR": 1
+  },
+  "toothbrush": {
+    "CISLR": 3
+  },
+  "paragraph": {
+    "CISLR": 3
+  },
+  "salary": {
+    "CISLR": 2
+  },
+  "miss": {
+    "CISLR": 2
+  },
+  "manipur": {
+    "CISLR": 3
+  },
+  "memo": {
+    "CISLR": 1
+  },
+  "permanent": {
+    "CISLR": 4
+  },
+  "delhi": {
+    "CISLR": 2
+  },
+  "servant": {
+    "CISLR": 2
+  },
+  "albania": {
+    "CISLR": 1
+  },
+  "twenty": {
+    "CISLR": 1
+  },
+  "dustbin": {
+    "CISLR": 2
+  },
+  "majority": {
+    "CISLR": 1
+  },
+  "summon": {
+    "CISLR": 1
+  },
+  "april": {
+    "CISLR": 3
+  },
+  "powerlines": {
+    "CISLR": 1
+  },
+  "weaver": {
+    "CISLR": 2
+  },
+  "stars": {
+    "CISLR": 2
+  },
+  "each": {
+    "CISLR": 2
+  },
+  "state": {
+    "CISLR": 2
+  },
+  "teeth": {
+    "CISLR": 2
+  },
+  "breathe": {
+    "CISLR": 2
+  },
+  "change": {
+    "CISLR": 3
+  },
+  "peteti": {
+    "CISLR": 1
+  },
+  "colour filter": {
+    "CISLR": 1
+  },
+  "panama": {
+    "CISLR": 1
+  },
+  "preposition": {
+    "CISLR": 1
+  },
+  "riverine": {
+    "CISLR": 1
+  },
+  "role": {
+    "CISLR": 2
+  },
+  "peon": {
+    "CISLR": 4
+  },
+  "labourer": {
+    "CISLR": 1
+  },
+  "foot": {
+    "CISLR": 2
+  },
+  "amount": {
+    "CISLR": 3
+  },
+  "zebra crossing": {
+    "CISLR": 2
+  },
+  "shop": {
+    "CISLR": 3
+  },
+  "cheque postdated": {
+    "CISLR": 1
+  },
+  "private secretaryps": {
+    "CISLR": 1
+  },
+  "durga": {
+    "CISLR": 1
+  },
+  "swallow": {
+    "CISLR": 4
+  },
+  "face": {
+    "CISLR": 2
+  },
+  "sikhism": {
+    "CISLR": 2
+  },
+  "spot exchange": {
+    "CISLR": 1
+  },
+  "goods": {
+    "CISLR": 1
+  },
+  "hang": {
+    "CISLR": 2
+  },
+  "advertisement": {
+    "CISLR": 3
+  },
+  "sun": {
+    "CISLR": 3
+  },
+  "lnaugurate": {
+    "CISLR": 1
+  },
+  "punish": {
+    "CISLR": 2
+  },
+  "capable": {
+    "CISLR": 1
+  },
+  "ovi viviparous": {
+    "CISLR": 1
+  },
+  "bike suspension": {
+    "CISLR": 2
+  },
+  "october": {
+    "CISLR": 4
+  },
+  "down": {
+    "CISLR": 1
+  },
+  "tribal": {
+    "CISLR": 1
+  },
+  "nappy": {
+    "CISLR": 1
+  },
+  "title": {
+    "CISLR": 1
+  },
+  "spilt": {
+    "CISLR": 1
+  },
+  "tripura": {
+    "CISLR": 4
+  },
+  "scan": {
+    "CISLR": 1
+  },
+  "alcohol": {
+    "CISLR": 1
+  },
+  "ruthless": {
+    "CISLR": 2
+  },
+  "erect": {
+    "CISLR": 1
+  },
+  "archery": {
+    "CISLR": 1
+  },
+  "name": {
+    "CISLR": 7
+  },
+  "force": {
+    "CISLR": 3
+  },
+  "pole vault": {
+    "CISLR": 1
+  },
+  "africa": {
+    "CISLR": 3
+  },
+  "printed circuit board": {
+    "CISLR": 1
+  },
+  "under subscribed": {
+    "CISLR": 1
+  },
+  "organization": {
+    "CISLR": 1
+  },
+  "pull someone's leg": {
+    "CISLR": 1
+  },
+  "scratch": {
+    "CISLR": 4
+  },
+  "drawer": {
+    "CISLR": 4
+  },
+  "tusks": {
+    "CISLR": 2
+  },
+  "legalese": {
+    "CISLR": 1
+  },
+  "metal": {
+    "CISLR": 2
+  },
+  "osmosis": {
+    "CISLR": 1
+  },
+  "sweater": {
+    "CISLR": 4
+  },
+  "minor": {
+    "CISLR": 2
+  },
+  "anniversary": {
+    "CISLR": 1
+  },
+  "home": {
+    "CISLR": 1
+  },
+  "belt loops": {
+    "CISLR": 1
+  },
+  "milk": {
+    "CISLR": 2
+  },
+  "transformation of energy": {
+    "CISLR": 1
+  },
+  "improve": {
+    "CISLR": 1
+  },
+  "magnetic ink character recognition": {
+    "CISLR": 1
+  },
+  "adobe acrobat reader": {
+    "CISLR": 1
+  },
+  "kidney beans": {
+    "CISLR": 2
+  },
+  "peas": {
+    "CISLR": 3
+  },
+  "uzbekistan": {
+    "CISLR": 1
+  },
+  "animals": {
+    "CISLR": 4
+  },
+  "cpi": {
+    "CISLR": 1
+  },
+  "gardener": {
+    "CISLR": 2
+  },
+  "acting": {
+    "CISLR": 1
+  },
+  "tongs": {
+    "CISLR": 3
+  },
+  "real estate agent": {
+    "CISLR": 1
+  },
+  "ports tab": {
+    "CISLR": 1
+  },
+  "open": {
+    "CISLR": 3
+  },
+  "nervous": {
+    "CISLR": 4
+  },
+  "lay off": {
+    "CISLR": 1
+  },
+  "december": {
+    "CISLR": 3
+  },
+  "joumal entry": {
+    "CISLR": 1
+  },
+  "group": {
+    "CISLR": 3
+  },
+  "potato": {
+    "CISLR": 3
+  },
+  "ear": {
+    "CISLR": 1
+  },
+  "tell": {
+    "CISLR": 2
+  },
+  "uganda": {
+    "CISLR": 1
+  },
+  "semicircle": {
+    "CISLR": 1
+  },
+  "magician": {
+    "CISLR": 1
+  },
+  "parts": {
+    "CISLR": 1
+  },
+  "search": {
+    "CISLR": 2
+  },
+  "first coat": {
+    "CISLR": 1
+  },
+  "watermelon": {
+    "CISLR": 2
+  },
+  "capacity": {
+    "CISLR": 1
+  },
+  "september": {
+    "CISLR": 5
+  },
+  "sand paper": {
+    "CISLR": 1
+  },
+  "sand": {
+    "CISLR": 3
+  },
+  "buddha purnima": {
+    "CISLR": 2
+  },
+  "germany": {
+    "CISLR": 2
+  },
+  "wood": {
+    "CISLR": 5
+  },
+  "waive": {
+    "CISLR": 1
+  },
+  "value": {
+    "CISLR": 1
+  },
+  "go air": {
+    "CISLR": 1
+  },
+  "restart": {
+    "CISLR": 1
+  },
+  "arm": {
+    "CISLR": 3
+  },
+  "owl": {
+    "CISLR": 3
+  },
+  "entertainment": {
+    "CISLR": 1
+  },
+  "universe": {
+    "CISLR": 1
+  },
+  "amazon": {
+    "CISLR": 4
+  },
+  "delete": {
+    "CISLR": 1
+  },
+  "travel": {
+    "CISLR": 3
+  },
+  "centrifugal": {
+    "CISLR": 1
+  },
+  "dwarf": {
+    "CISLR": 1
+  },
+  "glass block": {
+    "CISLR": 1
+  },
+  "electric charge": {
+    "CISLR": 1
+  },
+  "statement of account": {
+    "CISLR": 1
+  },
+  "last month": {
+    "CISLR": 1
+  },
+  "acceptance letter": {
+    "CISLR": 1
+  },
+  "praise": {
+    "CISLR": 5
+  },
+  "sky": {
+    "CISLR": 2
+  },
+  "tailor": {
+    "CISLR": 2
+  },
+  "jawaharlal nehru": {
+    "CISLR": 2
+  },
+  "measuring tape": {
+    "CISLR": 1
+  },
+  "summary": {
+    "CISLR": 2
+  },
+  "nematode control": {
+    "CISLR": 1
+  },
+  "hydraulic sprayer": {
+    "CISLR": 1
+  },
+  "disconnect": {
+    "CISLR": 1
+  },
+  "withdraw money from bank": {
+    "CISLR": 1
+  },
+  "rectification": {
+    "CISLR": 1
+  },
+  "list": {
+    "CISLR": 3
+  },
+  "hours": {
+    "CISLR": 2
+  },
+  "ring spanner": {
+    "CISLR": 1
+  },
+  "recent": {
+    "CISLR": 1
+  },
+  "flower for medical importance": {
+    "CISLR": 1
+  },
+  "arunachal pradesh": {
+    "CISLR": 3
+  },
+  "security continuing": {
+    "CISLR": 1
+  },
+  "minimum": {
+    "CISLR": 3
+  },
+  "periods": {
+    "CISLR": 1
+  },
+  "rat": {
+    "CISLR": 3
+  },
+  "post card": {
+    "CISLR": 1
+  },
+  "follow": {
+    "CISLR": 3
+  },
+  "typist": {
+    "CISLR": 2
+  },
+  "repair": {
+    "CISLR": 4
+  },
+  "cop": {
+    "CISLR": 1
+  },
+  "differential rate of interest": {
+    "CISLR": 1
+  },
+  "mysore": {
+    "CISLR": 1
+  },
+  "situation": {
+    "CISLR": 1
+  },
+  "weightlifting": {
+    "CISLR": 1
+  },
+  "autumn": {
+    "CISLR": 1
+  },
+  "balance closing": {
+    "CISLR": 1
+  },
+  "electric bus": {
+    "CISLR": 1
+  },
+  "fresh": {
+    "CISLR": 2
+  },
+  "earth": {
+    "CISLR": 4
+  },
+  "smog": {
+    "CISLR": 1
+  },
+  "recently": {
+    "CISLR": 1
+  },
+  "how much": {
+    "CISLR": 1
+  },
+  "income tax": {
+    "CISLR": 1
+  },
+  "geometry": {
+    "CISLR": 1
+  },
+  "feather": {
+    "CISLR": 2
+  },
+  "nuclear reactor": {
+    "CISLR": 1
+  },
+  "std": {
+    "CISLR": 1
+  },
+  "hollow blocks": {
+    "CISLR": 1
+  },
+  "company": {
+    "CISLR": 2
+  },
+  "online": {
+    "CISLR": 4
+  },
+  "father in law": {
+    "CISLR": 2
+  },
+  "socks": {
+    "CISLR": 5
+  },
+  "addendum": {
+    "CISLR": 1
+  },
+  "duration": {
+    "CISLR": 1
+  },
+  "take": {
+    "CISLR": 2
+  },
+  "vegetarian": {
+    "CISLR": 1
+  },
+  "photocopy": {
+    "CISLR": 1
+  },
+  "suspend payment": {
+    "CISLR": 1
+  },
+  "separate": {
+    "CISLR": 4
+  },
+  "acknowledgement": {
+    "CISLR": 1
+  },
+  "way": {
+    "CISLR": 3
+  },
+  "what": {
+    "CISLR": 2
+  },
+  "measure": {
+    "CISLR": 3
+  },
+  "aunt": {
+    "CISLR": 1
+  },
+  "air": {
+    "CISLR": 5
+  },
+  "strange": {
+    "CISLR": 1
+  },
+  "olympics": {
+    "CISLR": 1
+  },
+  "elevation": {
+    "CISLR": 1
+  },
+  "sing": {
+    "CISLR": 2
+  },
+  "climb down": {
+    "CISLR": 1
+  },
+  "form": {
+    "CISLR": 5
+  },
+  "date of retirement": {
+    "CISLR": 1
+  },
+  "reaper bainder": {
+    "CISLR": 1
+  },
+  "kerala": {
+    "CISLR": 3
+  },
+  "smoke": {
+    "CISLR": 1
+  },
+  "mauritius": {
+    "CISLR": 1
+  },
+  "construction": {
+    "CISLR": 1
+  },
+  "radiation": {
+    "CISLR": 1
+  },
+  "cupboard": {
+    "CISLR": 2
+  },
+  "unfair dismissal": {
+    "CISLR": 3
+  },
+  "classification of fungus": {
+    "CISLR": 1
+  },
+  "queue": {
+    "CISLR": 1
+  },
+  "solld fueis": {
+    "CISLR": 1
+  },
+  "everyday": {
+    "CISLR": 1
+  },
+  "informal": {
+    "CISLR": 1
+  },
+  "appliances control": {
+    "CISLR": 1
+  },
+  "pump": {
+    "CISLR": 1
+  },
+  "wavy hair": {
+    "CISLR": 1
+  },
+  "ten thousand": {
+    "CISLR": 1
+  },
+  "blue flowered plants": {
+    "CISLR": 1
+  },
+  "resignation": {
+    "CISLR": 1
+  },
+  "remember": {
+    "CISLR": 3
+  },
+  "mating method of poultry": {
+    "CISLR": 1
+  },
+  "sub directory": {
+    "CISLR": 1
+  },
+  "advantages of drainage": {
+    "CISLR": 1
+  },
+  "air india": {
+    "CISLR": 1
+  },
+  "mandatory": {
+    "CISLR": 1
+  },
+  "asystole": {
+    "CISLR": 1
+  },
+  "microwave": {
+    "CISLR": 1
+  },
+  "officer": {
+    "CISLR": 1
+  },
+  "bedsheet": {
+    "CISLR": 2
+  },
+  "slap": {
+    "CISLR": 2
+  },
+  "grandson": {
+    "CISLR": 1
+  },
+  "like social media": {
+    "CISLR": 2
+  },
+  "htc mobile": {
+    "CISLR": 1
+  },
+  "biscuit": {
+    "CISLR": 2
+  },
+  "infection": {
+    "CISLR": 1
+  },
+  "funeral pyre": {
+    "CISLR": 1
+  },
+  "already": {
+    "CISLR": 2
+  },
+  "lotus": {
+    "CISLR": 2
+  },
+  "blood": {
+    "CISLR": 2
+  },
+  "shooting": {
+    "CISLR": 2
+  },
+  "irrevocable": {
+    "CISLR": 1
+  },
+  "do": {
+    "CISLR": 2
+  },
+  "pyjama": {
+    "CISLR": 3
+  },
+  "potentiometer": {
+    "CISLR": 1
+  },
+  "alternate current": {
+    "CISLR": 2
+  },
+  "acceleration": {
+    "CISLR": 1
+  },
+  "guwahati": {
+    "CISLR": 1
+  },
+  "retail": {
+    "CISLR": 1
+  },
+  "monetary": {
+    "CISLR": 1
+  },
+  "hsbc bank": {
+    "CISLR": 1
+  },
+  "consultant": {
+    "CISLR": 1
+  },
+  "ride": {
+    "CISLR": 1
+  },
+  "allow": {
+    "CISLR": 4
+  },
+  "triangle": {
+    "CISLR": 5
+  },
+  "rate": {
+    "CISLR": 2
+  },
+  "calcutta": {
+    "CISLR": 1
+  },
+  "smooth": {
+    "CISLR": 1
+  },
+  "account day": {
+    "CISLR": 1
+  },
+  "coordinate": {
+    "CISLR": 1
+  },
+  "duster": {
+    "CISLR": 1
+  },
+  "late": {
+    "CISLR": 3
+  },
+  "musician": {
+    "CISLR": 2
+  },
+  "water": {
+    "CISLR": 4
+  },
+  "nominate": {
+    "CISLR": 1
+  },
+  "paytm": {
+    "CISLR": 2
+  },
+  "rubber": {
+    "CISLR": 7
+  },
+  "rotating tool": {
+    "CISLR": 1
+  },
+  "agriculture": {
+    "CISLR": 1
+  },
+  "bobbinet": {
+    "CISLR": 1
+  },
+  "throat": {
+    "CISLR": 3
+  },
+  "litre": {
+    "CISLR": 3
+  },
+  "astronaut": {
+    "CISLR": 1
+  },
+  "goat": {
+    "CISLR": 6
+  },
+  "manner": {
+    "CISLR": 2
+  },
+  "environment": {
+    "CISLR": 3
+  },
+  "red flowered plants": {
+    "CISLR": 1
+  },
+  "co accused": {
+    "CISLR": 1
+  },
+  "fire": {
+    "CISLR": 2
+  },
+  "independent": {
+    "CISLR": 2
+  },
+  "kilometre": {
+    "CISLR": 1
+  },
+  "date": {
+    "CISLR": 7
+  },
+  "distribute": {
+    "CISLR": 3
+  },
+  "indoor gardening": {
+    "CISLR": 1
+  },
+  "paan": {
+    "CISLR": 1
+  },
+  "weekly": {
+    "CISLR": 2
+  },
+  "soil physics": {
+    "CISLR": 1
+  },
+  "ingadulicis": {
+    "CISLR": 1
+  },
+  "vodka": {
+    "CISLR": 2
+  },
+  "wait": {
+    "CISLR": 4
+  },
+  "public": {
+    "CISLR": 2
+  },
+  "seam ripper": {
+    "CISLR": 1
+  },
+  "indian sign language research and training centre": {
+    "CISLR": 1
+  },
+  "grass": {
+    "CISLR": 3
+  },
+  "age": {
+    "CISLR": 3
+  },
+  "valid": {
+    "CISLR": 1
+  },
+  "glass cutter": {
+    "CISLR": 1
+  },
+  "wound": {
+    "CISLR": 3
+  },
+  "fear": {
+    "CISLR": 2
+  },
+  "knock": {
+    "CISLR": 1
+  },
+  "beam": {
+    "CISLR": 1
+  },
+  "scope": {
+    "CISLR": 1
+  },
+  "account charges": {
+    "CISLR": 1
+  },
+  "puja": {
+    "CISLR": 1
+  },
+  "wolf": {
+    "CISLR": 3
+  },
+  "play": {
+    "CISLR": 2
+  },
+  "stone masonry": {
+    "CISLR": 1
+  },
+  "on the basis of major causal agents": {
+    "CISLR": 1
+  },
+  "lightning": {
+    "CISLR": 2
+  },
+  "thermal energy": {
+    "CISLR": 1
+  },
+  "guava": {
+    "CISLR": 1
+  },
+  "national anthem": {
+    "CISLR": 3
+  },
+  "abscond": {
+    "CISLR": 1
+  },
+  "stearn engine": {
+    "CISLR": 1
+  },
+  "games": {
+    "CISLR": 1
+  },
+  "return": {
+    "CISLR": 3
+  },
+  "christian": {
+    "CISLR": 2
+  },
+  "upward": {
+    "CISLR": 1
+  },
+  "banner": {
+    "CISLR": 2
+  },
+  "indonesia": {
+    "CISLR": 1
+  },
+  "knowledge working": {
+    "CISLR": 1
+  },
+  "yak": {
+    "CISLR": 2
+  },
+  "power": {
+    "CISLR": 3
+  },
+  "chain reaction": {
+    "CISLR": 1
+  },
+  "range": {
+    "CISLR": 2
+  },
+  "seventy": {
+    "CISLR": 1
+  },
+  "lady": {
+    "CISLR": 1
+  },
+  "thrice": {
+    "CISLR": 2
+  },
+  "oath": {
+    "CISLR": 3
+  },
+  "niger": {
+    "CISLR": 1
+  },
+  "lic": {
+    "CISLR": 1
+  },
+  "jaipur": {
+    "CISLR": 2
+  },
+  "mile": {
+    "CISLR": 3
+  },
+  "outdo": {
+    "CISLR": 1
+  },
+  "badminton": {
+    "CISLR": 1
+  },
+  "muslim": {
+    "CISLR": 3
+  },
+  "accompany": {
+    "CISLR": 2
+  },
+  "apartment": {
+    "CISLR": 1
+  },
+  "unite": {
+    "CISLR": 2
+  },
+  "cohesive": {
+    "CISLR": 1
+  },
+  "make a long story short": {
+    "CISLR": 3
+  },
+  "embroidery": {
+    "CISLR": 2
+  },
+  "individual": {
+    "CISLR": 3
+  },
+  "surat": {
+    "CISLR": 2
+  },
+  "england": {
+    "CISLR": 2
+  },
+  "lie": {
+    "CISLR": 5
+  },
+  "mug": {
+    "CISLR": 2
+  },
+  "jasmine": {
+    "CISLR": 1
+  },
+  "capital": {
+    "CISLR": 5
+  },
+  "cereal disease": {
+    "CISLR": 1
+  },
+  "vote": {
+    "CISLR": 2
+  },
+  "parricide": {
+    "CISLR": 1
+  },
+  "e book": {
+    "CISLR": 1
+  },
+  "researcher": {
+    "CISLR": 1
+  },
+  "potential": {
+    "CISLR": 1
+  },
+  "architect": {
+    "CISLR": 1
+  },
+  "management": {
+    "CISLR": 1
+  },
+  "restore": {
+    "CISLR": 1
+  },
+  "toothpick": {
+    "CISLR": 1
+  },
+  "newsreader": {
+    "CISLR": 1
+  },
+  "noun": {
+    "CISLR": 2
+  },
+  "rock drill machine": {
+    "CISLR": 1
+  },
+  "hollow": {
+    "CISLR": 1
+  },
+  "silk": {
+    "CISLR": 4
+  },
+  "confident": {
+    "CISLR": 2
+  },
+  "column": {
+    "CISLR": 1
+  },
+  "belief": {
+    "CISLR": 2
+  },
+  "visa": {
+    "CISLR": 3
+  },
+  "full": {
+    "CISLR": 3
+  },
+  "aeroplane": {
+    "CISLR": 4
+  },
+  "pond": {
+    "CISLR": 2
+  },
+  "doe": {
+    "CISLR": 1
+  },
+  "unregistered": {
+    "CISLR": 1
+  },
+  "groundnut": {
+    "CISLR": 1
+  },
+  "gutka": {
+    "CISLR": 1
+  },
+  "infrasonic": {
+    "CISLR": 1
+  },
+  "repurchase": {
+    "CISLR": 1
+  },
+  "stock in hand": {
+    "CISLR": 1
+  },
+  "wash": {
+    "CISLR": 7
+  },
+  "same": {
+    "CISLR": 5
+  },
+  "know": {
+    "CISLR": 2
+  },
+  "one crore": {
+    "CISLR": 1
+  },
+  "determined": {
+    "CISLR": 1
+  },
+  "bangalore": {
+    "CISLR": 1
+  },
+  "noon": {
+    "CISLR": 3
+  },
+  "vibration": {
+    "CISLR": 1
+  },
+  "swim": {
+    "CISLR": 2
+  },
+  "rehabilitation": {
+    "CISLR": 2
+  },
+  "bertha": {
+    "CISLR": 1
+  },
+  "fog": {
+    "CISLR": 1
+  },
+  "bushes": {
+    "CISLR": 1
+  },
+  "overcharge": {
+    "CISLR": 1
+  },
+  "lead": {
+    "CISLR": 2
+  },
+  "community": {
+    "CISLR": 1
+  },
+  "avoid": {
+    "CISLR": 1
+  },
+  "sailor pants": {
+    "CISLR": 1
+  },
+  "trip": {
+    "CISLR": 1
+  },
+  "year financial": {
+    "CISLR": 1
+  },
+  "slower": {
+    "CISLR": 1
+  },
+  "grapes": {
+    "CISLR": 1
+  },
+  "conductor": {
+    "CISLR": 1
+  },
+  "chat": {
+    "CISLR": 2
+  },
+  "service": {
+    "CISLR": 2
+  },
+  "politics": {
+    "CISLR": 1
+  },
+  "pf": {
+    "CISLR": 1
+  },
+  "mathematical": {
+    "CISLR": 1
+  },
+  "si": {
+    "CISLR": 1
+  },
+  "lucky": {
+    "CISLR": 1
+  },
+  "valley": {
+    "CISLR": 3
+  },
+  "deposit": {
+    "CISLR": 1
+  },
+  "warehouse": {
+    "CISLR": 1
+  },
+  "january": {
+    "CISLR": 5
+  },
+  "loose leaf binder": {
+    "CISLR": 1
+  },
+  "oscillation": {
+    "CISLR": 1
+  },
+  "share holder": {
+    "CISLR": 1
+  },
+  "bottle": {
+    "CISLR": 2
+  },
+  "backup": {
+    "CISLR": 1
+  },
+  "rest": {
+    "CISLR": 3
+  },
+  "rum": {
+    "CISLR": 1
+  },
+  "twenty one": {
+    "CISLR": 1
+  },
+  "compass": {
+    "CISLR": 2
+  },
+  "cheque": {
+    "CISLR": 4
+  },
+  "profession": {
+    "CISLR": 3
+  },
+  "ammeter": {
+    "CISLR": 2
+  },
+  "waves": {
+    "CISLR": 2
+  },
+  "secret": {
+    "CISLR": 3
+  },
+  "unbalance": {
+    "CISLR": 1
+  },
+  "sloped roof": {
+    "CISLR": 1
+  },
+  "chennai": {
+    "CISLR": 4
+  },
+  "registrar": {
+    "CISLR": 1
+  },
+  "back date": {
+    "CISLR": 1
+  },
+  "draft": {
+    "CISLR": 1
+  },
+  "view": {
+    "CISLR": 3
+  },
+  "typographical error": {
+    "CISLR": 1
+  },
+  "sunflower": {
+    "CISLR": 3
+  },
+  "divide": {
+    "CISLR": 3
+  },
+  "sphere": {
+    "CISLR": 4
+  },
+  "vacation": {
+    "CISLR": 2
+  },
+  "pole": {
+    "CISLR": 2
+  },
+  "union bank of india": {
+    "CISLR": 1
+  },
+  "post dated": {
+    "CISLR": 1
+  },
+  "salt": {
+    "CISLR": 2
+  },
+  "bud": {
+    "CISLR": 2
+  },
+  "bury": {
+    "CISLR": 3
+  },
+  "beading needles": {
+    "CISLR": 1
+  },
+  "hundred": {
+    "CISLR": 1
+  },
+  "account closed": {
+    "CISLR": 1
+  },
+  "cowl sleeve": {
+    "CISLR": 1
+  },
+  "percentage": {
+    "CISLR": 3
+  },
+  "guilty": {
+    "CISLR": 4
+  },
+  "stationary work": {
+    "CISLR": 1
+  },
+  "coat": {
+    "CISLR": 3
+  },
+  "owner": {
+    "CISLR": 3
+  },
+  "bicycle shorts": {
+    "CISLR": 1
+  },
+  "over head projector": {
+    "CISLR": 1
+  },
+  "finish": {
+    "CISLR": 3
+  },
+  "agave fillifera": {
+    "CISLR": 1
+  },
+  "machines": {
+    "CISLR": 1
+  },
+  "sea": {
+    "CISLR": 3
+  },
+  "shock": {
+    "CISLR": 2
+  },
+  "sheep": {
+    "CISLR": 4
+  },
+  "deputation": {
+    "CISLR": 1
+  },
+  "loan": {
+    "CISLR": 2
+  },
+  "enemy": {
+    "CISLR": 3
+  },
+  "territorial": {
+    "CISLR": 1
+  },
+  "bright": {
+    "CISLR": 2
+  },
+  "example": {
+    "CISLR": 1
+  },
+  "washerman": {
+    "CISLR": 1
+  },
+  "necklace": {
+    "CISLR": 3
+  },
+  "vada": {
+    "CISLR": 1
+  },
+  "might": {
+    "CISLR": 1
+  },
+  "there": {
+    "CISLR": 2
+  },
+  "frictional force": {
+    "CISLR": 1
+  },
+  "energy meter": {
+    "CISLR": 1
+  },
+  "nap fabrick": {
+    "CISLR": 1
+  },
+  "real": {
+    "CISLR": 1
+  },
+  "video cassette recorder": {
+    "CISLR": 1
+  },
+  "snail": {
+    "CISLR": 2
+  },
+  "hair": {
+    "CISLR": 3
+  },
+  "why": {
+    "CISLR": 4
+  },
+  "burundi": {
+    "CISLR": 1
+  },
+  "gas": {
+    "CISLR": 1
+  },
+  "your": {
+    "CISLR": 3
+  },
+  "press": {
+    "CISLR": 1
+  },
+  "papaya": {
+    "CISLR": 3
+  },
+  "semi urban": {
+    "CISLR": 1
+  },
+  "juhu beach": {
+    "CISLR": 1
+  },
+  "resistor": {
+    "CISLR": 2
+  },
+  "natural numbers": {
+    "CISLR": 1
+  },
+  "asymmetrical design": {
+    "CISLR": 1
+  },
+  "external parasite": {
+    "CISLR": 1
+  },
+  "brave": {
+    "CISLR": 1
+  },
+  "bugle": {
+    "CISLR": 1
+  },
+  "netherlands": {
+    "CISLR": 1
+  },
+  "therapist": {
+    "CISLR": 1
+  },
+  "hop": {
+    "CISLR": 1
+  },
+  "commerce": {
+    "CISLR": 1
+  },
+  "shocked": {
+    "CISLR": 1
+  },
+  "steel": {
+    "CISLR": 3
+  },
+  "area": {
+    "CISLR": 5
+  },
+  "shutdown": {
+    "CISLR": 1
+  },
+  "touch": {
+    "CISLR": 2
+  },
+  "proof": {
+    "CISLR": 3
+  },
+  "baton": {
+    "CISLR": 1
+  },
+  "rajdhani train": {
+    "CISLR": 2
+  },
+  "mason": {
+    "CISLR": 2
+  },
+  "stove": {
+    "CISLR": 2
+  },
+  "rule": {
+    "CISLR": 2
+  },
+  "spherical mirror": {
+    "CISLR": 1
+  },
+  "wealth": {
+    "CISLR": 1
+  },
+  "earn": {
+    "CISLR": 2
+  },
+  "vadodara": {
+    "CISLR": 2
+  },
+  "endorsement": {
+    "CISLR": 1
+  },
+  "tata mobile": {
+    "CISLR": 1
+  },
+  "interrogation": {
+    "CISLR": 1
+  },
+  "cylinder": {
+    "CISLR": 3
+  },
+  "aspiration": {
+    "CISLR": 1
+  },
+  "carcinoid tumor": {
+    "CISLR": 1
+  },
+  "ceiling": {
+    "CISLR": 1
+  },
+  "surface water": {
+    "CISLR": 1
+  },
+  "save": {
+    "CISLR": 1
+  },
+  "bad debts": {
+    "CISLR": 1
+  },
+  "garden": {
+    "CISLR": 2
+  },
+  "debt doubtful": {
+    "CISLR": 1
+  },
+  "degree": {
+    "CISLR": 3
+  },
+  "sweet": {
+    "CISLR": 3
+  },
+  "hearing aid": {
+    "CISLR": 2
+  },
+  "suppress": {
+    "CISLR": 1
+  },
+  "terrace": {
+    "CISLR": 2
+  },
+  "yardstick": {
+    "CISLR": 1
+  },
+  "calendar": {
+    "CISLR": 3
+  },
+  "punctual": {
+    "CISLR": 3
+  },
+  "network": {
+    "CISLR": 3
+  },
+  "total": {
+    "CISLR": 2
+  },
+  "jet airways": {
+    "CISLR": 1
+  },
+  "noise": {
+    "CISLR": 2
+  },
+  "drama": {
+    "CISLR": 1
+  },
+  "frank": {
+    "CISLR": 1
+  },
+  "pakistan": {
+    "CISLR": 4
+  },
+  "committee": {
+    "CISLR": 1
+  },
+  "depreciation": {
+    "CISLR": 1
+  },
+  "respect": {
+    "CISLR": 2
+  },
+  "puppet": {
+    "CISLR": 1
+  },
+  "mechanic": {
+    "CISLR": 4
+  },
+  "payee": {
+    "CISLR": 1
+  },
+  "fax": {
+    "CISLR": 1
+  },
+  "positive": {
+    "CISLR": 2
+  },
+  "revenue": {
+    "CISLR": 1
+  },
+  "sleeve band": {
+    "CISLR": 1
+  },
+  "royal enfield": {
+    "CISLR": 1
+  },
+  "orbit": {
+    "CISLR": 1
+  },
+  "earthquake": {
+    "CISLR": 3
+  },
+  "limit": {
+    "CISLR": 1
+  },
+  "hire purchase": {
+    "CISLR": 1
+  },
+  "inelastic": {
+    "CISLR": 1
+  },
+  "period time": {
+    "CISLR": 1
+  },
+  "clever": {
+    "CISLR": 5
+  },
+  "projector": {
+    "CISLR": 5
+  },
+  "stare": {
+    "CISLR": 1
+  },
+  "uncertainity": {
+    "CISLR": 1
+  },
+  "video card": {
+    "CISLR": 1
+  },
+  "toilet": {
+    "CISLR": 3
+  },
+  "fingers": {
+    "CISLR": 2
+  },
+  "temperature": {
+    "CISLR": 4
+  },
+  "property": {
+    "CISLR": 2
+  },
+  "lfc": {
+    "CISLR": 1
+  },
+  "annual report": {
+    "CISLR": 1
+  },
+  "virus": {
+    "CISLR": 3
+  },
+  "our": {
+    "CISLR": 2
+  },
+  "pencil leg": {
+    "CISLR": 1
+  },
+  "satisfactory": {
+    "CISLR": 1
+  },
+  "crayons": {
+    "CISLR": 2
+  },
+  "interval": {
+    "CISLR": 1
+  },
+  "away": {
+    "CISLR": 1
+  },
+  "bath tub": {
+    "CISLR": 1
+  },
+  "gamma ray": {
+    "CISLR": 1
+  },
+  "reversible": {
+    "CISLR": 1
+  },
+  "row house": {
+    "CISLR": 1
+  },
+  "ganapathi": {
+    "CISLR": 1
+  },
+  "rice": {
+    "CISLR": 3
+  },
+  "pilot": {
+    "CISLR": 2
+  },
+  "proceeding": {
+    "CISLR": 1
+  },
+  "necessary": {
+    "CISLR": 1
+  },
+  "business": {
+    "CISLR": 3
+  },
+  "where": {
+    "CISLR": 2
+  },
+  "mild steel rod": {
+    "CISLR": 1
+  },
+  "village": {
+    "CISLR": 3
+  },
+  "proud": {
+    "CISLR": 3
+  },
+  "him": {
+    "CISLR": 1
+  },
+  "cropping tool": {
+    "CISLR": 1
+  },
+  "noise pollution": {
+    "CISLR": 2
+  },
+  "meet": {
+    "CISLR": 2
+  },
+  "nurse": {
+    "CISLR": 2
+  },
+  "rhinoceros": {
+    "CISLR": 1
+  },
+  "dollar": {
+    "CISLR": 1
+  },
+  "prove": {
+    "CISLR": 2
+  },
+  "dish": {
+    "CISLR": 1
+  },
+  "socket": {
+    "CISLR": 1
+  },
+  "top": {
+    "CISLR": 2
+  },
+  "jackfrui": {
+    "CISLR": 1
+  },
+  "confirmed member": {
+    "CISLR": 1
+  },
+  "online editing": {
+    "CISLR": 1
+  },
+  "valuable consideration": {
+    "CISLR": 1
+  },
+  "purchase": {
+    "CISLR": 2
+  },
+  "die": {
+    "CISLR": 3
+  },
+  "georgia": {
+    "CISLR": 1
+  },
+  "cd": {
+    "CISLR": 1
+  },
+  "flexible": {
+    "CISLR": 1
+  },
+  "island": {
+    "CISLR": 3
+  },
+  "recognize": {
+    "CISLR": 1
+  },
+  "newly married": {
+    "CISLR": 1
+  },
+  "adoptive parent": {
+    "CISLR": 1
+  },
+  "law": {
+    "CISLR": 3
+  },
+  "title bar": {
+    "CISLR": 1
+  },
+  "cough": {
+    "CISLR": 3
+  },
+  "museum": {
+    "CISLR": 1
+  },
+  "gram": {
+    "CISLR": 3
+  },
+  "on the basis of propagation": {
+    "CISLR": 1
+  },
+  "guess": {
+    "CISLR": 1
+  },
+  "singapore": {
+    "CISLR": 3
+  },
+  "christmas": {
+    "CISLR": 8
+  },
+  "high court": {
+    "CISLR": 1
+  },
+  "piece": {
+    "CISLR": 2
+  },
+  "retire": {
+    "CISLR": 2
+  },
+  "optical fiber cable": {
+    "CISLR": 1
+  },
+  "tortoise": {
+    "CISLR": 5
+  },
+  "paws": {
+    "CISLR": 1
+  },
+  "cash book": {
+    "CISLR": 1
+  },
+  "tax profession": {
+    "CISLR": 1
+  },
+  "cell": {
+    "CISLR": 2
+  },
+  "year under report": {
+    "CISLR": 1
+  },
+  "during": {
+    "CISLR": 2
+  },
+  "muffler": {
+    "CISLR": 1
+  },
+  "hemophilia": {
+    "CISLR": 1
+  },
+  "rent": {
+    "CISLR": 2
+  },
+  "auger": {
+    "CISLR": 1
+  },
+  "camel": {
+    "CISLR": 3
+  },
+  "offline editing": {
+    "CISLR": 1
+  },
+  "world association of sign language interpreters": {
+    "CISLR": 1
+  },
+  "square": {
+    "CISLR": 3
+  },
+  "horns": {
+    "CISLR": 2
+  },
+  "instigate": {
+    "CISLR": 2
+  },
+  "geography": {
+    "CISLR": 2
+  },
+  "cuffs": {
+    "CISLR": 1
+  },
+  "concentrate": {
+    "CISLR": 2
+  },
+  "complainant and complaint": {
+    "CISLR": 1
+  },
+  "blindness and low vision": {
+    "CISLR": 1
+  },
+  "herps virus": {
+    "CISLR": 1
+  },
+  "bank of baroda": {
+    "CISLR": 1
+  },
+  "shoulder": {
+    "CISLR": 3
+  },
+  "wave length": {
+    "CISLR": 1
+  },
+  "warning": {
+    "CISLR": 1
+  },
+  "brain": {
+    "CISLR": 6
+  },
+  "carpet": {
+    "CISLR": 1
+  },
+  "curing": {
+    "CISLR": 1
+  },
+  "partnership deed": {
+    "CISLR": 1
+  },
+  "cross belt drive": {
+    "CISLR": 1
+  },
+  "unlucky": {
+    "CISLR": 1
+  },
+  "teller": {
+    "CISLR": 1
+  },
+  "sailboat": {
+    "CISLR": 1
+  },
+  "should": {
+    "CISLR": 2
+  },
+  "upset": {
+    "CISLR": 2
+  },
+  "composition of milk": {
+    "CISLR": 1
+  },
+  "winner": {
+    "CISLR": 2
+  },
+  "plumber": {
+    "CISLR": 2
+  },
+  "without": {
+    "CISLR": 3
+  },
+  "nematology": {
+    "CISLR": 1
+  },
+  "wake": {
+    "CISLR": 1
+  },
+  "birth": {
+    "CISLR": 2
+  },
+  "seconds": {
+    "CISLR": 1
+  },
+  "electricity": {
+    "CISLR": 1
+  },
+  "horizontal": {
+    "CISLR": 1
+  },
+  "explain": {
+    "CISLR": 4
+  },
+  "butterfly": {
+    "CISLR": 2
+  },
+  "electromagnetic wave": {
+    "CISLR": 1
+  },
+  "reflection": {
+    "CISLR": 1
+  },
+  "politician": {
+    "CISLR": 1
+  },
+  "debit advice": {
+    "CISLR": 1
+  },
+  "shiva": {
+    "CISLR": 1
+  },
+  "foreign": {
+    "CISLR": 1
+  },
+  "types of farm planning": {
+    "CISLR": 1
+  },
+  "legal claim": {
+    "CISLR": 1
+  },
+  "butter": {
+    "CISLR": 2
+  },
+  "cone": {
+    "CISLR": 3
+  },
+  "electrode": {
+    "CISLR": 2
+  },
+  "tear sheet": {
+    "CISLR": 1
+  },
+  "next year": {
+    "CISLR": 1
+  },
+  "director": {
+    "CISLR": 2
+  },
+  "haji ali dargah": {
+    "CISLR": 1
+  },
+  "security guard": {
+    "CISLR": 1
+  },
+  "thread gauge": {
+    "CISLR": 1
+  },
+  "dust": {
+    "CISLR": 1
+  },
+  "funds": {
+    "CISLR": 1
+  },
+  "raster graphics": {
+    "CISLR": 1
+  },
+  "wind": {
+    "CISLR": 3
+  },
+  "that": {
+    "CISLR": 2
+  },
+  "assam": {
+    "CISLR": 3
+  },
+  "hole": {
+    "CISLR": 2
+  },
+  "electronics": {
+    "CISLR": 1
+  },
+  "full moon day": {
+    "CISLR": 2
+  },
+  "earth rammer": {
+    "CISLR": 1
+  },
+  "abdicate": {
+    "CISLR": 2
+  },
+  "duck": {
+    "CISLR": 6
+  },
+  "bilingual": {
+    "CISLR": 1
+  },
+  "drawing": {
+    "CISLR": 1
+  },
+  "club": {
+    "CISLR": 2
+  },
+  "waste": {
+    "CISLR": 2
+  },
+  "professor": {
+    "CISLR": 1
+  },
+  "two days after": {
+    "CISLR": 1
+  },
+  "words and figures": {
+    "CISLR": 1
+  },
+  "punjabi": {
+    "CISLR": 3
+  },
+  "masonry bit": {
+    "CISLR": 1
+  },
+  "carpenter": {
+    "CISLR": 4
+  },
+  "types of water garden": {
+    "CISLR": 1
+  },
+  "maharastra": {
+    "CISLR": 1
+  },
+  "qualification": {
+    "CISLR": 3
+  },
+  "principal": {
+    "CISLR": 3
+  },
+  "infanticide": {
+    "CISLR": 1
+  },
+  "freeze": {
+    "CISLR": 2
+  },
+  "jesus": {
+    "CISLR": 1
+  },
+  "bodice": {
+    "CISLR": 1
+  },
+  "pen drive": {
+    "CISLR": 2
+  },
+  "assistant professor": {
+    "CISLR": 1
+  },
+  "format": {
+    "CISLR": 2
+  },
+  "track": {
+    "CISLR": 1
+  },
+  "panic": {
+    "CISLR": 1
+  },
+  "bite": {
+    "CISLR": 3
+  },
+  "headache": {
+    "CISLR": 1
+  },
+  "costa rica": {
+    "CISLR": 1
+  },
+  "in front of": {
+    "CISLR": 1
+  },
+  "discover": {
+    "CISLR": 1
+  },
+  "lines and pins": {
+    "CISLR": 1
+  },
+  "variable": {
+    "CISLR": 3
+  },
+  "snake": {
+    "CISLR": 2
+  },
+  "select": {
+    "CISLR": 2
+  },
+  "ahemedabad": {
+    "CISLR": 1
+  },
+  "topic": {
+    "CISLR": 1
+  },
+  "promote": {
+    "CISLR": 2
+  },
+  "tiles cutter": {
+    "CISLR": 1
+  },
+  "egypt": {
+    "CISLR": 2
+  },
+  "take a bath": {
+    "CISLR": 1
+  },
+  "nineteen": {
+    "CISLR": 1
+  },
+  "clinical thermometer": {
+    "CISLR": 1
+  },
+  "action": {
+    "CISLR": 3
+  },
+  "holi": {
+    "CISLR": 1
+  },
+  "kidney disease": {
+    "CISLR": 1
+  },
+  "blow": {
+    "CISLR": 1
+  },
+  "lake": {
+    "CISLR": 3
+  },
+  "neck band": {
+    "CISLR": 1
+  },
+  "cajanus inducus": {
+    "CISLR": 1
+  },
+  "delegation": {
+    "CISLR": 1
+  },
+  "salyx tetra sperma": {
+    "CISLR": 1
+  },
+  "carrom": {
+    "CISLR": 2
+  },
+  "license": {
+    "CISLR": 3
+  },
+  "drug abuse and addiction": {
+    "CISLR": 1
+  },
+  "pick axe": {
+    "CISLR": 1
+  },
+  "roofing tiles": {
+    "CISLR": 1
+  },
+  "least count": {
+    "CISLR": 1
+  },
+  "vaishno devi": {
+    "CISLR": 1
+  },
+  "complain": {
+    "CISLR": 2
+  },
+  "eyebrow": {
+    "CISLR": 1
+  },
+  "add": {
+    "CISLR": 2
+  },
+  "formula": {
+    "CISLR": 1
+  },
+  "relay race": {
+    "CISLR": 2
+  },
+  "term technical": {
+    "CISLR": 1
+  },
+  "false": {
+    "CISLR": 4
+  },
+  "kidnap": {
+    "CISLR": 1
+  },
+  "software developer": {
+    "CISLR": 1
+  },
+  "liquor": {
+    "CISLR": 1
+  },
+  "once": {
+    "CISLR": 1
+  },
+  "discharge": {
+    "CISLR": 1
+  },
+  "small coin depot": {
+    "CISLR": 1
+  },
+  "together": {
+    "CISLR": 2
+  },
+  "australia": {
+    "CISLR": 4
+  },
+  "passbook printing machine": {
+    "CISLR": 1
+  },
+  "tree": {
+    "CISLR": 4
+  },
+  "not": {
+    "CISLR": 1
+  },
+  "big": {
+    "CISLR": 2
+  },
+  "niece": {
+    "CISLR": 1
+  },
+  "fight": {
+    "CISLR": 1
+  },
+  "possible": {
+    "CISLR": 2
+  },
+  "cartoon": {
+    "CISLR": 2
+  },
+  "bus stand": {
+    "CISLR": 1
+  },
+  "shaving trimmer": {
+    "CISLR": 1
+  },
+  "in": {
+    "CISLR": 2
+  },
+  "mechanics": {
+    "CISLR": 1
+  },
+  "repairer": {
+    "CISLR": 1
+  },
+  "answer": {
+    "CISLR": 1
+  },
+  "exclude": {
+    "CISLR": 1
+  },
+  "nagaland": {
+    "CISLR": 1
+  },
+  "cremate": {
+    "CISLR": 2
+  },
+  "afghanistan": {
+    "CISLR": 1
+  },
+  "ball cricket": {
+    "CISLR": 1
+  },
+  "bengali": {
+    "CISLR": 2
+  },
+  "button down": {
+    "CISLR": 1
+  },
+  "shears": {
+    "CISLR": 1
+  },
+  "fluid pressure": {
+    "CISLR": 1
+  },
+  "gujarati": {
+    "CISLR": 2
+  },
+  "message video": {
+    "CISLR": 1
+  },
+  "bacteria": {
+    "CISLR": 1
+  },
+  "beer": {
+    "CISLR": 2
+  },
+  "interest on savings account": {
+    "CISLR": 1
+  },
+  "interpret": {
+    "CISLR": 1
+  },
+  "kali mata": {
+    "CISLR": 2
+  },
+  "five": {
+    "CISLR": 1
+  },
+  "appearance": {
+    "CISLR": 1
+  },
+  "younger sister": {
+    "CISLR": 1
+  },
+  "level": {
+    "CISLR": 3
+  },
+  "cooker": {
+    "CISLR": 1
+  },
+  "storm": {
+    "CISLR": 1
+  },
+  "mogra": {
+    "CISLR": 2
+  },
+  "class room": {
+    "CISLR": 1
+  },
+  "spiral": {
+    "CISLR": 1
+  },
+  "association of sign language interpreters": {
+    "CISLR": 1
+  },
+  "underground symptoms": {
+    "CISLR": 1
+  },
+  "body": {
+    "CISLR": 3
+  },
+  "mat": {
+    "CISLR": 2
+  },
+  "bimetallic": {
+    "CISLR": 1
+  },
+  "those": {
+    "CISLR": 1
+  },
+  "small pox": {
+    "CISLR": 2
+  },
+  "wine": {
+    "CISLR": 2
+  },
+  "learn": {
+    "CISLR": 4
+  },
+  "terms of service": {
+    "CISLR": 1
+  },
+  "east": {
+    "CISLR": 5
+  },
+  "bhubaneswar": {
+    "CISLR": 1
+  },
+  "ratio": {
+    "CISLR": 2
+  },
+  "film": {
+    "CISLR": 2
+  },
+  "teach": {
+    "CISLR": 3
+  },
+  "carnivorus fishes": {
+    "CISLR": 1
+  },
+  "vault safe deposit": {
+    "CISLR": 1
+  },
+  "flag": {
+    "CISLR": 1
+  },
+  "pillow": {
+    "CISLR": 4
+  },
+  "wedding": {
+    "CISLR": 4
+  },
+  "cockroach": {
+    "CISLR": 3
+  },
+  "nationalist congress party": {
+    "CISLR": 1
+  },
+  "avalanche": {
+    "CISLR": 1
+  },
+  "toes": {
+    "CISLR": 2
+  },
+  "original": {
+    "CISLR": 3
+  },
+  "youth association of the deaf india": {
+    "CISLR": 2
+  },
+  "bank branch name": {
+    "CISLR": 1
+  },
+  "voluntarily": {
+    "CISLR": 1
+  },
+  "salman khan": {
+    "CISLR": 1
+  },
+  "reason": {
+    "CISLR": 2
+  },
+  "teaser bull": {
+    "CISLR": 1
+  },
+  "far": {
+    "CISLR": 2
+  },
+  "watch": {
+    "CISLR": 4
+  },
+  "projectile motion": {
+    "CISLR": 1
+  },
+  "true": {
+    "CISLR": 4
+  },
+  "local": {
+    "CISLR": 2
+  },
+  "superposltion": {
+    "CISLR": 1
+  },
+  "slim": {
+    "CISLR": 1
+  },
+  "positive error": {
+    "CISLR": 1
+  },
+  "kanpur": {
+    "CISLR": 1
+  },
+  "mixer": {
+    "CISLR": 4
+  },
+  "vodafone": {
+    "CISLR": 1
+  },
+  "bridge": {
+    "CISLR": 1
+  },
+  "hide": {
+    "CISLR": 1
+  },
+  "corn": {
+    "CISLR": 3
+  },
+  "bile duct cancer": {
+    "CISLR": 1
+  },
+  "zip": {
+    "CISLR": 2
+  },
+  "twins": {
+    "CISLR": 2
+  },
+  "inch": {
+    "CISLR": 1
+  },
+  "college": {
+    "CISLR": 2
+  },
+  "certificate": {
+    "CISLR": 2
+  },
+  "refractive index": {
+    "CISLR": 1
+  },
+  "classification of hedges": {
+    "CISLR": 1
+  },
+  "love marriage": {
+    "CISLR": 1
+  },
+  "post office": {
+    "CISLR": 2
+  },
+  "rail road switch": {
+    "CISLR": 1
+  },
+  "velocity": {
+    "CISLR": 1
+  },
+  "solicitor": {
+    "CISLR": 1
+  },
+  "spider": {
+    "CISLR": 2
+  },
+  "no": {
+    "CISLR": 2
+  },
+  "lace edge binding": {
+    "CISLR": 1
+  },
+  "hear": {
+    "CISLR": 2
+  },
+  "north pole": {
+    "CISLR": 3
+  },
+  "liquid fuels": {
+    "CISLR": 1
+  },
+  "abuttal": {
+    "CISLR": 1
+  },
+  "november": {
+    "CISLR": 3
+  },
+  "potty": {
+    "CISLR": 1
+  },
+  "ewe": {
+    "CISLR": 1
+  },
+  "l square": {
+    "CISLR": 1
+  },
+  "tractor": {
+    "CISLR": 3
+  },
+  "gas tractor": {
+    "CISLR": 1
+  },
+  "absent": {
+    "CISLR": 3
+  },
+  "division": {
+    "CISLR": 3
+  },
+  "anorak": {
+    "CISLR": 1
+  },
+  "cap": {
+    "CISLR": 3
+  },
+  "court hall": {
+    "CISLR": 1
+  },
+  "thermometer": {
+    "CISLR": 4
+  },
+  "piston": {
+    "CISLR": 1
+  },
+  "omit": {
+    "CISLR": 1
+  },
+  "livelihood": {
+    "CISLR": 3
+  },
+  "eat": {
+    "CISLR": 3
+  },
+  "superfast express": {
+    "CISLR": 1
+  },
+  "contractual": {
+    "CISLR": 1
+  },
+  "coloured follage shrubs": {
+    "CISLR": 1
+  },
+  "abeyance": {
+    "CISLR": 1
+  },
+  "pray": {
+    "CISLR": 3
+  },
+  "skiing": {
+    "CISLR": 1
+  },
+  "inverse": {
+    "CISLR": 1
+  },
+  "self reflect": {
+    "CISLR": 1
+  },
+  "coin": {
+    "CISLR": 2
+  },
+  "uniform": {
+    "CISLR": 2
+  },
+  "left": {
+    "CISLR": 1
+  },
+  "process": {
+    "CISLR": 4
+  },
+  "dwarf ornamental hedges": {
+    "CISLR": 1
+  },
+  "fly": {
+    "CISLR": 1
+  },
+  "umpire": {
+    "CISLR": 1
+  },
+  "foundation": {
+    "CISLR": 1
+  },
+  "pick": {
+    "CISLR": 3
+  },
+  "vehicles": {
+    "CISLR": 2
+  },
+  "younger": {
+    "CISLR": 1
+  },
+  "stationery": {
+    "CISLR": 2
+  },
+  "magnet": {
+    "CISLR": 4
+  },
+  "declaration": {
+    "CISLR": 1
+  },
+  "stuck": {
+    "CISLR": 1
+  },
+  "insult": {
+    "CISLR": 4
+  },
+  "simple microscope": {
+    "CISLR": 1
+  },
+  "wood plane": {
+    "CISLR": 1
+  },
+  "side mirror": {
+    "CISLR": 1
+  },
+  "mizoram": {
+    "CISLR": 3
+  },
+  "account closing": {
+    "CISLR": 1
+  },
+  "town": {
+    "CISLR": 3
+  },
+  "wish": {
+    "CISLR": 1
+  },
+  "unlawful": {
+    "CISLR": 2
+  },
+  "opposite": {
+    "CISLR": 1
+  },
+  "english": {
+    "CISLR": 2
+  },
+  "tonic": {
+    "CISLR": 3
+  },
+  "andhra pradesh": {
+    "CISLR": 2
+  },
+  "hydrautic lift": {
+    "CISLR": 1
+  },
+  "unix": {
+    "CISLR": 1
+  },
+  "europe": {
+    "CISLR": 2
+  },
+  "breathalyzer test": {
+    "CISLR": 1
+  },
+  "introduce": {
+    "CISLR": 2
+  },
+  "disapproval": {
+    "CISLR": 1
+  },
+  "spoil": {
+    "CISLR": 2
+  },
+  "multiply": {
+    "CISLR": 1
+  },
+  "chocolate": {
+    "CISLR": 1
+  },
+  "account profit and loss": {
+    "CISLR": 1
+  },
+  "middle": {
+    "CISLR": 2
+  },
+  "united arab emirates": {
+    "CISLR": 1
+  },
+  "candle": {
+    "CISLR": 3
+  },
+  "bible": {
+    "CISLR": 1
+  },
+  "endure": {
+    "CISLR": 2
+  },
+  "winding up": {
+    "CISLR": 1
+  },
+  "zebra": {
+    "CISLR": 3
+  },
+  "taj hotel": {
+    "CISLR": 1
+  },
+  "monocotyledonae": {
+    "CISLR": 1
+  },
+  "attraction": {
+    "CISLR": 1
+  },
+  "experiment": {
+    "CISLR": 4
+  },
+  "infinity": {
+    "CISLR": 1
+  },
+  "rose": {
+    "CISLR": 2
+  },
+  "skin": {
+    "CISLR": 3
+  },
+  "pickle": {
+    "CISLR": 2
+  },
+  "seat": {
+    "CISLR": 1
+  },
+  "hardworking": {
+    "CISLR": 4
+  },
+  "hook worm disease": {
+    "CISLR": 1
+  },
+  "gas lighter": {
+    "CISLR": 1
+  },
+  "solve": {
+    "CISLR": 2
+  },
+  "podium": {
+    "CISLR": 2
+  },
+  "indian sign language interpreters association": {
+    "CISLR": 1
+  },
+  "event": {
+    "CISLR": 1
+  },
+  "fool": {
+    "CISLR": 1
+  },
+  "subdivision": {
+    "CISLR": 1
+  },
+  "concealment of identity": {
+    "CISLR": 1
+  },
+  "floor": {
+    "CISLR": 2
+  },
+  "computing": {
+    "CISLR": 1
+  },
+  "seed": {
+    "CISLR": 4
+  },
+  "india gate": {
+    "CISLR": 1
+  },
+  "kindhearted": {
+    "CISLR": 1
+  },
+  "maharashtra": {
+    "CISLR": 1
+  },
+  "diagonal": {
+    "CISLR": 1
+  },
+  "attachment of property": {
+    "CISLR": 1
+  },
+  "absolve": {
+    "CISLR": 1
+  },
+  "triple": {
+    "CISLR": 2
+  },
+  "traffic": {
+    "CISLR": 1
+  },
+  "stumps": {
+    "CISLR": 1
+  },
+  "lunar eclipse": {
+    "CISLR": 1
+  },
+  "green hand": {
+    "CISLR": 1
+  },
+  "mix": {
+    "CISLR": 2
+  },
+  "banana": {
+    "CISLR": 2
+  },
+  "nail cutter": {
+    "CISLR": 1
+  },
+  "chain surveying": {
+    "CISLR": 1
+  },
+  "aluminium": {
+    "CISLR": 2
+  },
+  "transport": {
+    "CISLR": 1
+  },
+  "destroy": {
+    "CISLR": 2
+  },
+  "parkinsonia aculeata": {
+    "CISLR": 1
+  },
+  "copper": {
+    "CISLR": 2
+  },
+  "to retailers": {
+    "CISLR": 1
+  },
+  "tube well": {
+    "CISLR": 1
+  },
+  "pentode": {
+    "CISLR": 1
+  },
+  "sunset": {
+    "CISLR": 3
+  },
+  "careful": {
+    "CISLR": 3
+  },
+  "translation of motion": {
+    "CISLR": 1
+  },
+  "forget": {
+    "CISLR": 2
+  },
+  "system of feeding poultry": {
+    "CISLR": 1
+  },
+  "profit": {
+    "CISLR": 4
+  },
+  "pizza": {
+    "CISLR": 2
+  },
+  "sink": {
+    "CISLR": 2
+  },
+  "stair tread": {
+    "CISLR": 1
+  },
+  "egg": {
+    "CISLR": 2
+  },
+  "plastering": {
+    "CISLR": 1
+  },
+  "quantity": {
+    "CISLR": 4
+  },
+  "motor": {
+    "CISLR": 2
+  },
+  "carburetor": {
+    "CISLR": 1
+  },
+  "general secretary": {
+    "CISLR": 1
+  },
+  "coimbatore": {
+    "CISLR": 2
+  },
+  "small farmer": {
+    "CISLR": 1
+  },
+  "read": {
+    "CISLR": 2
+  },
+  "sandwich": {
+    "CISLR": 4
+  },
+  "profile levelling": {
+    "CISLR": 1
+  },
+  "wheat": {
+    "CISLR": 2
+  },
+  "debate": {
+    "CISLR": 1
+  },
+  "resume": {
+    "CISLR": 1
+  },
+  "veteran": {
+    "CISLR": 1
+  },
+  "conciliation": {
+    "CISLR": 1
+  },
+  "lassi": {
+    "CISLR": 3
+  },
+  "main": {
+    "CISLR": 1
+  },
+  "land improvement reform": {
+    "CISLR": 1
+  },
+  "demand draft": {
+    "CISLR": 2
+  },
+  "gloves": {
+    "CISLR": 4
+  },
+  "vishnu": {
+    "CISLR": 1
+  },
+  "coach": {
+    "CISLR": 1
+  },
+  "varieties of mushroom": {
+    "CISLR": 1
+  },
+  "deed of sale": {
+    "CISLR": 1
+  },
+  "notify": {
+    "CISLR": 3
+  },
+  "canada": {
+    "CISLR": 1
+  },
+  "plate": {
+    "CISLR": 4
+  },
+  "get": {
+    "CISLR": 1
+  },
+  "balcony garden": {
+    "CISLR": 1
+  },
+  "bench": {
+    "CISLR": 1
+  },
+  "liquid": {
+    "CISLR": 2
+  },
+  "hip": {
+    "CISLR": 2
+  },
+  "bookshelf": {
+    "CISLR": 1
+  },
+  "measles": {
+    "CISLR": 2
+  },
+  "sector": {
+    "CISLR": 1
+  },
+  "minister": {
+    "CISLR": 2
+  },
+  "yearly": {
+    "CISLR": 1
+  },
+  "sheet charge": {
+    "CISLR": 1
+  },
+  "prefer": {
+    "CISLR": 2
+  },
+  "conclude": {
+    "CISLR": 1
+  },
+  "baldness": {
+    "CISLR": 1
+  },
+  "my": {
+    "CISLR": 2
+  },
+  "sweets": {
+    "CISLR": 1
+  },
+  "reasonable notice": {
+    "CISLR": 1
+  },
+  "wise": {
+    "CISLR": 2
+  },
+  "post": {
+    "CISLR": 2
+  },
+  "serial killer": {
+    "CISLR": 1
+  },
+  "devil": {
+    "CISLR": 1
+  },
+  "antartica": {
+    "CISLR": 2
+  },
+  "palm tree": {
+    "CISLR": 1
+  },
+  "kilogram": {
+    "CISLR": 3
+  },
+  "circuit": {
+    "CISLR": 1
+  },
+  "initiative": {
+    "CISLR": 2
+  },
+  "pepper": {
+    "CISLR": 1
+  },
+  "delegate west bengal": {
+    "CISLR": 1
+  },
+  "bearer": {
+    "CISLR": 1
+  },
+  "neck": {
+    "CISLR": 3
+  },
+  "walk": {
+    "CISLR": 3
+  },
+  "technoiogy": {
+    "CISLR": 1
+  },
+  "milkman": {
+    "CISLR": 2
+  },
+  "on the basis of use of pond": {
+    "CISLR": 1
+  },
+  "penal interest": {
+    "CISLR": 1
+  },
+  "curtain": {
+    "CISLR": 2
+  },
+  "housefly": {
+    "CISLR": 3
+  },
+  "shares redeemable": {
+    "CISLR": 1
+  },
+  "number system": {
+    "CISLR": 1
+  },
+  "rotational motion": {
+    "CISLR": 1
+  },
+  "then": {
+    "CISLR": 2
+  },
+  "free": {
+    "CISLR": 2
+  },
+  "herpes": {
+    "CISLR": 1
+  },
+  "sweep": {
+    "CISLR": 2
+  },
+  "okay": {
+    "CISLR": 2
+  },
+  "peru": {
+    "CISLR": 1
+  },
+  "foundation organization": {
+    "CISLR": 1
+  },
+  "floppy disk": {
+    "CISLR": 1
+  },
+  "support": {
+    "CISLR": 2
+  },
+  "authorised signature": {
+    "CISLR": 1
+  },
+  "in advance": {
+    "CISLR": 1
+  },
+  "footage": {
+    "CISLR": 1
+  },
+  "sum": {
+    "CISLR": 1
+  },
+  "soil": {
+    "CISLR": 1
+  },
+  "leak": {
+    "CISLR": 1
+  },
+  "manjira": {
+    "CISLR": 1
+  },
+  "weekly return": {
+    "CISLR": 1
+  },
+  "questions": {
+    "CISLR": 1
+  },
+  "direction": {
+    "CISLR": 1
+  },
+  "mobile": {
+    "CISLR": 3
+  },
+  "spur": {
+    "CISLR": 1
+  },
+  "fast growing temporary hedges": {
+    "CISLR": 1
+  },
+  "portugal": {
+    "CISLR": 1
+  },
+  "shoot": {
+    "CISLR": 3
+  },
+  "recurring": {
+    "CISLR": 1
+  },
+  "horse cart": {
+    "CISLR": 1
+  },
+  "shoulder pads": {
+    "CISLR": 1
+  },
+  "argue": {
+    "CISLR": 1
+  },
+  "bat": {
+    "CISLR": 1
+  },
+  "knowledge": {
+    "CISLR": 2
+  },
+  "repulsive force": {
+    "CISLR": 1
+  },
+  "active": {
+    "CISLR": 1
+  },
+  "itself": {
+    "CISLR": 1
+  },
+  "virat kohli": {
+    "CISLR": 1
+  },
+  "steel rack": {
+    "CISLR": 1
+  },
+  "flower for recreation": {
+    "CISLR": 1
+  },
+  "karate": {
+    "CISLR": 1
+  },
+  "s.i unit": {
+    "CISLR": 1
+  },
+  "lg mobile": {
+    "CISLR": 1
+  },
+  "tulip sleeve": {
+    "CISLR": 1
+  },
+  "swimming": {
+    "CISLR": 1
+  },
+  "belt": {
+    "CISLR": 3
+  },
+  "west": {
+    "CISLR": 2
+  },
+  "cover": {
+    "CISLR": 2
+  },
+  "osclllatory motion": {
+    "CISLR": 1
+  },
+  "perform": {
+    "CISLR": 1
+  },
+  "shine": {
+    "CISLR": 4
+  },
+  "nearly": {
+    "CISLR": 1
+  },
+  "sympathy": {
+    "CISLR": 1
+  },
+  "psychology": {
+    "CISLR": 1
+  },
+  "white collar job": {
+    "CISLR": 1
+  },
+  "basic pay": {
+    "CISLR": 1
+  },
+  "nice to meet you": {
+    "CISLR": 1
+  },
+  "tinda": {
+    "CISLR": 2
+  },
+  "few": {
+    "CISLR": 2
+  },
+  "fir": {
+    "CISLR": 1
+  },
+  "vendor": {
+    "CISLR": 1
+  },
+  "zoo": {
+    "CISLR": 4
+  },
+  "rolls royce": {
+    "CISLR": 1
+  },
+  "like": {
+    "CISLR": 2
+  },
+  "alone": {
+    "CISLR": 1
+  },
+  "bolt": {
+    "CISLR": 2
+  },
+  "cut": {
+    "CISLR": 3
+  },
+  "stop": {
+    "CISLR": 3
+  },
+  "self": {
+    "CISLR": 2
+  },
+  "policy": {
+    "CISLR": 3
+  },
+  "surname": {
+    "CISLR": 2
+  },
+  "light fixture": {
+    "CISLR": 1
+  },
+  "passbook bank": {
+    "CISLR": 1
+  },
+  "sikkim": {
+    "CISLR": 1
+  },
+  "prosecution": {
+    "CISLR": 1
+  },
+  "boxing": {
+    "CISLR": 2
+  },
+  "russia": {
+    "CISLR": 3
+  },
+  "success": {
+    "CISLR": 1
+  },
+  "material": {
+    "CISLR": 2
+  },
+  "star": {
+    "CISLR": 3
+  },
+  "submerged weeds": {
+    "CISLR": 1
+  },
+  "bolling point": {
+    "CISLR": 1
+  },
+  "push": {
+    "CISLR": 1
+  },
+  "bread board": {
+    "CISLR": 1
+  },
+  "ticket checker": {
+    "CISLR": 1
+  },
+  "owe": {
+    "CISLR": 1
+  },
+  "august": {
+    "CISLR": 7
+  },
+  "greedy": {
+    "CISLR": 1
+  },
+  "things": {
+    "CISLR": 3
+  },
+  "goal": {
+    "CISLR": 2
+  },
+  "uitraviolet ray": {
+    "CISLR": 1
+  },
+  "refraction": {
+    "CISLR": 1
+  },
+  "wool": {
+    "CISLR": 3
+  },
+  "meat": {
+    "CISLR": 3
+  },
+  "easter": {
+    "CISLR": 2
+  },
+  "fill": {
+    "CISLR": 1
+  },
+  "want": {
+    "CISLR": 2
+  },
+  "drug": {
+    "CISLR": 5
+  },
+  "water pollution": {
+    "CISLR": 1
+  },
+  "silver": {
+    "CISLR": 4
+  },
+  "work": {
+    "CISLR": 5
+  },
+  "remove": {
+    "CISLR": 4
+  },
+  "confirm": {
+    "CISLR": 2
+  },
+  "shimla": {
+    "CISLR": 2
+  },
+  "sculptor": {
+    "CISLR": 2
+  },
+  "altitude": {
+    "CISLR": 1
+  },
+  "fat test of milk": {
+    "CISLR": 1
+  },
+  "floppy drive": {
+    "CISLR": 1
+  },
+  "fraud": {
+    "CISLR": 1
+  },
+  "urgent": {
+    "CISLR": 1
+  },
+  "sweat": {
+    "CISLR": 3
+  },
+  "pass": {
+    "CISLR": 4
+  },
+  "grommets": {
+    "CISLR": 1
+  },
+  "interruption": {
+    "CISLR": 1
+  },
+  "bigamy": {
+    "CISLR": 1
+  },
+  "ally": {
+    "CISLR": 1
+  },
+  "herself": {
+    "CISLR": 1
+  },
+  "peter pan collar": {
+    "CISLR": 1
+  },
+  "cricket": {
+    "CISLR": 1
+  },
+  "roughages": {
+    "CISLR": 1
+  },
+  "hot to feel": {
+    "CISLR": 1
+  },
+  "uncomfortable": {
+    "CISLR": 1
+  },
+  "kinds of germination": {
+    "CISLR": 1
+  },
+  "cheque drop box": {
+    "CISLR": 1
+  },
+  "mumbai": {
+    "CISLR": 2
+  },
+  "photographic plate": {
+    "CISLR": 1
+  },
+  "photoperiodism": {
+    "CISLR": 1
+  },
+  "latitude": {
+    "CISLR": 1
+  },
+  "duffle": {
+    "CISLR": 1
+  },
+  "account current": {
+    "CISLR": 1
+  },
+  "nokia mobile": {
+    "CISLR": 1
+  },
+  "tooth": {
+    "CISLR": 1
+  },
+  "leave medical": {
+    "CISLR": 1
+  },
+  "seventeen": {
+    "CISLR": 1
+  },
+  "pan": {
+    "CISLR": 2
+  },
+  "stapler": {
+    "CISLR": 1
+  },
+  "over": {
+    "CISLR": 3
+  },
+  "cloth": {
+    "CISLR": 2
+  },
+  "molecuiar motion": {
+    "CISLR": 1
+  },
+  "subway": {
+    "CISLR": 1
+  },
+  "tomato": {
+    "CISLR": 1
+  },
+  "scraping": {
+    "CISLR": 1
+  },
+  "verb": {
+    "CISLR": 1
+  },
+  "under developed": {
+    "CISLR": 1
+  },
+  "audio frequency": {
+    "CISLR": 1
+  },
+  "full frame": {
+    "CISLR": 1
+  },
+  "prism": {
+    "CISLR": 1
+  },
+  "hair clip": {
+    "CISLR": 1
+  },
+  "climb": {
+    "CISLR": 1
+  },
+  "concrete": {
+    "CISLR": 2
+  },
+  "unauthorised": {
+    "CISLR": 1
+  },
+  "pressure cooker": {
+    "CISLR": 1
+  },
+  "leave extraordinary": {
+    "CISLR": 1
+  },
+  "instagram": {
+    "CISLR": 2
+  },
+  "pause": {
+    "CISLR": 3
+  },
+  "piano": {
+    "CISLR": 1
+  },
+  "shade": {
+    "CISLR": 1
+  },
+  "own": {
+    "CISLR": 1
+  },
+  "diabeletes": {
+    "CISLR": 1
+  },
+  "versus": {
+    "CISLR": 1
+  },
+  "janitor": {
+    "CISLR": 1
+  },
+  "on": {
+    "CISLR": 2
+  },
+  "bull": {
+    "CISLR": 1
+  },
+  "hand": {
+    "CISLR": 1
+  },
+  "foolish": {
+    "CISLR": 1
+  },
+  "association": {
+    "CISLR": 2
+  },
+  "pune": {
+    "CISLR": 2
+  },
+  "main scale": {
+    "CISLR": 1
+  },
+  "blackboard duster": {
+    "CISLR": 2
+  },
+  "losses due to exessive water": {
+    "CISLR": 1
+  },
+  "reform": {
+    "CISLR": 1
+  },
+  "dislike": {
+    "CISLR": 1
+  },
+  "methods of drainage": {
+    "CISLR": 1
+  },
+  "year book": {
+    "CISLR": 1
+  },
+  "kerning": {
+    "CISLR": 1
+  },
+  "nucleus": {
+    "CISLR": 1
+  },
+  "dig": {
+    "CISLR": 1
+  },
+  "idd": {
+    "CISLR": 1
+  },
+  "sunlight": {
+    "CISLR": 1
+  },
+  "finance": {
+    "CISLR": 1
+  },
+  "head": {
+    "CISLR": 2
+  },
+  "strong room": {
+    "CISLR": 1
+  },
+  "operation": {
+    "CISLR": 2
+  },
+  "suzuki car": {
+    "CISLR": 1
+  },
+  "vocation": {
+    "CISLR": 1
+  },
+  "misunderstand": {
+    "CISLR": 1
+  },
+  "examination": {
+    "CISLR": 2
+  },
+  "which": {
+    "CISLR": 2
+  },
+  "reply": {
+    "CISLR": 2
+  },
+  "startle": {
+    "CISLR": 1
+  },
+  "fat": {
+    "CISLR": 1
+  },
+  "plough": {
+    "CISLR": 1
+  },
+  "level rate": {
+    "CISLR": 1
+  },
+  "cancer": {
+    "CISLR": 2
+  },
+  "speed": {
+    "CISLR": 1
+  },
+  "mumps": {
+    "CISLR": 2
+  },
+  "disolution": {
+    "CISLR": 1
+  },
+  "decide": {
+    "CISLR": 3
+  },
+  "tamil": {
+    "CISLR": 3
+  },
+  "supreme court": {
+    "CISLR": 1
+  },
+  "swine farming": {
+    "CISLR": 1
+  },
+  "punjab national bank": {
+    "CISLR": 1
+  },
+  "century": {
+    "CISLR": 1
+  },
+  "split": {
+    "CISLR": 1
+  },
+  "reduce": {
+    "CISLR": 4
+  },
+  "west indies": {
+    "CISLR": 3
+  },
+  "joumal": {
+    "CISLR": 1
+  },
+  "font weight": {
+    "CISLR": 1
+  },
+  "stressed": {
+    "CISLR": 1
+  },
+  "bosnia herzegovina": {
+    "CISLR": 1
+  },
+  "epistaxis": {
+    "CISLR": 1
+  },
+  "namibia": {
+    "CISLR": 1
+  },
+  "repeat": {
+    "CISLR": 1
+  },
+  "sc": {
+    "CISLR": 1
+  },
+  "bowl": {
+    "CISLR": 4
+  },
+  "size": {
+    "CISLR": 4
+  },
+  "heat engine": {
+    "CISLR": 1
+  },
+  "pamphlet": {
+    "CISLR": 2
+  },
+  "to consumers": {
+    "CISLR": 1
+  },
+  "shoe": {
+    "CISLR": 2
+  },
+  "urdu": {
+    "CISLR": 2
+  },
+  "nothing": {
+    "CISLR": 3
+  },
+  "seventh": {
+    "CISLR": 1
+  },
+  "revolution": {
+    "CISLR": 1
+  },
+  "immediate": {
+    "CISLR": 1
+  },
+  "milli litre": {
+    "CISLR": 1
+  },
+  "parental": {
+    "CISLR": 1
+  },
+  "ooty": {
+    "CISLR": 2
+  },
+  "style": {
+    "CISLR": 1
+  },
+  "power hacksaw": {
+    "CISLR": 1
+  },
+  "designing": {
+    "CISLR": 1
+  },
+  "ball pein hammer": {
+    "CISLR": 1
+  },
+  "waterfall": {
+    "CISLR": 4
+  },
+  "jack plane": {
+    "CISLR": 1
+  },
+  "direct current": {
+    "CISLR": 2
+  },
+  "milter stripes": {
+    "CISLR": 1
+  },
+  "development": {
+    "CISLR": 1
+  },
+  "transgender": {
+    "CISLR": 1
+  },
+  "office hours": {
+    "CISLR": 1
+  },
+  "html": {
+    "CISLR": 1
+  },
+  "picture": {
+    "CISLR": 2
+  },
+  "recurring deposit": {
+    "CISLR": 1
+  },
+  "tubelight": {
+    "CISLR": 3
+  },
+  "allergy": {
+    "CISLR": 3
+  },
+  "theirs": {
+    "CISLR": 1
+  },
+  "wales": {
+    "CISLR": 1
+  },
+  "mouth organ": {
+    "CISLR": 1
+  },
+  "railway hedges": {
+    "CISLR": 1
+  },
+  "chandigarh": {
+    "CISLR": 2
+  },
+  "supervisor": {
+    "CISLR": 1
+  },
+  "initial": {
+    "CISLR": 2
+  },
+  "ball point needle": {
+    "CISLR": 1
+  },
+  "inheritance": {
+    "CISLR": 1
+  },
+  "shank button": {
+    "CISLR": 1
+  },
+  "handkerchief": {
+    "CISLR": 3
+  },
+  "distance": {
+    "CISLR": 3
+  },
+  "knit": {
+    "CISLR": 1
+  },
+  "four cricket": {
+    "CISLR": 1
+  },
+  "varanasi": {
+    "CISLR": 2
+  },
+  "diet": {
+    "CISLR": 2
+  },
+  "one and a half hours": {
+    "CISLR": 1
+  },
+  "pressure": {
+    "CISLR": 1
+  },
+  "a lot": {
+    "CISLR": 1
+  },
+  "not negotiable": {
+    "CISLR": 1
+  },
+  "label": {
+    "CISLR": 2
+  },
+  "cutout": {
+    "CISLR": 1
+  },
+  "tease": {
+    "CISLR": 2
+  },
+  "priority": {
+    "CISLR": 1
+  },
+  "chemical energy": {
+    "CISLR": 1
+  },
+  "deputy director": {
+    "CISLR": 1
+  },
+  "right now": {
+    "CISLR": 1
+  },
+  "buffalo": {
+    "CISLR": 5
+  },
+  "cycle": {
+    "CISLR": 2
+  },
+  "copy": {
+    "CISLR": 3
+  },
+  "mirror": {
+    "CISLR": 3
+  },
+  "score": {
+    "CISLR": 1
+  },
+  "debit card": {
+    "CISLR": 2
+  },
+  "allah": {
+    "CISLR": 1
+  },
+  "button hole": {
+    "CISLR": 1
+  },
+  "electron": {
+    "CISLR": 1
+  },
+  "ifsc": {
+    "CISLR": 1
+  },
+  "drug overdose": {
+    "CISLR": 1
+  },
+  "source": {
+    "CISLR": 1
+  },
+  "seamline pocket": {
+    "CISLR": 1
+  },
+  "quickly": {
+    "CISLR": 2
+  },
+  "sharp": {
+    "CISLR": 1
+  },
+  "barricade": {
+    "CISLR": 1
+  },
+  "spectrometer": {
+    "CISLR": 1
+  },
+  "fast track court": {
+    "CISLR": 1
+  },
+  "company secretary": {
+    "CISLR": 1
+  },
+  "cervical cancer": {
+    "CISLR": 1
+  },
+  "reliance mobile": {
+    "CISLR": 1
+  },
+  "sixty": {
+    "CISLR": 1
+  },
+  "very wealthy person": {
+    "CISLR": 1
+  },
+  "address": {
+    "CISLR": 5
+  },
+  "juice": {
+    "CISLR": 2
+  },
+  "wedding reception": {
+    "CISLR": 3
+  },
+  "suspect": {
+    "CISLR": 4
+  },
+  "education": {
+    "CISLR": 2
+  },
+  "gionee": {
+    "CISLR": 1
+  },
+  "right": {
+    "CISLR": 5
+  },
+  "across": {
+    "CISLR": 1
+  },
+  "six monthly": {
+    "CISLR": 1
+  },
+  "objection": {
+    "CISLR": 1
+  },
+  "additional": {
+    "CISLR": 1
+  },
+  "bug": {
+    "CISLR": 2
+  },
+  "tornado": {
+    "CISLR": 1
+  },
+  "stay": {
+    "CISLR": 2
+  },
+  "exchange": {
+    "CISLR": 1
+  },
+  "farm": {
+    "CISLR": 1
+  },
+  "birthday": {
+    "CISLR": 2
+  },
+  "huge": {
+    "CISLR": 1
+  },
+  "food": {
+    "CISLR": 2
+  },
+  "fox": {
+    "CISLR": 2
+  },
+  "janmashtami": {
+    "CISLR": 2
+  },
+  "leave": {
+    "CISLR": 3
+  },
+  "bath": {
+    "CISLR": 3
+  },
+  "default": {
+    "CISLR": 1
+  },
+  "irregular": {
+    "CISLR": 1
+  },
+  "interpreter": {
+    "CISLR": 1
+  },
+  "muharram": {
+    "CISLR": 2
+  },
+  "brahma": {
+    "CISLR": 1
+  },
+  "leaf": {
+    "CISLR": 6
+  },
+  "deepika padukone": {
+    "CISLR": 1
+  },
+  "march": {
+    "CISLR": 1
+  },
+  "account commission": {
+    "CISLR": 1
+  },
+  "slovakia": {
+    "CISLR": 1
+  },
+  "physics": {
+    "CISLR": 2
+  },
+  "point": {
+    "CISLR": 2
+  },
+  "vegetable preservation": {
+    "CISLR": 1
+  },
+  "hidden file": {
+    "CISLR": 3
+  },
+  "allotment": {
+    "CISLR": 1
+  },
+  "surgeon": {
+    "CISLR": 2
+  },
+  "mali": {
+    "CISLR": 1
+  },
+  "voltmeter": {
+    "CISLR": 2
+  },
+  "numpad": {
+    "CISLR": 1
+  },
+  "non access": {
+    "CISLR": 1
+  },
+  "under review": {
+    "CISLR": 1
+  },
+  "feel": {
+    "CISLR": 2
+  },
+  "flower for beautification": {
+    "CISLR": 1
+  },
+  "final accounts": {
+    "CISLR": 1
+  },
+  "essel world": {
+    "CISLR": 1
+  },
+  "hill": {
+    "CISLR": 2
+  },
+  "shillong": {
+    "CISLR": 1
+  },
+  "merger": {
+    "CISLR": 1
+  },
+  "algeria": {
+    "CISLR": 1
+  },
+  "funeral": {
+    "CISLR": 2
+  },
+  "video": {
+    "CISLR": 2
+  },
+  "biased": {
+    "CISLR": 2
+  },
+  "himachal pradesh": {
+    "CISLR": 1
+  },
+  "cinema": {
+    "CISLR": 3
+  },
+  "licence": {
+    "CISLR": 2
+  },
+  "parameter": {
+    "CISLR": 1
+  },
+  "mtnl": {
+    "CISLR": 1
+  },
+  "institute": {
+    "CISLR": 1
+  },
+  "pond on the basis of situation": {
+    "CISLR": 1
+  },
+  "incompetence": {
+    "CISLR": 1
+  },
+  "whatever": {
+    "CISLR": 1
+  },
+  "leader": {
+    "CISLR": 1
+  },
+  "tvs bike": {
+    "CISLR": 1
+  },
+  "wall garden": {
+    "CISLR": 1
+  },
+  "spanner": {
+    "CISLR": 2
+  },
+  "illiterate": {
+    "CISLR": 1
+  },
+  "mango": {
+    "CISLR": 2
+  },
+  "compare": {
+    "CISLR": 2
+  },
+  "kangaroo": {
+    "CISLR": 2
+  },
+  "donkey": {
+    "CISLR": 4
+  },
+  "category": {
+    "CISLR": 1
+  },
+  "account suit filed": {
+    "CISLR": 1
+  },
+  "stairs": {
+    "CISLR": 1
+  },
+  "applause": {
+    "CISLR": 1
+  },
+  "school bag": {
+    "CISLR": 2
+  },
+  "youtube": {
+    "CISLR": 1
+  },
+  "order": {
+    "CISLR": 5
+  },
+  "eye": {
+    "CISLR": 2
+  },
+  "tolerate": {
+    "CISLR": 2
+  },
+  "recruitment": {
+    "CISLR": 1
+  },
+  "tunic": {
+    "CISLR": 1
+  },
+  "track ball": {
+    "CISLR": 1
+  },
+  "stitch": {
+    "CISLR": 1
+  },
+  "personal": {
+    "CISLR": 2
+  },
+  "starve": {
+    "CISLR": 1
+  },
+  "clockwise": {
+    "CISLR": 1
+  },
+  "glue": {
+    "CISLR": 1
+  },
+  "piping": {
+    "CISLR": 1
+  },
+  "difficult": {
+    "CISLR": 1
+  },
+  "cement": {
+    "CISLR": 1
+  },
+  "aquatic plants of various colour": {
+    "CISLR": 1
+  },
+  "regret": {
+    "CISLR": 2
+  },
+  "credit": {
+    "CISLR": 1
+  },
+  "catch": {
+    "CISLR": 3
+  },
+  "personality": {
+    "CISLR": 1
+  },
+  "delegate": {
+    "CISLR": 2
+  },
+  "orissa": {
+    "CISLR": 1
+  },
+  "gossip": {
+    "CISLR": 1
+  },
+  "script": {
+    "CISLR": 1
+  },
+  "ramzan": {
+    "CISLR": 1
+  },
+  "stop gap": {
+    "CISLR": 1
+  },
+  "medal": {
+    "CISLR": 1
+  },
+  "promise": {
+    "CISLR": 4
+  },
+  "breakfast": {
+    "CISLR": 1
+  },
+  "bridegroom": {
+    "CISLR": 1
+  },
+  "annual plants": {
+    "CISLR": 1
+  },
+  "establishment": {
+    "CISLR": 1
+  },
+  "store": {
+    "CISLR": 2
+  },
+  "clumsy": {
+    "CISLR": 1
+  },
+  "delicious": {
+    "CISLR": 1
+  },
+  "audi": {
+    "CISLR": 1
+  },
+  "classification of vegetables": {
+    "CISLR": 1
+  },
+  "oriental bank of commerce": {
+    "CISLR": 1
+  },
+  "coffee": {
+    "CISLR": 1
+  },
+  "dithering": {
+    "CISLR": 1
+  },
+  "south": {
+    "CISLR": 2
+  },
+  "false flooring": {
+    "CISLR": 1
+  },
+  "poultry feeds": {
+    "CISLR": 1
+  },
+  "bring": {
+    "CISLR": 1
+  },
+  "immovable property": {
+    "CISLR": 1
+  },
+  "sofa": {
+    "CISLR": 3
+  },
+  "message": {
+    "CISLR": 3
+  },
+  "shark": {
+    "CISLR": 1
+  },
+  "predecessor": {
+    "CISLR": 1
+  },
+  "sweet lime": {
+    "CISLR": 2
+  },
+  "contraction": {
+    "CISLR": 1
+  },
+  "drainage": {
+    "CISLR": 1
+  },
+  "drip irrigation": {
+    "CISLR": 1
+  },
+  "speech therapist": {
+    "CISLR": 2
+  },
+  "refrigerater": {
+    "CISLR": 1
+  },
+  "direct appointment": {
+    "CISLR": 1
+  },
+  "charge sheet": {
+    "CISLR": 1
+  },
+  "west bengal": {
+    "CISLR": 2
+  },
+  "faith": {
+    "CISLR": 2
+  },
+  "hill garden": {
+    "CISLR": 1
+  },
+  "agricultural robot": {
+    "CISLR": 1
+  },
+  "negative error": {
+    "CISLR": 1
+  },
+  "vaccum": {
+    "CISLR": 1
+  },
+  "merchant": {
+    "CISLR": 1
+  },
+  "former": {
+    "CISLR": 1
+  },
+  "flower for controlling soil erosion": {
+    "CISLR": 1
+  },
+  "always": {
+    "CISLR": 1
+  },
+  "fare": {
+    "CISLR": 1
+  },
+  "eletronegative force": {
+    "CISLR": 1
+  },
+  "beaker": {
+    "CISLR": 1
+  },
+  "outstanding": {
+    "CISLR": 1
+  },
+  "verification": {
+    "CISLR": 2
+  },
+  "nutrition": {
+    "CISLR": 1
+  },
+  "sitar": {
+    "CISLR": 1
+  },
+  "mistake": {
+    "CISLR": 4
+  },
+  "basketball": {
+    "CISLR": 1
+  },
+  "millionaire": {
+    "CISLR": 1
+  },
+  "nose stud": {
+    "CISLR": 2
+  },
+  "government": {
+    "CISLR": 2
+  },
+  "unclaimed": {
+    "CISLR": 1
+  },
+  "outside": {
+    "CISLR": 1
+  },
+  "apiculture bee keeping": {
+    "CISLR": 1
+  },
+  "spill": {
+    "CISLR": 1
+  },
+  "lazy": {
+    "CISLR": 2
+  },
+  "glass": {
+    "CISLR": 4
+  },
+  "bone": {
+    "CISLR": 3
+  },
+  "doubt": {
+    "CISLR": 2
+  },
+  "distribution": {
+    "CISLR": 1
+  },
+  "toast": {
+    "CISLR": 1
+  },
+  "sharpening stone": {
+    "CISLR": 1
+  },
+  "snow": {
+    "CISLR": 3
+  },
+  "ghost": {
+    "CISLR": 1
+  },
+  "pretend": {
+    "CISLR": 2
+  },
+  "jamun": {
+    "CISLR": 1
+  },
+  "mouthwash": {
+    "CISLR": 1
+  },
+  "bump cutter": {
+    "CISLR": 1
+  },
+  "sunrise": {
+    "CISLR": 3
+  },
+  "rajasthan": {
+    "CISLR": 3
+  },
+  "compass surveying": {
+    "CISLR": 1
+  },
+  "crawler loader": {
+    "CISLR": 1
+  },
+  "what time": {
+    "CISLR": 2
+  },
+  "skating": {
+    "CISLR": 1
+  },
+  "mushroom": {
+    "CISLR": 2
+  },
+  "random": {
+    "CISLR": 1
+  },
+  "globe": {
+    "CISLR": 1
+  },
+  "guinea": {
+    "CISLR": 1
+  },
+  "fornication": {
+    "CISLR": 1
+  },
+  "bless": {
+    "CISLR": 1
+  },
+  "tariff": {
+    "CISLR": 1
+  },
+  "voit": {
+    "CISLR": 1
+  },
+  "bihar": {
+    "CISLR": 2
+  },
+  "milling cutter convex": {
+    "CISLR": 1
+  },
+  "query": {
+    "CISLR": 2
+  },
+  "soil survey": {
+    "CISLR": 1
+  },
+  "crow": {
+    "CISLR": 1
+  },
+  "cherry": {
+    "CISLR": 1
+  },
+  "jaundice": {
+    "CISLR": 3
+  },
+  "burn": {
+    "CISLR": 1
+  },
+  "bulb": {
+    "CISLR": 3
+  },
+  "asphyxia": {
+    "CISLR": 1
+  },
+  "vigilance": {
+    "CISLR": 1
+  },
+  "weave": {
+    "CISLR": 1
+  },
+  "comfortable": {
+    "CISLR": 3
+  },
+  "trust": {
+    "CISLR": 4
+  },
+  "chart": {
+    "CISLR": 2
+  },
+  "echo": {
+    "CISLR": 1
+  },
+  "on cloud nine": {
+    "CISLR": 1
+  },
+  "electrician": {
+    "CISLR": 3
+  },
+  "build": {
+    "CISLR": 2
+  },
+  "very hot": {
+    "CISLR": 2
+  },
+  "classification": {
+    "CISLR": 1
+  },
+  "chickoo": {
+    "CISLR": 1
+  },
+  "competition": {
+    "CISLR": 2
+  },
+  "receive": {
+    "CISLR": 2
+  },
+  "samsung mobile": {
+    "CISLR": 1
+  },
+  "transparent": {
+    "CISLR": 3
+  },
+  "sikh": {
+    "CISLR": 2
+  },
+  "arm hole": {
+    "CISLR": 1
+  },
+  "goa": {
+    "CISLR": 3
+  },
+  "honey": {
+    "CISLR": 1
+  },
+  "account": {
+    "CISLR": 1
+  },
+  "reception": {
+    "CISLR": 4
+  },
+  "marigold": {
+    "CISLR": 1
+  },
+  "time limit": {
+    "CISLR": 1
+  },
+  "another": {
+    "CISLR": 1
+  },
+  "report": {
+    "CISLR": 1
+  },
+  "millilitre": {
+    "CISLR": 2
+  },
+  "yes": {
+    "CISLR": 2
+  },
+  "asia": {
+    "CISLR": 2
+  },
+  "society marketing": {
+    "CISLR": 1
+  },
+  "top management": {
+    "CISLR": 1
+  },
+  "actuary": {
+    "CISLR": 1
+  },
+  "credit voucher": {
+    "CISLR": 1
+  },
+  "virtual image": {
+    "CISLR": 1
+  },
+  "lend": {
+    "CISLR": 1
+  },
+  "computerisation": {
+    "CISLR": 1
+  },
+  "hot air balloon": {
+    "CISLR": 2
+  },
+  "perfect": {
+    "CISLR": 3
+  },
+  "target": {
+    "CISLR": 2
+  },
+  "chickenpox": {
+    "CISLR": 1
+  },
+  "points": {
+    "CISLR": 1
+  },
+  "electromagnet": {
+    "CISLR": 1
+  },
+  "inefficient": {
+    "CISLR": 1
+  },
+  "open dated": {
+    "CISLR": 1
+  },
+  "multi storey building": {
+    "CISLR": 1
+  },
+  "family court": {
+    "CISLR": 1
+  },
+  "wave": {
+    "CISLR": 3
+  },
+  "lauki": {
+    "CISLR": 1
+  },
+  "quote": {
+    "CISLR": 1
+  },
+  "thirty": {
+    "CISLR": 1
+  },
+  "emoluments": {
+    "CISLR": 1
+  },
+  "sculpture": {
+    "CISLR": 1
+  },
+  "kiss": {
+    "CISLR": 2
+  },
+  "stepup transformer": {
+    "CISLR": 1
+  },
+  "broom": {
+    "CISLR": 1
+  },
+  "jammu & kashmir": {
+    "CISLR": 1
+  },
+  "shave": {
+    "CISLR": 1
+  },
+  "bread": {
+    "CISLR": 3
+  },
+  "nest": {
+    "CISLR": 2
+  },
+  "bajaj bike": {
+    "CISLR": 1
+  },
+  "online shopping": {
+    "CISLR": 1
+  },
+  "tuning fork": {
+    "CISLR": 1
+  },
+  "final": {
+    "CISLR": 1
+  },
+  "love": {
+    "CISLR": 2
+  },
+  "jellyfish": {
+    "CISLR": 1
+  },
+  "thermal": {
+    "CISLR": 1
+  },
+  "bmw": {
+    "CISLR": 1
+  },
+  "in lieu of": {
+    "CISLR": 1
+  },
+  "quotation": {
+    "CISLR": 1
+  },
+  "graft": {
+    "CISLR": 1
+  },
+  "yamaha bike": {
+    "CISLR": 1
+  },
+  "holy": {
+    "CISLR": 1
+  },
+  "experience": {
+    "CISLR": 1
+  },
+  "pinking shears": {
+    "CISLR": 1
+  },
+  "match": {
+    "CISLR": 1
+  },
+  "hindu undivided family": {
+    "CISLR": 1
+  },
+  "map": {
+    "CISLR": 1
+  },
+  "anti corruption law": {
+    "CISLR": 2
+  },
+  "civil engineering": {
+    "CISLR": 1
+  },
+  "dubai": {
+    "CISLR": 3
+  },
+  "abacus": {
+    "CISLR": 1
+  },
+  "prevent": {
+    "CISLR": 1
+  },
+  "semi aniline skin": {
+    "CISLR": 1
+  },
+  "apple": {
+    "CISLR": 2
+  },
+  "clear": {
+    "CISLR": 2
+  },
+  "professional": {
+    "CISLR": 1
+  },
+  "brass": {
+    "CISLR": 2
+  },
+  "weapon": {
+    "CISLR": 1
+  },
+  "i don't know": {
+    "CISLR": 1
+  },
+  "hyderabad": {
+    "CISLR": 2
+  },
+  "lower court": {
+    "CISLR": 1
+  },
+  "debt": {
+    "CISLR": 1
+  },
+  "fumiture": {
+    "CISLR": 1
+  },
+  "judaism": {
+    "CISLR": 1
+  },
+  "expiry": {
+    "CISLR": 2
+  },
+  "banker": {
+    "CISLR": 1
+  },
+  "angle": {
+    "CISLR": 3
+  },
+  "drown": {
+    "CISLR": 1
+  },
+  "automatic": {
+    "CISLR": 2
+  },
+  "lgnore": {
+    "CISLR": 1
+  },
+  "sequential": {
+    "CISLR": 2
+  },
+  "re pledge": {
+    "CISLR": 1
+  },
+  "accessories": {
+    "CISLR": 1
+  },
+  "news": {
+    "CISLR": 1
+  },
+  "x ray": {
+    "CISLR": 2
+  },
+  "roar": {
+    "CISLR": 2
+  },
+  "timid": {
+    "CISLR": 1
+  },
+  "fluted pleats": {
+    "CISLR": 1
+  },
+  "steering wheel": {
+    "CISLR": 1
+  },
+  "solid": {
+    "CISLR": 2
+  },
+  "lay out": {
+    "CISLR": 1
+  },
+  "bandit munger": {
+    "CISLR": 1
+  },
+  "three days after": {
+    "CISLR": 1
+  },
+  "glue gun": {
+    "CISLR": 1
+  },
+  "year calender": {
+    "CISLR": 1
+  },
+  "bank account number": {
+    "CISLR": 1
+  },
+  "supersession": {
+    "CISLR": 1
+  },
+  "denmark": {
+    "CISLR": 1
+  },
+  "posting": {
+    "CISLR": 1
+  },
+  "never": {
+    "CISLR": 3
+  },
+  "residential building": {
+    "CISLR": 1
+  },
+  "punishment": {
+    "CISLR": 1
+  },
+  "seven": {
+    "CISLR": 1
+  },
+  "ban": {
+    "CISLR": 2
+  },
+  "wild swine": {
+    "CISLR": 1
+  },
+  "beat": {
+    "CISLR": 1
+  },
+  "back": {
+    "CISLR": 3
+  },
+  "knowledgeable": {
+    "CISLR": 1
+  },
+  "bhopal": {
+    "CISLR": 1
+  },
+  "pass book": {
+    "CISLR": 1
+  },
+  "hair dryer": {
+    "CISLR": 2
+  },
+  "two": {
+    "CISLR": 1
+  },
+  "join": {
+    "CISLR": 1
+  },
+  "round": {
+    "CISLR": 4
+  },
+  "maruti car": {
+    "CISLR": 1
+  },
+  "roti": {
+    "CISLR": 1
+  },
+  "weird": {
+    "CISLR": 2
+  },
+  "withhold": {
+    "CISLR": 1
+  },
+  "hippo": {
+    "CISLR": 2
+  },
+  "uttar pradesh": {
+    "CISLR": 2
+  },
+  "weigh": {
+    "CISLR": 1
+  },
+  "atom": {
+    "CISLR": 1
+  },
+  "mason square": {
+    "CISLR": 1
+  },
+  "dizzy": {
+    "CISLR": 1
+  },
+  "spectrum": {
+    "CISLR": 1
+  },
+  "angular velocity": {
+    "CISLR": 1
+  },
+  "result": {
+    "CISLR": 4
+  },
+  "subscription": {
+    "CISLR": 1
+  },
+  "value scale": {
+    "CISLR": 1
+  },
+  "website": {
+    "CISLR": 3
+  },
+  "toy": {
+    "CISLR": 1
+  },
+  "us": {
+    "CISLR": 1
+  },
+  "capillary tube": {
+    "CISLR": 1
+  },
+  "shaving brush": {
+    "CISLR": 1
+  },
+  "kazakhstan": {
+    "CISLR": 1
+  },
+  "malaysia": {
+    "CISLR": 1
+  },
+  "laugh": {
+    "CISLR": 1
+  },
+  "casio": {
+    "CISLR": 1
+  },
+  "meeting": {
+    "CISLR": 2
+  },
+  "setting of cement": {
+    "CISLR": 1
+  },
+  "apparatus": {
+    "CISLR": 1
+  },
+  "geothermal energy": {
+    "CISLR": 1
+  },
+  "amazed": {
+    "CISLR": 1
+  },
+  "tractive work": {
+    "CISLR": 1
+  },
+  "accumulated": {
+    "CISLR": 1
+  },
+  "woodpecker": {
+    "CISLR": 1
+  },
+  "thailand": {
+    "CISLR": 1
+  },
+  "lighthouse": {
+    "CISLR": 2
+  },
+  "sufficient": {
+    "CISLR": 1
+  },
+  "elastic": {
+    "CISLR": 1
+  },
+  "zipper foot": {
+    "CISLR": 1
+  },
+  "numerical control": {
+    "CISLR": 1
+  },
+  "society": {
+    "CISLR": 1
+  },
+  "concrete mixture": {
+    "CISLR": 1
+  },
+  "annual for foliage beauty": {
+    "CISLR": 1
+  },
+  "rainy season vegetables": {
+    "CISLR": 1
+  },
+  "justice": {
+    "CISLR": 1
+  },
+  "created": {
+    "CISLR": 1
+  },
+  "focal length": {
+    "CISLR": 1
+  },
+  "honorarium": {
+    "CISLR": 1
+  },
+  "vomit": {
+    "CISLR": 1
+  },
+  "leaf spring": {
+    "CISLR": 1
+  },
+  "throw": {
+    "CISLR": 2
+  },
+  "penality": {
+    "CISLR": 1
+  },
+  "benign": {
+    "CISLR": 1
+  },
+  "mediocre": {
+    "CISLR": 1
+  },
+  "participation": {
+    "CISLR": 1
+  },
+  "wheeled robots": {
+    "CISLR": 1
+  },
+  "pledge": {
+    "CISLR": 1
+  },
+  "wedge": {
+    "CISLR": 1
+  },
+  "world": {
+    "CISLR": 2
+  },
+  "research farm": {
+    "CISLR": 1
+  },
+  "external": {
+    "CISLR": 1
+  },
+  "brown sport of rice": {
+    "CISLR": 1
+  },
+  "magic": {
+    "CISLR": 4
+  },
+  "videographer": {
+    "CISLR": 1
+  },
+  "adjustable screw": {
+    "CISLR": 1
+  },
+  "stress": {
+    "CISLR": 1
+  },
+  "prohibit": {
+    "CISLR": 1
+  },
+  "telescope": {
+    "CISLR": 1
+  },
+  "hen": {
+    "CISLR": 2
+  },
+  "express": {
+    "CISLR": 2
+  },
+  "moneylender": {
+    "CISLR": 1
+  },
+  "crime": {
+    "CISLR": 1
+  },
+  "parallel": {
+    "CISLR": 1
+  },
+  "layered skirt": {
+    "CISLR": 1
+  },
+  "calculation": {
+    "CISLR": 2
+  },
+  "demand": {
+    "CISLR": 1
+  },
+  "mucosal disease": {
+    "CISLR": 1
+  },
+  "conveyance allowance": {
+    "CISLR": 1
+  },
+  "loud speaker": {
+    "CISLR": 1
+  },
+  "punjab": {
+    "CISLR": 3
+  },
+  "patience": {
+    "CISLR": 3
+  },
+  "static electricity": {
+    "CISLR": 1
+  },
+  "harmonium": {
+    "CISLR": 2
+  },
+  "stage": {
+    "CISLR": 1
+  },
+  "strength": {
+    "CISLR": 2
+  },
+  "method of accounting": {
+    "CISLR": 1
+  },
+  "field": {
+    "CISLR": 2
+  },
+  "quality": {
+    "CISLR": 1
+  },
+  "rude": {
+    "CISLR": 2
+  },
+  "small enterprise": {
+    "CISLR": 1
+  },
+  "vent": {
+    "CISLR": 1
+  },
+  "digging bar": {
+    "CISLR": 1
+  },
+  "ballon pump": {
+    "CISLR": 1
+  },
+  "smile": {
+    "CISLR": 2
+  },
+  "party": {
+    "CISLR": 1
+  },
+  "taluk": {
+    "CISLR": 1
+  },
+  "par at": {
+    "CISLR": 1
+  },
+  "adopt": {
+    "CISLR": 1
+  },
+  "reproduction": {
+    "CISLR": 1
+  },
+  "water logged hedges": {
+    "CISLR": 1
+  },
+  "baseball jacket": {
+    "CISLR": 1
+  },
+  "output": {
+    "CISLR": 2
+  },
+  "taxi": {
+    "CISLR": 2
+  },
+  "sibling": {
+    "CISLR": 1
+  },
+  "olericulture": {
+    "CISLR": 1
+  },
+  "telangana": {
+    "CISLR": 2
+  },
+  "north east": {
+    "CISLR": 1
+  },
+  "heavier": {
+    "CISLR": 1
+  },
+  "misbehaviour": {
+    "CISLR": 1
+  },
+  "cheque gift": {
+    "CISLR": 1
+  },
+  "shearling": {
+    "CISLR": 1
+  },
+  "goodbye": {
+    "CISLR": 1
+  },
+  "who": {
+    "CISLR": 2
+  },
+  "out": {
+    "CISLR": 1
+  },
+  "astigmatism": {
+    "CISLR": 1
+  },
+  "float": {
+    "CISLR": 2
+  },
+  "refrigerator": {
+    "CISLR": 2
+  },
+  "actress": {
+    "CISLR": 1
+  },
+  "jagannath ratha yatra": {
+    "CISLR": 1
+  },
+  "cock": {
+    "CISLR": 3
+  },
+  "alarm": {
+    "CISLR": 2
+  },
+  "training": {
+    "CISLR": 1
+  },
+  "overtime allowance": {
+    "CISLR": 1
+  },
+  "deal": {
+    "CISLR": 1
+  },
+  "digital electronics": {
+    "CISLR": 1
+  },
+  "premium": {
+    "CISLR": 1
+  },
+  "maha shivaratri": {
+    "CISLR": 3
+  },
+  "rip out": {
+    "CISLR": 1
+  },
+  "rock gardening": {
+    "CISLR": 1
+  },
+  "long term": {
+    "CISLR": 1
+  },
+  "roof griders": {
+    "CISLR": 1
+  },
+  "nature": {
+    "CISLR": 1
+  },
+  "angel": {
+    "CISLR": 1
+  },
+  "garage": {
+    "CISLR": 1
+  },
+  "dosa": {
+    "CISLR": 1
+  },
+  "seminar": {
+    "CISLR": 1
+  },
+  "land": {
+    "CISLR": 6
+  },
+  "kumbh mela": {
+    "CISLR": 2
+  },
+  "south indian bank": {
+    "CISLR": 1
+  },
+  "insurance": {
+    "CISLR": 2
+  },
+  "public gardens": {
+    "CISLR": 1
+  },
+  "eagle": {
+    "CISLR": 2
+  },
+  "apex court": {
+    "CISLR": 1
+  },
+  "company joint stock": {
+    "CISLR": 1
+  },
+  "forged": {
+    "CISLR": 1
+  },
+  "melt": {
+    "CISLR": 4
+  },
+  "first charge": {
+    "CISLR": 1
+  },
+  "natural": {
+    "CISLR": 2
+  },
+  "money order": {
+    "CISLR": 1
+  },
+  "superficial": {
+    "CISLR": 2
+  },
+  "object": {
+    "CISLR": 1
+  },
+  "disc brake master cylinder": {
+    "CISLR": 1
+  },
+  "initials": {
+    "CISLR": 1
+  },
+  "netflix": {
+    "CISLR": 1
+  },
+  "left indent": {
+    "CISLR": 1
+  },
+  "alarm system": {
+    "CISLR": 1
+  },
+  "classification based on the transplanting capacity": {
+    "CISLR": 1
+  },
+  "locker": {
+    "CISLR": 1
+  },
+  "kinds of honey bee found in india": {
+    "CISLR": 1
+  },
+  "building structure": {
+    "CISLR": 1
+  },
+  "out of print": {
+    "CISLR": 1
+  },
+  "molecule": {
+    "CISLR": 1
+  },
+  "condition": {
+    "CISLR": 1
+  },
+  "perpendicular": {
+    "CISLR": 1
+  },
+  "disbursement": {
+    "CISLR": 1
+  },
+  "buddhist": {
+    "CISLR": 1
+  },
+  "marry": {
+    "CISLR": 1
+  },
+  "question": {
+    "CISLR": 2
+  },
+  "retention of moisture": {
+    "CISLR": 1
+  },
+  "tagetus": {
+    "CISLR": 1
+  },
+  "information": {
+    "CISLR": 2
+  },
+  "safety goggle": {
+    "CISLR": 1
+  },
+  "close up": {
+    "CISLR": 1
+  },
+  "tabernaemontana coronaria": {
+    "CISLR": 1
+  },
+  "able": {
+    "CISLR": 1
+  },
+  "economic": {
+    "CISLR": 1
+  },
+  "sms notification": {
+    "CISLR": 1
+  },
+  "flatfoot": {
+    "CISLR": 1
+  },
+  "benefit": {
+    "CISLR": 1
+  },
+  "overseas": {
+    "CISLR": 1
+  },
+  "nuncupative will": {
+    "CISLR": 1
+  },
+  "fossll fueis": {
+    "CISLR": 1
+  },
+  "yourself": {
+    "CISLR": 2
+  },
+  "invite": {
+    "CISLR": 1
+  },
+  "remind": {
+    "CISLR": 1
+  },
+  "system": {
+    "CISLR": 2
+  },
+  "debug": {
+    "CISLR": 1
+  },
+  "microphone": {
+    "CISLR": 1
+  },
+  "chappels": {
+    "CISLR": 4
+  },
+  "hawker": {
+    "CISLR": 2
+  },
+  "mother tongue": {
+    "CISLR": 1
+  },
+  "sales retum": {
+    "CISLR": 1
+  },
+  "stone": {
+    "CISLR": 3
+  },
+  "true copy": {
+    "CISLR": 1
+  },
+  "netaji subhas chandra bose": {
+    "CISLR": 1
+  },
+  "convertible collar": {
+    "CISLR": 1
+  },
+  "try": {
+    "CISLR": 4
+  },
+  "beetroot": {
+    "CISLR": 1
+  },
+  "fluctuation": {
+    "CISLR": 1
+  },
+  "ball room": {
+    "CISLR": 1
+  },
+  "genius": {
+    "CISLR": 1
+  },
+  "tecoma stans": {
+    "CISLR": 1
+  },
+  "hypoxia": {
+    "CISLR": 1
+  },
+  "rowdy": {
+    "CISLR": 1
+  },
+  "sailor": {
+    "CISLR": 2
+  },
+  "mouth spray": {
+    "CISLR": 1
+  },
+  "go": {
+    "CISLR": 2
+  },
+  "rhinocerous": {
+    "CISLR": 1
+  },
+  "volley ball": {
+    "CISLR": 1
+  },
+  "surcharge": {
+    "CISLR": 1
+  },
+  "office branch": {
+    "CISLR": 1
+  },
+  "record video": {
+    "CISLR": 2
+  },
+  "put up": {
+    "CISLR": 1
+  },
+  "special": {
+    "CISLR": 3
+  },
+  "notch collar": {
+    "CISLR": 1
+  },
+  "tally": {
+    "CISLR": 2
+  },
+  "jewelery": {
+    "CISLR": 1
+  },
+  "uranus": {
+    "CISLR": 1
+  },
+  "appreciation": {
+    "CISLR": 1
+  },
+  "paid up capital": {
+    "CISLR": 1
+  },
+  "small": {
+    "CISLR": 2
+  },
+  "themselves": {
+    "CISLR": 2
+  },
+  "hindu": {
+    "CISLR": 2
+  },
+  "region": {
+    "CISLR": 1
+  },
+  "catch stitch": {
+    "CISLR": 1
+  },
+  "poison": {
+    "CISLR": 2
+  },
+  "anticlockwise": {
+    "CISLR": 2
+  },
+  "baluster": {
+    "CISLR": 1
+  },
+  "permission": {
+    "CISLR": 1
+  },
+  "ice cream": {
+    "CISLR": 2
+  },
+  "site": {
+    "CISLR": 1
+  },
+  "toothpaste": {
+    "CISLR": 2
+  },
+  "cash remmitance": {
+    "CISLR": 1
+  },
+  "junior": {
+    "CISLR": 1
+  },
+  "canara bank": {
+    "CISLR": 1
+  },
+  "shipping freight": {
+    "CISLR": 1
+  },
+  "rotate": {
+    "CISLR": 1
+  },
+  "pickpocket": {
+    "CISLR": 1
+  },
+  "france": {
+    "CISLR": 2
+  },
+  "stock": {
+    "CISLR": 1
+  },
+  "swap": {
+    "CISLR": 1
+  },
+  "baseball": {
+    "CISLR": 1
+  },
+  "word pad": {
+    "CISLR": 1
+  },
+  "wiring": {
+    "CISLR": 2
+  },
+  "accuse": {
+    "CISLR": 1
+  },
+  "capsicum": {
+    "CISLR": 2
+  },
+  "electric car": {
+    "CISLR": 1
+  },
+  "photographic camera": {
+    "CISLR": 1
+  },
+  "venezuela": {
+    "CISLR": 1
+  },
+  "flowers for pot": {
+    "CISLR": 1
+  },
+  "coal": {
+    "CISLR": 2
+  },
+  "chief": {
+    "CISLR": 1
+  },
+  "cataract": {
+    "CISLR": 1
+  },
+  "birth defect": {
+    "CISLR": 1
+  },
+  "record": {
+    "CISLR": 4
+  },
+  "easy": {
+    "CISLR": 2
+  },
+  "messages videos": {
+    "CISLR": 1
+  },
+  "ridge board": {
+    "CISLR": 1
+  },
+  "nigeria": {
+    "CISLR": 1
+  },
+  "counsel": {
+    "CISLR": 1
+  },
+  "below": {
+    "CISLR": 2
+  },
+  "football": {
+    "CISLR": 1
+  },
+  "black board": {
+    "CISLR": 1
+  },
+  "voucher": {
+    "CISLR": 1
+  },
+  "mongolia": {
+    "CISLR": 1
+  },
+  "red rot of sugarcane": {
+    "CISLR": 1
+  },
+  "cambodia": {
+    "CISLR": 1
+  },
+  "diwali": {
+    "CISLR": 4
+  },
+  "electrical tester": {
+    "CISLR": 1
+  },
+  "electrical burns": {
+    "CISLR": 1
+  },
+  "abstention": {
+    "CISLR": 1
+  },
+  "zipper": {
+    "CISLR": 1
+  },
+  "norfolk jacket": {
+    "CISLR": 1
+  },
+  "zero error": {
+    "CISLR": 1
+  },
+  "cave": {
+    "CISLR": 3
+  },
+  "word": {
+    "CISLR": 2
+  },
+  "ask": {
+    "CISLR": 2
+  },
+  "under valuation": {
+    "CISLR": 1
+  },
+  "compression": {
+    "CISLR": 1
+  },
+  "interference": {
+    "CISLR": 1
+  },
+  "worth": {
+    "CISLR": 1
+  },
+  "rhythmic": {
+    "CISLR": 1
+  },
+  "quota": {
+    "CISLR": 1
+  },
+  "rjd": {
+    "CISLR": 3
+  },
+  "thirteen": {
+    "CISLR": 1
+  },
+  "these": {
+    "CISLR": 1
+  },
+  "product": {
+    "CISLR": 1
+  },
+  "dim": {
+    "CISLR": 1
+  },
+  "courier": {
+    "CISLR": 2
+  },
+  "country": {
+    "CISLR": 2
+  },
+  "signature": {
+    "CISLR": 1
+  },
+  "jam": {
+    "CISLR": 2
+  },
+  "specimen": {
+    "CISLR": 1
+  },
+  "cash receipt": {
+    "CISLR": 1
+  },
+  "stepdown transformer": {
+    "CISLR": 1
+  },
+  "nut": {
+    "CISLR": 2
+  },
+  "paper clip": {
+    "CISLR": 2
+  },
+  "close friend": {
+    "CISLR": 1
+  },
+  "music": {
+    "CISLR": 2
+  },
+  "bellboy jacket": {
+    "CISLR": 1
+  },
+  "account head": {
+    "CISLR": 1
+  },
+  "south america": {
+    "CISLR": 2
+  },
+  "bus conductor": {
+    "CISLR": 2
+  },
+  "start": {
+    "CISLR": 4
+  },
+  "refusal": {
+    "CISLR": 1
+  },
+  "states": {
+    "CISLR": 1
+  },
+  "regulator": {
+    "CISLR": 1
+  },
+  "quarter": {
+    "CISLR": 1
+  },
+  "camouflage": {
+    "CISLR": 1
+  },
+  "potential energy": {
+    "CISLR": 1
+  },
+  "write": {
+    "CISLR": 2
+  },
+  "consent": {
+    "CISLR": 1
+  },
+  "rate concessional": {
+    "CISLR": 1
+  },
+  "decimal": {
+    "CISLR": 1
+  },
+  "heart": {
+    "CISLR": 2
+  },
+  "sub head": {
+    "CISLR": 1
+  },
+  "little": {
+    "CISLR": 1
+  },
+  "slow passenger train": {
+    "CISLR": 1
+  },
+  "self balancing": {
+    "CISLR": 2
+  },
+  "bored": {
+    "CISLR": 1
+  },
+  "random motion": {
+    "CISLR": 1
+  },
+  "traditional": {
+    "CISLR": 1
+  },
+  "bias cowl dress": {
+    "CISLR": 1
+  },
+  "wind energy": {
+    "CISLR": 1
+  },
+  "affidavit": {
+    "CISLR": 1
+  },
+  "calorie": {
+    "CISLR": 1
+  },
+  "sanction": {
+    "CISLR": 1
+  },
+  "goldfish": {
+    "CISLR": 1
+  },
+  "plastic": {
+    "CISLR": 2
+  },
+  "angle of refraction": {
+    "CISLR": 2
+  },
+  "hockey": {
+    "CISLR": 1
+  },
+  "chamber": {
+    "CISLR": 1
+  },
+  "envelope": {
+    "CISLR": 1
+  },
+  "thousand": {
+    "CISLR": 1
+  },
+  "continue": {
+    "CISLR": 1
+  },
+  "brush": {
+    "CISLR": 1
+  },
+  "jd u": {
+    "CISLR": 1
+  },
+  "paramedic": {
+    "CISLR": 1
+  },
+  "meager": {
+    "CISLR": 1
+  },
+  "mosque": {
+    "CISLR": 1
+  },
+  "ambulance": {
+    "CISLR": 1
+  },
+  "sound": {
+    "CISLR": 2
+  },
+  "large": {
+    "CISLR": 1
+  },
+  "cheat": {
+    "CISLR": 2
+  },
+  "denomination": {
+    "CISLR": 1
+  },
+  "proforma": {
+    "CISLR": 1
+  },
+  "#n/a": {
+    "CISLR": 1
+  },
+  "revise": {
+    "CISLR": 1
+  },
+  "pdp": {
+    "CISLR": 1
+  },
+  "water lifting equipments": {
+    "CISLR": 1
+  },
+  "notification": {
+    "CISLR": 2
+  },
+  "power sockets": {
+    "CISLR": 1
+  },
+  "clown": {
+    "CISLR": 2
+  },
+  "pair": {
+    "CISLR": 2
+  },
+  "sightseeing": {
+    "CISLR": 1
+  },
+  "secondary": {
+    "CISLR": 1
+  },
+  "tribunal": {
+    "CISLR": 1
+  },
+  "united kingdom": {
+    "CISLR": 1
+  },
+  "interim": {
+    "CISLR": 1
+  },
+  "chamfering": {
+    "CISLR": 1
+  },
+  "potentiality": {
+    "CISLR": 1
+  },
+  "half": {
+    "CISLR": 2
+  },
+  "claim": {
+    "CISLR": 1
+  },
+  "at": {
+    "CISLR": 1
+  },
+  "brick": {
+    "CISLR": 2
+  },
+  "draughtsman": {
+    "CISLR": 1
+  },
+  "milk adultration": {
+    "CISLR": 1
+  },
+  "reconsider": {
+    "CISLR": 1
+  },
+  "drizzle": {
+    "CISLR": 1
+  },
+  "signal": {
+    "CISLR": 1
+  },
+  "disability": {
+    "CISLR": 1
+  },
+  "have": {
+    "CISLR": 1
+  },
+  "bake": {
+    "CISLR": 2
+  },
+  "hotel": {
+    "CISLR": 3
+  },
+  "dicoty ledoneae": {
+    "CISLR": 1
+  },
+  "arc welding": {
+    "CISLR": 1
+  },
+  "kenya": {
+    "CISLR": 1
+  },
+  "section admin": {
+    "CISLR": 1
+  },
+  "head office": {
+    "CISLR": 1
+  },
+  "revolving chair": {
+    "CISLR": 1
+  },
+  "luck": {
+    "CISLR": 1
+  },
+  "irreversible": {
+    "CISLR": 1
+  },
+  "van": {
+    "CISLR": 1
+  },
+  "identity card": {
+    "CISLR": 1
+  },
+  "plum": {
+    "CISLR": 1
+  },
+  "roll": {
+    "CISLR": 2
+  },
+  "whistle": {
+    "CISLR": 2
+  },
+  "switzerland": {
+    "CISLR": 1
+  },
+  "approximate": {
+    "CISLR": 2
+  },
+  "introduction": {
+    "CISLR": 1
+  },
+  "smell": {
+    "CISLR": 4
+  },
+  "sweden": {
+    "CISLR": 1
+  },
+  "idfc bank": {
+    "CISLR": 1
+  },
+  "dry cell": {
+    "CISLR": 1
+  },
+  "bandage": {
+    "CISLR": 1
+  },
+  "refresher course": {
+    "CISLR": 1
+  },
+  "succession": {
+    "CISLR": 1
+  },
+  "first floor": {
+    "CISLR": 2
+  },
+  "death row": {
+    "CISLR": 1
+  },
+  "regulation": {
+    "CISLR": 1
+  },
+  "balance sheet": {
+    "CISLR": 1
+  },
+  "desktop cleanup wizard": {
+    "CISLR": 1
+  },
+  "since": {
+    "CISLR": 1
+  },
+  "re issue": {
+    "CISLR": 1
+  },
+  "korea": {
+    "CISLR": 1
+  },
+  "needle": {
+    "CISLR": 2
+  },
+  "disease": {
+    "CISLR": 2
+  },
+  "sign language": {
+    "CISLR": 1
+  },
+  "industrial building": {
+    "CISLR": 1
+  },
+  "unit": {
+    "CISLR": 2
+  },
+  "spherical structure": {
+    "CISLR": 1
+  },
+  "dairy science": {
+    "CISLR": 1
+  },
+  "excuse me": {
+    "CISLR": 1
+  },
+  "jeep": {
+    "CISLR": 1
+  },
+  "calm": {
+    "CISLR": 2
+  },
+  "octal": {
+    "CISLR": 1
+  },
+  "hydropneumatic sprayer": {
+    "CISLR": 1
+  },
+  "utility of mushroom": {
+    "CISLR": 1
+  },
+  "plenty": {
+    "CISLR": 2
+  },
+  "cotter ring": {
+    "CISLR": 1
+  },
+  "pram": {
+    "CISLR": 1
+  },
+  "plumb bob and line": {
+    "CISLR": 1
+  },
+  "part": {
+    "CISLR": 1
+  },
+  "long day plant": {
+    "CISLR": 1
+  },
+  "kurta": {
+    "CISLR": 4
+  },
+  "jacket": {
+    "CISLR": 1
+  },
+  "boring machine": {
+    "CISLR": 1
+  },
+  "observation": {
+    "CISLR": 1
+  },
+  "close relation": {
+    "CISLR": 1
+  },
+  "binary": {
+    "CISLR": 1
+  },
+  "extra": {
+    "CISLR": 2
+  },
+  "parsi": {
+    "CISLR": 1
+  },
+  "transformer": {
+    "CISLR": 1
+  },
+  "double click": {
+    "CISLR": 1
+  },
+  "security convertible": {
+    "CISLR": 1
+  },
+  "wavemotion": {
+    "CISLR": 1
+  },
+  "cause of action": {
+    "CISLR": 1
+  },
+  "three": {
+    "CISLR": 1
+  },
+  "gas equation": {
+    "CISLR": 1
+  },
+  "ms windows": {
+    "CISLR": 1
+  },
+  "video camera": {
+    "CISLR": 2
+  },
+  "sly": {
+    "CISLR": 2
+  },
+  "postman": {
+    "CISLR": 2
+  },
+  "supply": {
+    "CISLR": 1
+  },
+  "brothel": {
+    "CISLR": 1
+  },
+  "gas pipe": {
+    "CISLR": 1
+  },
+  "construction contract": {
+    "CISLR": 1
+  },
+  "job consciousness": {
+    "CISLR": 1
+  },
+  "tattoo": {
+    "CISLR": 1
+  },
+  "paying slip": {
+    "CISLR": 1
+  },
+  "dasara": {
+    "CISLR": 2
+  },
+  "saina nehwal": {
+    "CISLR": 1
+  },
+  "charge": {
+    "CISLR": 1
+  },
+  "equator": {
+    "CISLR": 2
+  },
+  "interfere": {
+    "CISLR": 1
+  },
+  "bitter": {
+    "CISLR": 1
+  },
+  "micromax mobile": {
+    "CISLR": 1
+  },
+  "sob": {
+    "CISLR": 1
+  },
+  "uttarakhand": {
+    "CISLR": 1
+  },
+  "pullet": {
+    "CISLR": 1
+  },
+  "daily list": {
+    "CISLR": 1
+  },
+  "jordan": {
+    "CISLR": 1
+  },
+  "leave preparatory to retirement": {
+    "CISLR": 1
+  },
+  "staff": {
+    "CISLR": 1
+  },
+  "six": {
+    "CISLR": 2
+  },
+  "wattmeter": {
+    "CISLR": 1
+  },
+  "minutes": {
+    "CISLR": 2
+  },
+  "plant physiology": {
+    "CISLR": 1
+  },
+  "boyfriend": {
+    "CISLR": 1
+  },
+  "enjoy": {
+    "CISLR": 3
+  },
+  "bacterial diseases animals": {
+    "CISLR": 1
+  },
+  "tender": {
+    "CISLR": 1
+  },
+  "ballast device": {
+    "CISLR": 1
+  },
+  "fingerspell": {
+    "CISLR": 1
+  },
+  "behind": {
+    "CISLR": 4
+  },
+  "seniority": {
+    "CISLR": 1
+  },
+  "dam": {
+    "CISLR": 1
+  },
+  "ernission": {
+    "CISLR": 1
+  },
+  "delivery": {
+    "CISLR": 1
+  },
+  "wallet": {
+    "CISLR": 1
+  },
+  "apiculturist": {
+    "CISLR": 1
+  },
+  "runs": {
+    "CISLR": 1
+  },
+  "section": {
+    "CISLR": 1
+  },
+  "burger": {
+    "CISLR": 1
+  },
+  "environmental pollution": {
+    "CISLR": 1
+  },
+  "neat": {
+    "CISLR": 1
+  },
+  "quarrel": {
+    "CISLR": 1
+  },
+  "spain": {
+    "CISLR": 1
+  },
+  "water pump": {
+    "CISLR": 1
+  },
+  "volume": {
+    "CISLR": 2
+  },
+  "spot and forward": {
+    "CISLR": 1
+  },
+  "giga byte": {
+    "CISLR": 1
+  },
+  "cheque stale": {
+    "CISLR": 1
+  },
+  "social": {
+    "CISLR": 2
+  },
+  "pomegranate": {
+    "CISLR": 1
+  },
+  "battered child syndrome": {
+    "CISLR": 2
+  },
+  "zone": {
+    "CISLR": 1
+  },
+  "bike silencer pipe": {
+    "CISLR": 1
+  },
+  "injection": {
+    "CISLR": 1
+  },
+  "sex": {
+    "CISLR": 1
+  },
+  "wikipedia": {
+    "CISLR": 1
+  },
+  "agenda": {
+    "CISLR": 2
+  },
+  "vide": {
+    "CISLR": 1
+  },
+  "gravity": {
+    "CISLR": 1
+  },
+  "shower": {
+    "CISLR": 1
+  },
+  "xbox": {
+    "CISLR": 1
+  },
+  "present": {
+    "CISLR": 2
+  },
+  "account currency": {
+    "CISLR": 1
+  },
+  "millimetre": {
+    "CISLR": 1
+  },
+  "leafy vegetables": {
+    "CISLR": 1
+  },
+  "exhaust pump": {
+    "CISLR": 1
+  },
+  "italy": {
+    "CISLR": 1
+  },
+  "sanitary pad": {
+    "CISLR": 2
+  },
+  "discipline": {
+    "CISLR": 1
+  },
+  "run": {
+    "CISLR": 4
+  },
+  "pass to": {
+    "CISLR": 1
+  },
+  "sports": {
+    "CISLR": 1
+  },
+  "matrimonial home": {
+    "CISLR": 1
+  },
+  "clouds": {
+    "CISLR": 1
+  },
+  "centigram": {
+    "CISLR": 1
+  },
+  "bamboo": {
+    "CISLR": 1
+  },
+  "plunger": {
+    "CISLR": 1
+  },
+  "pick stitch": {
+    "CISLR": 1
+  },
+  "bonafide": {
+    "CISLR": 1
+  },
+  "power duster": {
+    "CISLR": 1
+  },
+  "mitsubishi motors": {
+    "CISLR": 1
+  },
+  "calorimeter": {
+    "CISLR": 1
+  },
+  "water pipe": {
+    "CISLR": 1
+  },
+  "how many": {
+    "CISLR": 2
+  },
+  "subject matter": {
+    "CISLR": 1
+  },
+  "access": {
+    "CISLR": 1
+  },
+  "paw": {
+    "CISLR": 1
+  },
+  "confused": {
+    "CISLR": 2
+  },
+  "draw": {
+    "CISLR": 2
+  },
+  "safe guard": {
+    "CISLR": 1
+  },
+  "twelve": {
+    "CISLR": 1
+  },
+  "diabetes": {
+    "CISLR": 3
+  },
+  "photosynthesis": {
+    "CISLR": 1
+  },
+  "dictionary": {
+    "CISLR": 1
+  },
+  "soldering iron": {
+    "CISLR": 1
+  },
+  "any": {
+    "CISLR": 2
+  },
+  "fixed deposit": {
+    "CISLR": 1
+  },
+  "pro circle": {
+    "CISLR": 1
+  },
+  "humidity": {
+    "CISLR": 1
+  },
+  "stabilisation": {
+    "CISLR": 1
+  },
+  "thermostat": {
+    "CISLR": 1
+  },
+  "empty": {
+    "CISLR": 1
+  },
+  "dairy farm record": {
+    "CISLR": 1
+  },
+  "welcome": {
+    "CISLR": 2
+  },
+  "bone cancer osteosarcoma and malignant fibrous histiocytoma": {
+    "CISLR": 1
+  },
+  "lumpsum": {
+    "CISLR": 1
+  },
+  "see": {
+    "CISLR": 4
+  },
+  "taiwan": {
+    "CISLR": 1
+  },
+  "hindi": {
+    "CISLR": 1
+  },
+  "cross": {
+    "CISLR": 1
+  },
+  "band aid": {
+    "CISLR": 1
+  },
+  "life": {
+    "CISLR": 1
+  },
+  "lollipop": {
+    "CISLR": 1
+  },
+  "reminder": {
+    "CISLR": 1
+  },
+  "wire stripper": {
+    "CISLR": 1
+  },
+  "wholesale merchants": {
+    "CISLR": 1
+  },
+  "ram navami": {
+    "CISLR": 1
+  },
+  "runner": {
+    "CISLR": 1
+  },
+  "wheat rust": {
+    "CISLR": 1
+  },
+  "criminal court": {
+    "CISLR": 1
+  },
+  "uniform motion": {
+    "CISLR": 1
+  },
+  "cash": {
+    "CISLR": 2
+  },
+  "clerk": {
+    "CISLR": 2
+  },
+  "toffee": {
+    "CISLR": 1
+  },
+  "center": {
+    "CISLR": 1
+  },
+  "pre paid": {
+    "CISLR": 1
+  },
+  "absorption of water": {
+    "CISLR": 1
+  },
+  "alternative": {
+    "CISLR": 1
+  },
+  "regular vibration": {
+    "CISLR": 1
+  },
+  "cream": {
+    "CISLR": 3
+  },
+  "side": {
+    "CISLR": 1
+  },
+  "grudge": {
+    "CISLR": 1
+  },
+  "mobilisation deposit": {
+    "CISLR": 1
+  },
+  "kite": {
+    "CISLR": 2
+  },
+  "register": {
+    "CISLR": 1
+  },
+  "weight": {
+    "CISLR": 4
+  },
+  "error of omission": {
+    "CISLR": 1
+  },
+  "from": {
+    "CISLR": 2
+  },
+  "allowance": {
+    "CISLR": 1
+  },
+  "bangladesh": {
+    "CISLR": 1
+  },
+  "child prostitution": {
+    "CISLR": 1
+  },
+  "touchscreen": {
+    "CISLR": 1
+  },
+  "temporary": {
+    "CISLR": 3
+  },
+  "buyer": {
+    "CISLR": 1
+  },
+  "natural gas": {
+    "CISLR": 1
+  },
+  "shaft": {
+    "CISLR": 1
+  },
+  "u neck": {
+    "CISLR": 1
+  },
+  "garlic": {
+    "CISLR": 2
+  },
+  "jal mahal": {
+    "CISLR": 1
+  },
+  "outstanding cheque": {
+    "CISLR": 1
+  },
+  "tum over": {
+    "CISLR": 1
+  },
+  "advocate general": {
+    "CISLR": 1
+  },
+  "builder": {
+    "CISLR": 1
+  },
+  "battery": {
+    "CISLR": 2
+  },
+  "regular": {
+    "CISLR": 2
+  },
+  "remittance": {
+    "CISLR": 1
+  },
+  "eraser": {
+    "CISLR": 1
+  },
+  "lc": {
+    "CISLR": 1
+  },
+  "extend": {
+    "CISLR": 1
+  },
+  "hearsay": {
+    "CISLR": 1
+  },
+  "thread": {
+    "CISLR": 1
+  },
+  "publish": {
+    "CISLR": 1
+  },
+  "duplicate": {
+    "CISLR": 1
+  },
+  "folio": {
+    "CISLR": 1
+  },
+  "inner shell membrane": {
+    "CISLR": 1
+  },
+  "colour palette": {
+    "CISLR": 2
+  },
+  "upper division clerk": {
+    "CISLR": 1
+  },
+  "rectifier": {
+    "CISLR": 1
+  },
+  "engineering compass": {
+    "CISLR": 1
+  },
+  "mtl": {
+    "CISLR": 1
+  },
+  "route": {
+    "CISLR": 2
+  },
+  "cure": {
+    "CISLR": 2
+  },
+  "solar system": {
+    "CISLR": 1
+  },
+  "noc": {
+    "CISLR": 1
+  },
+  "brandishing of a weapon": {
+    "CISLR": 1
+  },
+  "corel draw": {
+    "CISLR": 1
+  },
+  "overdue": {
+    "CISLR": 1
+  },
+  "establish": {
+    "CISLR": 1
+  },
+  "obey": {
+    "CISLR": 2
+  },
+  "acacia modesta": {
+    "CISLR": 1
+  },
+  "bark": {
+    "CISLR": 2
+  },
+  "anxious": {
+    "CISLR": 1
+  },
+  "python": {
+    "CISLR": 1
+  },
+  "vessel": {
+    "CISLR": 3
+  },
+  "direct": {
+    "CISLR": 1
+  },
+  "cultivators": {
+    "CISLR": 1
+  },
+  "inverter": {
+    "CISLR": 1
+  },
+  "puppet show": {
+    "CISLR": 1
+  },
+  "granddaughter": {
+    "CISLR": 3
+  },
+  "wrench": {
+    "CISLR": 1
+  },
+  "procedure": {
+    "CISLR": 1
+  },
+  "exchange positions": {
+    "CISLR": 1
+  },
+  "veterinarian": {
+    "CISLR": 1
+  },
+  "puducherry": {
+    "CISLR": 1
+  },
+  "convex mirror": {
+    "CISLR": 1
+  },
+  "account govemment": {
+    "CISLR": 1
+  },
+  "printer": {
+    "CISLR": 2
+  },
+  "demarcation west bengal": {
+    "CISLR": 1
+  },
+  "memory unit": {
+    "CISLR": 1
+  },
+  "factorisation": {
+    "CISLR": 1
+  },
+  "counter sinking": {
+    "CISLR": 1
+  },
+  "applique": {
+    "CISLR": 1
+  },
+  "programme": {
+    "CISLR": 3
+  },
+  "hashtag": {
+    "CISLR": 1
+  },
+  "uncovered": {
+    "CISLR": 1
+  },
+  "indicator": {
+    "CISLR": 1
+  },
+  "lips": {
+    "CISLR": 2
+  },
+  "fishing for games": {
+    "CISLR": 1
+  },
+  "instrument": {
+    "CISLR": 2
+  },
+  "kohima": {
+    "CISLR": 1
+  },
+  "madagascar": {
+    "CISLR": 1
+  },
+  "share market": {
+    "CISLR": 2
+  },
+  "ethics": {
+    "CISLR": 2
+  },
+  "print": {
+    "CISLR": 1
+  },
+  "tug of war haryana": {
+    "CISLR": 1
+  },
+  "my name is": {
+    "CISLR": 1
+  },
+  "mushroom pleating": {
+    "CISLR": 1
+  },
+  "hand sanitizer": {
+    "CISLR": 1
+  },
+  "air pollution": {
+    "CISLR": 2
+  },
+  "caftan": {
+    "CISLR": 1
+  },
+  "barber": {
+    "CISLR": 2
+  },
+  "chief justice": {
+    "CISLR": 1
+  },
+  "integrated chip": {
+    "CISLR": 1
+  },
+  "requisite": {
+    "CISLR": 1
+  },
+  "china": {
+    "CISLR": 3
+  },
+  "advance": {
+    "CISLR": 3
+  },
+  "disobey": {
+    "CISLR": 1
+  },
+  "cholera": {
+    "CISLR": 4
+  },
+  "how big": {
+    "CISLR": 1
+  },
+  "responsibility": {
+    "CISLR": 1
+  },
+  "google chat": {
+    "CISLR": 1
+  },
+  "testament": {
+    "CISLR": 1
+  },
+  "laying": {
+    "CISLR": 1
+  },
+  "croatia": {
+    "CISLR": 1
+  },
+  "landlord": {
+    "CISLR": 1
+  },
+  "canteen": {
+    "CISLR": 1
+  },
+  "wind erosion": {
+    "CISLR": 1
+  },
+  "district": {
+    "CISLR": 2
+  },
+  "hypotension": {
+    "CISLR": 1
+  },
+  "trophy": {
+    "CISLR": 1
+  },
+  "manure": {
+    "CISLR": 1
+  },
+  "pencil box": {
+    "CISLR": 1
+  },
+  "drug addiction": {
+    "CISLR": 1
+  },
+  "empowerment": {
+    "CISLR": 1
+  },
+  "change in state": {
+    "CISLR": 1
+  },
+  "bib": {
+    "CISLR": 1
+  },
+  "left demrocatic front": {
+    "CISLR": 1
+  },
+  "hdfc bank": {
+    "CISLR": 1
+  },
+  "previous": {
+    "CISLR": 1
+  },
+  "through": {
+    "CISLR": 1
+  },
+  "magnetism": {
+    "CISLR": 1
+  },
+  "department": {
+    "CISLR": 1
+  },
+  "electrical engineering": {
+    "CISLR": 1
+  },
+  "trunk": {
+    "CISLR": 4
+  },
+  "progress": {
+    "CISLR": 1
+  },
+  "body piercing": {
+    "CISLR": 1
+  },
+  "sunny": {
+    "CISLR": 1
+  },
+  "classification of shrubs": {
+    "CISLR": 1
+  },
+  "shiv sena": {
+    "CISLR": 1
+  },
+  "bolero jacket": {
+    "CISLR": 1
+  },
+  "hard of hearing": {
+    "CISLR": 1
+  },
+  "local train": {
+    "CISLR": 1
+  },
+  "skilled labour": {
+    "CISLR": 1
+  },
+  "maximum": {
+    "CISLR": 3
+  },
+  "deceased": {
+    "CISLR": 1
+  },
+  "purchase retum": {
+    "CISLR": 1
+  },
+  "classification of poultry feeds": {
+    "CISLR": 1
+  },
+  "occupation": {
+    "CISLR": 1
+  },
+  "confidential report": {
+    "CISLR": 1
+  },
+  "hand rail": {
+    "CISLR": 1
+  },
+  "face value": {
+    "CISLR": 1
+  },
+  "guru nanak": {
+    "CISLR": 1
+  },
+  "akshay kumar": {
+    "CISLR": 1
+  },
+  "intensive": {
+    "CISLR": 1
+  },
+  "attendant": {
+    "CISLR": 1
+  },
+  "witness": {
+    "CISLR": 1
+  },
+  "international": {
+    "CISLR": 2
+  },
+  "move": {
+    "CISLR": 2
+  },
+  "monsoon": {
+    "CISLR": 1
+  },
+  "official": {
+    "CISLR": 4
+  },
+  "allahabad bank": {
+    "CISLR": 1
+  },
+  "gazette": {
+    "CISLR": 1
+  },
+  "next": {
+    "CISLR": 5
+  },
+  "mail": {
+    "CISLR": 1
+  },
+  "sight bill": {
+    "CISLR": 1
+  },
+  "registered": {
+    "CISLR": 1
+  },
+  "melting point": {
+    "CISLR": 1
+  },
+  "tabala": {
+    "CISLR": 1
+  },
+  "longitudinal wave": {
+    "CISLR": 1
+  },
+  "relative": {
+    "CISLR": 3
+  },
+  "crow bar": {
+    "CISLR": 1
+  },
+  "negogiable instrumemts": {
+    "CISLR": 1
+  },
+  "kannada": {
+    "CISLR": 3
+  },
+  "working capital": {
+    "CISLR": 1
+  },
+  "real image": {
+    "CISLR": 1
+  },
+  "video call": {
+    "CISLR": 1
+  },
+  "waveform": {
+    "CISLR": 1
+  },
+  "fish as a human food": {
+    "CISLR": 1
+  },
+  "air matress": {
+    "CISLR": 3
+  },
+  "fryers": {
+    "CISLR": 1
+  },
+  "password": {
+    "CISLR": 1
+  },
+  "yahoo": {
+    "CISLR": 1
+  },
+  "soiled note": {
+    "CISLR": 1
+  },
+  "inflammatory bowel disease": {
+    "CISLR": 1
+  },
+  "vertical scroll bar": {
+    "CISLR": 1
+  },
+  "hurdle race": {
+    "CISLR": 1
+  },
+  "soldering flux": {
+    "CISLR": 1
+  },
+  "maturity": {
+    "CISLR": 1
+  },
+  "motorcycle": {
+    "CISLR": 3
+  },
+  "withdrawal slip": {
+    "CISLR": 1
+  },
+  "assembly": {
+    "CISLR": 2
+  },
+  "abusive language": {
+    "CISLR": 2
+  },
+  "express train": {
+    "CISLR": 1
+  },
+  "golf": {
+    "CISLR": 1
+  },
+  "eliminate": {
+    "CISLR": 1
+  },
+  "ratification": {
+    "CISLR": 1
+  },
+  "shatabdi express": {
+    "CISLR": 1
+  },
+  "bend": {
+    "CISLR": 1
+  },
+  "communicate": {
+    "CISLR": 2
+  },
+  "button placket": {
+    "CISLR": 1
+  },
+  "san serif": {
+    "CISLR": 1
+  },
+  "mugshot": {
+    "CISLR": 1
+  },
+  "translator": {
+    "CISLR": 1
+  },
+  "singer": {
+    "CISLR": 1
+  },
+  "banian": {
+    "CISLR": 2
+  },
+  "rapidly": {
+    "CISLR": 1
+  },
+  "common": {
+    "CISLR": 2
+  },
+  "muitimeter": {
+    "CISLR": 1
+  },
+  "heat": {
+    "CISLR": 1
+  },
+  "bishop sleeve": {
+    "CISLR": 1
+  },
+  "leave study": {
+    "CISLR": 1
+  },
+  "general": {
+    "CISLR": 1
+  },
+  "unearned": {
+    "CISLR": 1
+  },
+  "haryana": {
+    "CISLR": 1
+  },
+  "bank branch code": {
+    "CISLR": 1
+  },
+  "inspection": {
+    "CISLR": 1
+  },
+  "outstanding report": {
+    "CISLR": 1
+  },
+  "unavoidable": {
+    "CISLR": 1
+  },
+  "diarrhea": {
+    "CISLR": 1
+  },
+  "axe": {
+    "CISLR": 2
+  },
+  "sim card": {
+    "CISLR": 1
+  },
+  "boolean": {
+    "CISLR": 1
+  },
+  "iceland": {
+    "CISLR": 1
+  },
+  "routine": {
+    "CISLR": 1
+  },
+  "running account": {
+    "CISLR": 1
+  },
+  "unlimited": {
+    "CISLR": 2
+  },
+  "pollution": {
+    "CISLR": 2
+  },
+  "equal": {
+    "CISLR": 2
+  },
+  "surprised": {
+    "CISLR": 1
+  },
+  "geodetic surveying": {
+    "CISLR": 1
+  },
+  "innovate": {
+    "CISLR": 1
+  },
+  "stomach": {
+    "CISLR": 1
+  },
+  "last pay certificate": {
+    "CISLR": 1
+  },
+  "hack saw frame": {
+    "CISLR": 1
+  },
+  "cash credit key": {
+    "CISLR": 1
+  },
+  "thorn": {
+    "CISLR": 2
+  },
+  "tool box": {
+    "CISLR": 1
+  },
+  "towards": {
+    "CISLR": 1
+  },
+  "classification according to parts used for crop": {
+    "CISLR": 1
+  },
+  "humble": {
+    "CISLR": 1
+  },
+  "poision": {
+    "CISLR": 4
+  },
+  "flatulence": {
+    "CISLR": 1
+  },
+  "damp proofing material": {
+    "CISLR": 1
+  },
+  "underwriter": {
+    "CISLR": 1
+  },
+  "change in temperature": {
+    "CISLR": 1
+  },
+  "known loss": {
+    "CISLR": 1
+  },
+  "capacitor": {
+    "CISLR": 2
+  },
+  "may": {
+    "CISLR": 2
+  },
+  "flower for exhibition": {
+    "CISLR": 1
+  },
+  "extermal combustion engine": {
+    "CISLR": 1
+  },
+  "vivekananda rock memorial": {
+    "CISLR": 1
+  },
+  "librarian": {
+    "CISLR": 1
+  },
+  "negligent": {
+    "CISLR": 1
+  },
+  "of": {
+    "CISLR": 1
+  },
+  "provision": {
+    "CISLR": 1
+  },
+  "world federation of the deaf": {
+    "CISLR": 1
+  },
+  "change of venue": {
+    "CISLR": 1
+  },
+  "central processing unit": {
+    "CISLR": 1
+  },
+  "choking": {
+    "CISLR": 1
+  },
+  "pumpkin": {
+    "CISLR": 2
+  },
+  "decade": {
+    "CISLR": 1
+  },
+  "climb up": {
+    "CISLR": 1
+  },
+  "older sister": {
+    "CISLR": 1
+  },
+  "refinance": {
+    "CISLR": 1
+  },
+  "income": {
+    "CISLR": 1
+  },
+  "peril": {
+    "CISLR": 1
+  },
+  "catalogue": {
+    "CISLR": 1
+  },
+  "incharge": {
+    "CISLR": 1
+  },
+  "javelin throw": {
+    "CISLR": 1
+  },
+  "masculine": {
+    "CISLR": 1
+  },
+  "brick masonry": {
+    "CISLR": 1
+  },
+  "lantana camera": {
+    "CISLR": 1
+  },
+  "herniated intervertebral": {
+    "CISLR": 1
+  },
+  "madhya pradesh": {
+    "CISLR": 2
+  },
+  "responsible": {
+    "CISLR": 1
+  },
+  "ant": {
+    "CISLR": 6
+  },
+  "rainbow": {
+    "CISLR": 3
+  },
+  "hungary": {
+    "CISLR": 1
+  },
+  "partnership": {
+    "CISLR": 1
+  },
+  "visit": {
+    "CISLR": 1
+  },
+  "tiffin box": {
+    "CISLR": 1
+  },
+  "sue": {
+    "CISLR": 1
+  },
+  "slippers": {
+    "CISLR": 1
+  },
+  "land revenue": {
+    "CISLR": 1
+  },
+  "wastage": {
+    "CISLR": 1
+  },
+  "inauguaration": {
+    "CISLR": 1
+  },
+  "banana tree": {
+    "CISLR": 1
+  },
+  "lawn": {
+    "CISLR": 1
+  },
+  "nail polish": {
+    "CISLR": 2
+  },
+  "kajal": {
+    "CISLR": 1
+  },
+  "sixteen": {
+    "CISLR": 1
+  },
+  "phone": {
+    "CISLR": 1
+  },
+  "speak": {
+    "CISLR": 1
+  },
+  "indian national congress": {
+    "CISLR": 1
+  },
+  "surface erosion": {
+    "CISLR": 1
+  },
+  "protect": {
+    "CISLR": 2
+  },
+  "chapathi": {
+    "CISLR": 1
+  },
+  "show": {
+    "CISLR": 2
+  },
+  "rectangle": {
+    "CISLR": 3
+  },
+  "manual of instruction": {
+    "CISLR": 1
+  },
+  "gang box": {
+    "CISLR": 1
+  },
+  "specialist": {
+    "CISLR": 1
+  },
+  "button loop": {
+    "CISLR": 1
+  },
+  "fruits": {
+    "CISLR": 2
+  },
+  "all india federation of the deaf": {
+    "CISLR": 1
+  },
+  "bogie": {
+    "CISLR": 1
+  },
+  "shipping order": {
+    "CISLR": 1
+  },
+  "expansion": {
+    "CISLR": 2
+  },
+  "premature": {
+    "CISLR": 1
+  },
+  "railway station": {
+    "CISLR": 2
+  },
+  "cutlery": {
+    "CISLR": 1
+  },
+  "specimen signature": {
+    "CISLR": 1
+  },
+  "auditorium": {
+    "CISLR": 1
+  },
+  "brochure": {
+    "CISLR": 1
+  },
+  "need": {
+    "CISLR": 1
+  },
+  "keeper": {
+    "CISLR": 1
+  },
+  "parking": {
+    "CISLR": 2
+  },
+  "transfer": {
+    "CISLR": 2
+  },
+  "more": {
+    "CISLR": 2
+  },
+  "transverse wave": {
+    "CISLR": 1
+  },
+  "ahmedabad": {
+    "CISLR": 1
+  },
+  "stretch": {
+    "CISLR": 1
+  },
+  "re sale": {
+    "CISLR": 1
+  },
+  "flowering hedges": {
+    "CISLR": 1
+  },
+  "laddu": {
+    "CISLR": 1
+  },
+  "jantar mantar": {
+    "CISLR": 1
+  },
+  "leg": {
+    "CISLR": 1
+  },
+  "upper age limit": {
+    "CISLR": 1
+  },
+  "center back": {
+    "CISLR": 1
+  },
+  "deposit short": {
+    "CISLR": 1
+  },
+  "electrical leakage": {
+    "CISLR": 1
+  },
+  "lebanon": {
+    "CISLR": 1
+  },
+  "year to year": {
+    "CISLR": 1
+  },
+  "trader": {
+    "CISLR": 1
+  },
+  "chile": {
+    "CISLR": 1
+  },
+  "equation": {
+    "CISLR": 1
+  },
+  "raddish": {
+    "CISLR": 1
+  },
+  "lunacy": {
+    "CISLR": 1
+  },
+  "planet": {
+    "CISLR": 3
+  },
+  "visible ray": {
+    "CISLR": 1
+  },
+  "sotar": {
+    "CISLR": 1
+  },
+  "practice": {
+    "CISLR": 2
+  },
+  "technician": {
+    "CISLR": 2
+  },
+  "polite": {
+    "CISLR": 1
+  },
+  "lucknow": {
+    "CISLR": 1
+  },
+  "cartidge": {
+    "CISLR": 1
+  },
+  "near": {
+    "CISLR": 1
+  },
+  "long jump": {
+    "CISLR": 1
+  },
+  "jain": {
+    "CISLR": 1
+  },
+  "libya": {
+    "CISLR": 1
+  },
+  "discount": {
+    "CISLR": 2
+  },
+  "graders": {
+    "CISLR": 1
+  },
+  "request": {
+    "CISLR": 1
+  },
+  "motorola": {
+    "CISLR": 1
+  },
+  "buddhism": {
+    "CISLR": 1
+  },
+  "internet": {
+    "CISLR": 1
+  },
+  "tongue": {
+    "CISLR": 3
+  },
+  "christianity": {
+    "CISLR": 1
+  },
+  "lime paste": {
+    "CISLR": 1
+  },
+  "note": {
+    "CISLR": 1
+  },
+  "victory": {
+    "CISLR": 2
+  },
+  "transaction": {
+    "CISLR": 1
+  },
+  "bronchial tumors": {
+    "CISLR": 1
+  },
+  "oneplus mobile": {
+    "CISLR": 1
+  },
+  "property tax": {
+    "CISLR": 1
+  },
+  "incentive": {
+    "CISLR": 1
+  },
+  "balance outstanding": {
+    "CISLR": 1
+  },
+  "around": {
+    "CISLR": 3
+  },
+  "brittle": {
+    "CISLR": 1
+  },
+  "donald duck": {
+    "CISLR": 1
+  },
+  "blind stitch": {
+    "CISLR": 1
+  },
+  "norway": {
+    "CISLR": 1
+  },
+  "elevator": {
+    "CISLR": 1
+  },
+  "prescription": {
+    "CISLR": 3
+  },
+  "genuine": {
+    "CISLR": 2
+  },
+  "prime location": {
+    "CISLR": 1
+  },
+  "arrears": {
+    "CISLR": 1
+  },
+  "zero correction": {
+    "CISLR": 1
+  },
+  "test": {
+    "CISLR": 1
+  },
+  "opuntia": {
+    "CISLR": 1
+  },
+  "curvature": {
+    "CISLR": 1
+  },
+  "chikoo": {
+    "CISLR": 1
+  },
+  "distance learning": {
+    "CISLR": 1
+  },
+  "clauses": {
+    "CISLR": 1
+  },
+  "time table": {
+    "CISLR": 2
+  },
+  "idbi bank": {
+    "CISLR": 1
+  },
+  "overleaf": {
+    "CISLR": 1
+  },
+  "sharpener": {
+    "CISLR": 2
+  },
+  "convex": {
+    "CISLR": 1
+  },
+  "some": {
+    "CISLR": 2
+  },
+  "influenza flu": {
+    "CISLR": 1
+  },
+  "model": {
+    "CISLR": 2
+  },
+  "task force": {
+    "CISLR": 1
+  },
+  "grind": {
+    "CISLR": 1
+  },
+  "defraud": {
+    "CISLR": 1
+  },
+  "outer shell": {
+    "CISLR": 1
+  },
+  "cash certificates": {
+    "CISLR": 1
+  },
+  "particular": {
+    "CISLR": 1
+  },
+  "xylophone": {
+    "CISLR": 1
+  },
+  "malayalam": {
+    "CISLR": 2
+  },
+  "copper wire": {
+    "CISLR": 1
+  },
+  "lumberjack": {
+    "CISLR": 1
+  },
+  "take a photo": {
+    "CISLR": 1
+  },
+  "iraq": {
+    "CISLR": 1
+  },
+  "milling cutter concave": {
+    "CISLR": 1
+  },
+  "serve": {
+    "CISLR": 1
+  },
+  "in the middle": {
+    "CISLR": 1
+  },
+  "bell sleeve": {
+    "CISLR": 1
+  },
+  "plane convex lens": {
+    "CISLR": 1
+  },
+  "basil": {
+    "CISLR": 1
+  },
+  "stock book": {
+    "CISLR": 1
+  },
+  "belgium": {
+    "CISLR": 1
+  },
+  "kolkata calcutta": {
+    "CISLR": 1
+  },
+  "chipping": {
+    "CISLR": 1
+  },
+  "rotten": {
+    "CISLR": 1
+  },
+  "drunk driving law": {
+    "CISLR": 1
+  },
+  "monthly return": {
+    "CISLR": 1
+  },
+  "survey": {
+    "CISLR": 1
+  },
+  "mortgage": {
+    "CISLR": 1
+  },
+  "biomass": {
+    "CISLR": 1
+  },
+  "crops": {
+    "CISLR": 1
+  },
+  "united nations convention on the rights of persons with disabilities uncrpd": {
+    "CISLR": 2
+  },
+  "geyser": {
+    "CISLR": 1
+  },
+  "reconciliation": {
+    "CISLR": 1
+  },
+  "february": {
+    "CISLR": 2
+  },
+  "folder": {
+    "CISLR": 1
+  },
+  "rani of jhansi": {
+    "CISLR": 1
+  },
+  "cage": {
+    "CISLR": 1
+  },
+  "citrus vulgaris": {
+    "CISLR": 1
+  },
+  "jalpur": {
+    "CISLR": 1
+  },
+  "i understand": {
+    "CISLR": 1
+  },
+  "duronto express": {
+    "CISLR": 1
+  },
+  "sarong skirt": {
+    "CISLR": 1
+  },
+  "fingerprints": {
+    "CISLR": 1
+  },
+  "strike": {
+    "CISLR": 1
+  },
+  "mineral matter": {
+    "CISLR": 1
+  },
+  "financial year": {
+    "CISLR": 1
+  },
+  "flounce hem": {
+    "CISLR": 1
+  },
+  "mysuru": {
+    "CISLR": 1
+  },
+  "turn": {
+    "CISLR": 2
+  },
+  "split pulley": {
+    "CISLR": 1
+  },
+  "thiruvananthapuram": {
+    "CISLR": 1
+  },
+  "under the weather": {
+    "CISLR": 1
+  },
+  "glass stab": {
+    "CISLR": 1
+  },
+  "parent branch": {
+    "CISLR": 1
+  },
+  "expert": {
+    "CISLR": 1
+  },
+  "statistics": {
+    "CISLR": 2
+  },
+  "parallel circuit": {
+    "CISLR": 1
+  },
+  "visual aid": {
+    "CISLR": 1
+  },
+  "towel": {
+    "CISLR": 2
+  },
+  "vacancy": {
+    "CISLR": 1
+  },
+  "again": {
+    "CISLR": 2
+  },
+  "concave": {
+    "CISLR": 1
+  },
+  "internet disconnection": {
+    "CISLR": 1
+  },
+  "up": {
+    "CISLR": 2
+  },
+  "jew": {
+    "CISLR": 2
+  },
+  "sandwitch": {
+    "CISLR": 1
+  },
+  "judgement": {
+    "CISLR": 2
+  },
+  "sling bag": {
+    "CISLR": 1
+  },
+  "while": {
+    "CISLR": 1
+  },
+  "paste": {
+    "CISLR": 1
+  },
+  "amendments": {
+    "CISLR": 1
+  },
+  "tour": {
+    "CISLR": 1
+  },
+  "juliet sleeve": {
+    "CISLR": 1
+  },
+  "officer in charge of jail": {
+    "CISLR": 1
+  },
+  "celebrate": {
+    "CISLR": 1
+  },
+  "flat gardens": {
+    "CISLR": 1
+  },
+  "sundry": {
+    "CISLR": 1
+  },
+  "handle": {
+    "CISLR": 1
+  },
+  "ledger balance": {
+    "CISLR": 1
+  },
+  "appointment": {
+    "CISLR": 3
+  },
+  "operate an account": {
+    "CISLR": 1
+  },
+  "austria": {
+    "CISLR": 1
+  },
+  "troughs": {
+    "CISLR": 1
+  },
+  "road separator": {
+    "CISLR": 1
+  },
+  "corresponding branch": {
+    "CISLR": 1
+  },
+  "shortage": {
+    "CISLR": 1
+  },
+  "vendee": {
+    "CISLR": 1
+  },
+  "engineering scale": {
+    "CISLR": 1
+  },
+  "culottes": {
+    "CISLR": 1
+  },
+  "mouth parts": {
+    "CISLR": 1
+  },
+  "fisher man": {
+    "CISLR": 1
+  },
+  "item": {
+    "CISLR": 1
+  },
+  "serial tv": {
+    "CISLR": 2
+  },
+  "ministry of social justice and empowerment": {
+    "CISLR": 2
+  },
+  "palazo pants": {
+    "CISLR": 1
+  },
+  "claw hammer": {
+    "CISLR": 1
+  },
+  "count": {
+    "CISLR": 1
+  },
+  "leave earned": {
+    "CISLR": 1
+  },
+  "dividend": {
+    "CISLR": 1
+  },
+  "cif number": {
+    "CISLR": 1
+  },
+  "opposition": {
+    "CISLR": 2
+  },
+  "jail": {
+    "CISLR": 2
+  },
+  "encashment": {
+    "CISLR": 1
+  },
+  "paise": {
+    "CISLR": 1
+  },
+  "tax": {
+    "CISLR": 2
+  },
+  "ms excel": {
+    "CISLR": 1
+  },
+  "roof": {
+    "CISLR": 2
+  },
+  "head of income": {
+    "CISLR": 1
+  },
+  "atm": {
+    "CISLR": 1
+  },
+  "whose": {
+    "CISLR": 1
+  },
+  "curds": {
+    "CISLR": 2
+  },
+  "patna": {
+    "CISLR": 2
+  },
+  "tamarix gallica": {
+    "CISLR": 1
+  },
+  "wipe": {
+    "CISLR": 1
+  },
+  "log off": {
+    "CISLR": 1
+  },
+  "policeman": {
+    "CISLR": 2
+  },
+  "soldering lead": {
+    "CISLR": 1
+  },
+  "worry": {
+    "CISLR": 2
+  },
+  "now": {
+    "CISLR": 2
+  },
+  "trustee": {
+    "CISLR": 1
+  },
+  "notice": {
+    "CISLR": 1
+  },
+  "joule": {
+    "CISLR": 1
+  },
+  "contest": {
+    "CISLR": 1
+  },
+  "zigzag": {
+    "CISLR": 1
+  },
+  "super computer": {
+    "CISLR": 1
+  },
+  "district court": {
+    "CISLR": 1
+  },
+  "filter pump": {
+    "CISLR": 1
+  },
+  "machine": {
+    "CISLR": 1
+  },
+  "account suspence": {
+    "CISLR": 1
+  },
+  "theatre": {
+    "CISLR": 1
+  },
+  "ohm": {
+    "CISLR": 1
+  },
+  "chalk": {
+    "CISLR": 3
+  },
+  "wind borne disease": {
+    "CISLR": 1
+  },
+  "plan": {
+    "CISLR": 2
+  },
+  "bandh": {
+    "CISLR": 1
+  },
+  "water filter": {
+    "CISLR": 1
+  },
+  "rf osciilator": {
+    "CISLR": 1
+  },
+  "chimney": {
+    "CISLR": 1
+  },
+  "emphasize": {
+    "CISLR": 1
+  },
+  "plain cement concrete": {
+    "CISLR": 1
+  },
+  "fishing net": {
+    "CISLR": 1
+  },
+  "wear": {
+    "CISLR": 2
+  },
+  "account discount": {
+    "CISLR": 1
+  },
+  "hip hugger": {
+    "CISLR": 1
+  },
+  "screw guage": {
+    "CISLR": 1
+  },
+  "police station": {
+    "CISLR": 1
+  },
+  "hydrology": {
+    "CISLR": 1
+  },
+  "will": {
+    "CISLR": 1
+  },
+  "trade": {
+    "CISLR": 2
+  },
+  "two thousand": {
+    "CISLR": 1
+  },
+  "peanut": {
+    "CISLR": 1
+  },
+  "alphabet": {
+    "CISLR": 1
+  },
+  "appear": {
+    "CISLR": 1
+  },
+  "cute": {
+    "CISLR": 1
+  },
+  "diode": {
+    "CISLR": 2
+  },
+  "river": {
+    "CISLR": 2
+  },
+  "athlete's foot": {
+    "CISLR": 1
+  },
+  "without prejudice": {
+    "CISLR": 1
+  },
+  "zinc sheet": {
+    "CISLR": 1
+  },
+  "mail transfer": {
+    "CISLR": 1
+  },
+  "requirement": {
+    "CISLR": 2
+  },
+  "oil": {
+    "CISLR": 2
+  },
+  "flute": {
+    "CISLR": 2
+  },
+  "throat plate": {
+    "CISLR": 1
+  },
+  "keyboard": {
+    "CISLR": 1
+  },
+  "compound interest": {
+    "CISLR": 1
+  },
+  "national association of the deaf": {
+    "CISLR": 1
+  },
+  "company partnership": {
+    "CISLR": 1
+  },
+  "hairdresser": {
+    "CISLR": 1
+  },
+  "physical balance": {
+    "CISLR": 1
+  },
+  "embarrass": {
+    "CISLR": 2
+  },
+  "nri": {
+    "CISLR": 1
+  },
+  "halting allowance": {
+    "CISLR": 1
+  },
+  "release": {
+    "CISLR": 2
+  },
+  "dispersion": {
+    "CISLR": 1
+  },
+  "bank nationalised": {
+    "CISLR": 1
+  },
+  "seychelles": {
+    "CISLR": 1
+  },
+  "all": {
+    "CISLR": 1
+  },
+  "blackberry": {
+    "CISLR": 1
+  },
+  "bully calf": {
+    "CISLR": 1
+  },
+  "bench mark": {
+    "CISLR": 1
+  },
+  "cargo pocket": {
+    "CISLR": 1
+  },
+  "absorption": {
+    "CISLR": 1
+  },
+  "annual": {
+    "CISLR": 3
+  },
+  "body parts": {
+    "CISLR": 1
+  },
+  "continent": {
+    "CISLR": 1
+  },
+  "blight": {
+    "CISLR": 1
+  },
+  "north": {
+    "CISLR": 3
+  },
+  "arrogate": {
+    "CISLR": 1
+  },
+  "congratulations": {
+    "CISLR": 1
+  },
+  "different": {
+    "CISLR": 1
+  },
+  "bank branch address": {
+    "CISLR": 1
+  },
+  "only": {
+    "CISLR": 1
+  },
+  "ginger": {
+    "CISLR": 3
+  },
+  "newly weds": {
+    "CISLR": 1
+  },
+  "reinforced cement concrete": {
+    "CISLR": 1
+  },
+  "scream": {
+    "CISLR": 1
+  },
+  "order standing": {
+    "CISLR": 1
+  },
+  "murraya exotica": {
+    "CISLR": 1
+  },
+  "storage": {
+    "CISLR": 1
+  },
+  "bandra to worli sea link": {
+    "CISLR": 1
+  },
+  "compositing": {
+    "CISLR": 1
+  },
+  "parachute": {
+    "CISLR": 1
+  },
+  "land holding": {
+    "CISLR": 1
+  },
+  "mother in law": {
+    "CISLR": 1
+  },
+  "nect tie": {
+    "CISLR": 2
+  },
+  "grenade": {
+    "CISLR": 1
+  },
+  "well": {
+    "CISLR": 1
+  },
+  "diffraction": {
+    "CISLR": 1
+  },
+  "physical training": {
+    "CISLR": 1
+  },
+  "credit purchase": {
+    "CISLR": 1
+  },
+  "super": {
+    "CISLR": 1
+  },
+  "compaction": {
+    "CISLR": 1
+  },
+  "black market": {
+    "CISLR": 1
+  },
+  "agree": {
+    "CISLR": 2
+  },
+  "jealous": {
+    "CISLR": 1
+  },
+  "engagement": {
+    "CISLR": 2
+  },
+  "machine water pump": {
+    "CISLR": 1
+  },
+  "tail": {
+    "CISLR": 2
+  },
+  "download": {
+    "CISLR": 1
+  },
+  "squrriel": {
+    "CISLR": 1
+  },
+  "bad conductor": {
+    "CISLR": 1
+  },
+  "accured": {
+    "CISLR": 1
+  },
+  "argentina": {
+    "CISLR": 1
+  },
+  "quick": {
+    "CISLR": 1
+  },
+  "pulley": {
+    "CISLR": 1
+  },
+  "motorcycle air filter": {
+    "CISLR": 1
+  },
+  "connect": {
+    "CISLR": 1
+  },
+  "disease control of plant": {
+    "CISLR": 1
+  },
+  "eczema": {
+    "CISLR": 1
+  },
+  "owner cultivated": {
+    "CISLR": 1
+  },
+  "spoken": {
+    "CISLR": 1
+  },
+  "drum": {
+    "CISLR": 1
+  },
+  "pull": {
+    "CISLR": 1
+  },
+  "cloudy": {
+    "CISLR": 1
+  },
+  "absorb": {
+    "CISLR": 1
+  },
+  "begin": {
+    "CISLR": 1
+  },
+  "primary": {
+    "CISLR": 1
+  },
+  "send": {
+    "CISLR": 2
+  },
+  "parade": {
+    "CISLR": 1
+  },
+  "crime scene": {
+    "CISLR": 1
+  },
+  "adjudge": {
+    "CISLR": 1
+  },
+  "sesbenia aegyptiaca": {
+    "CISLR": 1
+  },
+  "capital punishment": {
+    "CISLR": 1
+  },
+  "agreement": {
+    "CISLR": 1
+  },
+  "republic day": {
+    "CISLR": 1
+  },
+  "habit": {
+    "CISLR": 1
+  },
+  "desert": {
+    "CISLR": 2
+  },
+  "solar energy": {
+    "CISLR": 1
+  },
+  "pacing": {
+    "CISLR": 1
+  },
+  "traffic lights": {
+    "CISLR": 1
+  },
+  "chief minister": {
+    "CISLR": 2
+  },
+  "kick": {
+    "CISLR": 2
+  },
+  "union": {
+    "CISLR": 1
+  },
+  "drop cap": {
+    "CISLR": 1
+  },
+  "major": {
+    "CISLR": 1
+  },
+  "southern hemisphere": {
+    "CISLR": 1
+  },
+  "allen key": {
+    "CISLR": 1
+  },
+  "project": {
+    "CISLR": 1
+  },
+  "abrogate": {
+    "CISLR": 1
+  },
+  "chest": {
+    "CISLR": 2
+  },
+  "murder": {
+    "CISLR": 3
+  },
+  "generator": {
+    "CISLR": 2
+  },
+  "vocabulary": {
+    "CISLR": 1
+  },
+  "garage door opener": {
+    "CISLR": 1
+  },
+  "hungry": {
+    "CISLR": 2
+  },
+  "mushroom storage": {
+    "CISLR": 1
+  },
+  "germination": {
+    "CISLR": 1
+  },
+  "newton": {
+    "CISLR": 1
+  },
+  "electric tester": {
+    "CISLR": 1
+  },
+  "fruit disease": {
+    "CISLR": 1
+  },
+  "knee": {
+    "CISLR": 1
+  },
+  "flouresence": {
+    "CISLR": 1
+  },
+  "buckle": {
+    "CISLR": 1
+  },
+  "wicketkeeper": {
+    "CISLR": 1
+  },
+  "hydro electricity": {
+    "CISLR": 1
+  },
+  "file": {
+    "CISLR": 2
+  },
+  "advocate": {
+    "CISLR": 1
+  },
+  "program": {
+    "CISLR": 1
+  },
+  "subhas chandra bose": {
+    "CISLR": 1
+  },
+  "growth": {
+    "CISLR": 1
+  },
+  "heifer calf": {
+    "CISLR": 1
+  },
+  "cheque endorsement": {
+    "CISLR": 1
+  },
+  "basics": {
+    "CISLR": 1
+  },
+  "karnataka bank": {
+    "CISLR": 1
+  },
+  "freezing": {
+    "CISLR": 1
+  },
+  "off season": {
+    "CISLR": 1
+  },
+  "account joint": {
+    "CISLR": 1
+  },
+  "hammer": {
+    "CISLR": 1
+  },
+  "probing": {
+    "CISLR": 1
+  },
+  "sleep": {
+    "CISLR": 3
+  },
+  "turkey": {
+    "CISLR": 2
+  },
+  "frog": {
+    "CISLR": 4
+  },
+  "revised": {
+    "CISLR": 1
+  },
+  "pluto": {
+    "CISLR": 1
+  },
+  "limitless": {
+    "CISLR": 1
+  },
+  "hydro energy": {
+    "CISLR": 1
+  },
+  "chickpea": {
+    "CISLR": 1
+  },
+  "reject": {
+    "CISLR": 1
+  },
+  "partly paid": {
+    "CISLR": 1
+  },
+  "illegal": {
+    "CISLR": 2
+  },
+  "measurement": {
+    "CISLR": 2
+  },
+  "purpose": {
+    "CISLR": 1
+  },
+  "thirsty": {
+    "CISLR": 1
+  },
+  "compromise": {
+    "CISLR": 1
+  },
+  "macau": {
+    "CISLR": 1
+  },
+  "strict": {
+    "CISLR": 2
+  },
+  "petrol": {
+    "CISLR": 1
+  },
+  "bad language": {
+    "CISLR": 2
+  },
+  "myanmar": {
+    "CISLR": 1
+  },
+  "a line skirt": {
+    "CISLR": 1
+  },
+  "tyre": {
+    "CISLR": 1
+  },
+  "bail": {
+    "CISLR": 1
+  },
+  "cam": {
+    "CISLR": 2
+  },
+  "leg mutton sleeve": {
+    "CISLR": 1
+  },
+  "attorney general": {
+    "CISLR": 1
+  },
+  "spend": {
+    "CISLR": 1
+  },
+  "surrender": {
+    "CISLR": 1
+  },
+  "publication": {
+    "CISLR": 1
+  },
+  "refer to drawer": {
+    "CISLR": 1
+  },
+  "venus": {
+    "CISLR": 1
+  },
+  "sever": {
+    "CISLR": 1
+  },
+  "ten": {
+    "CISLR": 1
+  },
+  "authorisation": {
+    "CISLR": 1
+  },
+  "publicity material": {
+    "CISLR": 1
+  },
+  "brain tumor inside": {
+    "CISLR": 1
+  },
+  "seal": {
+    "CISLR": 1
+  },
+  "shawl": {
+    "CISLR": 4
+  },
+  "chew": {
+    "CISLR": 2
+  },
+  "daisychaining": {
+    "CISLR": 1
+  },
+  "longitude": {
+    "CISLR": 1
+  },
+  "lipstick": {
+    "CISLR": 2
+  },
+  "quadrupedal robot": {
+    "CISLR": 1
+  },
+  "live": {
+    "CISLR": 1
+  },
+  "kangaroo pocket": {
+    "CISLR": 1
+  },
+  "hardware": {
+    "CISLR": 1
+  },
+  "its": {
+    "CISLR": 1
+  },
+  "pigments": {
+    "CISLR": 1
+  },
+  "omission": {
+    "CISLR": 1
+  },
+  "saraswati": {
+    "CISLR": 1
+  },
+  "swing": {
+    "CISLR": 3
+  },
+  "tanzania": {
+    "CISLR": 1
+  },
+  "barleria cristata": {
+    "CISLR": 1
+  },
+  "sentence": {
+    "CISLR": 2
+  },
+  "displacement": {
+    "CISLR": 1
+  },
+  "radio wave": {
+    "CISLR": 1
+  },
+  "plant water relation": {
+    "CISLR": 1
+  },
+  "water erosion": {
+    "CISLR": 1
+  },
+  "writ": {
+    "CISLR": 1
+  },
+  "call money": {
+    "CISLR": 1
+  },
+  "factory": {
+    "CISLR": 2
+  },
+  "sundry creditors": {
+    "CISLR": 1
+  },
+  "end use": {
+    "CISLR": 1
+  },
+  "swear": {
+    "CISLR": 1
+  },
+  "sub division": {
+    "CISLR": 1
+  },
+  "right indent": {
+    "CISLR": 1
+  },
+  "index": {
+    "CISLR": 1
+  },
+  "monster truck": {
+    "CISLR": 1
+  },
+  "maternal aunt": {
+    "CISLR": 1
+  },
+  "vijaya bank": {
+    "CISLR": 1
+  },
+  "tight money market": {
+    "CISLR": 1
+  },
+  "five hundred": {
+    "CISLR": 1
+  },
+  "ladyfinger": {
+    "CISLR": 1
+  },
+  "assistant": {
+    "CISLR": 1
+  },
+  "currency chest": {
+    "CISLR": 1
+  },
+  "better": {
+    "CISLR": 1
+  },
+  "rama": {
+    "CISLR": 1
+  },
+  "nehru collar": {
+    "CISLR": 1
+  },
+  "edit": {
+    "CISLR": 2
+  },
+  "panasonic mobile": {
+    "CISLR": 1
+  },
+  "extinct": {
+    "CISLR": 2
+  },
+  "new delhi": {
+    "CISLR": 1
+  },
+  "spot": {
+    "CISLR": 1
+  },
+  "under mentioned": {
+    "CISLR": 1
+  },
+  "lenovo": {
+    "CISLR": 1
+  },
+  "epaulet": {
+    "CISLR": 1
+  },
+  "fixed asset": {
+    "CISLR": 1
+  },
+  "after": {
+    "CISLR": 2
+  },
+  "call deposit": {
+    "CISLR": 1
+  },
+  "clap": {
+    "CISLR": 1
+  },
+  "modern": {
+    "CISLR": 2
+  },
+  "note book": {
+    "CISLR": 1
+  },
+  "natural gaurdian": {
+    "CISLR": 1
+  },
+  "excited": {
+    "CISLR": 1
+  },
+  "frustrate": {
+    "CISLR": 1
+  },
+  "mouse pad": {
+    "CISLR": 1
+  },
+  "rubber boots": {
+    "CISLR": 1
+  },
+  "ultraviolet ray glass": {
+    "CISLR": 1
+  },
+  "penguin": {
+    "CISLR": 1
+  },
+  "arms and amunitions": {
+    "CISLR": 1
+  },
+  "welder": {
+    "CISLR": 4
+  },
+  "doli in capax": {
+    "CISLR": 1
+  },
+  "automation": {
+    "CISLR": 1
+  },
+  "handcuffs": {
+    "CISLR": 1
+  },
+  "emergency": {
+    "CISLR": 2
+  },
+  "submersible pump": {
+    "CISLR": 1
+  },
+  "space": {
+    "CISLR": 1
+  },
+  "frequency": {
+    "CISLR": 1
+  },
+  "shipment": {
+    "CISLR": 1
+  },
+  "supplementary": {
+    "CISLR": 1
+  },
+  "day before": {
+    "CISLR": 2
+  },
+  "opinion": {
+    "CISLR": 2
+  },
+  "page layout": {
+    "CISLR": 1
+  },
+  "dice": {
+    "CISLR": 1
+  },
+  "bar": {
+    "CISLR": 1
+  },
+  "washbasin": {
+    "CISLR": 1
+  },
+  "shake": {
+    "CISLR": 1
+  },
+  "qualified": {
+    "CISLR": 1
+  },
+  "airmail": {
+    "CISLR": 1
+  },
+  "swift": {
+    "CISLR": 1
+  },
+  "spring washer": {
+    "CISLR": 1
+  },
+  "mutual agreement": {
+    "CISLR": 1
+  },
+  "riots": {
+    "CISLR": 1
+  },
+  "rate differential": {
+    "CISLR": 1
+  },
+  "bar megnet": {
+    "CISLR": 1
+  },
+  "blocks": {
+    "CISLR": 1
+  },
+  "swaziland": {
+    "CISLR": 1
+  },
+  "speech": {
+    "CISLR": 1
+  },
+  "marathi": {
+    "CISLR": 1
+  },
+  "syria": {
+    "CISLR": 1
+  },
+  "intensity": {
+    "CISLR": 1
+  },
+  "net profit": {
+    "CISLR": 1
+  },
+  "something": {
+    "CISLR": 1
+  },
+  "period": {
+    "CISLR": 1
+  },
+  "inductor": {
+    "CISLR": 1
+  },
+  "how": {
+    "CISLR": 1
+  },
+  "res": {
+    "CISLR": 1
+  },
+  "coccidiosis": {
+    "CISLR": 1
+  },
+  "cheque travellers": {
+    "CISLR": 1
+  },
+  "demolishing": {
+    "CISLR": 1
+  },
+  "peep": {
+    "CISLR": 1
+  },
+  "tenancy": {
+    "CISLR": 1
+  },
+  "negative": {
+    "CISLR": 2
+  },
+  "hacksaw": {
+    "CISLR": 1
+  },
+  "ox": {
+    "CISLR": 1
+  },
+  "documents": {
+    "CISLR": 1
+  },
+  "darts munger": {
+    "CISLR": 1
+  },
+  "implementation": {
+    "CISLR": 1
+  },
+  "expenditure": {
+    "CISLR": 1
+  },
+  "off shore banking": {
+    "CISLR": 1
+  },
+  "above": {
+    "CISLR": 1
+  },
+  "sperm": {
+    "CISLR": 1
+  },
+  "trivendrum": {
+    "CISLR": 1
+  },
+  "cement mortar": {
+    "CISLR": 1
+  },
+  "volleyball": {
+    "CISLR": 1
+  },
+  "screw driver": {
+    "CISLR": 1
+  },
+  "spoon": {
+    "CISLR": 2
+  },
+  "liberia": {
+    "CISLR": 1
+  },
+  "tablet": {
+    "CISLR": 1
+  },
+  "zoom": {
+    "CISLR": 1
+  },
+  "fuse": {
+    "CISLR": 1
+  },
+  "stir": {
+    "CISLR": 1
+  },
+  "indira gandhi": {
+    "CISLR": 1
+  },
+  "re acceptable": {
+    "CISLR": 1
+  },
+  "his": {
+    "CISLR": 1
+  },
+  "over valuation": {
+    "CISLR": 1
+  },
+  "crown": {
+    "CISLR": 1
+  },
+  "rwanda": {
+    "CISLR": 1
+  },
+  "sarvepalli radhakrishnan": {
+    "CISLR": 1
+  },
+  "pay in installment": {
+    "CISLR": 2
+  },
+  "surprise": {
+    "CISLR": 2
+  },
+  "messenger": {
+    "CISLR": 1
+  },
+  "briefcase": {
+    "CISLR": 1
+  },
+  "j k bank": {
+    "CISLR": 1
+  },
+  "pyramid": {
+    "CISLR": 1
+  },
+  "plane mirror": {
+    "CISLR": 1
+  },
+  "documents of title": {
+    "CISLR": 1
+  },
+  "bestiality": {
+    "CISLR": 1
+  },
+  "hoarding": {
+    "CISLR": 1
+  },
+  "tamil nadu": {
+    "CISLR": 2
+  },
+  "flower": {
+    "CISLR": 2
+  },
+  "room": {
+    "CISLR": 3
+  },
+  "plane concave lens": {
+    "CISLR": 1
+  },
+  "energetic": {
+    "CISLR": 2
+  },
+  "fail": {
+    "CISLR": 1
+  },
+  "shopkeeper": {
+    "CISLR": 2
+  },
+  "lathe": {
+    "CISLR": 1
+  },
+  "laos": {
+    "CISLR": 1
+  },
+  "mark": {
+    "CISLR": 1
+  },
+  "non": {
+    "CISLR": 2
+  },
+  "photo": {
+    "CISLR": 1
+  },
+  "counter": {
+    "CISLR": 1
+  },
+  "unemployed": {
+    "CISLR": 2
+  },
+  "police car": {
+    "CISLR": 1
+  },
+  "notary public": {
+    "CISLR": 1
+  },
+  "milk powder": {
+    "CISLR": 1
+  },
+  "railway track": {
+    "CISLR": 1
+  },
+  "moral": {
+    "CISLR": 1
+  },
+  "time bound": {
+    "CISLR": 1
+  },
+  "obligate saprophyte": {
+    "CISLR": 1
+  },
+  "ncp": {
+    "CISLR": 1
+  },
+  "tension": {
+    "CISLR": 1
+  },
+  "wire man": {
+    "CISLR": 1
+  },
+  "centre front": {
+    "CISLR": 1
+  },
+  "on the basis of life cycle": {
+    "CISLR": 1
+  },
+  "ldli": {
+    "CISLR": 1
+  },
+  "tax property": {
+    "CISLR": 1
+  },
+  "goods retumed": {
+    "CISLR": 1
+  },
+  "stupid": {
+    "CISLR": 2
+  },
+  "days after tomorrow": {
+    "CISLR": 1
+  },
+  "jailor": {
+    "CISLR": 1
+  },
+  "revolve": {
+    "CISLR": 1
+  },
+  "google map": {
+    "CISLR": 1
+  },
+  "custody": {
+    "CISLR": 1
+  },
+  "cochin": {
+    "CISLR": 1
+  },
+  "astronomy": {
+    "CISLR": 1
+  },
+  "masquito": {
+    "CISLR": 1
+  },
+  "applicant": {
+    "CISLR": 2
+  },
+  "density": {
+    "CISLR": 1
+  },
+  "instruction": {
+    "CISLR": 1
+  },
+  "funnel neck": {
+    "CISLR": 1
+  },
+  "legal advisor": {
+    "CISLR": 1
+  },
+  "hook and eye": {
+    "CISLR": 1
+  },
+  "classification based on season": {
+    "CISLR": 1
+  },
+  "kill": {
+    "CISLR": 2
+  },
+  "home gardens": {
+    "CISLR": 1
+  },
+  "recognised": {
+    "CISLR": 1
+  },
+  "scooter": {
+    "CISLR": 1
+  },
+  "please": {
+    "CISLR": 3
+  },
+  "dropped armhole sleeve": {
+    "CISLR": 1
+  },
+  "hydrautic press": {
+    "CISLR": 1
+  },
+  "tonight": {
+    "CISLR": 1
+  },
+  "stick": {
+    "CISLR": 1
+  },
+  "adhesive": {
+    "CISLR": 1
+  },
+  "future": {
+    "CISLR": 1
+  },
+  "confession": {
+    "CISLR": 1
+  },
+  "scales of pay": {
+    "CISLR": 1
+  },
+  "no due certificate": {
+    "CISLR": 1
+  },
+  "soul": {
+    "CISLR": 1
+  },
+  "every time": {
+    "CISLR": 1
+  },
+  "vital": {
+    "CISLR": 1
+  },
+  "hands": {
+    "CISLR": 1
+  },
+  "rejoinder": {
+    "CISLR": 1
+  },
+  "descendant": {
+    "CISLR": 1
+  },
+  "industry": {
+    "CISLR": 2
+  },
+  "ridicule": {
+    "CISLR": 1
+  },
+  "communication": {
+    "CISLR": 1
+  },
+  "standardization": {
+    "CISLR": 1
+  },
+  "wage": {
+    "CISLR": 1
+  },
+  "satellites": {
+    "CISLR": 1
+  },
+  "soil borne disease": {
+    "CISLR": 1
+  },
+  "tall ornamental hedges": {
+    "CISLR": 1
+  },
+  "plant": {
+    "CISLR": 1
+  },
+  "cycling": {
+    "CISLR": 1
+  },
+  "born": {
+    "CISLR": 1
+  },
+  "crease": {
+    "CISLR": 1
+  },
+  "death in service": {
+    "CISLR": 1
+  },
+  "scorpion": {
+    "CISLR": 1
+  },
+  "telugu": {
+    "CISLR": 2
+  },
+  "selection grade": {
+    "CISLR": 1
+  },
+  "rocket": {
+    "CISLR": 1
+  },
+  "under stitch": {
+    "CISLR": 1
+  },
+  "tiffin": {
+    "CISLR": 1
+  },
+  "reach": {
+    "CISLR": 2
+  },
+  "size of seed": {
+    "CISLR": 1
+  },
+  "umaid bhawan palace": {
+    "CISLR": 1
+  },
+  "rabbit": {
+    "CISLR": 2
+  },
+  "diseases of animals": {
+    "CISLR": 1
+  },
+  "pin": {
+    "CISLR": 1
+  },
+  "breast cancer": {
+    "CISLR": 1
+  },
+  "movement": {
+    "CISLR": 1
+  },
+  "farmer": {
+    "CISLR": 1
+  },
+  "buddah": {
+    "CISLR": 1
+  },
+  "account book": {
+    "CISLR": 1
+  },
+  "balance opening": {
+    "CISLR": 1
+  },
+  "sweetlime": {
+    "CISLR": 1
+  },
+  "jackfruit": {
+    "CISLR": 2
+  },
+  "froage crops": {
+    "CISLR": 1
+  },
+  "green bean": {
+    "CISLR": 1
+  },
+  "kamataka": {
+    "CISLR": 1
+  },
+  "assam tea gardens": {
+    "CISLR": 1
+  },
+  "jabot": {
+    "CISLR": 1
+  },
+  "plumbing": {
+    "CISLR": 1
+  },
+  "browse": {
+    "CISLR": 1
+  },
+  "light year": {
+    "CISLR": 1
+  },
+  "unofficial": {
+    "CISLR": 1
+  },
+  "accept": {
+    "CISLR": 2
+  },
+  "homicide": {
+    "CISLR": 1
+  },
+  "offence": {
+    "CISLR": 1
+  },
+  "lecturer": {
+    "CISLR": 2
+  },
+  "officiating": {
+    "CISLR": 1
+  },
+  "nuclear energy": {
+    "CISLR": 1
+  },
+  "unfit": {
+    "CISLR": 1
+  },
+  "mouse click": {
+    "CISLR": 1
+  },
+  "new zealand": {
+    "CISLR": 1
+  },
+  "shape": {
+    "CISLR": 2
+  },
+  "tiller": {
+    "CISLR": 1
+  },
+  "nominal value": {
+    "CISLR": 1
+  },
+  "mainsworn": {
+    "CISLR": 1
+  },
+  "solo": {
+    "CISLR": 1
+  },
+  "wavegraph": {
+    "CISLR": 1
+  },
+  "unemployment": {
+    "CISLR": 1
+  },
+  "powder": {
+    "CISLR": 1
+  },
+  "lower division clerk": {
+    "CISLR": 1
+  },
+  "quit": {
+    "CISLR": 1
+  },
+  "deadly weapon": {
+    "CISLR": 1
+  },
+  "conservation": {
+    "CISLR": 1
+  },
+  "statement": {
+    "CISLR": 1
+  },
+  "dolly": {
+    "CISLR": 1
+  },
+  "kidnapping & abducting": {
+    "CISLR": 1
+  },
+  "superman": {
+    "CISLR": 1
+  },
+  "bangles": {
+    "CISLR": 2
+  },
+  "health": {
+    "CISLR": 1
+  },
+  "types of vegetable gardening": {
+    "CISLR": 1
+  },
+  "economics": {
+    "CISLR": 2
+  },
+  "pineapple": {
+    "CISLR": 1
+  },
+  "switch box": {
+    "CISLR": 1
+  },
+  "possess": {
+    "CISLR": 1
+  },
+  "periscope": {
+    "CISLR": 1
+  },
+  "selective": {
+    "CISLR": 1
+  },
+  "scent": {
+    "CISLR": 3
+  },
+  "private gardens": {
+    "CISLR": 1
+  },
+  "jodhpur pants": {
+    "CISLR": 1
+  },
+  "pharmacist": {
+    "CISLR": 1
+  },
+  "account blocked": {
+    "CISLR": 1
+  },
+  "energymeter": {
+    "CISLR": 1
+  },
+  "bold": {
+    "CISLR": 3
+  },
+  "geodetic survey": {
+    "CISLR": 1
+  },
+  "chicken mesh": {
+    "CISLR": 1
+  },
+  "installation": {
+    "CISLR": 1
+  },
+  "flat belt": {
+    "CISLR": 1
+  },
+  "hosticide": {
+    "CISLR": 1
+  },
+  "intermediate": {
+    "CISLR": 1
+  },
+  "whiteboard": {
+    "CISLR": 1
+  },
+  "new moon day": {
+    "CISLR": 1
+  },
+  "beak": {
+    "CISLR": 2
+  },
+  "racism": {
+    "CISLR": 1
+  },
+  "deafness": {
+    "CISLR": 1
+  },
+  "social society": {
+    "CISLR": 1
+  },
+  "rockery plants": {
+    "CISLR": 1
+  },
+  "legally protected": {
+    "CISLR": 1
+  },
+  "premises": {
+    "CISLR": 1
+  },
+  "recommendation": {
+    "CISLR": 1
+  },
+  "restrained": {
+    "CISLR": 1
+  },
+  "mud": {
+    "CISLR": 2
+  },
+  "account margin": {
+    "CISLR": 1
+  },
+  "basket of currencies": {
+    "CISLR": 1
+  },
+  "coat dress": {
+    "CISLR": 1
+  },
+  "electrical service": {
+    "CISLR": 1
+  },
+  "gandhinagar": {
+    "CISLR": 1
+  },
+  "unconditional": {
+    "CISLR": 1
+  },
+  "polish": {
+    "CISLR": 1
+  },
+  "credit sale": {
+    "CISLR": 1
+  },
+  "next month": {
+    "CISLR": 1
+  },
+  "attorney": {
+    "CISLR": 1
+  },
+  "balmacaan": {
+    "CISLR": 1
+  },
+  "mushroom harvesting": {
+    "CISLR": 1
+  },
+  "airtel": {
+    "CISLR": 1
+  },
+  "days before": {
+    "CISLR": 1
+  },
+  "e mail": {
+    "CISLR": 1
+  },
+  "eighteen": {
+    "CISLR": 1
+  },
+  "motion": {
+    "CISLR": 1
+  },
+  "packing credit": {
+    "CISLR": 1
+  },
+  "commercial vegetable gardening": {
+    "CISLR": 1
+  },
+  "salwar kameez": {
+    "CISLR": 2
+  },
+  "deposit safe custody": {
+    "CISLR": 1
+  },
+  "bond": {
+    "CISLR": 1
+  },
+  "option": {
+    "CISLR": 1
+  },
+  "preventive measures": {
+    "CISLR": 1
+  },
+  "wealthy": {
+    "CISLR": 1
+  },
+  "roam": {
+    "CISLR": 1
+  },
+  "boss": {
+    "CISLR": 1
+  },
+  "birds": {
+    "CISLR": 2
+  },
+  "patriotic": {
+    "CISLR": 1
+  },
+  "octopus": {
+    "CISLR": 1
+  },
+  "resolution": {
+    "CISLR": 1
+  },
+  "essay": {
+    "CISLR": 1
+  },
+  "rubber stamp": {
+    "CISLR": 1
+  },
+  "invalid": {
+    "CISLR": 1
+  },
+  "concurrent": {
+    "CISLR": 1
+  },
+  "recognise": {
+    "CISLR": 1
+  },
+  "anti virus": {
+    "CISLR": 2
+  },
+  "art": {
+    "CISLR": 2
+  },
+  "sick unit": {
+    "CISLR": 1
+  },
+  "bjp": {
+    "CISLR": 1
+  },
+  "duranta spinosa": {
+    "CISLR": 1
+  },
+  "thevetia neriefolia": {
+    "CISLR": 1
+  },
+  "commercial building": {
+    "CISLR": 1
+  },
+  "recover": {
+    "CISLR": 1
+  },
+  "concept": {
+    "CISLR": 1
+  },
+  "one": {
+    "CISLR": 1
+  },
+  "ostrich": {
+    "CISLR": 1
+  },
+  "toaster": {
+    "CISLR": 1
+  },
+  "taj mahal": {
+    "CISLR": 1
+  },
+  "horizontal surface": {
+    "CISLR": 1
+  },
+  "jamaica": {
+    "CISLR": 1
+  },
+  "sanjay dutt": {
+    "CISLR": 1
+  },
+  "hariyana": {
+    "CISLR": 1
+  },
+  "dropbox": {
+    "CISLR": 1
+  },
+  "divorcee": {
+    "CISLR": 1
+  },
+  "asphalt concrete": {
+    "CISLR": 1
+  },
+  "assault": {
+    "CISLR": 1
+  },
+  "clutch lever": {
+    "CISLR": 1
+  },
+  "eight": {
+    "CISLR": 1
+  },
+  "tax exemption": {
+    "CISLR": 1
+  },
+  "property public": {
+    "CISLR": 1
+  },
+  "celsius": {
+    "CISLR": 1
+  },
+  "panel door": {
+    "CISLR": 1
+  },
+  "symptoms of nematode diseases of plants": {
+    "CISLR": 1
+  },
+  "bike oil filter": {
+    "CISLR": 1
+  },
+  "three days before": {
+    "CISLR": 1
+  },
+  "take home pay": {
+    "CISLR": 1
+  },
+  "society co": {
+    "CISLR": 1
+  },
+  "cummerband": {
+    "CISLR": 1
+  },
+  "hypothecated": {
+    "CISLR": 1
+  },
+  "over writing": {
+    "CISLR": 1
+  },
+  "systemic disease": {
+    "CISLR": 1
+  },
+  "bonus": {
+    "CISLR": 2
+  },
+  "inspire": {
+    "CISLR": 1
+  },
+  "golden temple": {
+    "CISLR": 1
+  },
+  "refund": {
+    "CISLR": 1
+  },
+  "brazil": {
+    "CISLR": 1
+  },
+  "independence day": {
+    "CISLR": 1
+  },
+  "transcription": {
+    "CISLR": 1
+  },
+  "link": {
+    "CISLR": 1
+  },
+  "leather": {
+    "CISLR": 2
+  },
+  "comb": {
+    "CISLR": 3
+  },
+  "pear": {
+    "CISLR": 1
+  },
+  "between": {
+    "CISLR": 1
+  },
+  "child abuse": {
+    "CISLR": 1
+  },
+  "bill of exchange": {
+    "CISLR": 1
+  },
+  "often": {
+    "CISLR": 2
+  },
+  "rail section": {
+    "CISLR": 1
+  },
+  "solar eclipse": {
+    "CISLR": 1
+  },
+  "retain": {
+    "CISLR": 1
+  },
+  "control": {
+    "CISLR": 2
+  },
+  "vibrant image": {
+    "CISLR": 1
+  },
+  "compound microscope": {
+    "CISLR": 1
+  },
+  "hoe": {
+    "CISLR": 1
+  },
+  "underhand": {
+    "CISLR": 1
+  },
+  "diseases": {
+    "CISLR": 1
+  },
+  "resolve": {
+    "CISLR": 1
+  },
+  "guard": {
+    "CISLR": 1
+  },
+  "extrahepatic": {
+    "CISLR": 1
+  },
+  "gate": {
+    "CISLR": 3
+  },
+  "scribe": {
+    "CISLR": 1
+  },
+  "resources": {
+    "CISLR": 1
+  },
+  "anonymous complaint": {
+    "CISLR": 1
+  },
+  "on demand": {
+    "CISLR": 1
+  },
+  "ukraine": {
+    "CISLR": 1
+  },
+  "restricted": {
+    "CISLR": 1
+  },
+  "bhangada": {
+    "CISLR": 1
+  },
+  "decline": {
+    "CISLR": 1
+  },
+  "ourselves": {
+    "CISLR": 1
+  },
+  "when": {
+    "CISLR": 1
+  },
+  "risk": {
+    "CISLR": 1
+  },
+  "bitter gourd": {
+    "CISLR": 1
+  },
+  "optical character recognition": {
+    "CISLR": 1
+  },
+  "ghana": {
+    "CISLR": 1
+  },
+  "peak": {
+    "CISLR": 2
+  },
+  "quran": {
+    "CISLR": 1
+  },
+  "mi xiaomi": {
+    "CISLR": 1
+  },
+  "cock erels": {
+    "CISLR": 1
+  },
+  "czech republic": {
+    "CISLR": 1
+  },
+  "paneer": {
+    "CISLR": 1
+  },
+  "merge": {
+    "CISLR": 1
+  },
+  "sewing machine": {
+    "CISLR": 1
+  },
+  "thumb impression": {
+    "CISLR": 1
+  },
+  "subsidy": {
+    "CISLR": 1
+  },
+  "milligram": {
+    "CISLR": 1
+  },
+  "forest": {
+    "CISLR": 1
+  },
+  "dehradun": {
+    "CISLR": 1
+  },
+  "facsimile signature": {
+    "CISLR": 1
+  },
+  "despatch": {
+    "CISLR": 1
+  },
+  "sugarcane": {
+    "CISLR": 1
+  },
+  "chicks": {
+    "CISLR": 1
+  },
+  "shell top": {
+    "CISLR": 1
+  },
+  "kochi": {
+    "CISLR": 1
+  },
+  "tall protective hedges": {
+    "CISLR": 1
+  },
+  "people": {
+    "CISLR": 1
+  },
+  "anklets": {
+    "CISLR": 2
+  },
+  "chain drive": {
+    "CISLR": 1
+  },
+  "fourteen": {
+    "CISLR": 1
+  },
+  "feed": {
+    "CISLR": 1
+  },
+  "loan terminable": {
+    "CISLR": 1
+  },
+  "embryonic development": {
+    "CISLR": 1
+  },
+  "rock": {
+    "CISLR": 3
+  },
+  "twin": {
+    "CISLR": 2
+  },
+  "tall shrubs": {
+    "CISLR": 1
+  },
+  "german measles rubella": {
+    "CISLR": 1
+  },
+  "spectacles": {
+    "CISLR": 1
+  },
+  "milling cutter angle": {
+    "CISLR": 1
+  },
+  "cake": {
+    "CISLR": 1
+  },
+  "lift": {
+    "CISLR": 2
+  },
+  "compate": {
+    "CISLR": 1
+  },
+  "about": {
+    "CISLR": 1
+  },
+  "dvd": {
+    "CISLR": 1
+  },
+  "balloon": {
+    "CISLR": 3
+  },
+  "autocracy": {
+    "CISLR": 2
+  },
+  "practise": {
+    "CISLR": 2
+  },
+  "south poie": {
+    "CISLR": 1
+  },
+  "besom pocket": {
+    "CISLR": 1
+  },
+  "survivorship": {
+    "CISLR": 1
+  },
+  "sri lanka": {
+    "CISLR": 1
+  },
+  "recharge": {
+    "CISLR": 1
+  },
+  "galaxy": {
+    "CISLR": 1
+  },
+  "mosquito": {
+    "CISLR": 1
+  },
+  "ledger": {
+    "CISLR": 1
+  },
+  "holder": {
+    "CISLR": 1
+  },
+  "scalpel": {
+    "CISLR": 1
+  },
+  "questionnaire": {
+    "CISLR": 1
+  },
+  "unpaid": {
+    "CISLR": 1
+  },
+  "fish as a food of cattle": {
+    "CISLR": 1
+  },
+  "scotland": {
+    "CISLR": 1
+  },
+  "symbol": {
+    "CISLR": 1
+  },
+  "rocking chair": {
+    "CISLR": 1
+  },
+  "office bearer": {
+    "CISLR": 1
+  },
+  "very": {
+    "CISLR": 1
+  },
+  "toggle button": {
+    "CISLR": 1
+  },
+  "leprosy": {
+    "CISLR": 2
+  },
+  "circuit breaker": {
+    "CISLR": 1
+  },
+  "armenia": {
+    "CISLR": 1
+  },
+  "repay": {
+    "CISLR": 1
+  },
+  "centripetal": {
+    "CISLR": 1
+  },
+  "medium shrubs": {
+    "CISLR": 1
+  },
+  "floppy": {
+    "CISLR": 1
+  },
+  "self explanatory": {
+    "CISLR": 1
+  },
+  "konark sun temple": {
+    "CISLR": 1
+  },
+  "handpump water": {
+    "CISLR": 1
+  },
+  "abstract": {
+    "CISLR": 1
+  },
+  "artesian well": {
+    "CISLR": 1
+  },
+  "prescribe": {
+    "CISLR": 1
+  },
+  "transfer fee": {
+    "CISLR": 1
+  },
+  "bullet train": {
+    "CISLR": 1
+  },
+  "study": {
+    "CISLR": 2
+  },
+  "harvest": {
+    "CISLR": 1
+  },
+  "html tag": {
+    "CISLR": 1
+  },
+  "tom and jerry": {
+    "CISLR": 1
+  },
+  "israel": {
+    "CISLR": 1
+  },
+  "dengue": {
+    "CISLR": 1
+  },
+  "namaste": {
+    "CISLR": 1
+  },
+  "safety helmet": {
+    "CISLR": 1
+  },
+  "stock opening": {
+    "CISLR": 1
+  },
+  "rally": {
+    "CISLR": 1
+  },
+  "become": {
+    "CISLR": 1
+  },
+  "rarely": {
+    "CISLR": 1
+  },
+  "promisory note": {
+    "CISLR": 1
+  },
+  "emergency medical technician": {
+    "CISLR": 1
+  },
+  "per pro": {
+    "CISLR": 1
+  },
+  "funeral cremation": {
+    "CISLR": 1
+  },
+  "sp": {
+    "CISLR": 1
+  },
+  "buffet": {
+    "CISLR": 1
+  },
+  "bowler": {
+    "CISLR": 1
+  },
+  "beans": {
+    "CISLR": 1
+  },
+  "icici bank": {
+    "CISLR": 1
+  },
+  "ad infinitum": {
+    "CISLR": 1
+  },
+  "alkali soil": {
+    "CISLR": 1
+  },
+  "ice hockey": {
+    "CISLR": 1
+  },
+  "irregular vibration": {
+    "CISLR": 1
+  },
+  "problem": {
+    "CISLR": 1
+  },
+  "conversion": {
+    "CISLR": 1
+  },
+  "high resistance": {
+    "CISLR": 1
+  },
+  "automobiles": {
+    "CISLR": 1
+  },
+  "par below": {
+    "CISLR": 1
+  },
+  "make": {
+    "CISLR": 2
+  },
+  "improvement": {
+    "CISLR": 1
+  },
+  "chapter": {
+    "CISLR": 1
+  },
+  "kathakali": {
+    "CISLR": 1
+  },
+  "confess": {
+    "CISLR": 1
+  },
+  "batman": {
+    "CISLR": 1
+  },
+  "motherboard": {
+    "CISLR": 1
+  },
+  "rock climbing gujarat": {
+    "CISLR": 1
+  },
+  "actual": {
+    "CISLR": 1
+  },
+  "out of work": {
+    "CISLR": 1
+  },
+  "non legal": {
+    "CISLR": 1
+  },
+  "lapel": {
+    "CISLR": 1
+  },
+  "violin": {
+    "CISLR": 1
+  },
+  "fund": {
+    "CISLR": 1
+  },
+  "passion": {
+    "CISLR": 1
+  },
+  "four": {
+    "CISLR": 1
+  },
+  "guide": {
+    "CISLR": 1
+  },
+  "disrespect": {
+    "CISLR": 1
+  },
+  "treasury": {
+    "CISLR": 1
+  },
+  "account minor": {
+    "CISLR": 1
+  },
+  "iran": {
+    "CISLR": 1
+  },
+  "dhobi": {
+    "CISLR": 2
+  },
+  "watt": {
+    "CISLR": 1
+  },
+  "enclosure": {
+    "CISLR": 1
+  },
+  "relief": {
+    "CISLR": 1
+  },
+  "shield": {
+    "CISLR": 1
+  },
+  "forever": {
+    "CISLR": 1
+  },
+  "renewal": {
+    "CISLR": 1
+  },
+  "asbestos": {
+    "CISLR": 1
+  },
+  "exchange foreign": {
+    "CISLR": 1
+  },
+  "encourage": {
+    "CISLR": 2
+  },
+  "figure": {
+    "CISLR": 1
+  },
+  "nagpur": {
+    "CISLR": 1
+  },
+  "numerous": {
+    "CISLR": 1
+  },
+  "receiver": {
+    "CISLR": 1
+  },
+  "clean bill": {
+    "CISLR": 1
+  },
+  "happen": {
+    "CISLR": 1
+  },
+  "document": {
+    "CISLR": 1
+  },
+  "protest": {
+    "CISLR": 1
+  },
+  "judicial": {
+    "CISLR": 1
+  },
+  "tight tracking": {
+    "CISLR": 1
+  },
+  "woven": {
+    "CISLR": 1
+  },
+  "guitar": {
+    "CISLR": 1
+  },
+  "children": {
+    "CISLR": 1
+  },
+  "to": {
+    "CISLR": 1
+  },
+  "web camera": {
+    "CISLR": 1
+  },
+  "pronoun": {
+    "CISLR": 1
+  },
+  "google pay": {
+    "CISLR": 1
+  },
+  "audience": {
+    "CISLR": 1
+  },
+  "cooperate": {
+    "CISLR": 1
+  },
+  "gprs": {
+    "CISLR": 1
+  },
+  "kaleidoscope": {
+    "CISLR": 1
+  },
+  "general ladger": {
+    "CISLR": 1
+  },
+  "spot price": {
+    "CISLR": 1
+  },
+  "raipur": {
+    "CISLR": 1
+  },
+  "day book": {
+    "CISLR": 1
+  },
+  "stingy": {
+    "CISLR": 1
+  },
+  "bio energy": {
+    "CISLR": 1
+  },
+  "rationale": {
+    "CISLR": 1
+  },
+  "ms powerpoint": {
+    "CISLR": 1
+  },
+  "advantage": {
+    "CISLR": 2
+  },
+  "united states of america": {
+    "CISLR": 2
+  },
+  "zero": {
+    "CISLR": 1
+  },
+  "turnout": {
+    "CISLR": 1
+  },
+  "them": {
+    "CISLR": 1
+  },
+  "washroom": {
+    "CISLR": 1
+  },
+  "on probation": {
+    "CISLR": 1
+  },
+  "assailant": {
+    "CISLR": 1
+  },
+  "take hours at something": {
+    "CISLR": 1
+  },
+  "open belt drive": {
+    "CISLR": 1
+  },
+  "share preference": {
+    "CISLR": 1
+  },
+  "thunder": {
+    "CISLR": 1
+  },
+  "doll": {
+    "CISLR": 1
+  },
+  "trade discount": {
+    "CISLR": 1
+  },
+  "deep rooted": {
+    "CISLR": 1
+  },
+  "exotic sheep": {
+    "CISLR": 1
+  },
+  "her": {
+    "CISLR": 1
+  },
+  "cunning": {
+    "CISLR": 2
+  },
+  "uruguay": {
+    "CISLR": 1
+  },
+  "visitor": {
+    "CISLR": 1
+  },
+  "hexadecimal": {
+    "CISLR": 1
+  },
+  "bullock cart": {
+    "CISLR": 1
+  },
+  "adoptive child": {
+    "CISLR": 1
+  },
+  "ways": {
+    "CISLR": 1
+  },
+  "developmental delay": {
+    "CISLR": 1
+  },
+  "velcro": {
+    "CISLR": 1
+  },
+  "working hours": {
+    "CISLR": 1
+  },
+  "plug": {
+    "CISLR": 1
+  },
+  "blurring": {
+    "CISLR": 1
+  },
+  "non infectious disease": {
+    "CISLR": 1
+  },
+  "attendance record": {
+    "CISLR": 1
+  },
+  "toenail": {
+    "CISLR": 1
+  },
+  "smallpox": {
+    "CISLR": 1
+  },
+  "tata car": {
+    "CISLR": 1
+  },
+  "curry": {
+    "CISLR": 1
+  },
+  "mall": {
+    "CISLR": 1
+  },
+  "nomographer": {
+    "CISLR": 1
+  },
+  "talk": {
+    "CISLR": 3
+  },
+  "approve": {
+    "CISLR": 2
+  },
+  "affirm": {
+    "CISLR": 1
+  },
+  "retum outward": {
+    "CISLR": 1
+  },
+  "sell": {
+    "CISLR": 2
+  },
+  "abrasive": {
+    "CISLR": 1
+  },
+  "banaras": {
+    "CISLR": 1
+  },
+  "acceptance": {
+    "CISLR": 1
+  },
+  "stamp": {
+    "CISLR": 1
+  },
+  "lick": {
+    "CISLR": 1
+  },
+  "know your customer kyc form": {
+    "CISLR": 1
+  },
+  "disabled": {
+    "CISLR": 1
+  },
+  "employment": {
+    "CISLR": 1
+  },
+  "uitrasonic": {
+    "CISLR": 1
+  },
+  "kinetic energy": {
+    "CISLR": 1
+  },
+  "permit": {
+    "CISLR": 1
+  },
+  "waiting room": {
+    "CISLR": 1
+  },
+  "low lying area": {
+    "CISLR": 1
+  },
+  "rotational": {
+    "CISLR": 1
+  },
+  "past": {
+    "CISLR": 1
+  },
+  "burglar": {
+    "CISLR": 1
+  },
+  "their": {
+    "CISLR": 1
+  },
+  "mute": {
+    "CISLR": 1
+  },
+  "moon": {
+    "CISLR": 2
+  },
+  "pista": {
+    "CISLR": 1
+  },
+  "indent": {
+    "CISLR": 1
+  },
+  "neptune": {
+    "CISLR": 1
+  },
+  "metro": {
+    "CISLR": 1
+  },
+  "rabindranath tagore": {
+    "CISLR": 1
+  },
+  "import": {
+    "CISLR": 1
+  },
+  "handicapped": {
+    "CISLR": 1
+  },
+  "myself": {
+    "CISLR": 2
+  },
+  "blame": {
+    "CISLR": 1
+  },
+  "regularisation": {
+    "CISLR": 1
+  },
+  "third party": {
+    "CISLR": 1
+  },
+  "ram": {
+    "CISLR": 1
+  },
+  "head pan": {
+    "CISLR": 1
+  },
+  "fish food": {
+    "CISLR": 1
+  },
+  "filament": {
+    "CISLR": 2
+  },
+  "story": {
+    "CISLR": 2
+  },
+  "overdraft": {
+    "CISLR": 1
+  },
+  "saprophyte of plants": {
+    "CISLR": 1
+  },
+  "poultry mash": {
+    "CISLR": 1
+  },
+  "prize": {
+    "CISLR": 2
+  },
+  "paratha": {
+    "CISLR": 1
+  },
+  "steam tractor": {
+    "CISLR": 1
+  },
+  "saw": {
+    "CISLR": 1
+  },
+  "under consideration": {
+    "CISLR": 1
+  },
+  "brain stem glioma": {
+    "CISLR": 1
+  },
+  "streaming": {
+    "CISLR": 1
+  },
+  "ms word": {
+    "CISLR": 1
+  },
+  "accurate": {
+    "CISLR": 1
+  },
+  "straight forward": {
+    "CISLR": 1
+  },
+  "ranchi": {
+    "CISLR": 1
+  },
+  "centimetre": {
+    "CISLR": 1
+  },
+  "tool belt": {
+    "CISLR": 1
+  },
+  "amalgamation": {
+    "CISLR": 1
+  },
+  "passive debt": {
+    "CISLR": 1
+  },
+  "account holder": {
+    "CISLR": 1
+  },
+  "include": {
+    "CISLR": 1
+  },
+  "task wage": {
+    "CISLR": 1
+  },
+  "smart": {
+    "CISLR": 1
+  },
+  "knurling": {
+    "CISLR": 1
+  },
+  "stock chart": {
+    "CISLR": 1
+  },
+  "evil": {
+    "CISLR": 1
+  },
+  "next week": {
+    "CISLR": 1
+  },
+  "schematic": {
+    "CISLR": 1
+  },
+  "trustworthiness": {
+    "CISLR": 1
+  },
+  "dishonoured bill": {
+    "CISLR": 1
+  },
+  "shaving blade": {
+    "CISLR": 1
+  },
+  "shrubs": {
+    "CISLR": 1
+  },
+  "discretionary limit": {
+    "CISLR": 1
+  },
+  "washing machine": {
+    "CISLR": 1
+  },
+  "deceive": {
+    "CISLR": 1
+  },
+  "housing": {
+    "CISLR": 1
+  },
+  "stags": {
+    "CISLR": 1
+  },
+  "under": {
+    "CISLR": 2
+  },
+  "verdict": {
+    "CISLR": 1
+  },
+  "assassination": {
+    "CISLR": 2
+  },
+  "ticket": {
+    "CISLR": 1
+  },
+  "lens": {
+    "CISLR": 1
+  },
+  "enquiry": {
+    "CISLR": 1
+  },
+  "condom": {
+    "CISLR": 1
+  },
+  "admissible": {
+    "CISLR": 1
+  },
+  "grain": {
+    "CISLR": 1
+  },
+  "mahavir": {
+    "CISLR": 1
+  },
+  "sleepwalker": {
+    "CISLR": 1
+  },
+  "frisbee": {
+    "CISLR": 1
+  },
+  "wall": {
+    "CISLR": 1
+  },
+  "advise": {
+    "CISLR": 1
+  },
+  "estimate": {
+    "CISLR": 1
+  },
+  "meter": {
+    "CISLR": 1
+  },
+  "brokerage": {
+    "CISLR": 1
+  },
+  "schedule": {
+    "CISLR": 1
+  },
+  "wholesale": {
+    "CISLR": 1
+  },
+  "carry": {
+    "CISLR": 1
+  },
+  "opportunity": {
+    "CISLR": 1
+  },
+  "brain injury": {
+    "CISLR": 1
+  },
+  "examine": {
+    "CISLR": 1
+  },
+  "confidence": {
+    "CISLR": 1
+  },
+  "sudden": {
+    "CISLR": 1
+  },
+  "sudan": {
+    "CISLR": 1
+  },
+  "bsp": {
+    "CISLR": 1
+  },
+  "approach": {
+    "CISLR": 1
+  },
+  "fry": {
+    "CISLR": 1
+  },
+  "viral diseases animals": {
+    "CISLR": 1
+  },
+  "cassette": {
+    "CISLR": 1
+  },
+  "bills purchased": {
+    "CISLR": 1
+  },
+  "gurunanak jayanthi": {
+    "CISLR": 1
+  },
+  "luster": {
+    "CISLR": 1
+  },
+  "vice president": {
+    "CISLR": 1
+  },
+  "chhattisgarh": {
+    "CISLR": 1
+  },
+  "graphics": {
+    "CISLR": 1
+  },
+  "accordion pleats": {
+    "CISLR": 1
+  },
+  "rebate": {
+    "CISLR": 1
+  },
+  "harass": {
+    "CISLR": 1
+  },
+  "snip": {
+    "CISLR": 1
+  },
+  "mexico": {
+    "CISLR": 1
+  },
+  "associate professor": {
+    "CISLR": 1
+  },
+  "less": {
+    "CISLR": 1
+  },
+  "creeper": {
+    "CISLR": 2
+  },
+  "visual": {
+    "CISLR": 1
+  },
+  "account payee only": {
+    "CISLR": 1
+  },
+  "elevated plot": {
+    "CISLR": 1
+  },
+  "surface runoff": {
+    "CISLR": 1
+  },
+  "st": {
+    "CISLR": 1
+  },
+  "drunk driving": {
+    "CISLR": 1
+  },
+  "part time": {
+    "CISLR": 1
+  },
+  "storey skyscraper": {
+    "CISLR": 2
+  },
+  "pappad": {
+    "CISLR": 1
+  },
+  "lizard": {
+    "CISLR": 2
+  },
+  "excavation": {
+    "CISLR": 1
+  },
+  "supervise": {
+    "CISLR": 1
+  },
+  "opaque": {
+    "CISLR": 1
+  },
+  "review": {
+    "CISLR": 1
+  },
+  "acacia fernesiana": {
+    "CISLR": 1
+  },
+  "beverages": {
+    "CISLR": 1
+  },
+  "helicopter": {
+    "CISLR": 1
+  },
+  "bauhinia accuminata": {
+    "CISLR": 1
+  },
+  "magnification": {
+    "CISLR": 1
+  },
+  "cooling sheet": {
+    "CISLR": 1
+  },
+  "one lakh": {
+    "CISLR": 1
+  },
+  "neutron": {
+    "CISLR": 1
+  },
+  "excuse": {
+    "CISLR": 1
+  },
+  "bluetooth": {
+    "CISLR": 2
+  },
+  "waist": {
+    "CISLR": 1
+  },
+  "airport": {
+    "CISLR": 2
+  },
+  "opening balance": {
+    "CISLR": 1
+  },
+  "passing official": {
+    "CISLR": 1
+  },
+  "sow": {
+    "CISLR": 1
+  },
+  "terminate": {
+    "CISLR": 1
+  },
+  "over and over again": {
+    "CISLR": 1
+  },
+  "rough cut": {
+    "CISLR": 1
+  },
+  "electric appliances": {
+    "CISLR": 1
+  },
+  "cl": {
+    "CISLR": 1
+  },
+  "memorize": {
+    "CISLR": 1
+  },
+  "weeds near to pond margin": {
+    "CISLR": 1
+  },
+  "toyota": {
+    "CISLR": 1
+  },
+  "water motor": {
+    "CISLR": 1
+  },
+  "jainism": {
+    "CISLR": 1
+  },
+  "scientist": {
+    "CISLR": 1
+  },
+  "uco bank": {
+    "CISLR": 1
+  },
+  "clearing house": {
+    "CISLR": 1
+  },
+  "whatsapp": {
+    "CISLR": 1
+  },
+  "raise": {
+    "CISLR": 2
+  },
+  "variety": {
+    "CISLR": 1
+  },
+  "glass bod": {
+    "CISLR": 1
+  },
+  "uncalled": {
+    "CISLR": 1
+  },
+  "infrared ray": {
+    "CISLR": 1
+  },
+  "workshop": {
+    "CISLR": 1
+  },
+  "important": {
+    "CISLR": 1
+  },
+  "pastry": {
+    "CISLR": 1
+  },
+  "custard apple": {
+    "CISLR": 1
+  },
+  "believe": {
+    "CISLR": 1
+  },
+  "hers": {
+    "CISLR": 1
+  },
+  "district jail": {
+    "CISLR": 1
+  },
+  "dussehra": {
+    "CISLR": 1
+  },
+  "himself": {
+    "CISLR": 1
+  },
+  "modification": {
+    "CISLR": 1
+  },
+  "coarse aggregate": {
+    "CISLR": 1
+  },
+  "intestate": {
+    "CISLR": 1
+  },
+  "chemistry": {
+    "CISLR": 1
+  },
+  "photographer": {
+    "CISLR": 1
+  },
+  "telegram": {
+    "CISLR": 1
+  },
+  "double": {
+    "CISLR": 1
+  },
+  "archaeologist": {
+    "CISLR": 1
+  },
+  "forgive": {
+    "CISLR": 1
+  },
+  "isreal": {
+    "CISLR": 1
+  },
+  "jams": {
+    "CISLR": 1
+  },
+  "written down value": {
+    "CISLR": 1
+  },
+  "dish antenna": {
+    "CISLR": 1
+  },
+  "indian sign language teachers association": {
+    "CISLR": 1
+  },
+  "nationalisation": {
+    "CISLR": 1
+  },
+  "south africa": {
+    "CISLR": 1
+  },
+  "overall": {
+    "CISLR": 1
+  },
+  "classification of poultry diseases": {
+    "CISLR": 1
+  },
+  "rasgulla": {
+    "CISLR": 1
+  },
+  "voice": {
+    "CISLR": 1
+  },
+  "carry on": {
+    "CISLR": 1
+  },
+  "jointing": {
+    "CISLR": 1
+  },
+  "tape": {
+    "CISLR": 1
+  },
+  "assets": {
+    "CISLR": 1
+  },
+  "saudi arabia": {
+    "CISLR": 1
+  },
+  "ornaments": {
+    "CISLR": 1
+  },
+  "slope": {
+    "CISLR": 1
+  },
+  "signatory": {
+    "CISLR": 1
+  },
+  "specific": {
+    "CISLR": 1
+  },
+  "nail": {
+    "CISLR": 2
+  },
+  "re endorsed": {
+    "CISLR": 1
+  },
+  "lecture": {
+    "CISLR": 1
+  },
+  "youth": {
+    "CISLR": 1
+  },
+  "temperate fruits": {
+    "CISLR": 1
+  },
+  "rhino": {
+    "CISLR": 1
+  },
+  "keep": {
+    "CISLR": 1
+  },
+  "here": {
+    "CISLR": 1
+  },
+  "drilling machine pedestal": {
+    "CISLR": 1
+  },
+  "superstition": {
+    "CISLR": 1
+  },
+  "lonely": {
+    "CISLR": 1
+  },
+  "floriculture": {
+    "CISLR": 1
+  },
+  "thatched roof": {
+    "CISLR": 1
+  },
+  "among": {
+    "CISLR": 1
+  },
+  "polygon tool": {
+    "CISLR": 1
+  },
+  "identity": {
+    "CISLR": 1
+  },
+  "common cold": {
+    "CISLR": 1
+  },
+  "borrower": {
+    "CISLR": 1
+  },
+  "chronic illness": {
+    "CISLR": 1
+  },
+  "liquidation": {
+    "CISLR": 1
+  },
+  "vehicle": {
+    "CISLR": 1
+  },
+  "north america": {
+    "CISLR": 1
+  },
+  "summons": {
+    "CISLR": 1
+  },
+  "research": {
+    "CISLR": 1
+  },
+  "registered letter": {
+    "CISLR": 1
+  },
+  "centre of curvature": {
+    "CISLR": 1
+  },
+  "non payment": {
+    "CISLR": 1
+  },
+  "marketing of vegetables": {
+    "CISLR": 1
+  },
+  "army": {
+    "CISLR": 1
+  },
+  "vertical": {
+    "CISLR": 1
+  },
+  "abbreviation": {
+    "CISLR": 1
+  },
+  "droplet": {
+    "CISLR": 1
+  },
+  "holiday": {
+    "CISLR": 1
+  },
+  "airjet": {
+    "CISLR": 1
+  },
+  "identical": {
+    "CISLR": 1
+  },
+  "influence": {
+    "CISLR": 2
+  },
+  "aeroplane sprayer": {
+    "CISLR": 1
+  },
+  "multiple": {
+    "CISLR": 1
+  },
+  "stir up": {
+    "CISLR": 1
+  },
+  "tilts": {
+    "CISLR": 1
+  },
+  "rare": {
+    "CISLR": 1
+  },
+  "land cess": {
+    "CISLR": 1
+  },
+  "app": {
+    "CISLR": 1
+  },
+  "short term": {
+    "CISLR": 1
+  },
+  "set": {
+    "CISLR": 1
+  },
+  "rain": {
+    "CISLR": 1
+  },
+  "poland": {
+    "CISLR": 1
+  },
+  "sailor collar": {
+    "CISLR": 1
+  },
+  "deploy": {
+    "CISLR": 1
+  },
+  "plug point": {
+    "CISLR": 1
+  },
+  "polygraph": {
+    "CISLR": 1
+  },
+  "soon": {
+    "CISLR": 1
+  },
+  "monthly statement": {
+    "CISLR": 1
+  },
+  "shift": {
+    "CISLR": 2
+  },
+  "fake": {
+    "CISLR": 1
+  },
+  "band collar": {
+    "CISLR": 1
+  },
+  "samsung": {
+    "CISLR": 1
+  },
+  "sauce": {
+    "CISLR": 1
+  },
+  "inactive": {
+    "CISLR": 1
+  },
+  "rigid": {
+    "CISLR": 1
+  },
+  "none": {
+    "CISLR": 1
+  },
+  "third": {
+    "CISLR": 1
+  },
+  "gangtok": {
+    "CISLR": 1
+  },
+  "self employed": {
+    "CISLR": 1
+  },
+  "produce": {
+    "CISLR": 1
+  },
+  "hold": {
+    "CISLR": 1
+  },
+  "secondary tillage": {
+    "CISLR": 1
+  },
+  "l.e.d": {
+    "CISLR": 1
+  },
+  "share equity": {
+    "CISLR": 1
+  },
+  "sony mobile": {
+    "CISLR": 1
+  },
+  "cerebral palsy": {
+    "CISLR": 1
+  },
+  "south korea": {
+    "CISLR": 1
+  },
+  "iphone": {
+    "CISLR": 1
+  },
+  "roasters": {
+    "CISLR": 1
+  },
+  "enough": {
+    "CISLR": 2
+  },
+  "transistor": {
+    "CISLR": 1
+  },
+  "dash": {
+    "CISLR": 1
+  },
+  "last": {
+    "CISLR": 1
+  },
+  "copy and paste": {
+    "CISLR": 1
+  },
+  "chesterfield coat": {
+    "CISLR": 1
+  },
+  "mercury": {
+    "CISLR": 1
+  },
+  "prejudice": {
+    "CISLR": 1
+  },
+  "galvanometer": {
+    "CISLR": 1
+  },
+  "strain": {
+    "CISLR": 1
+  },
+  "instument": {
+    "CISLR": 1
+  },
+  "dysuria": {
+    "CISLR": 1
+  },
+  "tunisia": {
+    "CISLR": 1
+  },
+  "bride": {
+    "CISLR": 1
+  },
+  "vernier caliper": {
+    "CISLR": 1
+  },
+  "foot body part": {
+    "CISLR": 1
+  },
+  "tie": {
+    "CISLR": 2
+  },
+  "electric bike": {
+    "CISLR": 1
+  },
+  "starfish": {
+    "CISLR": 1
+  },
+  "mallet": {
+    "CISLR": 1
+  },
+  "nearby": {
+    "CISLR": 1
+  },
+  "cheque crossed": {
+    "CISLR": 1
+  },
+  "develop": {
+    "CISLR": 1
+  },
+  "girlfriend": {
+    "CISLR": 1
+  },
+  "maintenance allowance": {
+    "CISLR": 1
+  },
+  "ship": {
+    "CISLR": 1
+  },
+  "samosa": {
+    "CISLR": 1
+  },
+  "hatchet": {
+    "CISLR": 1
+  },
+  "reaction": {
+    "CISLR": 1
+  },
+  "cng stone carving machine": {
+    "CISLR": 1
+  },
+  "show cause": {
+    "CISLR": 1
+  },
+  "disguise": {
+    "CISLR": 1
+  },
+  "minimize": {
+    "CISLR": 1
+  },
+  "menu": {
+    "CISLR": 1
+  },
+  "cashier": {
+    "CISLR": 1
+  },
+  "internal": {
+    "CISLR": 1
+  },
+  "wicket": {
+    "CISLR": 1
+  },
+  "drumstick": {
+    "CISLR": 1
+  },
+  "current": {
+    "CISLR": 1
+  },
+  "cyprus": {
+    "CISLR": 1
+  },
+  "terrorist": {
+    "CISLR": 1
+  },
+  "sharbat": {
+    "CISLR": 1
+  },
+  "curd": {
+    "CISLR": 1
+  },
+  "photosynthesis process": {
+    "CISLR": 1
+  },
+  "life jacket": {
+    "CISLR": 1
+  },
+  "asthma": {
+    "CISLR": 1
+  },
+  "parcel": {
+    "CISLR": 1
+  },
+  "dismissal": {
+    "CISLR": 1
+  },
+  "crossing": {
+    "CISLR": 1
+  },
+  "last week": {
+    "CISLR": 1
+  },
+  "last year": {
+    "CISLR": 1
+  },
+  "detective": {
+    "CISLR": 1
+  },
+  "pressure foot": {
+    "CISLR": 1
+  },
+  "customer service": {
+    "CISLR": 1
+  },
+  "road": {
+    "CISLR": 1
+  },
+  "satisfied": {
+    "CISLR": 2
+  },
+  "proton": {
+    "CISLR": 1
+  },
+  "re employment": {
+    "CISLR": 1
+  },
+  "intermal combustion engine": {
+    "CISLR": 1
+  },
+  "younger brother": {
+    "CISLR": 1
+  },
+  "saloon": {
+    "CISLR": 1
+  },
+  "single entry": {
+    "CISLR": 1
+  },
+  "lapse": {
+    "CISLR": 1
+  },
+  "letter of authority": {
+    "CISLR": 1
+  },
+  "misappropriation": {
+    "CISLR": 1
+  },
+  "eggplant": {
+    "CISLR": 1
+  },
+  "steady current": {
+    "CISLR": 1
+  },
+  "freexing": {
+    "CISLR": 1
+  },
+  "waxing": {
+    "CISLR": 1
+  },
+  "mathematics": {
+    "CISLR": 1
+  },
+  "zambia": {
+    "CISLR": 1
+  },
+  "oscillator": {
+    "CISLR": 1
+  },
+  "monitoring": {
+    "CISLR": 1
+  },
+  "backyard system of poultry": {
+    "CISLR": 1
+  },
+  "concave mirror": {
+    "CISLR": 1
+  },
+  "fray edges": {
+    "CISLR": 1
+  },
+  "pongal": {
+    "CISLR": 1
+  },
+  "thriff": {
+    "CISLR": 1
+  },
+  "waiting list": {
+    "CISLR": 1
+  },
+  "forehead": {
+    "CISLR": 1
+  },
+  "leave duty": {
+    "CISLR": 1
+  },
+  "buy": {
+    "CISLR": 1
+  },
+  "zimbabwe": {
+    "CISLR": 1
+  },
+  "economic importance of fish in india": {
+    "CISLR": 1
+  },
+  "mahatma gandhi": {
+    "CISLR": 1
+  },
+  "movable property": {
+    "CISLR": 1
+  },
+  "el salvador": {
+    "CISLR": 1
+  },
+  "revalidation": {
+    "CISLR": 1
+  },
+  "bleeding disorders": {
+    "CISLR": 1
+  },
+  "kick out": {
+    "CISLR": 1
+  },
+  "submission": {
+    "CISLR": 1
+  },
+  "suggest": {
+    "CISLR": 1
+  },
+  "place": {
+    "CISLR": 1
+  },
+  "settle": {
+    "CISLR": 1
+  },
+  "north korea": {
+    "CISLR": 1
+  },
+  "seam allowance": {
+    "CISLR": 1
+  },
+  "lubrication oil": {
+    "CISLR": 1
+  },
+  "compulsory": {
+    "CISLR": 1
+  },
+  "housing loan": {
+    "CISLR": 1
+  },
+  "hut": {
+    "CISLR": 1
+  },
+  "fitted": {
+    "CISLR": 1
+  },
+  "corporation bank": {
+    "CISLR": 1
+  },
+  "standard": {
+    "CISLR": 2
+  },
+  "rural development": {
+    "CISLR": 1
+  },
+  "idea": {
+    "CISLR": 1
+  },
+  "mary": {
+    "CISLR": 1
+  },
+  "renovation": {
+    "CISLR": 1
+  },
+  "open circuit": {
+    "CISLR": 1
+  },
+  "acceptance clean": {
+    "CISLR": 1
+  },
+  "pendulum": {
+    "CISLR": 1
+  },
+  "margin": {
+    "CISLR": 1
+  },
+  "bindi": {
+    "CISLR": 1
+  },
+  "parapet": {
+    "CISLR": 1
+  },
+  "cheque mutilated": {
+    "CISLR": 1
+  },
+  "cash credit": {
+    "CISLR": 1
+  },
+  "dangerous": {
+    "CISLR": 1
+  },
+  "bow tie": {
+    "CISLR": 1
+  },
+  "chess": {
+    "CISLR": 1
+  },
+  "mime": {
+    "CISLR": 1
+  },
+  "nominee": {
+    "CISLR": 1
+  },
+  "tipped tool": {
+    "CISLR": 1
+  },
+  "ornithology": {
+    "CISLR": 1
+  },
+  "single owner": {
+    "CISLR": 1
+  },
+  "impure": {
+    "CISLR": 1
+  },
+  "funding": {
+    "CISLR": 1
+  },
+  "account inoperative": {
+    "CISLR": 1
+  },
+  "skip": {
+    "CISLR": 1
+  },
+  "threading": {
+    "CISLR": 1
+  },
+  "tailer": {
+    "CISLR": 1
+  },
+  "ajmer sharif dargah": {
+    "CISLR": 1
+  },
+  "mahavir jayanthi": {
+    "CISLR": 1
+  },
+  "sai baba": {
+    "CISLR": 1
+  },
+  "predict": {
+    "CISLR": 1
+  },
+  "huawei mobile": {
+    "CISLR": 1
+  },
+  "extension counter": {
+    "CISLR": 1
+  },
+  "biconvex lens": {
+    "CISLR": 1
+  },
+  "drill bit": {
+    "CISLR": 1
+  },
+  "jeweller": {
+    "CISLR": 1
+  },
+  "hail": {
+    "CISLR": 1
+  },
+  "available": {
+    "CISLR": 1
+  },
+  "jupiter": {
+    "CISLR": 1
+  },
+  "what happened": {
+    "CISLR": 1
+  },
+  "jalebi": {
+    "CISLR": 1
+  },
+  "sub lease": {
+    "CISLR": 1
+  },
+  "milad un nabi": {
+    "CISLR": 1
+  },
+  "total energy": {
+    "CISLR": 1
+  },
+  "convex lens": {
+    "CISLR": 1
+  },
+  "stink": {
+    "CISLR": 1
+  },
+  "in multiples of": {
+    "CISLR": 1
+  },
+  "puri": {
+    "CISLR": 1
+  },
+  "iball mobile": {
+    "CISLR": 1
+  },
+  "manufacture": {
+    "CISLR": 1
+  },
+  "memory card": {
+    "CISLR": 1
+  },
+  "alloy wheel": {
+    "CISLR": 1
+  },
+  "missing": {
+    "CISLR": 1
+  },
+  "re examine": {
+    "CISLR": 1
+  },
+  "church": {
+    "CISLR": 1
+  },
+  "qualification essential": {
+    "CISLR": 1
+  },
+  "instalment": {
+    "CISLR": 1
+  },
+  "flooring": {
+    "CISLR": 1
+  },
+  "poultry production": {
+    "CISLR": 1
+  },
+  "sleeve board": {
+    "CISLR": 1
+  },
+  "joke": {
+    "CISLR": 1
+  },
+  "bsnl": {
+    "CISLR": 1
+  },
+  "login": {
+    "CISLR": 1
+  },
+  "horizontal line": {
+    "CISLR": 1
+  },
+  "merit and demerits": {
+    "CISLR": 1
+  },
+  "labour": {
+    "CISLR": 1
+  },
+  "concession": {
+    "CISLR": 1
+  },
+  "state bank of india": {
+    "CISLR": 1
+  },
+  "spice jet": {
+    "CISLR": 1
+  },
+  "marking table": {
+    "CISLR": 1
+  },
+  "grill": {
+    "CISLR": 1
+  },
+  "malawi": {
+    "CISLR": 1
+  },
+  "account rupee": {
+    "CISLR": 1
+  },
+  "dermatits": {
+    "CISLR": 1
+  },
+  "concave lens": {
+    "CISLR": 1
+  },
+  "gurudwara": {
+    "CISLR": 2
+  },
+  "triode": {
+    "CISLR": 1
+  },
+  "humped": {
+    "CISLR": 1
+  },
+  "stubborn": {
+    "CISLR": 1
+  },
+  "all india trinamool congress": {
+    "CISLR": 1
+  },
+  "ireland": {
+    "CISLR": 1
+  },
+  "exemption": {
+    "CISLR": 1
+  },
+  "identification": {
+    "CISLR": 1
+  },
+  "jewel neckline`": {
+    "CISLR": 1
+  },
+  "mass": {
+    "CISLR": 1
+  },
+  "retum inward": {
+    "CISLR": 1
+  },
+  "biconcave lens": {
+    "CISLR": 1
+  },
+  "rinderpest": {
+    "CISLR": 1
+  },
+  "window garden": {
+    "CISLR": 1
+  },
+  "coffee rust": {
+    "CISLR": 1
+  },
+  "history": {
+    "CISLR": 1
+  },
+  "two days before": {
+    "CISLR": 1
+  },
+  "security deposit": {
+    "CISLR": 1
+  },
+  "faucet aerator": {
+    "CISLR": 1
+  },
+  "supervision": {
+    "CISLR": 1
+  },
+  "outdated": {
+    "CISLR": 1
+  },
+  "share capital": {
+    "CISLR": 1
+  },
+  "it's raining cats and dogs": {
+    "CISLR": 1
+  },
+  "bladder cancer": {
+    "CISLR": 1
+  },
+  "violet": {
+    "CISLR": 1
+  },
+  "diseases and enemies of fish": {
+    "CISLR": 1
+  },
+  "yoga": {
+    "CISLR": 1
+  },
+  "women jail": {
+    "CISLR": 1
+  },
+  "dinner": {
+    "CISLR": 1
+  },
+  "kaposi sarcoma": {
+    "CISLR": 1
+  },
+  "borrow": {
+    "CISLR": 1
+  },
+  "accordion": {
+    "CISLR": 1
+  },
+  "oppo mobile": {
+    "CISLR": 1
+  },
+  "small savings scheme": {
+    "CISLR": 1
+  },
+  "modern roof": {
+    "CISLR": 1
+  },
+  "tri square": {
+    "CISLR": 1
+  },
+  "non vegetarian": {
+    "CISLR": 1
+  },
+  "unanimous": {
+    "CISLR": 1
+  },
+  "vapour": {
+    "CISLR": 1
+  },
+  "centimeter": {
+    "CISLR": 1
+  },
+  "ogle from head to toe": {
+    "CISLR": 1
+  },
+  "puzzle": {
+    "CISLR": 1
+  },
+  "prompt action": {
+    "CISLR": 1
+  },
+  "elder brother": {
+    "CISLR": 1
+  },
+  "bipedal robot": {
+    "CISLR": 1
+  },
+  "cold drink": {
+    "CISLR": 1
+  },
+  "thigh": {
+    "CISLR": 1
+  },
+  "negligible": {
+    "CISLR": 1
+  },
+  "body pain": {
+    "CISLR": 1
+  },
+  "electrolyte": {
+    "CISLR": 1
+  },
+  "garib rath express": {
+    "CISLR": 1
+  },
+  "subordinate": {
+    "CISLR": 1
+  },
+  "salesman": {
+    "CISLR": 1
+  },
+  "proprietory": {
+    "CISLR": 1
+  },
+  "inter branch transaction": {
+    "CISLR": 1
+  },
+  "abstract of account": {
+    "CISLR": 1
+  },
+  "property landed": {
+    "CISLR": 1
+  },
+  "mazdoor": {
+    "CISLR": 1
+  },
+  "chef": {
+    "CISLR": 1
+  },
+  "atmosphere": {
+    "CISLR": 1
+  },
+  "constitutional rights": {
+    "CISLR": 1
+  },
+  "diabetic": {
+    "CISLR": 1
+  },
+  "surrounding": {
+    "CISLR": 1
+  },
+  "notice board": {
+    "CISLR": 1
+  },
+  "spastic": {
+    "CISLR": 1
+  },
+  "jama masjid": {
+    "CISLR": 1
+  },
+  "approval": {
+    "CISLR": 1
+  },
+  "hydathodes": {
+    "CISLR": 1
+  },
+  "background": {
+    "CISLR": 1
+  },
+  "heir": {
+    "CISLR": 1
+  },
+  "reserve fund": {
+    "CISLR": 1
+  },
+  "water bottle": {
+    "CISLR": 1
+  },
+  "floating plants": {
+    "CISLR": 1
+  },
+  "edge": {
+    "CISLR": 1
+  },
+  "kelvin": {
+    "CISLR": 1
+  },
+  "thumb lunula": {
+    "CISLR": 1
+  },
+  "take over": {
+    "CISLR": 1
+  },
+  "hydrautic brake": {
+    "CISLR": 1
+  },
+  "wax": {
+    "CISLR": 1
+  },
+  "boring": {
+    "CISLR": 1
+  },
+  "statement of liquidation": {
+    "CISLR": 1
+  },
+  "aircel": {
+    "CISLR": 1
+  },
+  "keyhole": {
+    "CISLR": 1
+  },
+  "postpone": {
+    "CISLR": 1
+  },
+  "festivals": {
+    "CISLR": 1
+  }
+}

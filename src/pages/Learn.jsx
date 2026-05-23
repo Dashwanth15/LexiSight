@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef, Suspense, lazy } from 'react'
 import { Link } from 'react-router-dom'
+import { useTranslation } from '../hooks/useTranslation.js'
 import { LESSON_PLAN, getTotalSigns, getTotalXP } from '../data/lessonPlan.js'
 import { useMediaPipe } from '../hooks/useMediaPipe.js'
 import { useSharedClassifier } from '../contexts/ClassifierContext.jsx' // FIX — shared
@@ -25,7 +26,7 @@ function XPRing({ xp, maxXP, color, size = 64 }) {
   const pct = Math.min(1, xp / maxXP)
   return (
     <svg width={size} height={size} style={{ transform: 'rotate(-90deg)' }}>
-      <circle cx={size/2} cy={size/2} r={r} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth={5} />
+      <circle cx={size/2} cy={size/2} r={r} fill="none" stroke="var(--border)" strokeWidth={5} />
       <circle
         cx={size/2} cy={size/2} r={r} fill="none"
         stroke={color} strokeWidth={5}
@@ -40,6 +41,7 @@ function XPRing({ xp, maxXP, color, size = 64 }) {
 
 // ── Chapter Card ─────────────────────────────────────────────────────────────
 function ChapterCard({ chapter, progress, onSelect }) {
+  const { t } = useTranslation()
   const totalSigns = chapter.lessons.reduce((a, l) => a + l.signs.length, 0)
   const doneSigns = chapter.lessons.reduce((a, l) =>
     a + l.signs.filter(s => progress[`${chapter.id}-${s.word}`] >= s.passingScore).length, 0)
@@ -73,18 +75,18 @@ function ChapterCard({ chapter, progress, onSelect }) {
           </div>
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: '1rem', color: '#e8f4fd' }}>
-            {chapter.title}
+          <div style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: '1rem', color: 'var(--text-primary)' }}>
+            {t(`learn_cat_${chapter.id}_title`) || chapter.title}
           </div>
           <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.65rem', color: chapter.color, marginTop: 2 }}>
             {doneSigns}/{totalSigns} signs · {chapter.xpReward} XP
           </div>
         </div>
       </div>
-      <p style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '0.82rem', color: '#6b8ba4', marginBottom: '0.75rem' }}>
-        {chapter.description}
+      <p style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '0.82rem', color: 'var(--text-secondary)', marginBottom: '0.75rem' }}>
+        {t(`learn_cat_${chapter.id}_desc`) || chapter.description}
       </p>
-      <div style={{ height: 4, background: 'rgba(255,255,255,0.06)', borderRadius: 2, overflow: 'hidden' }}>
+      <div style={{ height: 4, background: 'var(--border)', borderRadius: 2, overflow: 'hidden' }}>
         <div style={{ height: '100%', width: `${pct * 100}%`, background: chapter.color, borderRadius: 2, transition: 'width 0.5s ease' }} />
       </div>
       <div style={{ marginTop: '0.75rem' }}>
@@ -94,7 +96,7 @@ function ChapterCard({ chapter, progress, onSelect }) {
           border: `1px solid ${chapter.color}30`, borderRadius: 20,
           padding: '4px 12px',
         }}>
-          {isComplete ? '🎉 Complete! Review' : pct > 0 ? `Continue (${(pct * 100).toFixed(0)}%)` : 'Start →'}
+          {isComplete ? (t('learn_btn_complete') || '🎉 Complete! Review') : pct > 0 ? `${t('learn_btn_continue') || 'Continue'} (${(pct * 100).toFixed(0)}%)` : (t('learn_btn_start') || 'Start →')}
         </span>
       </div>
     </div>
@@ -103,6 +105,7 @@ function ChapterCard({ chapter, progress, onSelect }) {
 
 // ── Practice Mode ────────────────────────────────────────────────────────────
 function PracticeSign({ sign, chapter, onPass, onSkip, mediapipe, classifier }) {
+  const { t } = useTranslation()
   const [score, setScore] = useState(0)
   const [attempts, setAttempts] = useState(0)
   const [passed, setPassed] = useState(false)
@@ -159,10 +162,10 @@ function PracticeSign({ sign, chapter, onPass, onSkip, mediapipe, classifier }) 
           textShadow: `0 0 40px ${chapter.color}50`, lineHeight: 1, marginBottom: 8 }}>
           {sign.word}
         </div>
-        <p style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '0.85rem', color: '#e8f4fd', marginBottom: 4 }}>
+        <p style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '0.85rem', color: 'var(--text-primary)', marginBottom: 4 }}>
           {sign.instruction}
         </p>
-        <p style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '0.78rem', color: '#6b8ba4' }}>
+        <p style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
           💡 {sign.tip}
         </p>
       </div>
@@ -170,10 +173,10 @@ function PracticeSign({ sign, chapter, onPass, onSkip, mediapipe, classifier }) 
       {/* Score bar */}
       <div>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
-          <span className="hud-label">Match Score</span>
+          <span className="hud-label">{t('learn_match_score')}</span>
           <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.75rem',
-            color: score >= sign.passingScore ? '#00ff88' : score > 0.4 ? '#ffaa00' : '#6b8ba4' }}>
-            {(score * 100).toFixed(0)}% / {(sign.passingScore * 100).toFixed(0)}% needed
+            color: score >= sign.passingScore ? '#00ff88' : score > 0.4 ? '#ffaa00' : 'var(--text-secondary)' }}>
+            {(score * 100).toFixed(0)}% / {(sign.passingScore * 100).toFixed(0)}% {t('learn_needed')}
           </span>
         </div>
         <div className="confidence-bar-track">
@@ -189,7 +192,7 @@ function PracticeSign({ sign, chapter, onPass, onSkip, mediapipe, classifier }) 
           fontFamily: 'DM Sans, sans-serif',
           background: passed ? 'rgba(0,255,136,0.08)' : 'rgba(0,212,255,0.06)',
           border: `1px solid ${passed ? 'rgba(0,255,136,0.2)' : 'rgba(0,212,255,0.15)'}`,
-          color: passed ? '#00ff88' : '#6b8ba4',
+          color: passed ? '#00ff88' : 'var(--text-secondary)',
         }}>
           {feedback}
         </div>
@@ -203,7 +206,7 @@ function PracticeSign({ sign, chapter, onPass, onSkip, mediapipe, classifier }) 
       )}
 
       <button className="btn-secondary" style={{ justifyContent: 'center', fontSize: '0.8rem' }} onClick={onSkip}>
-        Skip this sign →
+        {t('learn_skip_btn')} →
       </button>
     </div>
   )
@@ -211,6 +214,7 @@ function PracticeSign({ sign, chapter, onPass, onSkip, mediapipe, classifier }) 
 
 // ── Main Page ────────────────────────────────────────────────────────────────
 export default function Learn() {
+  const { t } = useTranslation()
   const [progress, setProgress] = useState(loadProgress)
   const [activeChapter, setActiveChapter] = useState(null)
   const [activeLesson, setActiveLesson] = useState(null)
@@ -256,11 +260,11 @@ export default function Learn() {
           {/* Header */}
           <div style={{ marginBottom: '2rem' }}>
             <div className="hud-label" style={{ marginBottom: '0.5rem' }}>SDG 4 · Quality Education</div>
-            <h1 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 900, fontSize: 'clamp(2rem,6vw,3.5rem)', color: '#e8f4fd', marginBottom: '0.5rem' }}>
-              Learn ISL
+            <h1 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 900, fontSize: 'clamp(2rem,6vw,3.5rem)', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>
+              {t('learn_title')}
             </h1>
-            <p style={{ fontFamily: 'DM Sans, sans-serif', color: '#6b8ba4', fontSize: '1rem' }}>
-              Interactive AI-scored lessons. Show the sign — the AI judges you. Earn XP, track progress.
+            <p style={{ fontFamily: 'DM Sans, sans-serif', color: 'var(--text-secondary)', fontSize: '1rem' }}>
+              {t('learn_subtitle')}
             </p>
           </div>
 
@@ -269,7 +273,7 @@ export default function Learn() {
             <div style={{ fontSize: '1.5rem' }}>⭐</div>
             <div style={{ flex: 1 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
-                <span style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: '0.9rem', color: '#e8f4fd' }}>Total XP</span>
+                <span style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: '0.9rem', color: 'var(--text-primary)' }}>{t('learn_total_xp')}</span>
                 <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.8rem', color: '#ffaa00' }}>{totalXP} / {getTotalSigns() * 10}</span>
               </div>
               <div className="confidence-bar-track" style={{ height: 6 }}>
@@ -277,8 +281,8 @@ export default function Learn() {
               </div>
             </div>
             <div style={{ textAlign: 'right', flexShrink: 0 }}>
-              <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.65rem', color: '#6b8ba4' }}>SIGNS</div>
-              <div style={{ fontFamily: 'Syne, sans-serif', fontWeight: 900, fontSize: '1.4rem', color: '#00d4ff' }}>
+              <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.65rem', color: 'var(--text-secondary)' }}>{t('learn_signs')}</div>
+              <div style={{ fontFamily: 'Syne, sans-serif', fontWeight: 900, fontSize: '1.4rem', color: 'var(--cyan)' }}>
                 {Object.values(progress).filter(v => v > 0).length}
               </div>
             </div>
@@ -302,7 +306,7 @@ export default function Learn() {
           {/* Footer nudge */}
           <div style={{ marginTop: '2rem', textAlign: 'center' }}>
             <Link to="/translate" className="btn-secondary" style={{ fontSize: '0.85rem' }}>
-              ← Back to Translator
+              ← {t('learn_btn_back')}
             </Link>
           </div>
         </div>
@@ -317,8 +321,8 @@ export default function Learn() {
         <div className="glass-card" style={{ maxWidth: 420, width: '100%', padding: '2rem', textAlign: 'center', borderTop: `2px solid ${activeChapter.color}40` }}>
           <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🎉</div>
           <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.65rem', color: activeChapter.color, letterSpacing: '0.15em', marginBottom: '0.5rem' }}>LESSON COMPLETE</div>
-          <h2 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 900, fontSize: '1.8rem', color: '#e8f4fd', marginBottom: '0.5rem' }}>{activeLesson.title}</h2>
-          <p style={{ fontFamily: 'DM Sans, sans-serif', color: '#6b8ba4', fontSize: '0.9rem', marginBottom: '1.5rem' }}>+{activeLesson.signs.length * 10} XP earned!</p>
+          <h2 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 900, fontSize: '1.8rem', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>{activeLesson.title}</h2>
+          <p style={{ fontFamily: 'DM Sans, sans-serif', color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1.5rem' }}>+{activeLesson.signs.length * 10} XP earned!</p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {activeChapter.lessons.indexOf(activeLesson) < activeChapter.lessons.length - 1 && (
               <button className="btn-primary" style={{ justifyContent: 'center' }}
@@ -326,11 +330,11 @@ export default function Learn() {
                   const nextIdx = activeChapter.lessons.indexOf(activeLesson) + 1
                   startLesson(activeChapter, activeChapter.lessons[nextIdx])
                 }}>
-                Next Lesson →
+                {t('learn_next_btn')} →
               </button>
             )}
             <button className="btn-secondary" style={{ justifyContent: 'center' }} onClick={() => { setActiveLesson(null); setActiveChapter(null) }}>
-              Back to Chapters
+              {t('learn_back_btn')}
             </button>
           </div>
         </div>
@@ -343,7 +347,7 @@ export default function Learn() {
   return (
     <div style={{ minHeight: '100dvh', paddingTop: 64, background: 'var(--void)' }}>
       {/* Progress bar */}
-      <div style={{ height: 3, background: '#1a2535' }}>
+      <div style={{ height: 3, background: 'var(--border)' }}>
         <div style={{ height: '100%', width: `${((signIdx) / activeLesson.signs.length) * 100}%`, background: activeChapter.color, transition: 'width 0.4s ease' }} />
       </div>
 
@@ -352,8 +356,8 @@ export default function Learn() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div>
-              <div className="hud-label" style={{ color: activeChapter.color }}>{activeChapter.title} · {activeLesson.title}</div>
-              <div style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '0.8rem', color: '#6b8ba4', marginTop: 2 }}>
+              <div className="hud-label" style={{ color: activeChapter.color }}>{t(`learn_cat_${activeChapter.id}_title`) || activeChapter.title} · {activeLesson.title}</div>
+              <div style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '0.8rem', color: 'var(--text-secondary)', marginTop: 2 }}>
                 Sign {signIdx + 1} of {activeLesson.signs.length}
               </div>
             </div>
@@ -371,7 +375,7 @@ export default function Learn() {
 
           {/* Camera */}
           <div style={{ position: 'relative', borderRadius: 12, overflow: 'hidden', background: '#000',
-            border: `1.5px solid ${mediapipe.handDetected ? activeChapter.color + '60' : '#1a2535'}`,
+            border: `1.5px solid ${mediapipe.handDetected ? activeChapter.color + '60' : 'var(--border)'}`,
             aspectRatio: '4/3' }}>
             <video ref={mediapipe.videoRef} autoPlay playsInline muted
               style={{ width: '100%', height: '100%', objectFit: 'cover', transform: 'scaleX(-1)', display: 'block' }} />

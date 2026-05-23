@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
+import { useSettings } from './useSettings.jsx'
 
 export function useSpeechSynth() {
+  const { settings } = useSettings()
   const [voices, setVoices] = useState([])
   const [selectedVoice, setSelectedVoice] = useState(null)
   const [speaking, setSpeaking] = useState(false)
@@ -97,9 +99,9 @@ export function useSpeechSynth() {
     const utt = new SpeechSynthesisUtterance(textToSpeak)
     utt.voice = voiceToUse
     utt.lang = targetLang
-    utt.rate = options.rate || 0.95
-    utt.pitch = options.pitch || 1.0
-    utt.volume = options.volume || 1.0
+    utt.rate = settings.speechSpeed || 0.95
+    utt.pitch = settings.speechPitch || 1.0
+    utt.volume = settings.muteAudio ? 0 : (settings.speechVolume || 1.0)
 
     utt.onstart = () => setSpeaking(true)
     utt.onend = () => setSpeaking(false)

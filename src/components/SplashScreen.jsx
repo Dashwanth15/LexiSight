@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from '../hooks/useTranslation.js'
 
 /* ═══════════════════════════════════════════════════════════════════
    SplashScreen — "Silence Ends Here" zooms through the screen,
@@ -84,7 +85,18 @@ const LINE_HEIGHT = 33
 const MIN_LOADING_TIME = 1000
 
 export default function SplashScreen({ onFinished }) {
+  const { t } = useTranslation()
   const [phase, setPhase] = useState('terminal') // terminal → silence → done
+
+  const LEFT_LINES_LOCAL = [
+    `// ${t('splash_line_1')}`,
+    `// ${t('splash_line_2')}`,
+    `// ${t('splash_line_3')}`,
+    `// ${t('splash_line_4')}`,
+    '// CALIBRATING SIGN MODELS...',
+    '// ACCESSING GESTURE LAYERS...',
+  ]
+  const RIGHT_FULL_LOCAL = `// ${t('splash_loading_text')}`
   const [activeIdx, setActiveIdx] = useState(-1)
   const [rightText, setRightText] = useState('')
   const [silenceGrow, setSilenceGrow] = useState(false)
@@ -116,65 +128,61 @@ export default function SplashScreen({ onFinished }) {
 
   /* ── Phase 1: Terminal highlight sequence ── */
   useEffect(() => {
-    let idx = 0
-    function advance() {
-      if (idx < LEFT_LINES.length) {
-        setActiveIdx(idx)
-        idx++
-        addTimer(advance, 520)
-      } else {
-        addTimer(() => setPhase('silence'), 300)
-      }
-    }
-    addTimer(advance, 400)
-
-    // Right-side typewriter
-    let rIdx = 0
-    function typeRight() {
-      if (rIdx <= RIGHT_FULL.length) {
-        setRightText(RIGHT_FULL.slice(0, rIdx))
-        rIdx++
-        addTimer(typeRight, 28)
-      }
-    }
-    addTimer(typeRight, 500)
+    if (phase !== 'terminal') return
+    const interval = setInterval(() => {
+      setActiveIdx(i => {
+        if (i < LEFT_LINES_LOCAL.length - 1) return i + 1
+        clearInterval(interval)
+        return i
+      })
+    }, 520)
+    
+    addTimer(() => setPhase('silence'), 300 + (LEFT_LINES_LOCAL.length * 520))
 
     // Progress bar
-    progressIntervalRef.current = setInterval(() => {
+    const progressInterval = setInterval(() => {
       setLoadingProgress(prev => {
-        const target = ((idx + 1) / LEFT_LINES.length) * 100
+        const target = 100
         return prev < target ? prev + 2 : target
       })
     }, 50)
+    timerRefs.current.push(progressInterval)
 
     // Cycle sign facts
     const factInterval = setInterval(() => {
       setCurrentFact(prev => (prev + 1) % SIGN_LANGUAGE_FACTS.length)
     }, 2000)
-    timerRefs.current.push(
-      setTimeout(() => clearInterval(factInterval), MIN_LOADING_TIME + 4000)
-    )
-  }, [addTimer])
+    timerRefs.current.push(factInterval)
+
+    return () => clearInterval(interval)
+  }, [phase, addTimer, LEFT_LINES_LOCAL.length])
+
+  // Right terminal typewrite
+  useEffect(() => {
+    if (phase !== 'terminal') return
+    let i = 0
+    const interval = setInterval(() => {
+      setRightText(RIGHT_FULL_LOCAL.slice(0, i))
+      i++
+      if (i > RIGHT_FULL_LOCAL.length) clearInterval(interval)
+    }, 30)
+    return () => clearInterval(interval)
+  }, [phase, RIGHT_FULL_LOCAL])
 
   /* ── Phase 2: Zoom-through reveal ── */
   useEffect(() => {
     if (phase !== 'silence') return
 
-    // 1. Start zoom animation
     setSilenceGrow(true)
 
-    // 2. At ~1s the text fills the screen — punch the bg out to transparent
-    //    so the home page is visible through letter gaps
     addTimer(() => {
       setBgTransparent(true)
     }, 1000)
 
-    // 3. Slightly after, switch to outline text so the home page shows THROUGH letters
     addTimer(() => {
       setTextOutline(true)
     }, 1120)
 
-    // 4. After the zoom animation finishes, unmount the splash entirely
     addTimer(() => {
       setIsDone(true)
       onFinished?.()
@@ -187,7 +195,6 @@ export default function SplashScreen({ onFinished }) {
 
   return (
     <>
-      {/* ── Keyframe injections ── */}
       <style>{`
         @keyframes splash-zoom-blast {
           0%   { transform: scale(0.001); opacity: 1; }
@@ -222,12 +229,11 @@ export default function SplashScreen({ onFinished }) {
           pointerEvents: phase === 'silence' && bgTransparent ? 'none' : 'auto',
         }}
       >
-        {/* ── Terminal Phase ── */}
         <div
           style={{
             position: 'absolute',
             inset: 0,
-            background: '#4B3BCE',
+            background: 'var(--splash-bg)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -237,7 +243,6 @@ export default function SplashScreen({ onFinished }) {
             overflow: 'hidden',
           }}
         >
-          {/* Left scrolling lines */}
           <div
             style={{
               position: 'absolute',
@@ -246,10 +251,8 @@ export default function SplashScreen({ onFinished }) {
               transform: 'translateY(-50%)',
               height: 200,
               overflow: 'hidden',
-              maskImage:
-                'linear-gradient(to bottom, transparent 0%, black 22%, black 78%, transparent 100%)',
-              WebkitMaskImage:
-                'linear-gradient(to bottom, transparent 0%, black 22%, black 78%, transparent 100%)',
+              maskImage: 'linear-gradient(to bottom, transparent 0%, black 22%, black 78%, transparent 100%)',
+              WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 22%, black 78%, transparent 100%)',
             }}
           >
             <div
@@ -262,7 +265,7 @@ export default function SplashScreen({ onFinished }) {
                 transform: `translateY(-${scrollOffset}px)`,
               }}
             >
-              {LEFT_LINES.map((text, i) => (
+              {LEFT_LINES_LOCAL.map((text, i) => (
                 <div
                   key={i}
                   style={{
@@ -271,9 +274,8 @@ export default function SplashScreen({ onFinished }) {
                     letterSpacing: '0.13em',
                     whiteSpace: 'nowrap',
                     padding: i === activeIdx ? '2px 8px' : '2px 0',
-                    color: i === activeIdx ? '#fff' : 'rgba(255,255,255,0.35)',
-                    background:
-                      i === activeIdx ? 'rgba(255,255,255,0.18)' : 'transparent',
+                    color: i === activeIdx ? 'var(--splash-text)' : 'var(--text-secondary)',
+                    background: i === activeIdx ? 'var(--glass-border)' : 'transparent',
                     borderRadius: i === activeIdx ? 2 : 0,
                     marginLeft: i === activeIdx ? -8 : 0,
                     transition: 'all 0.25s ease',
@@ -285,7 +287,6 @@ export default function SplashScreen({ onFinished }) {
             </div>
           </div>
 
-          {/* Right typewriter */}
           <div
             style={{
               position: 'absolute',
@@ -296,21 +297,14 @@ export default function SplashScreen({ onFinished }) {
               maxWidth: 210,
               fontSize: 10,
               letterSpacing: '0.09em',
-              color: 'rgba(255,255,255,0.25)',
+              color: 'var(--text-secondary)',
               lineHeight: 1.85,
             }}
           >
             {rightText}
           </div>
 
-          {/* Corner markers */}
-          <div style={{ position: 'absolute', top: 24, left: 24, width: 18, height: 18, borderTop: '2px solid rgba(255,255,255,0.15)', borderLeft: '2px solid rgba(255,255,255,0.15)' }} />
-          <div style={{ position: 'absolute', top: 24, right: 24, width: 18, height: 18, borderTop: '2px solid rgba(255,255,255,0.15)', borderRight: '2px solid rgba(255,255,255,0.15)' }} />
-          <div style={{ position: 'absolute', bottom: 24, left: 24, width: 18, height: 18, borderBottom: '2px solid rgba(255,255,255,0.15)', borderLeft: '2px solid rgba(255,255,255,0.15)' }} />
-          <div style={{ position: 'absolute', bottom: 24, right: 24, width: 18, height: 18, borderBottom: '2px solid rgba(255,255,255,0.15)', borderRight: '2px solid rgba(255,255,255,0.15)' }} />
-
-          {/* Progress bar */}
-          <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 3, background: 'rgba(255,255,255,0.08)' }}>
+          <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 3, background: 'var(--border)' }}>
             <div
               style={{
                 height: '100%',
@@ -323,7 +317,6 @@ export default function SplashScreen({ onFinished }) {
             />
           </div>
 
-          {/* Sign language facts */}
           <div
             style={{
               position: 'absolute',
@@ -331,7 +324,7 @@ export default function SplashScreen({ onFinished }) {
               left: '50%',
               transform: 'translateX(-50%)',
               textAlign: 'center',
-              color: 'rgba(255,255,255,0.7)',
+              color: 'var(--splash-text)',
               fontSize: 10,
               fontFamily: "'Courier New', monospace",
               letterSpacing: '0.1em',
@@ -344,39 +337,18 @@ export default function SplashScreen({ onFinished }) {
               const fact = SIGN_LANGUAGE_FACTS[currentFact]
               if (fact.page) navigate(fact.page)
             }}
-            onMouseEnter={e => {
-              e.currentTarget.style.transform = 'translateX(-50%) scale(1.05)'
-              e.currentTarget.style.filter = 'brightness(1.2)'
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.transform = 'translateX(-50%) scale(1)'
-              e.currentTarget.style.filter = 'brightness(1)'
-            }}
           >
-            <div style={{ fontSize: 32, marginBottom: 12, animation: 'bounce-y 1.2s ease-in-out infinite, pulse-ring 2s ease-out infinite', cursor: 'pointer', transition: 'all 0.3s ease' }}>
+            <div style={{ fontSize: 32, marginBottom: 12, animation: 'bounce-y 1.2s ease-in-out infinite, pulse-ring 2s ease-out infinite' }}>
               {SIGN_LANGUAGE_FACTS[currentFact].emoji}
             </div>
-            <div style={{ fontWeight: 'bold', color: '#fff', marginBottom: 6, fontSize: 12, textShadow: '0 0 8px rgba(255,255,255,0.5)', animation: 'fade-in 0.5s ease-out' }}>
+            <div style={{ fontWeight: 'bold', color: 'var(--splash-text)', marginBottom: 6, fontSize: 12, animation: 'fade-in 0.5s ease-out' }}>
               {SIGN_LANGUAGE_FACTS[currentFact].sign}
             </div>
-            <div style={{ fontSize: 9, marginBottom: 4, opacity: 0.9, lineHeight: 1.4 }}>
+            <div style={{ fontSize: 9, marginBottom: 4, opacity: 0.9 }}>
               {SIGN_LANGUAGE_FACTS[currentFact].description}
             </div>
             <div style={{ fontSize: 8, fontStyle: 'italic', opacity: 0.7, marginBottom: 8 }}>
               "{SIGN_LANGUAGE_FACTS[currentFact].meaning}"
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginBottom: 10 }}>
-              {SIGN_LANGUAGE_FACTS.map((_, i) => (
-                <div
-                  key={i}
-                  style={{
-                    width: 4, height: 4,
-                    borderRadius: '50%',
-                    background: i === currentFact ? '#fff' : 'rgba(255,255,255,0.3)',
-                    transition: 'all 0.3s ease',
-                  }}
-                />
-              ))}
             </div>
             <div style={{ fontSize: 7, opacity: 0.6, textAlign: 'center', fontStyle: 'italic', animation: 'fade-in 0.8s ease-out' }}>
               Click to explore • {currentFact + 1}/{SIGN_LANGUAGE_FACTS.length}
@@ -384,7 +356,6 @@ export default function SplashScreen({ onFinished }) {
           </div>
         </div>
 
-        {/* ── Silence / Zoom-through Phase ── */}
         <div
           style={{
             position: 'absolute',
@@ -393,7 +364,7 @@ export default function SplashScreen({ onFinished }) {
             alignItems: 'center',
             justifyContent: 'center',
             // Background punches out to transparent so home page shows through gaps
-            background: bgTransparent ? 'transparent' : '#0d0d0d',
+            background: bgTransparent ? 'transparent' : 'var(--splash-bg-end)',
             transition: 'background 0.18s ease',
             opacity: phase === 'silence' ? 1 : 0,
             pointerEvents: phase === 'silence' ? 'auto' : 'none',
@@ -412,8 +383,8 @@ export default function SplashScreen({ onFinished }) {
               userSelect: 'none',
 
               // When bg is transparent, switch to outline so home page shows THROUGH letters
-              color: textOutline ? 'transparent' : '#ffffff',
-              WebkitTextStroke: textOutline ? '3px #ffffff' : '0px transparent',
+              color: textOutline ? 'transparent' : 'var(--splash-text)',
+              WebkitTextStroke: textOutline ? '3px var(--splash-text)' : '0px transparent',
               transition: 'color 0.12s ease, -webkit-text-stroke 0.12s ease',
 
               // Responsive font size — fills ~80% of viewport width
