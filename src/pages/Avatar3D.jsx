@@ -9,7 +9,7 @@ import { useSharedClassifier } from '../contexts/ClassifierContext.jsx'
 import { useMediaPipe } from '../hooks/useMediaPipe.js'
 import HandOverlay from '../components/HandOverlay.jsx'
 
-const AvatarScene = lazy(() => import('../components/3d/AvatarScene.jsx'))
+const AvatarScene = lazy(() => import('../components/avatar/AvatarScene.jsx'))
 
 // ── Gesture categories ────────────────────────────────────────────────────────
 const CATEGORIES = {
@@ -112,6 +112,7 @@ export default function Avatar3DPage() {
   const [gesture, setGesture] = useState('hello')
   const [speed, setSpeed] = useState(1)
   const [livePrediction, setLivePrediction] = useState(null)
+  const [mirrorMode, setMirrorMode] = useState(false)
 
   // Shared classifier for predictions (read-only)
   const classifier = useSharedClassifier()
@@ -146,10 +147,10 @@ export default function Avatar3DPage() {
 
   // Active gesture: live prediction label OR manual browse selection
   const activeGesture = mode === 'live'
-    ? (livePrediction?.label ?? 'idle')
+    ? (mirrorMode ? 'idle' : (livePrediction?.label ?? 'idle'))
     : gesture
 
-  const isActive = activeGesture !== 'idle'
+  const isActive = activeGesture !== 'idle' || (mode === 'live' && mirrorMode && mediapipe.handDetected)
 
   return (
     <div style={{ minHeight: '100dvh', paddingTop: 64, background: '#020408', display: 'flex', flexDirection: 'column' }}>
@@ -184,6 +185,15 @@ export default function Avatar3DPage() {
 
         {/* Speed + reset controls */}
         <div style={{ display: 'flex', gap: 5, alignItems: 'center' }}>
+          {mode === 'live' && (
+            <button onClick={() => setMirrorMode(m => !m)} style={{
+              padding: '4px 12px', borderRadius: 8, fontSize: '0.68rem',
+              fontFamily: 'JetBrains Mono, monospace', cursor: 'pointer',
+              background: mirrorMode ? 'rgba(0,255,136,0.12)' : 'rgba(26,37,53,0.8)',
+              border: `1px solid ${mirrorMode ? 'rgba(0,255,136,0.4)' : '#1a2535'}`,
+              color: mirrorMode ? '#00ff88' : '#6b8ba4',
+            }}>{mirrorMode ? '🪞 Mirror: ON' : '🪞 Mirror: OFF'}</button>
+          )}
           <button onClick={() => setSpeed(s => s === 1 ? 0.5 : 1)} style={{
             padding: '4px 12px', borderRadius: 8, fontSize: '0.68rem',
             fontFamily: 'JetBrains Mono, monospace', cursor: 'pointer',
@@ -205,11 +215,11 @@ export default function Avatar3DPage() {
         padding: '4px 20px', display: 'flex', alignItems: 'center', gap: 14,
         fontFamily: 'JetBrains Mono, monospace', fontSize: '0.56rem', letterSpacing: '0.05em',
       }}>
-        <span style={{ color: '#6b8ba4' }}>MODEL: <span style={{ color: '#00d4ff' }}>procedural-hand</span></span>
+        <span style={{ color: '#6b8ba4' }}>MODEL: <span style={{ color: '#00d4ff' }}>human-interpreter</span></span>
         <span style={{ color: '#1a2535' }}>│</span>
         <span style={{ color: '#6b8ba4' }}>MODE: <span style={{ color: mode === 'live' ? '#00ff88' : '#00d4ff' }}>{mode.toUpperCase()}</span></span>
         <span style={{ color: '#1a2535' }}>│</span>
-        <span style={{ color: '#6b8ba4' }}>SIGN: <span style={{ color: isActive ? '#00ff88' : '#6b8ba4' }}>{labelFor(activeGesture).toUpperCase()}</span></span>
+        <span style={{ color: '#6b8ba4' }}>SIGN: <span style={{ color: isActive ? '#00ff88' : '#6b8ba4' }}>{mirrorMode && mode === 'live' ? 'LIVE MIRRORING' : labelFor(activeGesture).toUpperCase()}</span></span>
         {mode === 'live' && (
           <>
             <span style={{ color: '#1a2535' }}>│</span>
@@ -286,7 +296,7 @@ export default function Avatar3DPage() {
               textShadow: `0 0 28px ${isActive ? 'rgba(0,255,136,0.45)' : 'rgba(0,212,255,0.35)'}`,
               transition: 'color 0.3s ease', lineHeight: 1,
             }}>
-              {labelFor(activeGesture)}
+              {mirrorMode && mode === 'live' ? 'Live Mirror' : labelFor(activeGesture)}
             </div>
             {/* Thin separator line under the text to visually anchor it */}
             <div style={{
@@ -300,7 +310,14 @@ export default function Avatar3DPage() {
           {/* flex:1 ensures it fills ALL remaining height below the text block      */}
           <div style={{ flex: 1, minHeight: 360, position: 'relative', touchAction: 'none' }}>
             <Suspense fallback={<SceneLoader />}>
-              <AvatarScene gesture={activeGesture} isActive={isActive} speed={speed} />
+              <AvatarScene 
+                gesture={activeGesture} 
+                isActive={isActive} 
+                speed={speed} 
+                mirrorMode={mode === 'live' && mirrorMode}
+                rawLandmarks={mediapipe.rawLandmarks}
+                livePrediction={mode === 'live' && !mirrorMode ? livePrediction : null}
+              />
             </Suspense>
           </div>
 
@@ -356,8 +373,32 @@ export default function Avatar3DPage() {
                   </span>
                 </div>
 
+                {/* Live Mirror Mode Card Toggle */}
+                <div style={{
+                  padding: '12px', borderRadius: 10,
+                  background: mirrorMode ? 'rgba(0,255,136,0.06)' : 'rgba(26,37,53,0.3)',
+                  border: `1px solid ${mirrorMode ? 'rgba(0,255,136,0.2)' : '#1a2535'}`,
+                  display: 'flex', flexDirection: 'column', gap: 8,
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyBetween: 'space-between' }}>
+                    <span style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '0.78rem', fontWeight: 700, color: mirrorMode ? '#00ff88' : '#e8f4fd' }}>
+                      🪞 3D Skeletal Mirror Mode
+                    </span>
+                    <button onClick={() => setMirrorMode(m => !m)} style={{
+                      padding: '3px 8px', borderRadius: 6, fontSize: '0.58rem',
+                      fontFamily: 'JetBrains Mono, monospace', fontWeight: 700, cursor: 'pointer',
+                      background: mirrorMode ? '#00ff88' : '#1a2535',
+                      border: 'none',
+                      color: mirrorMode ? '#020408' : '#6b8ba4',
+                    }}>{mirrorMode ? 'ACTIVE' : 'OFF'}</button>
+                  </div>
+                  <span style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '0.68rem', color: '#6b8ba4', lineHeight: 1.4 }}>
+                    Maps webcam hand landmarks directly to the 3D skeleton in real time instead of displaying word signs.
+                  </span>
+                </div>
+
                 {/* Live prediction display */}
-                {livePrediction && (
+                {livePrediction && !mirrorMode && (
                   <div style={{
                     padding: '14px', borderRadius: 10,
                     background: 'rgba(0,255,136,0.07)', border: '1px solid rgba(0,255,136,0.2)',
