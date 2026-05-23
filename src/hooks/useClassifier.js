@@ -9,6 +9,7 @@ import { OnsetDetector } from '../utils/onsetDetector.js'
 import { PoseStabilityDetector } from '../utils/poseStability.js'
 import { telemetry } from '../utils/observability.js'
 import { recordUncertainEvent } from '../services/passiveCollector.js'
+import { handsToHolisticVector, HOLISTIC_DIM } from '../utils/holisticFeatures.js'
 // Register custom Keras layers for the temporal transformer model
 import '../utils/customLayers.js'
 
@@ -17,8 +18,8 @@ function dist2D(a, b) {
   return Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2)
 }
 
-const TEMPORAL_MODEL_PATH = '/model/tfjs_model/model.json'
-const TEMPORAL_LABEL_MAP = '/model/label_map.json'
+const TEMPORAL_MODEL_PATH = '/model/verz_plus_tfjs/model.json'
+const TEMPORAL_LABEL_MAP = '/model/label_map_verz_plus.json'
 const TEMPORAL_CALIBRATION = '/model/calibration_temperature.json'
 const STATIC_MODEL_PATH = '/model/static_tfjs_model/model.json'
 const STATIC_LABEL_MAP = '/model/static_label_map.json'
@@ -413,7 +414,7 @@ export function useClassifier() {
 
       const [temporalRes, temporalLabelsRes, calibrationDataRes, staticRes, staticLabelsRes] =
         await Promise.allSettled([
-          loadCachedModel(TEMPORAL_MODEL_PATH, 'temporal-model-v4'),
+          loadCachedModel(TEMPORAL_MODEL_PATH, 'verz-plus-v1'),
           fetch(TEMPORAL_LABEL_MAP).then(r => r.ok ? r.json() : null).catch(() => null),
           fetch(TEMPORAL_CALIBRATION).then(r => r.ok ? r.json() : null).catch(() => ({ temperature: 1.0 })),
           loadCachedModel(STATIC_MODEL_PATH, 'static-model-v4'),
@@ -442,7 +443,7 @@ export function useClassifier() {
 
       if (modelsRef.current.temporal) {
         oosRef.current = new OOSDetector(
-          Object.keys(temporalLabels || {}).length || 263
+          Object.keys(temporalLabels || {}).length || 301
         )
       }
 
@@ -464,8 +465,8 @@ export function useClassifier() {
     const { preview = false, minConf = null, skipSmooth = false } = opts
     if (!modelsRef.current.temporal) return null
     return tf.tidy(() => {
-      const tensor = tf.tensor2d(seqBuffer, [BUFFER_SIZE, 126])
-      const input = tensor.expandDims(0)
+      const featDim = seqBuffer[0]?.length ?? HOLISTIC_DIM
+      const input = tf.tensor3d([seqBuffer], [1, BUFFER_SIZE, featDim])
       const output = modelsRef.current.temporal.predict(input)
       let probs = Array.from(output.dataSync())
 
@@ -586,7 +587,14 @@ export function useClassifier() {
     return normalized
   }
 
-  const predict = useCallback((landmarks, rawLandmarks, rawLandmarks2, landmarks2) => {
+  const pushHolisticFrame = useCallback((holisticFrame, rawLandmarks, rawLandmarks2) => {
+    if (holisticFrame?.length === HOLISTIC_DIM) {
+      return Array.from(holisticFrame)
+    }
+    return Array.from(handsToHolisticVector(rawLandmarks, rawLandmarks2))
+  }, [])
+
+  const predict = useCallback((landmarks, rawLandmarks, rawLandmarks2, landmarks2, holisticFrame = null) => {
     if (isDemoMode || status === 'demo') return null
     if (isContinuousRef.current) return null
 
@@ -753,11 +761,8 @@ export function useClassifier() {
       const temp = calibrationRef.current.temporal
       const nClasses = labelMap ? Object.keys(labelMap).length : 263
 
-      const frame = new Float32Array(126)
-      frame.set(normalizeRelative(landmarks), 0)
-      if (landmarks2 && landmarks2.length === 63) frame.set(normalizeRelative(landmarks2), 63)
-
-      bufferRef.current.push(Array.from(frame))
+      const frame = pushHolisticFrame(holisticFrame, rawLandmarks, rawLandmarks2)
+      bufferRef.current.push(frame)
       if (bufferRef.current.length > BUFFER_SIZE) bufferRef.current.shift()
 
       const bufferFill = bufferRef.current.length / BUFFER_SIZE
@@ -820,40 +825,36 @@ export function useClassifier() {
     }
 
     return null
-  }, [_predictTemporal, isDemoMode, status, mode, settings.confidenceThreshold])
+  }, [_predictTemporal, isDemoMode, status, mode, settings.confidenceThreshold, pushHolisticFrame])
 
-  const predictContinuous = useCallback((landmarks, rawLandmarks, landmarks2) => {
+  const predictContinuous = useCallback((landmarks, rawLandmarks, landmarks2, holisticFrame = null) => {
     if (!landmarks || landmarks.length !== 63) return null
+    if (!modelsRef.current.temporal) return null
+
+    const labelMap = labelMapsRef.current.temporal
+    const temp = calibrationRef.current.temporal
+    const nClasses = labelMap ? Object.keys(labelMap).length : 301
     const t0 = performance.now()
 
-    const frame = new Float32Array(126)
-    frame.set(landmarks, 0)
-    if (landmarks2?.length === 63) frame.set(landmarks2, 63)
-
-    // Add frame to rolling buffer (pure ML — no hardcoded motion rules)
-    bufferRef.current.push(Array.from(frame))
+    bufferRef.current.push(pushHolisticFrame(holisticFrame, rawLandmarks, landmarks2))
     if (bufferRef.current.length > BUFFER_SIZE) bufferRef.current.shift()
 
-    // While buffer fills, use geometric classifier for instant results
     if (bufferRef.current.length < BUFFER_SIZE) {
-      if (rawLandmarks && rawLandmarks.length === 21) {
+      if (rawLandmarks?.length === 21) {
         const geoResult = classifyGesture(rawLandmarks)
         if (geoResult) return geoResult
       }
-
-    // Run temporal model — skip frames for CPU efficiency
-    temporalFrameCountRef.current++
-    if (temporalFrameCountRef.current % PREDICT_EVERY_N !== 0 && lastTemporalResultRef.current) {
-      const s = smootherRef.current.add(lastTemporalResultRef.current)
-      metricsRef.current.record(performance.now() - t0, s?.confidence || 0, s?.stability || 0, !s, 'smoothing')
-      return s
+      return null
     }
 
-    // Run the actual temporal model inference
+    temporalFrameCountRef.current++
+    if (temporalFrameCountRef.current % PREDICT_EVERY_N !== 0 && lastTemporalResultRef.current) {
+      return smootherRef.current.add(lastTemporalResultRef.current)
+    }
+
     const rawResult = _predictTemporal(bufferRef.current, labelMap, temp, nClasses)
     if (!rawResult || rawResult.rejected) {
-      // Temporal model unavailable or rejected — fall back to geometric
-      if (rawLandmarks && rawLandmarks.length === 21) {
+      if (rawLandmarks?.length === 21) {
         const geoResult = classifyGesture(rawLandmarks)
         if (geoResult) return geoResult
       }
@@ -867,22 +868,10 @@ export function useClassifier() {
       predicted?.confidence || rawResult?.confidence || 0,
       smootherRef.current.stability,
       !predicted,
-      !predicted ? 'oov' : null
+      !predicted ? 'oov' : null,
     )
-
-      metricsRef.current.record(
-        performance.now() - t0,
-        predicted?.confidence || rawResult?.confidence || 0,
-        smoother.stability,
-        !predicted,
-        !predicted ? 'oov' : null
-      )
-
-      return predicted
-    }
-
-    return null
-  }, [_predictTemporal, mode, settings.confidenceThreshold])
+    return predicted
+  }, [_predictTemporal, pushHolisticFrame, settings.confidenceThreshold])
 
   // ═══════════════════════════════════════════════════════════════════════
   // NEW CODE — predictStatic

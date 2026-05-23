@@ -325,7 +325,7 @@ export default function Translator() {
       if (noHandRef.current > 90) setShowHandPrompt(true)
       
       // Notify classifier of no hand to reset sequence buffers
-      classifier.predict(null, null, null, null)
+      classifier.predict(null, null, null, null, null)
 
       const smoothed = smoother.add(null)
       setCurrentPrediction(smoothed)
@@ -342,7 +342,8 @@ export default function Translator() {
       mediapipe.landmarks,
       mediapipe.rawLandmarks,
       mediapipe.rawLandmarks2,
-      mediapipe.landmarks2
+      mediapipe.landmarks2,
+      mediapipe.holisticFrame,
     )
 
     setLivePrediction(raw)
@@ -385,6 +386,7 @@ export default function Translator() {
     mediapipe.rawLandmarks,
     mediapipe.rawLandmarks2,
     mediapipe.landmarks2,
+    mediapipe.holisticFrame,
     classifier.predict,
     demoMode,
     classifier.isDemoMode,
