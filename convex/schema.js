@@ -32,4 +32,15 @@ export default defineSchema({
   })
     .index("by_roomId", ["roomId"])
     .index("by_roomId_type", ["roomId", "type"]),
+
+  // Sign captions — text-only sync for sign language mode (no media/landmarks)
+  signCaptions: defineTable({
+    roomId: v.id("rooms"),
+    userId: v.string(),
+    stable: v.string(),
+    interim: v.string(),
+    updatedAt: v.number(),
+  })
+    .index("by_roomId", ["roomId"])
+    .index("by_roomId_userId", ["roomId", "userId"]),
 });

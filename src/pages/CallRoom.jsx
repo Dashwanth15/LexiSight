@@ -7,7 +7,14 @@ import useWebRTC from '../hooks/useWebRTC.js'
 import useSpeakerDetect from '../hooks/useSpeakerDetect.js'
 import CallVideo from '../components/call/CallVideo.jsx'
 import CallControls from '../components/call/CallControls.jsx'
+import SignCaptionOverlay from '../components/call/SignCaptionOverlay.jsx'
+import SignModeStatus from '../components/call/SignModeStatus.jsx'
+import SignIsolationMode from '../components/call/SignIsolationMode.jsx'
+import { useSharedClassifier } from '../contexts/ClassifierContext.jsx'
 import useSpeechCaptions from '../hooks/useSpeechCaptions.js'
+import useSignCaptions from '../hooks/useSignCaptions.js'
+import useSignCaptionSync from '../hooks/useSignCaptionSync.js'
+import { useSpeechSynth } from '../hooks/useSpeechSynth.js'
 
 function checkBrowserSupport() {
   if (!navigator.mediaDevices?.getUserMedia) return 'Your browser does not support camera/microphone access.'
@@ -71,11 +78,16 @@ export default function CallRoom() {
   const [copied, setCopied] = useState(false)
   // CONTROL BAR: CC toggle state
   const [ccEnabled, setCCEnabled] = useState(true)
+  const [signModeEnabled, setSignModeEnabled] = useState(false)
+  const [signToSpeech, setSignToSpeech] = useState(false)
   // SETUP PANEL: enumerated media devices
   const [devices, setDevices] = useState({ cameras: [], mics: [], speakers: [] })
 
   // FIX: prevent double auto-join when effect re-fires during Clerk/Convex hydration
   const autoJoinedRef = useRef(false)
+  // Shared <video> for sign ML (same element as CallVideo — no duplicate decode)
+  const [localVideoEl, setLocalVideoEl] = useState(null)
+  const onLocalVideoRef = useCallback((el) => setLocalVideoEl(el), [])
 
   const browserError = checkBrowserSupport()
 
@@ -90,6 +102,15 @@ export default function CallRoom() {
     startCall, endCall, startLocalStream,
     toggleAudio, toggleVideo, isAudioEnabled, isVideoEnabled,
   } = useWebRTC(currentRoomCode, user?.id || '', room?._id || null)
+
+  const synth = useSpeechSynth()
+  const sharedClassifier = useSharedClassifier()
+  const { remoteSignCaption, publishCaption, clearCaptions } = useSignCaptionSync({
+    roomId: room?._id,
+    userId: user?.id || '',
+    enabled: isInRoom && signModeEnabled,
+    subscribe: isInRoom,
+  })
 
   // Speaker detection
   const localSpeaking = useSpeakerDetect(localStream, 12)
@@ -181,13 +202,14 @@ export default function CallRoom() {
 
   const handleLeaveRoom = useCallback(async () => {
     await endCall()
+    if (room?._id) await clearCaptions()
     if (currentRoomCode && user) {
       try { await leaveRoomMutation({ roomCode: currentRoomCode, userId: user.id }) }
       catch (err) { console.error('Failed to leave room:', err) }
     }
     setIsInRoom(false); setCurrentRoomCode(''); setError(null)
     navigate('/room', { replace: true })
-  }, [currentRoomCode, user, endCall, leaveRoomMutation, navigate])
+  }, [currentRoomCode, user, endCall, leaveRoomMutation, navigate, room?._id, clearCaptions])
 
   const copyRoomLink = useCallback(() => {
     navigator.clipboard.writeText(`${window.location.origin}/room/${currentRoomCode}`).then(() => {
@@ -196,13 +218,50 @@ export default function CallRoom() {
   }, [currentRoomCode])
 
   // CONTROL BAR: CC toggle handler
-  const handleToggleCC = useCallback(() => setCCEnabled(v => !v), [])
+  const handleToggleCC = useCallback(() => {
+    setCCEnabled((v) => !v)
+  }, [])
 
-  // SUBTITLES: lifted hook — enabled as long as user is in-room with CC on.
+  const handleToggleSignMode = useCallback(() => {
+    setSignModeEnabled((v) => {
+      const next = !v
+      if (!next) {
+        if (room?._id) publishCaption({ stable: '', interim: '' })
+        sharedClassifier.setMode('word')
+        sharedClassifier.stopContinuous?.()
+        sharedClassifier.resetBuffer?.()
+      }
+      return next
+    })
+  }, [room?._id, publishCaption, sharedClassifier])
+
+  const handleIsolationModeChange = useCallback(
+    (mode) => {
+      sharedClassifier.setMode(mode)
+    },
+    [sharedClassifier]
+  )
+
+  const handleSignCaptionUpdate = useCallback(
+    (payload) => {
+      if (isInRoom) publishCaption(payload)
+    },
+    [isInRoom, publishCaption]
+  )
+
+  const handleSignSpeak = useCallback(
+    (text) => {
+      if (signToSpeech && text) synth.speak(text, { rate: 0.92 })
+    },
+    [signToSpeech, synth]
+  )
+
+  // SUBTITLES: uses system mic via Web Speech API (does not open a second getUserMedia stream)
   const {
     stableText,
     interimText,
-    isListening,
+    error: ccError,
+    isListening: ccListening,
     debugEnabled,
     debugLogs,
     silenceMs,
@@ -215,6 +274,37 @@ export default function CallRoom() {
     const interim = interimText && !stableText.endsWith(interimText.trim()) ? ' ' + interimText : ''
     return (stableText + interim).trim()
   }, [stableText, interimText])
+
+  // SIGN CAPTIONS: local MediaPipe + TF.js — frames never leave the browser
+  const signCaptions = useSignCaptions({
+    enabled: isInRoom && signModeEnabled && isVideoEnabled && !!localStream,
+    localStream,
+    localVideoEl,
+    onCaptionUpdate: handleSignCaptionUpdate,
+    onSpeak: handleSignSpeak,
+    signToSpeech,
+    connectionState,
+    lowPower: ccEnabled,
+  })
+
+  const remoteSignDisplay = (
+    remoteSignCaption.stable +
+    (remoteSignCaption.interim && !remoteSignCaption.stable.endsWith(remoteSignCaption.interim.trim())
+      ? ' ' + remoteSignCaption.interim
+      : '')
+  ).trim()
+
+  const compactStripText = signModeEnabled
+    ? signCaptions.error
+      ? `Sign error: ${signCaptions.error}`
+      : signCaptions.isLoading
+        ? 'Loading sign models…'
+        : signCaptions.displayText
+          || (signCaptions.lastDetected ? `Detecting: ${signCaptions.lastDetected}` : '')
+          || (signCaptions.handDetected ? 'Processing gesture…' : 'Show hands to camera…')
+    : ccEnabled
+      ? ccError || subtitleDisplay || (ccListening ? 'Listening for speech…' : 'Starting captions…')
+      : 'Captions off — toggle CC to enable'
 
   // ─── Loading ──────────────────────────────────────────────
   if (!isLoaded) {
@@ -361,8 +451,10 @@ export default function CallRoom() {
         </div>
       </div>
 
-      {mediaError && (
-        <div style={{ margin: '4px 24px', padding: '9px 14px', background: 'rgba(255,170,0,0.08)', border: '1px solid rgba(255,170,0,0.2)', borderRadius: 8, color: '#ffaa00', fontSize: '0.8rem', fontFamily: 'DM Sans, sans-serif', flexShrink: 0 }}>⚠ {mediaError}</div>
+      {(mediaError || ccError || (signModeEnabled && signCaptions.error)) && (
+        <div style={{ margin: '4px 24px', padding: '9px 14px', background: 'rgba(255,170,0,0.08)', border: '1px solid rgba(255,170,0,0.2)', borderRadius: 8, color: '#ffaa00', fontSize: '0.8rem', fontFamily: 'DM Sans, sans-serif', flexShrink: 0 }}>
+          ⚠ {mediaError || ccError || signCaptions.error}
+        </div>
       )}
 
       {/* VIDEO UI ── Main content: left video column + right setup panel */}
@@ -373,6 +465,17 @@ export default function CallRoom() {
 
           {/* VIDEO UI ── Main video card */}
           <div style={{ flex: 1, position: 'relative', borderRadius: 16, overflow: 'hidden', background: 'linear-gradient(145deg, #0d1522 0%, #080c14 100%)', border: `1px solid ${localSpeaking ? 'rgba(0,255,136,0.3)' : 'rgba(255,255,255,0.06)'}`, boxShadow: localSpeaking ? '0 0 0 2px rgba(0,255,136,0.2), 0 12px 48px rgba(0,0,0,0.7)' : '0 12px 48px rgba(0,0,0,0.6)', transition: 'border-color 0.35s, box-shadow 0.4s', minHeight: 0 }}>
+
+            {signModeEnabled && (
+              <SignModeStatus
+                isActive={signCaptions.isActive}
+                isLoading={signCaptions.isLoading}
+                handDetected={signCaptions.handDetected}
+                confidence={signCaptions.confidence}
+                bufferProgress={signCaptions.bufferProgress}
+                isolationMode={signCaptions.isolationMode}
+              />
+            )}
 
             {/* PREVIEW badge */}
             {!hasRemote && (
@@ -386,13 +489,40 @@ export default function CallRoom() {
             {hasRemote ? (
               <CallVideo stream={remoteStream} muted={false} label={peerName || 'Peer'} isLocal={false} isSpeaking={remoteSpeaking} showCaptions={false} />
             ) : (
-              <CallVideo stream={localStream} muted={true} label={user?.fullName || 'You'} isLocal={true} isSpeaking={localSpeaking} isVideoOff={!isVideoEnabled} isAudioOff={!isAudioEnabled} showCaptions={false} />
+              <CallVideo
+                ref={onLocalVideoRef}
+                stream={localStream}
+                muted={true}
+                label={user?.fullName || 'You'}
+                isLocal={true}
+                isSpeaking={localSpeaking}
+                isVideoOff={!isVideoEnabled}
+                isAudioOff={!isAudioEnabled}
+                showCaptions={false}
+              />
             )}
 
             {/* PiP */}
             {hasRemote && (
-              <div className={`call-pip${localSpeaking ? ' speaking' : ''}`}>
-                <CallVideo stream={localStream} muted={true} label="You" isLocal={true} isSpeaking={localSpeaking} isVideoOff={!isVideoEnabled} isAudioOff={!isAudioEnabled} showCaptions={false} />
+              <div className={`call-pip${localSpeaking ? ' speaking' : ''}`} style={{ position: 'relative' }}>
+                <CallVideo
+                  ref={onLocalVideoRef}
+                  stream={localStream}
+                  muted={true}
+                  label="You"
+                  isLocal={true}
+                  isSpeaking={localSpeaking}
+                  isVideoOff={!isVideoEnabled}
+                  isAudioOff={!isAudioEnabled}
+                  showCaptions={false}
+                />
+                {signModeEnabled && signCaptions.displayText && (
+                  <SignCaptionOverlay
+                    stableText={signCaptions.stableText}
+                    interimText={signCaptions.interimText}
+                    label="Your sign translation"
+                  />
+                )}
               </div>
             )}
 
@@ -478,8 +608,7 @@ export default function CallRoom() {
                 </div>
               </div>
             )}
-
-            {/* SUBTITLES — overlay on video, centered above name chip */}
+            {/* SUBTITLES — speech captions */}
             {ccEnabled && subtitleDisplay && (
               <div style={{
                 position: 'absolute', bottom: 56, left: '50%', transform: 'translateX(-50%)',
@@ -494,11 +623,90 @@ export default function CallRoom() {
                 </span>
               </div>
             )}
+
+            {/* SIGN — local preview (interim + stable); sits above speech CC when both on */}
+            {signModeEnabled && (signCaptions.displayText || signCaptions.lastDetected) && !hasRemote && (
+              <div style={{ position: 'absolute', bottom: ccEnabled && subtitleDisplay ? 100 : 56, left: 0, right: 0, zIndex: 23 }}>
+                <SignCaptionOverlay
+                  stableText={signCaptions.stableText}
+                  interimText={signCaptions.interimText || signCaptions.lastDetected}
+                  label="Your sign translation"
+                />
+              </div>
+            )}
+
+            {/* SIGN — remote peer's translated signs (hearing user; no local sign mode required) */}
+            {hasRemote && remoteSignDisplay && (
+              <SignCaptionOverlay
+                stableText={remoteSignCaption.stable}
+                interimText={remoteSignCaption.interim}
+                label="Peer sign translation"
+              />
+            )}
           </div>
 
+          {/* SUBTITLES — compact CC status strip below video */}
+          <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center', gap: 10, padding: '8px 14px', background: 'rgba(6,10,18,0.75)', backdropFilter: 'blur(14px)', borderRadius: 10, border: `1px solid ${signModeEnabled ? 'rgba(255,193,7,0.12)' : 'rgba(255,255,255,0.05)'}`, minHeight: 44 }}>
+            <div style={{ width: 28, height: 28, borderRadius: 7, background: signModeEnabled ? 'rgba(255,193,7,0.12)' : ccEnabled ? 'rgba(139,92,246,0.14)' : 'rgba(255,255,255,0.04)', border: `1px solid ${signModeEnabled ? 'rgba(255,193,7,0.35)' : ccEnabled ? 'rgba(139,92,246,0.3)' : 'rgba(255,255,255,0.07)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, transition: 'all 0.25s', fontSize: '0.85rem' }}>
+              {signModeEnabled ? '🤟' : (
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={ccEnabled ? '#a78bfa' : 'rgba(255,255,255,0.22)'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="5" width="20" height="14" rx="3" />
+                  <path d="M7 12a2 2 0 1 0 2-2" /><path d="M14 12a2 2 0 1 0 2-2" />
+                </svg>
+              )}
+            </div>
+            <span style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '0.78rem', color: (signModeEnabled || ccEnabled) ? (compactStripText ? '#c8dff0' : 'rgba(255,255,255,0.38)') : 'rgba(255,255,255,0.22)', flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              {compactStripText}
+            </span>
+            {(signModeEnabled || ccEnabled) && !compactStripText && (
+              <div style={{ display: 'flex', gap: 3, alignItems: 'flex-end', flexShrink: 0 }}>
+                {[4,6,9,7,5].map((h, i) => (
+                  <div key={i} style={{ width: 3, height: h, background: signModeEnabled ? 'rgba(255,193,7,0.45)' : 'rgba(0,212,255,0.4)', borderRadius: 1.5, animation: `bounce-y 1.3s ease-in-out ${i * 0.13}s infinite` }} />
+                ))}
+              </div>
+            )}
+            {signModeEnabled && (
+              <button
+                type="button"
+                onClick={() => setSignToSpeech((v) => !v)}
+                title={signToSpeech ? 'Disable sign-to-speech' : 'Speak translated signs aloud'}
+                style={{
+                  flexShrink: 0,
+                  padding: '4px 10px',
+                  borderRadius: 8,
+                  border: `1px solid ${signToSpeech ? 'rgba(0,255,136,0.4)' : 'rgba(255,255,255,0.1)'}`,
+                  background: signToSpeech ? 'rgba(0,255,136,0.1)' : 'rgba(255,255,255,0.04)',
+                  color: signToSpeech ? '#00ff88' : 'rgba(255,255,255,0.4)',
+                  fontFamily: 'JetBrains Mono, monospace',
+                  fontSize: '0.55rem',
+                  cursor: 'pointer',
+                  letterSpacing: '0.06em',
+                }}
+              >
+                🔊 TTS
+              </button>
+            )}
+          </div>
+          {signModeEnabled && (
+            <SignIsolationMode
+              mode={sharedClassifier.mode}
+              onModeChange={handleIsolationModeChange}
+              disabled={signCaptions.isLoading}
+            />
+          )}
           {/* CONTROLS ── Floating dock */}
           <div style={{ display: 'flex', justifyContent: 'center', flexShrink: 0 }}>
-            <CallControls isAudioEnabled={isAudioEnabled} isVideoEnabled={isVideoEnabled} isCCEnabled={ccEnabled} onToggleAudio={toggleAudio} onToggleVideo={toggleVideo} onToggleCC={handleToggleCC} onLeave={handleLeaveRoom} />
+            <CallControls
+              isAudioEnabled={isAudioEnabled}
+              isVideoEnabled={isVideoEnabled}
+              isCCEnabled={ccEnabled}
+              isSignModeEnabled={signModeEnabled}
+              onToggleAudio={toggleAudio}
+              onToggleVideo={toggleVideo}
+              onToggleCC={handleToggleCC}
+              onToggleSignMode={handleToggleSignMode}
+              onLeave={handleLeaveRoom}
+            />
           </div>
         </div>
 
@@ -543,6 +751,7 @@ export default function CallRoom() {
           </div>
         )}
       </div>
+
     </div>
   )
 }

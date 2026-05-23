@@ -1,8 +1,8 @@
 // CAMERA FIX + INTEGRATION POINT — CallVideo.jsx
-import { useEffect, useRef } from 'react'
-import SubtitleOverlay from './SubtitleOverlay.jsx' // NEW CODE
+import { forwardRef, useEffect, useRef } from 'react'
+import SubtitleOverlay from './SubtitleOverlay.jsx'
 
-export default function CallVideo({
+const CallVideo = forwardRef(function CallVideo({
   stream,
   muted = false,
   isLocal = false,
@@ -10,9 +10,15 @@ export default function CallVideo({
   isSpeaking = false,
   isVideoOff = false,
   isAudioOff = false,
-  showCaptions = false, // NEW CODE
-}) {
+  showCaptions = false,
+}, ref) {
   const videoRef = useRef(null)
+
+  const setVideoRef = (el) => {
+    videoRef.current = el
+    if (typeof ref === 'function') ref(el)
+    else if (ref) ref.current = el
+  }
 
   // CAMERA FIX: robustly attach / detach srcObject on stream changes
   useEffect(() => {
@@ -20,11 +26,9 @@ export default function CallVideo({
     if (!video) return
 
     if (stream) {
-      // CAMERA FIX: only reassign if stream actually changed (prevents flicker)
       if (video.srcObject !== stream) {
         video.srcObject = stream
       }
-      // CAMERA FIX: always attempt play; ignore AbortError from rapid toggling
       const playPromise = video.play()
       if (playPromise !== undefined) {
         playPromise.catch((err) => {
@@ -34,12 +38,10 @@ export default function CallVideo({
         })
       }
     } else {
-      // CAMERA FIX: clear srcObject when stream is removed to free resources
       video.srcObject = null
     }
 
     return () => {
-      // CAMERA FIX: cleanup on unmount — don't stop tracks here, just detach
       if (video) video.srcObject = null
     }
   }, [stream])
@@ -52,8 +54,6 @@ export default function CallVideo({
     ? '0 0 0 2px rgba(0,255,136,0.4), 0 0 24px rgba(0,255,136,0.2)'
     : 'none'
 
-  // CAMERA FIX: show video element whenever stream exists, regardless of isVideoOff
-  // (track.enabled=false blanks the feed — no need to unmount the element)
   const hasVideoStream = stream && stream.getVideoTracks().length > 0
 
   return (
@@ -63,10 +63,9 @@ export default function CallVideo({
       border: borderStyle, boxShadow: shadowStyle,
       transition: 'border 0.3s, box-shadow 0.3s',
     }}>
-      {/* CAMERA FIX: video is always mounted when stream exists; display toggled via CSS */}
       {stream && (
         <video
-          ref={videoRef}
+          ref={setVideoRef}
           className="call-video"
           autoPlay
           playsInline
@@ -74,12 +73,11 @@ export default function CallVideo({
           style={{
             width: '100%', height: '100%', objectFit: 'cover',
             transform: isLocal ? 'scaleX(-1)' : 'none',
-            display: isVideoOff ? 'none' : 'block', // CAMERA FIX: hide via CSS not unmount
+            display: isVideoOff ? 'none' : 'block',
           }}
         />
       )}
 
-      {/* Placeholder shown when no stream OR video is off */}
       {(!stream || !hasVideoStream || isVideoOff) && (
         <div style={{
           width: '100%', height: '100%', display: 'flex',
@@ -101,8 +99,6 @@ export default function CallVideo({
         </div>
       )}
 
-      {/* SUBTITLE STABILITY: overlay enabled tied only to stream presence, not camera state.
-           Audio/mic is independent of video — subtitles should work even when camera is off. */}
       {isLocal && showCaptions && (
         <SubtitleOverlay
           enabled={!!stream}
@@ -110,7 +106,6 @@ export default function CallVideo({
         />
       )}
 
-      {/* Name label */}
       {label && (
         <div style={{
           position: 'absolute', bottom: 10, left: 10,
@@ -132,7 +127,6 @@ export default function CallVideo({
         </div>
       )}
 
-      {/* Muted indicator */}
       {isAudioOff && (
         <div style={{
           position: 'absolute', top: 10, right: 10,
@@ -146,4 +140,6 @@ export default function CallVideo({
       )}
     </div>
   )
-}
+})
+
+export default CallVideo
