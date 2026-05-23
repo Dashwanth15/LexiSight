@@ -1,0 +1,7 @@
+node_modules/
+dist/
+Datasets/
+.env.local
+src/.env.local
+calling_system_architecture.md
+punctuation_engine_guide.md
