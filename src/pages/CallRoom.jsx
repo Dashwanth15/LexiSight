@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useUser } from '@clerk/clerk-react'
 import { useMutation, useQuery } from 'convex/react'
@@ -205,9 +205,16 @@ export default function CallRoom() {
     isListening,
     debugEnabled,
     debugLogs,
-    silenceMs
+    silenceMs,
+    restartCount,
+    speechRate,
   } = useSpeechCaptions(isInRoom && ccEnabled)
-  const subtitleDisplay = (stableText + (interimText && !stableText.endsWith(interimText.trim()) ? ' ' + interimText : '')).trim()
+
+  // PERFORMANCE FIX: memoize subtitleDisplay — only recomputes on text change
+  const subtitleDisplay = useMemo(() => {
+    const interim = interimText && !stableText.endsWith(interimText.trim()) ? ' ' + interimText : ''
+    return (stableText + interim).trim()
+  }, [stableText, interimText])
 
   // ─── Loading ──────────────────────────────────────────────
   if (!isLoaded) {
@@ -421,12 +428,24 @@ export default function CallRoom() {
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 4, fontFamily: 'JetBrains Mono, monospace', fontSize: '0.62rem' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <span style={{ opacity: 0.5 }}>Silence Lock:</span>
+                    <span style={{ opacity: 0.5 }}>Silence:</span>
                     <span style={{ color: silenceMs > 1500 ? '#ff3366' : '#00ff88' }}>{silenceMs}ms</span>
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <span style={{ opacity: 0.5 }}>Listening:</span>
                     <span style={{ color: isListening ? '#00ff88' : '#ffaa00' }}>{isListening ? 'ACTIVE' : 'IDLE'}</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <span style={{ opacity: 0.5 }}>Restarts:</span>
+                    <span style={{ color: restartCount > 10 ? '#ffaa00' : '#a78bfa' }}>{restartCount}</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <span style={{ opacity: 0.5 }}>CC:</span>
+                    <span style={{ color: ccEnabled ? '#00ff88' : '#ff3366' }}>{ccEnabled ? 'ON' : 'OFF'}</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <span style={{ opacity: 0.5 }}>WPS:</span>
+                    <span style={{ color: speechRate > 3 ? '#00d4ff' : speechRate >= 1 ? '#00ff88' : '#ffaa00' }}>{speechRate} w/s</span>
                   </div>
                 </div>
                 <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column', gap: 4 }}>
