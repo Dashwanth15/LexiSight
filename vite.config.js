@@ -7,6 +7,9 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
+      // FIX: disable SW in dev — it intercepts /room/:code routes and serves
+      // stale cache, causing chrome-error://chromewebdata/ crashes
+      devOptions: { enabled: false },
       includeAssets: ['favicon.svg', 'apple-touch-icon.png', 'mask-icon.svg'],
       manifest: {
         name: 'LexiSight — ISL Translator',
@@ -22,6 +25,9 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+        // FIX: ensure SPA navigation fallback so /room/:code always gets index.html
+        navigateFallback: 'index.html',
+        navigateFallbackDenylist: [/^\/_/, /\/[^/?]+\.[^/]+$/],
         runtimeCaching: [
           {
             urlPattern: /\/model\/.*/,

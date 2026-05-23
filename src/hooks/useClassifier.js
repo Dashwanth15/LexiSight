@@ -39,7 +39,7 @@ const CONFIDENCE_THRESHOLD_STATIC = 0.75
 const MARGIN_LOW = 0.12
 const MARGIN_HIGH = 0.35
 const REJECTION_RATE_WINDOW = 30
-const ENTROPY_THRESHOLD = null  // null = auto-compute from nClasses
+const ENTROPY_THRESHOLD = null  // null = auto-calculate as log(nClasses)/2
 
 const PredictionState = { CONFIDENT: 2, UNCERTAIN: 1, UNKNOWN: 0 }
 
@@ -70,6 +70,27 @@ function buildTopK(probs, labelMap, k = 3) {
     .map((p, i) => ({ label: labelMap[String(i)] || `class_${i}`, confidence: p }))
     .sort((a, b) => b.confidence - a.confidence)
     .slice(0, k)
+}
+
+/** Normalize model label to match UI conventions */
+function normalizeLabel(label) {
+  if (!label) return label
+  // Replace underscores with spaces (THANK_YOU → THANK YOU)
+  let normalized = label.replace(/_/g, ' ')
+  // Trim multi-word variants (BIG LARGE → BIG, SMALL LITTLE → SMALL)
+  const LABEL_SHORTCUTS = {
+    'BIG LARGE': 'BIG',
+    'SMALL LITTLE': 'SMALL',
+    'STORE OR SHOP': 'SHOP',
+    'STREET OR ROAD': 'ROAD',
+    'RACE (ETHNICITY)': 'RACE',
+    'YOU (PLURAL)': 'YOU ALL',
+    'EX. MONSOON': 'MONSOON',
+  }
+  if (LABEL_SHORTCUTS[normalized]) {
+    normalized = LABEL_SHORTCUTS[normalized]
+  }
+  return normalized
 }
 
 function cosineSimilarity(a, b) {
@@ -331,9 +352,6 @@ export function useClassifier() {
   const temporalFrameCountRef = useRef(0)
   const lastTemporalResultRef = useRef(null)
   const smootherRef = useRef(new TemporalSmoother())
-  const motionRef = useRef(new MotionAnalyzer())
-  const onsetRef = useRef(new OnsetDetector())
-  const poseStabilityRef = useRef(new PoseStabilityDetector())
   const oosRef = useRef(null)
   const metricsRef = useRef(new SystemMetricsCollector())
   const embeddingCacheRef = useRef(null)
@@ -475,10 +493,13 @@ export function useClassifier() {
         return null
       }
 
+      // Normalize labels from model output (e.g. THANK_YOU → THANK YOU)
+      const normalizedTopK = topK.map(t => ({ ...t, label: normalizeLabel(t.label) }))
+
       const rawResult = {
-        label: topK[0]?.label || 'UNKNOWN',
+        label: normalizedTopK[0]?.label || 'UNKNOWN',
         confidence: topConf,
-        topK,
+        topK: normalizedTopK,
         state,
         rejected: state === PredictionState.UNKNOWN,
         probs,
@@ -588,10 +609,11 @@ export function useClassifier() {
       if (!landmarks || landmarks.length !== 63) return null
 
       return tf.tidy(() => {
-        const frame = new Float32Array(126)
-        frame.set(normalizeRelative(landmarks), 0)
-        if (landmarks2 && landmarks2.length === 63) frame.set(normalizeRelative(landmarks2), 63)
-        const input = tf.tensor2d([Array.from(frame)])
+        // Static model expects 126 features (2 hands × 63). Pad second hand with zeros if missing.
+        const frame126 = new Float32Array(126)
+        frame126.set(landmarks, 0)
+        if (landmarks2 && landmarks2.length === 63) frame126.set(landmarks2, 63)
+        const input = tf.tensor2d([Array.from(frame126)])
         const rawLogits = model.predict(input)
         let probs = Array.from(rawLogits.dataSync())
         if (temp !== 1.0) {
@@ -692,7 +714,17 @@ export function useClassifier() {
       bufferRef.current.push(Array.from(frame))
       if (bufferRef.current.length > BUFFER_SIZE) bufferRef.current.shift()
 
-      if (bufferRef.current.length < BUFFER_SIZE) return null
+      if (bufferRef.current.length < BUFFER_SIZE) {
+        // Not enough frames for temporal model — use geometric classifier as fallback
+        if (rawLandmarks && rawLandmarks.length === 21) {
+          const geoResult = classifyGesture(rawLandmarks)
+          if (geoResult) {
+            metricsRef.current.record(performance.now() - t0, geoResult.confidence, null, false, 'geo_fallback')
+            return geoResult
+          }
+        }
+        return null
+      }
 
       temporalFrameCountRef.current++
       if (temporalFrameCountRef.current % PREDICT_EVERY_N !== 0 && lastTemporalResultRef.current) {
@@ -735,144 +767,45 @@ export function useClassifier() {
     frame.set(landmarks, 0)
     if (landmarks2?.length === 63) frame.set(landmarks2, 63)
 
-    // ─── 1. NUMBER MODE ──────────────────────────────────────────
-    if (mode === 'number') {
+    // Add frame to rolling buffer (pure ML — no hardcoded motion rules)
+    bufferRef.current.push(Array.from(frame))
+    if (bufferRef.current.length > BUFFER_SIZE) bufferRef.current.shift()
+
+    // While buffer fills, use geometric classifier for instant results
+    if (bufferRef.current.length < BUFFER_SIZE) {
       if (rawLandmarks && rawLandmarks.length === 21) {
-        const r = classifyISLDigit(rawLandmarks)
-        return r
+        const geoResult = classifyGesture(rawLandmarks)
+        if (geoResult) return geoResult
       }
-      return null
+
+    // Run temporal model — skip frames for CPU efficiency
+    temporalFrameCountRef.current++
+    if (temporalFrameCountRef.current % PREDICT_EVERY_N !== 0 && lastTemporalResultRef.current) {
+      const s = smootherRef.current.add(lastTemporalResultRef.current)
+      metricsRef.current.record(performance.now() - t0, s?.confidence || 0, s?.stability || 0, !s, 'smoothing')
+      return s
     }
 
-    // ─── 2. LETTER MODE ──────────────────────────────────────────
-    if (mode === 'letter') {
-      let staticResult = null
-      if (telemetry.toggles.poseStability) {
-        if (poseStabilityRef.current.process(rawLandmarks)) {
-          const sModel = modelsRef.current.static
-          const sLabelMap = labelMapsRef.current.static
-          const sTemp = calibrationRef.current.static
-          
-          if (sModel && sLabelMap) {
-            staticResult = tf.tidy(() => {
-              const input = tf.tensor2d([Array.from(frame)])
-              const rawLogits = sModel.predict(input)
-              let probs = Array.from(rawLogits.dataSync())
-              if (sTemp !== 1.0) {
-                const maxLogit = Math.max(...probs)
-                probs = probs.map(p => Math.exp(Math.log(Math.max(p, 1e-12)) / sTemp - maxLogit))
-                const sum = probs.reduce((a, b) => a + b, 0)
-                probs = probs.map(p => p / sum)
-              }
-              const sTopK = buildTopK(probs, sLabelMap, 3)
-              if (sTopK[0]?.confidence >= (settings.confidenceThreshold || CONFIDENCE_THRESHOLD_STATIC)) {
-                return disambiguate({ label: sTopK[0].label, confidence: sTopK[0].confidence, topK: sTopK }, rawLandmarks)
-              }
-              return null
-            })
-          }
-          
-          if (!staticResult) {
-            const r = classifyGesture(rawLandmarks)
-            // Keep it to letters
-            if (r && r.label.length === 1 && r.label >= 'A' && r.label <= 'Z') {
-              staticResult = r
-            }
-          }
-        }
+    // Run the actual temporal model inference
+    const rawResult = _predictTemporal(bufferRef.current, labelMap, temp, nClasses)
+    if (!rawResult || rawResult.rejected) {
+      // Temporal model unavailable or rejected — fall back to geometric
+      if (rawLandmarks && rawLandmarks.length === 21) {
+        const geoResult = classifyGesture(rawLandmarks)
+        if (geoResult) return geoResult
       }
-
-      if (staticResult) {
-        telemetry.log('STATIC', `Detected stable static pose: ${staticResult.label}`, staticResult)
-        const smoother = smootherRef.current
-        if (staticResult.label !== smoother.lastConfirmed?.label) {
-          smoother.lockFrames = LOCK_FRAMES
-          smoother.state = SignState.CONFIRMING
-          smoother.unconfirmed = []
-          smoother._sentence = smoother._sentence || []
-          smoother._sentence.push(staticResult.label)
-        }
-        return staticResult
-      }
-      return null
+      metricsRef.current.record(performance.now() - t0, 0, 0, true, 'rejected')
+      return smootherRef.current.add(null)
     }
 
-    // ─── 3. WORD MODE ───────────────────────────────────────────
-    if (mode === 'word') {
-      const labelMap = labelMapsRef.current.temporal
-      const temp = calibrationRef.current.temporal
-      const nClasses = labelMap ? Object.keys(labelMap).length : 263
-
-      // Motion Analyzer Interception (rule-based dynamic gestures)
-      const motionResult = motionRef.current.push(rawLandmarks).analyze()
-      if (motionResult) {
-        telemetry.log('MOTION', `Detected dynamic gesture: ${motionResult.label}`)
-        const smoother = smootherRef.current
-        if (motionResult.label !== smoother.lastConfirmed?.label) {
-          smoother.lockFrames = LOCK_FRAMES
-          smoother.state = SignState.CONFIRMING
-          smoother.unconfirmed = []
-          smoother._sentence = smoother._sentence || []
-          smoother._sentence.push(motionResult.label)
-        }
-        return motionResult
-      }
-
-      bufferRef.current.push(Array.from(frame))
-      if (bufferRef.current.length > BUFFER_SIZE) bufferRef.current.shift()
-
-      if (bufferRef.current.length < BUFFER_SIZE) return null
-
-      const smoother = smootherRef.current
-
-      if (smoother.state === SignState.IDLE) {
-        smoother.state = SignState.TRANSITION
-        smoother.unconfirmed = []
-        return null
-      }
-
-      if (smoother.state === SignState.TRANSITION) {
-        smoother.unconfirmed = []
-        return null
-      }
-
-      if (smoother.state === SignState.CONFIRMING) {
-        const confirmed = smoother.add(null)
-        if (smoother.lockFrames <= 0) {
-          smoother.state = SignState.WORD
-          const out = {
-            ...confirmed,
-            sentence: smoother._sentence || [confirmed?.label],
-          }
-          smoother._sentence = smoother._sentence || []
-          smoother._sentence.push(confirmed?.label)
-          return out
-        }
-        return null
-      }
-
-      if (smoother.state === SignState.WORD) {
-        smoother.reset()
-        smoother.state = SignState.IDLE
-        return null
-      }
-
-      const rawResult = _predictTemporal(bufferRef.current, labelMap, temp, nClasses)
-      if (!rawResult || rawResult.rejected) {
-        smoother.reset()
-        smoother.state = SignState.IDLE
-        return null
-      }
-
-      const predicted = smoother.add(rawResult)
-      if (predicted && predicted !== smoother.lastConfirmed) {
-        telemetry.log('SYSTEM', `Temporal inference confirmed: ${predicted.label}`)
-        smoother.lockFrames = LOCK_FRAMES
-        smoother.state = SignState.CONFIRMING
-        smoother.unconfirmed = []
-        smoother._sentence = smoother._sentence || []
-        smoother._sentence.push(predicted.label)
-      }
+    const predicted = smootherRef.current.add(rawResult)
+    metricsRef.current.record(
+      performance.now() - t0,
+      predicted?.confidence || rawResult?.confidence || 0,
+      smootherRef.current.stability,
+      !predicted,
+      !predicted ? 'oov' : null
+    )
 
       metricsRef.current.record(
         performance.now() - t0,
@@ -887,6 +820,132 @@ export function useClassifier() {
 
     return null
   }, [_predictTemporal, mode, settings.confidenceThreshold])
+
+  // ═══════════════════════════════════════════════════════════════════════
+  // NEW CODE — predictStatic
+  // Dedicated static-only path for Photo mode.
+  // Bypasses temporal buffer, motion analyzer, and the global `mode` state.
+  // Uses the static MLP directly and averages predictions over N jittered
+  // copies of the landmark vector for noise-robust single-frame inference.
+  // ═══════════════════════════════════════════════════════════════════════
+  const predictStatic = useCallback((landmarks, rawLandmarks, options = {}) => {
+    const { jitterCount = 6, jitterScale = 0.008, confThreshold = 0.55, useGeometricOnly = false } = options
+    if (!landmarks || landmarks.length !== 63) return null
+    const t0 = performance.now()
+
+    const model = modelsRef.current.static
+    const labelMap = labelMapsRef.current.static
+    const temp = calibrationRef.current.static
+
+    // DEBUG: Log model availability
+    console.log('[predictStatic] model:', model ? 'loaded' : 'missing', 'labelMap:', labelMap ? 'loaded' : 'missing')
+
+    // PRIMARY: Use static MLP model for prediction
+    // FALLBACK: Only use geometric if ML model is missing or fails
+    if (!model || !labelMap) {
+      console.warn('[predictStatic] ML model not available (Keras 3.0 format incompatible with TF.js 4.22), using geometric fallback')
+      if (rawLandmarks && rawLandmarks.length === 21) {
+        const r = classifyGesture(rawLandmarks)
+        metricsRef.current.record(performance.now() - t0, r?.confidence || 0, null, !r, 'geometric')
+        return r ? { ...r, source: 'geometric' } : null
+      }
+      return null
+    }
+
+    console.log('[predictStatic] Using static MLP model')
+
+    return tf.tidy(() => {
+      // Static model expects 126 features (2 hands × 63). Pad second hand with zeros.
+      const padded = new Float32Array(126)
+      padded.set(landmarks, 0)
+      const base = Array.from(padded)
+
+      // Build a batch: original + N jittered variants
+      const batch = [base]
+      for (let i = 0; i < jitterCount; i++) {
+        const jittered = new Array(126)
+        for (let k = 0; k < 126; k++) {
+          jittered[k] = base[k] + (Math.random() - 0.5) * 2 * jitterScale
+        }
+        batch.push(jittered)
+      }
+      const input = tf.tensor2d(batch)
+      const rawLogits = model.predict(input)
+      const allProbs = rawLogits.arraySync()
+      const nClasses = Object.keys(labelMap).length
+
+      // Average softmax across augmentations
+      let probs = new Array(nClasses).fill(0)
+      for (const row of allProbs) {
+        for (let j = 0; j < nClasses; j++) probs[j] += row[j]
+      }
+      probs = probs.map(v => v / allProbs.length)
+
+      // Temperature calibration
+      if (temp !== 1.0) {
+        const maxLogit = Math.max(...probs)
+        probs = probs.map(p => {
+          const scaled = Math.log(Math.max(p, 1e-12)) / temp
+          return Math.exp(scaled - maxLogit)
+        })
+        const sum = probs.reduce((a, b) => a + b, 0)
+        probs = probs.map(p => p / sum)
+      }
+
+      const state = classifyState(probs, nClasses)
+      const topK = buildTopK(probs, labelMap, 3)
+      const topConf = topK[0]?.confidence || 0
+
+      // Below threshold — try geometric fallback once, else report low-confidence
+      if (topConf < confThreshold) {
+        if (rawLandmarks && rawLandmarks.length === 21) {
+          const geo = classifyGesture(rawLandmarks)
+          if (geo && geo.confidence >= 0.70) {
+            metricsRef.current.record(performance.now() - t0, geo.confidence, null, false, 'geo_fallback')
+            return { ...geo, source: 'geometric' }
+          }
+        }
+        metricsRef.current.record(performance.now() - t0, topConf, null, true, 'low_conf_static')
+        return {
+          label: topK[0]?.label || 'UNKNOWN',
+          confidence: topConf,
+          topK,
+          state,
+          rejected: true,
+          lowConfidence: true,
+          source: 'static_mlp',
+        }
+      }
+
+      const result = {
+        label: topK[0]?.label || 'UNKNOWN',
+        confidence: topConf,
+        topK,
+        state,
+        rejected: state === PredictionState.UNKNOWN,
+        source: 'static_mlp',
+      }
+      metricsRef.current.record(performance.now() - t0, topConf, null, false, null)
+      return disambiguate(result, rawLandmarks)
+    })
+  }, [])
+
+  // ═══════════════════════════════════════════════════════════════════════
+  // NEW CODE — resetBuffer / getBufferProgress
+  // Used by Video lifecycle (upload/play/ended) and by Photo to avoid
+  // leaking stale temporal frames between modes.
+  // ═══════════════════════════════════════════════════════════════════════
+  const resetBuffer = useCallback(() => {
+    bufferRef.current = []
+    temporalFrameCountRef.current = 0
+    lastTemporalResultRef.current = null
+    smootherRef.current.reset()
+  }, [])
+
+  const getBufferProgress = useCallback(
+    () => Math.min(1, bufferRef.current.length / BUFFER_SIZE),
+    []
+  )
 
   const predictDemo = useCallback(() => {
     const gesture = DEMO_SEQUENCE[demoIndexRef.current % DEMO_SEQUENCE.length]
@@ -906,8 +965,6 @@ export function useClassifier() {
   const startContinuous = useCallback(() => {
     isContinuousRef.current = true
     bufferRef.current = []
-    motionRef.current.reset()
-    poseStabilityRef.current.reset()
     smootherRef.current.reset()
     smootherRef.current.state = SignState.IDLE
     setStatus('continuous')
@@ -936,6 +993,7 @@ export function useClassifier() {
   return {
     predict,
     predictContinuous,
+    predictStatic,       // NEW — Photo mode
     predictDemo,
     status,
     progress,
@@ -950,6 +1008,8 @@ export function useClassifier() {
     retry,
     startContinuous,
     stopContinuous,
+    resetBuffer,         // NEW — Video lifecycle
+    getBufferProgress,   // NEW — UI progress bar
     getMetrics,
   }
 }

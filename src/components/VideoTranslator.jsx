@@ -8,8 +8,10 @@ export default function VideoTranslator({
   isProcessing,
   progress,
   currentSign,
+  debugInfo,       // NEW
   onPlay,
   onPause,
+  onEnded,         // NEW
   videoRef,
   onUpload,
   onReset
@@ -50,9 +52,10 @@ export default function VideoTranslator({
               src={videoUrl}
               className="absolute inset-0 w-full h-full object-contain"
               playsInline
-              loop
+              loop={false}           // FIX — disable loop so ended fires
               crossOrigin="anonymous"
               muted
+              onEnded={onEnded}      // FIX — handle video end
             />
             
             {/* Live Detection Overlay during playback */}
@@ -71,13 +74,22 @@ export default function VideoTranslator({
                   }}
                 >
                   <div className="flex flex-col items-center">
-                    <span className="text-xs text-slate-400 font-dm uppercase tracking-wider mb-1">Detecting</span>
+                    {/* NEW — mode indicator */}
+                    <span className="text-[0.6rem] font-mono uppercase tracking-wider mb-1" style={{ color: '#00d4ff80' }}>
+                      {debugInfo?.smoothed ? '🟢 LOCKED' : '🔍 DETECTING'}
+                    </span>
                     <span className="text-2xl font-bold text-emerald-400 font-syne leading-none">
                       {currentSign.label}
                     </span>
                     {currentSign.confidence && (
                       <span className="text-[0.65rem] text-emerald-400/70 font-mono mt-1">
                         {(currentSign.confidence * 100).toFixed(0)}%
+                      </span>
+                    )}
+                    {/* NEW — source + buffer info */}
+                    {debugInfo && (
+                      <span className="text-[0.55rem] font-mono mt-0.5" style={{ color: '#4a6a80' }}>
+                        [{debugInfo.source}] buf:{(debugInfo.bufferProgress * 100).toFixed(0)}%
                       </span>
                     )}
                   </div>
