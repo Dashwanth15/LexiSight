@@ -30,11 +30,7 @@ const CONFIDENCE_THRESHOLD_STATIC = 0.75
 const MARGIN_LOW = 0.12
 const MARGIN_HIGH = 0.35
 const REJECTION_RATE_WINDOW = 30
-<<<<<<< HEAD
 const ENTROPY_THRESHOLD = null  // null = auto-calculate as log(nClasses)/2
-=======
-const ENTROPY_THRESHOLD = null  // null = auto-compute from nClasses
->>>>>>> origin/pr/5
 
 const PredictionState = { CONFIDENT: 2, UNCERTAIN: 1, UNKNOWN: 0 }
 
@@ -394,37 +390,6 @@ export function useClassifier() {
 
       const [temporalRes, temporalLabelsRes, calibrationDataRes, staticRes, staticLabelsRes] =
         await Promise.allSettled([
-<<<<<<< HEAD
-          tf.loadLayersModel(TEMPORAL_MODEL_PATH)
-            .then(m => ({ model: m, ok: true }))
-            .catch(err => {
-              console.error('[LexiSight] Failed to load temporal model:', err)
-              return { model: null, ok: false }
-            }),
-          fetch(TEMPORAL_LABEL_MAP).then(r => r.ok ? r.json() : null).catch(() => null),
-          fetch(TEMPORAL_CALIBRATION).then(r => r.ok ? r.json() : null).catch(() => ({ temperature: 1.0 })),
-          tf.loadLayersModel(STATIC_MODEL_PATH)
-            .then(m => ({ model: m, ok: true }))
-            .catch(err => {
-              console.error('[LexiSight] Failed to load static model:', err)
-              return { model: null, ok: false }
-            }),
-          fetch(STATIC_LABEL_MAP).then(r => r.ok ? r.json() : null).catch(err => {
-            console.error('[LexiSight] Failed to load static label map:', err)
-            return null
-          }),
-        ])
-
-      // Promise.allSettled wraps each result in { status, value } — must unwrap
-      const tModel = temporalResult.value?.model ?? null
-      const sModel = staticResult.value?.model ?? null
-      const tLabels = temporalLabels.value ?? null
-      const sLabels = staticLabels.value ?? null
-      const calData = calibrationData.value ?? { temperature: 1.0 }
-
-      modelsRef.current = { temporal: tModel, static: sModel }
-      labelMapsRef.current = { temporal: tLabels, static: sLabels }
-=======
           loadCachedModel(TEMPORAL_MODEL_PATH, 'temporal-model-v4'),
           fetch(TEMPORAL_LABEL_MAP).then(r => r.ok ? r.json() : null).catch(() => null),
           fetch(TEMPORAL_CALIBRATION).then(r => r.ok ? r.json() : null).catch(() => ({ temperature: 1.0 })),
@@ -440,21 +405,11 @@ export function useClassifier() {
 
       modelsRef.current = { temporal: temporalResult.model, static: staticResult.model }
       labelMapsRef.current = { temporal: temporalLabels, static: staticLabels }
->>>>>>> origin/pr/5
       calibrationRef.current = {
-        temporal: calData?.temperature ?? 1.0,
+        temporal: calibrationData?.temperature ?? 1.0,
         static: 1.0,
       }
 
-<<<<<<< HEAD
-      console.log('[LexiSight] Models loaded —',
-        'temporal:', tModel ? 'OK' : 'MISSING',
-        'static:', sModel ? 'OK' : 'MISSING',
-        'labels:', tLabels ? Object.keys(tLabels).length + 'cls' : 'MISSING'
-      )
-
-      if (tModel) {
-=======
       console.log('[LexiSight] Model load results:', {
         temporal: !!temporalResult.model,
         static: !!staticResult.model,
@@ -463,19 +418,14 @@ export function useClassifier() {
       })
 
       if (modelsRef.current.temporal) {
->>>>>>> origin/pr/5
         oosRef.current = new OOSDetector(
-          Object.keys(tLabels || {}).length || 263
+          Object.keys(temporalLabels || {}).length || 263
         )
       }
 
       setProgress(100)
-<<<<<<< HEAD
-      if (!tModel && !sModel) {
-=======
       if (!temporalResult.model && !staticResult.model) {
         console.warn('[LexiSight] No models loaded — falling back to geometric classifier')
->>>>>>> origin/pr/5
         setStatus('geometric')
         return
       }
@@ -581,18 +531,11 @@ export function useClassifier() {
         return r
       }
       return tf.tidy(() => {
-<<<<<<< HEAD
         // Static model expects 126 features (2 hands × 63). Pad second hand with zeros if missing.
         const frame126 = new Float32Array(126)
         frame126.set(landmarks, 0)
         if (landmarks2 && landmarks2.length === 63) frame126.set(landmarks2, 63)
         const input = tf.tensor2d([Array.from(frame126)])
-=======
-        const frame = new Float32Array(126)
-        frame.set(landmarks, 0)
-        if (landmarks2 && landmarks2.length === 63) frame.set(landmarks2, 63)
-        const input = tf.tensor2d([Array.from(frame)])
->>>>>>> origin/pr/5
         const rawLogits = model.predict(input)
         let probs = Array.from(rawLogits.dataSync())
         if (temp !== 1.0) {
