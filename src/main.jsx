@@ -15,6 +15,14 @@ import './styles/globals.css'
 // and we've implemented proper cleanup in all hooks.
 const ENABLE_STRICT_MODE = false
 
+// FIX: unregister any stale service worker in dev to prevent cached responses
+// from intercepting /room/:code routes and causing chrome-error://chromewebdata/
+if (import.meta.env.DEV && 'serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then((registrations) => {
+    registrations.forEach((sw) => sw.unregister())
+  })
+}
+
 // INTEGRATION POINT — Clerk authentication
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
