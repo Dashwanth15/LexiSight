@@ -1,11 +1,12 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useCallback, useRef, Suspense, lazy } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from '../hooks/useTranslation.js'
 import { LESSON_PLAN, getTotalSigns, getTotalXP } from '../data/lessonPlan.js'
 import { useMediaPipe } from '../hooks/useMediaPipe.js'
-import { useClassifier } from '../hooks/useClassifier.js'
+import { useSharedClassifier } from '../contexts/ClassifierContext.jsx' // FIX — shared
 import HandOverlay from '../components/HandOverlay.jsx'
-import HandAvatar from '../components/HandAvatar.jsx'
+
+const AvatarScene = lazy(() => import('../components/avatar/AvatarScene.jsx'))
 
 // ── Progress Storage ─────────────────────────────────────────────────────────
 const STORAGE_KEY = 'lxi_learn_progress'
@@ -141,11 +142,22 @@ function PracticeSign({ sign, chapter, onPass, onSkip, mediapipe, classifier }) 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', height: '100%' }}>
       {/* Target sign display */}
-      <div className="glass-card" style={{ padding: '1.5rem', textAlign: 'center', borderTop: `2px solid ${chapter.color}40`, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.65rem', color: chapter.color, letterSpacing: '0.15em', marginBottom: 12 }}>
-          {t('learn_make_sign')}
+      <div className="glass-card" style={{ padding: '1.2rem', textAlign: 'center', borderTop: `2px solid ${chapter.color}40`, display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+        <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.65rem', color: chapter.color, letterSpacing: '0.15em', marginBottom: 10 }}>
+          MAKE THIS SIGN
         </div>
-        <HandAvatar gesture={sign.word} isActive={true} animSpeed={1} className="h-28 mb-3" />
+        
+        {/* 3D Volumetric Tutor Pedestal */}
+        <div style={{ height: 200, width: '100%', marginBottom: 12, borderRadius: 10, overflow: 'hidden', background: '#02040840', border: '1px solid #1a2535', touchAction: 'none' }}>
+          <Suspense fallback={
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#6b8ba4', fontFamily: 'JetBrains Mono, monospace', fontSize: '0.65rem', letterSpacing: '0.1em' }}>
+              LOADING 3D TUTOR...
+            </div>
+          }>
+            <AvatarScene gesture={sign.word} isActive={true} speed={0.42} />
+          </Suspense>
+        </div>
+
         <div style={{ fontFamily: 'Syne, sans-serif', fontWeight: 900, fontSize: 'clamp(2.5rem,8vw,4rem)', color: chapter.color,
           textShadow: `0 0 40px ${chapter.color}50`, lineHeight: 1, marginBottom: 8 }}>
           {sign.word}
@@ -210,7 +222,7 @@ export default function Learn() {
   const [lessonDone, setLessonDone] = useState(false)
 
   const mediapipe = useMediaPipe()
-  const classifier = useClassifier()
+  const classifier = useSharedClassifier() // FIX — shared
 
   const totalXP = Object.values(progress).filter(v => v > 0).length * 10
 
