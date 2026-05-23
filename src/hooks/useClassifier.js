@@ -8,6 +8,7 @@ import { MotionAnalyzer } from '../utils/motionAnalyzer.js'
 import { OnsetDetector } from '../utils/onsetDetector.js'
 import { PoseStabilityDetector } from '../utils/poseStability.js'
 import { telemetry } from '../utils/observability.js'
+import { recordUncertainEvent } from '../services/passiveCollector.js'
 // Register custom Keras layers for the temporal transformer model
 import '../utils/customLayers.js'
 
@@ -25,6 +26,8 @@ const STATIC_LABEL_MAP = '/model/static_label_map.json'
 const SEQ_LEN = 30
 const BUFFER_SIZE = 30
 const PREDICT_EVERY_N = 4
+const PREVIEW_MIN_FRAMES = 24
+const PREVIEW_CONFIDENCE = 0.45
 const CONF_SMOOTH_WINDOW = 10
 const CONF_SMOOTH_THRESHOLD = 0.6
 const LOCK_FRAMES = 18
@@ -49,6 +52,16 @@ function computeEntropy(probs) {
   const filtered = probs.filter(p => p > 1e-12)
   if (!filtered.length) return 0
   return -filtered.reduce((s, p) => s + p * Math.log(p), 0)
+}
+
+function padSequenceBuffer(buf) {
+  if (buf.length >= BUFFER_SIZE) return buf
+  if (buf.length === 0) return buf
+  const padded = [...buf]
+  while (padded.length < BUFFER_SIZE) {
+    padded.unshift(padded[0])
+  }
+  return padded
 }
 
 function computeMargin(probs) {
@@ -429,7 +442,8 @@ export function useClassifier() {
     }
   }
 
-  const _predictTemporal = useCallback((seqBuffer, labelMap, temp, nClasses) => {
+  const _predictTemporal = useCallback((seqBuffer, labelMap, temp, nClasses, opts = {}) => {
+    const { preview = false, minConf = null, skipSmooth = false } = opts
     if (!modelsRef.current.temporal) return null
     return tf.tidy(() => {
       const tensor = tf.tensor2d(seqBuffer, [BUFFER_SIZE, 126])
@@ -450,58 +464,90 @@ export function useClassifier() {
       const state = classifyState(probs, nClasses)
       const topK = buildTopK(probs, labelMap, 3)
       const topConf = topK[0]?.confidence || 0
+      const margin = computeMargin(probs)
 
-      // Confidence gating: reject low-confidence AND high-entropy predictions
-      // This prevents the smoother from locking in overconfident wrong answers
-      const thresh = settings.confidenceThreshold || CONFIDENCE_THRESHOLD_WORD
-      
+      const thresh =
+        minConf ??
+        (preview ? PREVIEW_CONFIDENCE : settings.confidenceThreshold || CONFIDENCE_THRESHOLD_WORD)
+
       let rejectedByEntropy = false
-      if (telemetry.toggles.entropyGating) {
+      if (!preview && telemetry.toggles.entropyGating) {
         const entropy = computeEntropy(probs)
-        // Theoretical max entropy for 263 classes = log(263) ≈ 5.57 nats.
-        // A well-calibrated known sign is usually < 2.0.
-        const entropyLimit = settings.entropyLimit || 2.5 
-        
+        const entropyLimit = settings.entropyLimit || 2.5
+
         if (entropy > entropyLimit && topConf >= thresh) {
-          telemetry.log('ENTROPY', `Rejected overconfident prediction: ${topK[0]?.label} (Conf: ${topConf.toFixed(2)}, Entropy: ${entropy.toFixed(2)} > ${entropyLimit})`)
+          telemetry.log(
+            'ENTROPY',
+            `Rejected overconfident prediction: ${topK[0]?.label} (Conf: ${topConf.toFixed(2)}, Entropy: ${entropy.toFixed(2)} > ${entropyLimit})`
+          )
           rejectedByEntropy = true
         } else if (telemetry.enabled && topConf >= thresh) {
-          // Log passing predictions to help calibrate the threshold
-          telemetry.log('ENTROPY', `Passed: ${topK[0]?.label} (Conf: ${topConf.toFixed(2)}, Entropy: ${entropy.toFixed(2)})`)
+          telemetry.log(
+            'ENTROPY',
+            `Passed: ${topK[0]?.label} (Conf: ${topConf.toFixed(2)}, Entropy: ${entropy.toFixed(2)})`
+          )
         }
       }
 
       if (topConf < thresh || rejectedByEntropy) {
-        return null
+        recordUncertainEvent({
+          label: topK[0]?.label,
+          confidence: topConf,
+          entropy: computeEntropy(probs),
+          margin,
+          rejectedByEntropy,
+          mode,
+          preview,
+        })
+        return preview && topK[0]
+          ? {
+              label: topK[0].label,
+              confidence: topConf,
+              topK,
+              margin,
+              state: PredictionState.UNCERTAIN,
+              rejected: true,
+              isPreview: true,
+              probs,
+            }
+          : null
       }
 
       const rawResult = {
         label: topK[0]?.label || 'UNKNOWN',
         confidence: topConf,
         topK,
+        margin,
         state,
         rejected: state === PredictionState.UNKNOWN,
+        isPreview: preview,
         probs,
       }
 
-      const oosSignal = oosRef.current?.isOOS(probs, nClasses) ?? false
+      const oosSignal = !preview && (oosRef.current?.isOOS(probs, nClasses) ?? false)
       if (oosSignal) {
         return { ...rawResult, state: PredictionState.UNKNOWN, rejected: true, oos: true }
       }
 
       lastTemporalResultRef.current = rawResult
+
+      if (skipSmooth || preview) {
+        setPredictionState(state)
+        return rawResult
+      }
+
       const smoothed = smootherRef.current.add(rawResult)
 
       if (smoothed) {
         const smoothState = classifyState([smoothed.confidence, 1 - smoothed.confidence], nClasses)
         setPredictionState(smoothState)
-        return smoothed
+        return { ...smoothed, topK: smoothed.topK || topK, margin }
       }
 
       setPredictionState(state)
       return rawResult
     })
-  }, [])
+  }, [settings.confidenceThreshold, settings.entropyLimit])
   // ROOT-RELATIVE NORMALIZATION (Spatial Invariance)
   // Subtracts the Wrist (landmark 0) coordinates from all other landmarks
   const normalizeRelative = (flatLandmarks) => {
@@ -692,13 +738,37 @@ export function useClassifier() {
       bufferRef.current.push(Array.from(frame))
       if (bufferRef.current.length > BUFFER_SIZE) bufferRef.current.shift()
 
-      if (bufferRef.current.length < BUFFER_SIZE) return null
+      const bufferFill = bufferRef.current.length / BUFFER_SIZE
+
+      if (bufferRef.current.length < PREVIEW_MIN_FRAMES) {
+        return null
+      }
+
+      if (bufferRef.current.length < BUFFER_SIZE) {
+        const preview = _predictTemporal(padSequenceBuffer(bufferRef.current), labelMap, temp, nClasses, {
+          preview: true,
+          skipSmooth: true,
+        })
+        if (preview) {
+          const isWord = preview.label.length > 1 || preview.label === 'I'
+          if (isWord) {
+            metricsRef.current.record(performance.now() - t0, preview.confidence, bufferFill, false, 'preview')
+            return { ...preview, bufferFill, isPreview: true }
+          }
+        }
+        return null
+      }
 
       temporalFrameCountRef.current++
       if (temporalFrameCountRef.current % PREDICT_EVERY_N !== 0 && lastTemporalResultRef.current) {
+        const live = {
+          ...lastTemporalResultRef.current,
+          bufferFill: 1,
+          isPreview: false,
+        }
         const s = smootherRef.current.add(lastTemporalResultRef.current)
-        metricsRef.current.record(performance.now() - t0, s?.confidence || 0, s?.stability || 0, !s, 'smoothing')
-        return s
+        metricsRef.current.record(performance.now() - t0, s?.confidence || live.confidence, s?.stability || 0, !s, 'smoothing')
+        return s ? { ...s, topK: s.topK || live.topK, bufferFill: 1 } : live
       }
 
       const rawResult = _predictTemporal(bufferRef.current, labelMap, temp, nClasses)
@@ -721,6 +791,9 @@ export function useClassifier() {
         !rawResult || rawResult.rejected,
         !rawResult ? 'null_result' : null
       )
+      if (rawResult) {
+        return { ...rawResult, bufferFill: 1, isPreview: false }
+      }
       return rawResult
     }
 

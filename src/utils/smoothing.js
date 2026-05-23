@@ -24,15 +24,13 @@ export class PredictionSmoother {
 
     this.framesSinceLast = 0
 
-    // Release lock early if we see a different strong gesture
+    // Ignore live previews — only full-buffer predictions can confirm a word
+    if (prediction.isPreview) {
+      return this.lastConfirmed
+    }
+
+    // Hold confirmed label during lock (no early release on high-confidence flicker)
     if (this.lockFrames > 0) {
-      if (
-        prediction.confidence > 0.9 &&
-        this.lastConfirmed &&
-        prediction.label !== this.lastConfirmed.label
-      ) {
-        this.lockFrames = Math.min(this.lockFrames, 5)
-      }
       this.lockFrames--
       return this.lastConfirmed
     }
@@ -57,10 +55,14 @@ export class PredictionSmoother {
     const avgConf = winnerScore / this.windowSize
 
     if (avgConf > this.threshold) {
-      const newConfirmed = { label: winnerLabel, confidence: avgConf }
+      const newConfirmed = {
+        label: winnerLabel,
+        confidence: avgConf,
+        topK: prediction.topK || this.lastConfirmed?.topK,
+      }
       if (!this.lastConfirmed || winnerLabel !== this.lastConfirmed.label) {
         this.lastConfirmed = newConfirmed
-        this.lockFrames = 20 // ~0.67s at 30fps
+        this.lockFrames = 45 // ~1.5s at 30fps — reduces rapid duplicate words
         return this.lastConfirmed
       }
     }

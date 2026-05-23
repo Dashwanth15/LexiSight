@@ -11,8 +11,9 @@ New Datasets/
 # ── Node modules (regenerate with npm install) ──
 node_modules/
 
-# ── Training outputs (Previously ignored) ──
-# training_logs/
+# ── Training outputs ──
+training_logs/*.log
+training_logs/*.json
 # ml/eval/*.png
 
 # ── Python ──
@@ -24,6 +25,11 @@ venv/
 # ── Vite / Build ──
 dist/
 .vite/
+
+# ── Dictionary preview videos (copied from datasets, too large) ──
+public/library/
+public/library/include/
+public/library/cislr/
 
 # ── OS ──
 .DS_Store

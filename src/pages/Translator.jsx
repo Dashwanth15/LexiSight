@@ -11,7 +11,7 @@ import { PredictionSmoother, SentenceBuilder } from '../utils/smoothing.js'
 import { DEMO_SEQUENCE } from '../utils/gestureMap.js'
 import HandOverlay from '../components/HandOverlay.jsx'
 import ConfidenceWaveform from '../components/ConfidenceWaveform.jsx'
-import ConfidenceTopK from '../components/ConfidenceTopK.jsx'
+import LiveSignPanel from '../components/LiveSignPanel.jsx'
 // REMOVED: HandAvatar — replaced Speech→Sign with Speech→Word
 import VoiceSelector from '../components/VoiceSelector.jsx'
 import PhotoTranslator from '../components/PhotoTranslator.jsx'
@@ -19,7 +19,7 @@ import VideoTranslator from '../components/VideoTranslator.jsx'
 import { toast } from '../components/ToastNotif.jsx'
 import { PHRASE_PACKS } from '../data/phrasePacks.js'
 
-const smoother = new PredictionSmoother(10, 0.75)
+const smoother = new PredictionSmoother(14, 0.82)
 const sentenceBuilder = new SentenceBuilder(2000)
 
 // ─── Camera Panel — MUST be defined OUTSIDE Translator ──────────────────────
@@ -297,10 +297,12 @@ export default function Translator() {
   const [showCameraMenu, setShowCameraMenu] = useState(false)
 
   const [currentPrediction, setCurrentPrediction] = useState(null)
+  const [livePrediction, setLivePrediction] = useState(null)
   const [detectionLog, setDetectionLog] = useState([])
   const [autoSpeak, setAutoSpeak] = useState(false)
   const [sentence, setSentence] = useState('')
   const lastAddedRef = useRef(null)
+  const lastAddedTimeRef = useRef(0)
 
   // REMOVED: animSpeed, avatarGesture, wordTimerRef — no longer needed for Speech→Word
 
@@ -325,9 +327,9 @@ export default function Translator() {
       // Notify classifier of no hand to reset sequence buffers
       classifier.predict(null, null, null, null)
 
-      // Graceful decay of prediction smoother when hand leaves the camera frame
       const smoothed = smoother.add(null)
       setCurrentPrediction(smoothed)
+      setLivePrediction(null)
       return
     }
     noHandRef.current = 0
@@ -343,14 +345,22 @@ export default function Translator() {
       mediapipe.landmarks2
     )
 
+    setLivePrediction(raw)
+
     const smoothed = smoother.add(raw)
-    
-    // Update live fluctuating prediction HUD on EVERY single frame
     setCurrentPrediction(smoothed)
 
-    // Sentence building and speech feedback only triggers on a NEW distinct word detection
-    if (smoothed && smoothed.label !== lastAddedRef.current) {
+    // Sentence / TTS only on confirmed smoothed word (not live preview)
+    const cooldownMs = (settings.predictionCooldown ?? 1.2) * 1000
+    const now = Date.now()
+    if (
+      smoothed &&
+      !smoothed.isPreview &&
+      smoothed.label !== lastAddedRef.current &&
+      now - lastAddedTimeRef.current >= cooldownMs
+    ) {
       lastAddedRef.current = smoothed.label
+      lastAddedTimeRef.current = now
       const now = new Date().toLocaleTimeString('en-IN', { hour12: false })
       setDetectionLog(prev => [{ label: smoothed.label, confidence: smoothed.confidence, time: now }, ...prev.slice(0, 29)])
       setSentence(sentenceBuilder.addWord(smoothed.label))
@@ -381,6 +391,7 @@ export default function Translator() {
     classifier.status,
     autoSpeak,
     synth,
+    settings.predictionCooldown,
   ])
 
   // ── Photo/Video mode detection handling ─────────────────────
@@ -411,6 +422,7 @@ export default function Translator() {
   useEffect(() => {
     lastAddedRef.current = null
     setCurrentPrediction(null)
+    setLivePrediction(null)
     setDetectionLog([])
     setSentence('')
     sentenceBuilder.clear()
@@ -486,7 +498,7 @@ export default function Translator() {
     rawLandmarks: mediapipe.rawLandmarks,
     rawLandmarks2: mediapipe.rawLandmarks2,
     handDetected: mediapipe.handDetected,
-    confidence: currentPrediction?.confidence || 0,
+    confidence: livePrediction?.confidence || currentPrediction?.confidence || 0,
     isReady: mediapipe.isReady,
     cameraPermission: mediapipe.cameraPermission,
     showHandPrompt,
@@ -496,7 +508,7 @@ export default function Translator() {
     onEnable: handleStartCamera,
     showCameraMenu,
     setShowCameraMenu,
-    predictionLabel: currentPrediction?.label || null,
+    predictionLabel: livePrediction?.label || currentPrediction?.label || null,
   }
 
   // ── Status bar ───────────────────────────────────────────────
@@ -536,7 +548,7 @@ export default function Translator() {
             appearance: 'none',
           }}
         >
-          <option value="word" style={{ background: 'var(--surface)' }}>Word Mode (v4 Temporal) [Ver1]</option>
+          <option value="word" style={{ background: 'var(--surface)' }}>Word Mode (Ver1 live · verZ training)</option>
           <option value="letter" style={{ background: 'var(--surface)' }}>Letter Mode (v2 MLP)</option>
           <option value="number" style={{ background: 'var(--surface)' }}>Number Mode (Geometric)</option>
         </select>
@@ -609,28 +621,14 @@ export default function Translator() {
   // ══ Shared UI blocks ════════════════════════════════════════
 
   const PredictionBlock = (
-    <div className="flex items-end gap-3">
-      <div className="flex-1 min-w-0">
-        <div className="hud-label mb-1">{t('detected_gesture')}</div>
-        <div
-          className="font-dm font-black leading-none"
-          style={{
-            fontSize: 'clamp(2.8rem, 5vw, 5rem)',
-            color: currentPrediction ? '#00ff88' : '#2a3545',
-            textShadow: currentPrediction ? '0 0 30px rgba(0,255,136,0.4)' : 'none',
-            minHeight: 64,
-            transition: 'color 0.2s, text-shadow 0.2s',
-          }}
-        >
-          {currentPrediction?.label || '—'}
-        </div>
-      </div>
-      {currentPrediction?.topK && (
-        <div style={{ width: 176, flexShrink: 0 }}>
-          <ConfidenceTopK topK={currentPrediction.topK} />
-        </div>
-      )}
-    </div>
+    <LiveSignPanel
+      live={livePrediction}
+      confirmed={currentPrediction}
+      bufferProgress={livePrediction?.bufferFill ?? 0}
+      handDetected={mediapipe.handDetected}
+      mode={classifier.mode}
+      t={t}
+    />
   )
 
   const SentenceBlock = sentence ? (

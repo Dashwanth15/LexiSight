@@ -59,7 +59,7 @@ const DEFAULTS = {
   grammarCorrection: true,
   autoPunctuation: true,
   duplicateFilter: true,
-  predictionCooldown: 0.5,
+  predictionCooldown: 1.2,
 
   // ─── History ───
   translationHistory: true,
