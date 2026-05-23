@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect } from 'react'
+import { lazy, Suspense, useEffect, Component } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar.jsx'
 import ToastNotif from './components/ToastNotif.jsx'
@@ -40,6 +40,52 @@ function LoadingScreen() {
   )
 }
 
+// FIX — ErrorBoundary prevents lazy-load/render crashes from producing
+// a chrome-error://chromewebdata/ blank screen
+class ErrorBoundary extends Component {
+  constructor(props) {
+    super(props)
+    this.state = { hasError: false, message: '' }
+  }
+  static getDerivedStateFromError(err) {
+    return { hasError: true, message: err?.message || 'Unknown error' }
+  }
+  componentDidCatch(err, info) {
+    console.error('[LexiSight] Render error:', err, info)
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{
+          minHeight: '100vh', background: '#020408',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          <div style={{
+            padding: 32, maxWidth: 420, textAlign: 'center',
+            border: '1px solid rgba(255,51,102,0.3)',
+            borderRadius: 12, background: 'rgba(255,51,102,0.06)',
+          }}>
+            <div style={{ fontSize: 40, marginBottom: 12 }}>⚠️</div>
+            <h2 style={{ fontFamily: 'Syne, sans-serif', color: '#e8f4fd', marginBottom: 8 }}>Something went wrong</h2>
+            <p style={{ color: '#6b8ba4', fontSize: '0.85rem', marginBottom: 20 }}>{this.state.message}</p>
+            <button
+              onClick={() => { this.setState({ hasError: false }); window.location.href = '/' }}
+              style={{
+                padding: '8px 20px', background: 'rgba(0,212,255,0.1)',
+                border: '1px solid rgba(0,212,255,0.3)', borderRadius: 8,
+                color: '#00d4ff', cursor: 'pointer', fontFamily: 'DM Sans, sans-serif',
+              }}
+            >
+              Return home
+            </button>
+          </div>
+        </div>
+      )
+    }
+    return this.props.children
+  }
+}
+
 export default function App() {
   useEffect(() => {
     if (!sessionStorage.getItem('lxi_session_counted')) {
@@ -57,6 +103,7 @@ export default function App() {
         <Navbar />
         <OnboardingModal />
         <PWAInstallBanner />
+        <ErrorBoundary>
         <Suspense fallback={<LoadingScreen />}>
           <Routes>
             <Route path="/" element={<Landing />} />
@@ -67,16 +114,14 @@ export default function App() {
             <Route path="/impact" element={<Impact />} />
             <Route path="/dictionary" element={<Dictionary />} />
             <Route path="/community" element={<Community />} />
-<<<<<<< HEAD
             {/* NEW CODE — 3D Avatar route */}
             <Route path="/avatar3d" element={<Avatar3D />} />
-=======
             {/* NEW CODE — Call room route */}
             <Route path="/room/:roomCode?" element={<CallRoom />} />
->>>>>>> 6233111f5041b0c3b15dd59e4772a1c57cfd3704
             <Route path="*" element={<Landing />} />
           </Routes>
         </Suspense>
+        </ErrorBoundary>
         <ToastNotif />
       </ClassifierProvider>
     </BrowserRouter>
