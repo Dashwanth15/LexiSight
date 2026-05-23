@@ -23,44 +23,51 @@ if (typeof document !== 'undefined' && !document.getElementById(STYLE_ID)) {
       left: 50%;
       transform: translateX(-50%);
       z-index: 20;
-      max-width: 90%;
-      width: max-content;
+      /* TASK 6 FIX: use % width so long sentences wrap instead of overflowing */
+      width: 86%;
+      max-width: 640px;
       text-align: center;
       pointer-events: none;
       animation: subtitle-fade-in 0.18s ease-out both;
       /* SUBTITLE STABILITY: smooth box resize when text grows/shrinks */
-      transition: max-width 0.2s ease;
+      transition: width 0.2s ease;
     }
     .subtitle-inner {
-      display: inline-block;
-      padding: 7px 16px;
-      background: rgba(0,0,0,0.76);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border-radius: 9px;
-      border: 1px solid rgba(255,255,255,0.07);
-      box-shadow: 0 2px 20px rgba(0,0,0,0.55);
-      max-width: 100%;
+      /* TASK 6 FIX: block so it fills width and wraps correctly */
+      display: block;
+      padding: 8px 18px;
+      background: rgba(4,8,14,0.82);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 2px 24px rgba(0,0,0,0.6);
     }
     .subtitle-final {
       font-family: 'DM Sans', sans-serif;
-      font-size: clamp(0.8rem, 2vw, 0.96rem);
-      color: #ffffff;
+      font-size: clamp(0.82rem, 1.8vw, 1rem);
+      color: #f0f6ff;
       font-weight: 400;
-      line-height: 1.5;
-      letter-spacing: 0.01em;
+      line-height: 1.6;
+      letter-spacing: 0.012em;
+      /* TASK 6 FIX: ensure words wrap naturally across lines */
+      white-space: pre-wrap;
       word-break: break-word;
+      overflow-wrap: break-word;
     }
     .subtitle-interim {
       font-family: 'DM Sans', sans-serif;
-      font-size: clamp(0.8rem, 2vw, 0.96rem);
-      color: rgba(255,255,255,0.5);
+      font-size: clamp(0.82rem, 1.8vw, 1rem);
+      color: rgba(200,223,240,0.55);
       font-weight: 400;
-      line-height: 1.5;
-      letter-spacing: 0.01em;
+      line-height: 1.6;
+      letter-spacing: 0.012em;
       font-style: italic;
+      white-space: pre-wrap;
+      word-break: break-word;
+      overflow-wrap: break-word;
       /* SUBTITLE STABILITY: smooth interim text changes */
-      transition: opacity 0.12s ease;
+      transition: opacity 0.15s ease;
     }
     .subtitle-dot {
       display: inline-block;

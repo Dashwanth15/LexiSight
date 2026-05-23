@@ -30,6 +30,7 @@ const Avatar3D = lazyWithDelay(() => import('./pages/Avatar3D.jsx'))
 // NEW CODE — WebRTC calling room (isolated from AI pipelines)
 const CallRoom = lazyWithDelay(() => import('./pages/CallRoom.jsx'))
 
+
 // FIX — ErrorBoundary prevents lazy-load/render crashes from producing
 // a chrome-error://chromewebdata/ blank screen
 class ErrorBoundary extends Component {

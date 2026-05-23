@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useUser } from '@clerk/clerk-react'
 import { useMutation, useQuery } from 'convex/react'
@@ -199,9 +199,22 @@ export default function CallRoom() {
   const handleToggleCC = useCallback(() => setCCEnabled(v => !v), [])
 
   // SUBTITLES: lifted hook — enabled as long as user is in-room with CC on.
-  // NOT gated on localStream: mic is independent of camera/WebRTC stream.
-  const { stableText, interimText } = useSpeechCaptions(isInRoom && ccEnabled)
-  const subtitleDisplay = (stableText + (interimText && !stableText.endsWith(interimText.trim()) ? ' ' + interimText : '')).trim()
+  const {
+    stableText,
+    interimText,
+    isListening,
+    debugEnabled,
+    debugLogs,
+    silenceMs,
+    restartCount,
+    speechRate,
+  } = useSpeechCaptions(isInRoom && ccEnabled)
+
+  // PERFORMANCE FIX: memoize subtitleDisplay — only recomputes on text change
+  const subtitleDisplay = useMemo(() => {
+    const interim = interimText && !stableText.endsWith(interimText.trim()) ? ' ' + interimText : ''
+    return (stableText + interim).trim()
+  }, [stableText, interimText])
 
   // ─── Loading ──────────────────────────────────────────────
   if (!isLoaded) {
@@ -399,6 +412,73 @@ export default function CallRoom() {
               ))}
             </div>
 
+            {/* DEBUG MODE PANEL */}
+            {debugEnabled && (
+              <div style={{
+                position: 'absolute', top: 14, right: 14, zIndex: 30,
+                width: 280, maxWidth: '90%',
+                background: 'rgba(4, 8, 16, 0.94)', backdropFilter: 'blur(16px)',
+                borderRadius: 12, border: '1px solid rgba(0, 212, 255, 0.25)',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.8), 0 0 10px rgba(0, 212, 255, 0.1)',
+                padding: 14, color: '#e8f4fd', display: 'flex', flexDirection: 'column', gap: 8,
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.08)', paddingBottom: 6 }}>
+                  <span style={{ fontFamily: 'Syne, sans-serif', fontSize: '0.7rem', fontWeight: 700, color: '#00d4ff', letterSpacing: '0.05em' }}>CC DEBUG PANEL</span>
+                  <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.55rem', opacity: 0.5 }}>Active</span>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 4, fontFamily: 'JetBrains Mono, monospace', fontSize: '0.62rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <span style={{ opacity: 0.5 }}>Silence:</span>
+                    <span style={{ color: silenceMs > 1500 ? '#ff3366' : '#00ff88' }}>{silenceMs}ms</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <span style={{ opacity: 0.5 }}>Listening:</span>
+                    <span style={{ color: isListening ? '#00ff88' : '#ffaa00' }}>{isListening ? 'ACTIVE' : 'IDLE'}</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <span style={{ opacity: 0.5 }}>Restarts:</span>
+                    <span style={{ color: restartCount > 10 ? '#ffaa00' : '#a78bfa' }}>{restartCount}</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <span style={{ opacity: 0.5 }}>CC:</span>
+                    <span style={{ color: ccEnabled ? '#00ff88' : '#ff3366' }}>{ccEnabled ? 'ON' : 'OFF'}</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <span style={{ opacity: 0.5 }}>WPS:</span>
+                    <span style={{ color: speechRate > 3 ? '#00d4ff' : speechRate >= 1 ? '#00ff88' : '#ffaa00' }}>{speechRate} w/s</span>
+                  </div>
+                </div>
+                <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column', gap: 4 }}>
+                  <span style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '0.6rem', color: 'rgba(255,255,255,0.3)', fontWeight: 600 }}>EVENT LOG</span>
+                  <div style={{
+                    flex: 1, maxHeight: 110, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 4,
+                    background: 'rgba(0,0,0,0.3)', padding: 6, borderRadius: 6, border: '1px solid rgba(255,255,255,0.04)'
+                  }}>
+                    {debugLogs.length === 0 ? (
+                      <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.55rem', opacity: 0.3 }}>No events logged yet.</span>
+                    ) : (
+                      debugLogs.map(log => (
+                        <div key={log.id} style={{ display: 'flex', flexDirection: 'column', gap: 1, borderBottom: '1px dashed rgba(255,255,255,0.04)', paddingBottom: 3 }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'JetBrains Mono, monospace', fontSize: '0.52rem' }}>
+                            <span style={{
+                              color: log.type.includes('fail') || log.type.includes('error') ? '#ff3366' :
+                                     log.type.includes('final') ? '#00ff88' :
+                                     log.type.includes('silence') ? '#a78bfa' : '#00d4ff'
+                            }}>[{log.type}]</span>
+                            <span style={{ opacity: 0.4 }}>{log.timestamp}</span>
+                          </div>
+                          <span style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '0.62rem', color: '#c8dff0' }}>{log.text}</span>
+                          {log.confidence !== null && (
+                            <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.48rem', opacity: 0.5 }}>Conf: {log.confidence.toFixed(2)}</span>
+                          )}
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* SUBTITLES — overlay on video, centered above name chip */}
             {ccEnabled && subtitleDisplay && (
               <div style={{
@@ -412,26 +492,6 @@ export default function CallRoom() {
                 <span style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '0.9rem', color: '#e8f4fd', lineHeight: 1.55, wordSpacing: '0.05em', letterSpacing: '0.01em' }}>
                   {subtitleDisplay}
                 </span>
-              </div>
-            )}
-          </div>
-
-          {/* SUBTITLES — compact CC status strip below video */}
-          <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center', gap: 10, padding: '8px 14px', background: 'rgba(6,10,18,0.75)', backdropFilter: 'blur(14px)', borderRadius: 10, border: '1px solid rgba(255,255,255,0.05)', minHeight: 44 }}>
-            <div style={{ width: 28, height: 28, borderRadius: 7, background: ccEnabled ? 'rgba(139,92,246,0.14)' : 'rgba(255,255,255,0.04)', border: `1px solid ${ccEnabled ? 'rgba(139,92,246,0.3)' : 'rgba(255,255,255,0.07)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, transition: 'all 0.25s' }}>
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={ccEnabled ? '#a78bfa' : 'rgba(255,255,255,0.22)'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="2" y="5" width="20" height="14" rx="3" />
-                <path d="M7 12a2 2 0 1 0 2-2" /><path d="M14 12a2 2 0 1 0 2-2" />
-              </svg>
-            </div>
-            <span style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '0.78rem', color: ccEnabled ? (subtitleDisplay ? '#c8dff0' : 'rgba(255,255,255,0.38)') : 'rgba(255,255,255,0.22)', flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-              {!ccEnabled ? 'Captions off — toggle CC to enable' : subtitleDisplay ? subtitleDisplay : 'Listening for speech…'}
-            </span>
-            {ccEnabled && !subtitleDisplay && (
-              <div style={{ display: 'flex', gap: 3, alignItems: 'flex-end', flexShrink: 0 }}>
-                {[4,6,9,7,5].map((h, i) => (
-                  <div key={i} style={{ width: 3, height: h, background: 'rgba(0,212,255,0.4)', borderRadius: 1.5, animation: `bounce-y 1.3s ease-in-out ${i * 0.13}s infinite` }} />
-                ))}
               </div>
             )}
           </div>
