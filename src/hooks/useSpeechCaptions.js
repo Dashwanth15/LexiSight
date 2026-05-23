@@ -46,17 +46,44 @@ const MIC_CONSTRAINTS = {
 function dedupeWords(text) {
   return text
     .trim()
-    .replace(/\b(\w+)(\s+\1){2,}/gi, '$1') // 3+ repeats → 1
+    .replace(/\b(\w+)(\s+\1){1,}/gi, '$1') // TRANSCRIPT STABILIZATION: collapse duplicate runs (2+ repeats → 1)
     .replace(/\s{2,}/g, ' ')
 }
 
-// SUBTITLE STABILITY: basic punctuation / capitalisation cleanup
+// TRANSCRIPT STABILIZATION: clean transcript and remove filler words / partials
 function cleanTranscript(text) {
   if (!text) return ''
   let t = text.trim()
+  // Strip out stutter/filler words
+  t = t.replace(/\b(um|uh|hmm|ah|err|uhh|mmm)\b/gi, '')
+  // Strip out partial word artifacts like "t-", "d-"
+  t = t.replace(/\b[a-zA-Z]-+\b/g, '')
+  // Replace multiple spaces
+  t = t.replace(/\s+/g, ' ')
+  t = t.trim()
+  if (!t) return ''
+  // Capitalize first letter
   t = t.charAt(0).toUpperCase() + t.slice(1)
-  t = t.replace(/\s+(um|uh|hmm)\s*$/i, '')
   return t
+}
+
+// TRANSCRIPT STABILIZATION: merge overlapping transcripts (e.g. from restarts or corrections)
+function mergeTranscripts(oldText, newText) {
+  if (!oldText) return newText
+  if (!newText) return oldText
+  
+  const oldWords = oldText.trim().split(/\s+/)
+  const newWords = newText.trim().split(/\s+/)
+  
+  const maxOverlap = Math.min(oldWords.length, newWords.length)
+  for (let len = maxOverlap; len > 0; len--) {
+    const oldSlice = oldWords.slice(-len).join(' ').toLowerCase()
+    const newSlice = newWords.slice(0, len).join(' ').toLowerCase()
+    if (oldSlice === newSlice) {
+      return [...oldWords, ...newWords.slice(len)].join(' ')
+    }
+  }
+  return (oldText.trim() + ' ' + newText.trim()).trim()
 }
 
 // SUBTITLE STABILITY: similarity guard — returns true only when strings are >85% similar
@@ -64,7 +91,6 @@ function cleanTranscript(text) {
 function isSimilarEnough(a, b) {
   if (a === b) return true
   if (!a || !b) return false
-  // If either string extends the other (word accumulation), always treat as different
   if (b.startsWith(a) || a.startsWith(b)) return false
   const longer = a.length > b.length ? a : b
   const shorter = a.length > b.length ? b : a
@@ -91,6 +117,53 @@ export default function useSpeechCaptions(enabled = true) {
   const [interimText, setInterimText] = useState('')
   const [isListening, setIsListening] = useState(false)
   const [error, setError]             = useState(null)
+
+  // DEBUG MODE
+  const [debugEnabled, setDebugEnabled] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('lxi_subtitle_debug') === 'true'
+    }
+    return false
+  })
+  const [debugLogs, setDebugLogs] = useState([])
+  const [silenceMs, setSilenceMs] = useState(0)
+  const lastSpeechTimeRef = useRef(Date.now())
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'd') {
+        e.preventDefault()
+        setDebugEnabled(prev => {
+          const next = !prev
+          localStorage.setItem('lxi_subtitle_debug', String(next))
+          return next
+        })
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
+
+  const addDebugLog = useCallback((type, text, confidence = null) => {
+    setDebugLogs(prev => {
+      const log = {
+        id: Math.random().toString(36).substr(2, 9),
+        timestamp: new Date().toLocaleTimeString(),
+        type,
+        text,
+        confidence,
+      }
+      return [log, ...prev].slice(0, 8)
+    })
+  }, [])
+
+  useEffect(() => {
+    if (!debugEnabled) return
+    const interval = setInterval(() => {
+      setSilenceMs(Math.max(0, Date.now() - lastSpeechTimeRef.current))
+    }, 100)
+    return () => clearInterval(interval)
+  }, [debugEnabled])
 
   const recognitionRef    = useRef(null)
   const shouldRunRef      = useRef(enabled)
@@ -193,10 +266,12 @@ export default function useSpeechCaptions(enabled = true) {
       recognition.onstart = () => {
         setIsListening(true)
         setError(null)
+        addDebugLog('session-started', `Language: ${recognition.lang}`, null)
       }
 
       // SUBTITLE STABILITY: core result handler
       recognition.onresult = (event) => {
+        lastSpeechTimeRef.current = Date.now()
         let newFinal   = ''
         let newInterim = ''
 
@@ -209,11 +284,15 @@ export default function useSpeechCaptions(enabled = true) {
             for (let a = 1; a < result.length; a++) {
               if ((result[a].confidence || 0) > (bestAlt.confidence || 0)) bestAlt = result[a]
             }
-            if ((bestAlt.confidence || 0) < CONFIDENCE_THRESHOLD) continue
+            if ((bestAlt.confidence || 0) < CONFIDENCE_THRESHOLD) {
+              addDebugLog('low-conf-rejected', bestAlt.transcript, bestAlt.confidence)
+              continue
+            }
             const cleaned = cleanTranscript(dedupeWords(bestAlt.transcript))
             if (!cleaned) continue
             if (cleaned === lastFinalRef.current.trim()) continue
             newFinal += cleaned + ' '
+            addDebugLog('final-detected', cleaned, bestAlt.confidence)
           } else {
             const interimBest = result[result.length - 1] || result[0]
             newInterim += interimBest.transcript
@@ -239,7 +318,7 @@ export default function useSpeechCaptions(enabled = true) {
             lastFinalRef.current = toCommit.trim()
 
             setFinalText(prev => {
-              const combined = (prev + ' ' + toCommit).trim()
+              const combined = mergeTranscripts(prev, toCommit)
               const next = combined.length > FINAL_BUFFER_MAX
                 ? combined.slice(-FINAL_BUFFER_MAX)
                 : combined
@@ -250,7 +329,7 @@ export default function useSpeechCaptions(enabled = true) {
 
             // SUBTITLE STABILITY: promote to stable (locked) sentence
             setStableText(prev => {
-              const combined = (prev + ' ' + toCommit).trim()
+              const combined = mergeTranscripts(prev, toCommit)
               return combined.length > FINAL_BUFFER_MAX ? combined.slice(-FINAL_BUFFER_MAX) : combined
             })
 
@@ -269,21 +348,22 @@ export default function useSpeechCaptions(enabled = true) {
 
         // ── INTERIM RESULT ───────────────────────────────────────────────────────
         if (newInterim) {
-          // SUBTITLE STABILITY: silence-based sentence lock
-          // If the user pauses for SILENCE_LOCK_MS while we have interim text,
-          // promote it to stable so it stops flickering during the pause.
+          // PAUSE HANDLING: silence-based sentence lock
           silenceLockTimer.current = setTimeout(() => {
             const currentInterim = lastInterimRef.current
             if (!currentInterim) return
             const locked = cleanTranscript(dedupeWords(currentInterim))
             if (!locked) return
+            
+            addDebugLog('silence-lock', locked, null)
+
             // Promote interim → stable (frozen display), clear live interim
             setStableText(prev => {
-              const combined = (prev + ' ' + locked).trim()
+              const combined = mergeTranscripts(prev, locked)
               return combined.length > FINAL_BUFFER_MAX ? combined.slice(-FINAL_BUFFER_MAX) : combined
             })
             setFinalText(prev => {
-              const combined = (prev + ' ' + locked).trim()
+              const combined = mergeTranscripts(prev, locked)
               return combined.length > FINAL_BUFFER_MAX ? combined.slice(-FINAL_BUFFER_MAX) : combined
             })
             lastFinalRef.current = locked
@@ -304,6 +384,7 @@ export default function useSpeechCaptions(enabled = true) {
             clearTimeout(interimDebounce.current)
             interimDebounce.current = setTimeout(() => {
               setInterimText(dedupeWords(newInterim))
+              addDebugLog('interim-detected', dedupeWords(newInterim), null)
             }, INTERIM_DEBOUNCE_MS)
           }
         }
@@ -311,6 +392,7 @@ export default function useSpeechCaptions(enabled = true) {
 
       recognition.onerror = (event) => {
         if (event.error === 'no-speech' || event.error === 'aborted') return
+        addDebugLog('error', event.error, null)
 
         if (event.error === 'not-allowed') {
           setError('Microphone permission denied. Enable mic access to use captions.')
@@ -329,14 +411,17 @@ export default function useSpeechCaptions(enabled = true) {
 
       recognition.onend = () => {
         setIsListening(false)
-        // SUBTITLE STABILITY: clear stale interim on session end
-        clearTimeout(interimDebounce.current)
-        clearTimeout(silenceLockTimer.current)
-        clearTimeout(commitTimer.current)
-        setInterimText('')
-        lastInterimRef.current = ''
+        addDebugLog('session-ended', `Restart count: ${restartCountRef.current}`, null)
 
-        if (!shouldRunRef.current) return
+        if (!shouldRunRef.current) {
+          // PERFORMANCE FIX: clear state ONLY on manual stop, not routine restarts
+          clearTimeout(interimDebounce.current)
+          clearTimeout(silenceLockTimer.current)
+          clearTimeout(commitTimer.current)
+          setInterimText('')
+          lastInterimRef.current = ''
+          return
+        }
 
         // SUBTITLE STABILITY: controlled backoff — resets after 5 consecutive ends
         restartCountRef.current += 1
@@ -352,6 +437,7 @@ export default function useSpeechCaptions(enabled = true) {
         recognition.start()
       } catch (err) {
         console.error('[useSpeechCaptions] start failed:', err)
+        addDebugLog('start-fail', err.message, null)
         // SUBTITLE STABILITY: retry after brief pause on start failure
         restartTimerRef.current = setTimeout(launch, 800)
       }
@@ -376,5 +462,17 @@ export default function useSpeechCaptions(enabled = true) {
     else start()
   }, [start, stop])
 
-  return { stableText, finalText, interimText, isListening, isSupported, error, toggle }
+  return {
+    stableText,
+    finalText,
+    interimText,
+    isListening,
+    isSupported,
+    error,
+    toggle,
+    // DEBUG MODE
+    debugEnabled,
+    debugLogs,
+    silenceMs,
+  }
 }
