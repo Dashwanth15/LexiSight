@@ -33,34 +33,14 @@ export default defineSchema({
     .index("by_roomId", ["roomId"])
     .index("by_roomId_type", ["roomId", "type"]),
 
-  // User feedback on letter / word / number predictions (Translator ✓/✗)
-  feedbackEvents: defineTable({
-    mode: v.union(v.literal("letter"), v.literal("word"), v.literal("number")),
-    predicted: v.string(),
-    isCorrect: v.boolean(),
-    correctLabel: v.union(v.string(), v.null()),
-    confidence: v.union(v.number(), v.null()),
-    topK: v.array(
-      v.object({
-        label: v.string(),
-        confidence: v.number(),
-      }),
-    ),
-    userId: v.union(v.string(), v.null()),
-    createdAt: v.number(),
-  })
-    .index("by_mode", ["mode"])
-    .index("by_mode_created", ["mode", "createdAt"]),
-
-  // Aggregated corrections when users mark a prediction wrong
-  feedbackOverrides: defineTable({
-    mode: v.union(v.literal("letter"), v.literal("word"), v.literal("number")),
-    predicted: v.string(),
-    correctLabel: v.string(),
-    votes: v.number(),
+  // Sign captions — text-only sync for sign language mode (no media/landmarks)
+  signCaptions: defineTable({
+    roomId: v.id("rooms"),
+    userId: v.string(),
+    stable: v.string(),
+    interim: v.string(),
     updatedAt: v.number(),
   })
-    .index("by_mode", ["mode"])
-    .index("by_mode_predicted", ["mode", "predicted"])
-    .index("by_key", ["mode", "predicted", "correctLabel"]),
+    .index("by_roomId", ["roomId"])
+    .index("by_roomId_userId", ["roomId", "userId"]),
 });

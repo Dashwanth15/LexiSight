@@ -3,9 +3,11 @@ export default function CallControls({
   isAudioEnabled,
   isVideoEnabled,
   isCCEnabled = false,
+  isSignModeEnabled = false,
   onToggleAudio,
   onToggleVideo,
   onToggleCC,
+  onToggleSignMode,
   onLeave,
 }) {
   return (
@@ -82,6 +84,21 @@ export default function CallControls({
             </svg>
           </button>
           <span className="call-ctrl-label">CC</span>
+        </div>
+      )}
+
+      {/* Sign language mode — local MediaPipe + ML → captions to peer */}
+      {onToggleSignMode && (
+        <div className="call-ctrl-wrap">
+          <button
+            className={`call-ctrl-btn ${isSignModeEnabled ? 'sign-on' : 'sign-off'}`}
+            onClick={onToggleSignMode}
+            title={isSignModeEnabled ? 'Turn off sign language mode' : 'Turn on sign language mode'}
+            aria-pressed={isSignModeEnabled}
+          >
+            <span style={{ fontSize: '1.15rem', lineHeight: 1 }} aria-hidden>🤟</span>
+          </button>
+          <span className="call-ctrl-label">{isSignModeEnabled ? 'Sign' : 'Sign'}</span>
         </div>
       )}
 
