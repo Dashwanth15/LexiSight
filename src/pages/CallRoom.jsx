@@ -14,6 +14,7 @@ import { useSharedClassifier } from '../contexts/ClassifierContext.jsx'
 import useSpeechCaptions from '../hooks/useSpeechCaptions.js'
 import useSignCaptions from '../hooks/useSignCaptions.js'
 import useSignCaptionSync from '../hooks/useSignCaptionSync.js'
+import useSpeechCaptionSync from '../hooks/useSpeechCaptionSync.js'
 import { useSpeechSynth } from '../hooks/useSpeechSynth.js'
 
 function checkBrowserSupport() {
@@ -112,6 +113,14 @@ export default function CallRoom() {
     subscribe: isInRoom,
   })
 
+  // SPEECH CAPTION SYNC: bidirectional subtitle transmission
+  const { remoteSpeechCaption, publishSpeechCaption, clearSpeechCaptions } = useSpeechCaptionSync({
+    roomId: room?._id,
+    userId: user?.id || '',
+    enabled: isInRoom && ccEnabled,
+    subscribe: isInRoom,
+  })
+
   // Speaker detection
   const localSpeaking = useSpeakerDetect(localStream, 12)
   const remoteSpeaking = useSpeakerDetect(remoteStream, 10)
@@ -202,14 +211,17 @@ export default function CallRoom() {
 
   const handleLeaveRoom = useCallback(async () => {
     await endCall()
-    if (room?._id) await clearCaptions()
+    if (room?._id) {
+      await clearCaptions()
+      await clearSpeechCaptions()
+    }
     if (currentRoomCode && user) {
       try { await leaveRoomMutation({ roomCode: currentRoomCode, userId: user.id }) }
       catch (err) { console.error('Failed to leave room:', err) }
     }
     setIsInRoom(false); setCurrentRoomCode(''); setError(null)
     navigate('/room', { replace: true })
-  }, [currentRoomCode, user, endCall, leaveRoomMutation, navigate, room?._id, clearCaptions])
+  }, [currentRoomCode, user, endCall, leaveRoomMutation, navigate, room?._id, clearCaptions, clearSpeechCaptions])
 
   const copyRoomLink = useCallback(() => {
     navigator.clipboard.writeText(`${window.location.origin}/room/${currentRoomCode}`).then(() => {
@@ -274,6 +286,19 @@ export default function CallRoom() {
     const interim = interimText && !stableText.endsWith(interimText.trim()) ? ' ' + interimText : ''
     return (stableText + interim).trim()
   }, [stableText, interimText])
+
+  // SPEECH CAPTION SYNC: publish local captions to remote peer
+  useEffect(() => {
+    if (!isInRoom || !ccEnabled) return
+    publishSpeechCaption({ stable: stableText, interim: interimText })
+  }, [stableText, interimText, isInRoom, ccEnabled, publishSpeechCaption])
+
+  // SPEECH CAPTION SYNC: compute remote speech display text
+  const remoteSpeechDisplay = useMemo(() => {
+    const rs = remoteSpeechCaption || { stable: '', interim: '' }
+    const interim = rs.interim && !rs.stable.endsWith(rs.interim.trim()) ? ' ' + rs.interim : ''
+    return (rs.stable + interim).trim()
+  }, [remoteSpeechCaption])
 
   // SIGN CAPTIONS: local MediaPipe + TF.js — frames never leave the browser
   const signCaptions = useSignCaptions({
@@ -457,38 +482,77 @@ export default function CallRoom() {
         </div>
       )}
 
-      {/* VIDEO UI ── Main content: left video column + right setup panel */}
-      <div style={{ flex: 1, display: 'flex', gap: 16, padding: '8px 20px 14px', minHeight: 0, overflow: 'hidden' }}>
+      {/* VIDEO UI ── Main content */}
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 10, padding: '8px 20px 14px', minHeight: 0, overflow: 'hidden' }}>
 
-        {/* ── LEFT: Video card + Subtitle card + Controls ── */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 10, minWidth: 0 }}>
+        {/* ── VIDEO AREA ── */}
+        {hasRemote ? (
+          /* ═══ DUAL VIDEO LAYOUT — both users side by side ═══ */
+          <div style={{ flex: 1, display: 'flex', gap: 12, minHeight: 0 }}>
 
-          {/* VIDEO UI ── Main video card */}
-          <div style={{ flex: 1, position: 'relative', borderRadius: 16, overflow: 'hidden', background: 'linear-gradient(145deg, #0d1522 0%, #080c14 100%)', border: `1px solid ${localSpeaking ? 'rgba(0,255,136,0.3)' : 'rgba(255,255,255,0.06)'}`, boxShadow: localSpeaking ? '0 0 0 2px rgba(0,255,136,0.2), 0 12px 48px rgba(0,0,0,0.7)' : '0 12px 48px rgba(0,0,0,0.6)', transition: 'border-color 0.35s, box-shadow 0.4s', minHeight: 0 }}>
-
-            {signModeEnabled && (
-              <SignModeStatus
-                isActive={signCaptions.isActive}
-                isLoading={signCaptions.isLoading}
-                handDetected={signCaptions.handDetected}
-                confidence={signCaptions.confidence}
-                bufferProgress={signCaptions.bufferProgress}
-                isolationMode={signCaptions.isolationMode}
-              />
-            )}
-
-            {/* PREVIEW badge */}
-            {!hasRemote && (
-              <div style={{ position: 'absolute', top: 14, left: 14, zIndex: 10, display: 'flex', alignItems: 'center', gap: 5, padding: '4px 10px', background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(10px)', borderRadius: 20, border: '1px solid rgba(255,255,255,0.08)' }}>
-                <span style={{ width: 6, height: 6, borderRadius: '50%', background: localStream ? '#00ff88' : '#ffaa00', boxShadow: localStream ? '0 0 6px #00ff88' : '0 0 6px #ffaa00', display: 'inline-block' }} />
-                <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.55rem', color: 'rgba(255,255,255,0.65)', letterSpacing: '0.1em' }}>PREVIEW</span>
-              </div>
-            )}
-
-            {/* Video content */}
-            {hasRemote ? (
+            {/* ── REMOTE VIDEO (left) ── */}
+            <div style={{
+              flex: 1, position: 'relative', borderRadius: 16, overflow: 'hidden',
+              background: 'linear-gradient(145deg, #0d1522 0%, #080c14 100%)',
+              border: `1px solid ${remoteSpeaking ? 'rgba(0,212,255,0.4)' : 'rgba(255,255,255,0.06)'}`,
+              boxShadow: remoteSpeaking ? '0 0 0 2px rgba(0,212,255,0.25), 0 12px 48px rgba(0,0,0,0.7)' : '0 12px 48px rgba(0,0,0,0.6)',
+              transition: 'border-color 0.35s, box-shadow 0.4s', minHeight: 0,
+            }}>
               <CallVideo stream={remoteStream} muted={false} label={peerName || 'Peer'} isLocal={false} isSpeaking={remoteSpeaking} showCaptions={false} />
-            ) : (
+
+              {/* Remote user's speech subtitles — on THEIR video */}
+              {ccEnabled && remoteSpeechDisplay && (
+                <div style={{
+                  position: 'absolute', bottom: 56, left: '50%', transform: 'translateX(-50%)',
+                  zIndex: 20, maxWidth: '88%', width: 'max-content',
+                  padding: '8px 18px',
+                  background: 'rgba(0,212,255,0.08)', backdropFilter: 'blur(14px)',
+                  borderRadius: 10, border: '1px solid rgba(0,212,255,0.15)',
+                  textAlign: 'center', animation: 'fade-in 0.25s ease-out',
+                }}>
+                  <span style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '0.88rem', color: '#a0d8ef', lineHeight: 1.55, letterSpacing: '0.01em' }}>
+                    {remoteSpeechDisplay}
+                  </span>
+                </div>
+              )}
+
+              {/* SIGN — remote peer's translated signs */}
+              {remoteSignDisplay && (
+                <SignCaptionOverlay
+                  stableText={remoteSignCaption.stable}
+                  interimText={remoteSignCaption.interim}
+                  label="Peer sign translation"
+                />
+              )}
+
+              {/* Name badge — bottom left */}
+              <div style={{ position: 'absolute', bottom: 14, left: 14, zIndex: 10 }}>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, padding: '5px 12px', background: 'rgba(4,8,14,0.65)', backdropFilter: 'blur(12px)', borderRadius: 8, border: '1px solid rgba(255,255,255,0.07)' }}>
+                  {remoteSpeaking && <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#00d4ff', boxShadow: '0 0 7px #00d4ff', animation: 'pulse-glow-dot 1s ease-in-out infinite' }} />}
+                  <span style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '0.78rem', color: '#e8f4fd', fontWeight: 500 }}>{peerName || 'Peer'}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* ── LOCAL VIDEO (right) ── */}
+            <div style={{
+              flex: 1, position: 'relative', borderRadius: 16, overflow: 'hidden',
+              background: 'linear-gradient(145deg, #0d1522 0%, #080c14 100%)',
+              border: `1px solid ${localSpeaking ? 'rgba(0,255,136,0.4)' : 'rgba(255,255,255,0.06)'}`,
+              boxShadow: localSpeaking ? '0 0 0 2px rgba(0,255,136,0.25), 0 12px 48px rgba(0,0,0,0.7)' : '0 12px 48px rgba(0,0,0,0.6)',
+              transition: 'border-color 0.35s, box-shadow 0.4s', minHeight: 0,
+            }}>
+              {signModeEnabled && (
+                <SignModeStatus
+                  isActive={signCaptions.isActive}
+                  isLoading={signCaptions.isLoading}
+                  handDetected={signCaptions.handDetected}
+                  confidence={signCaptions.confidence}
+                  bufferProgress={signCaptions.bufferProgress}
+                  isolationMode={signCaptions.isolationMode}
+                />
+              )}
+
               <CallVideo
                 ref={onLocalVideoRef}
                 stream={localStream}
@@ -500,256 +564,210 @@ export default function CallRoom() {
                 isAudioOff={!isAudioEnabled}
                 showCaptions={false}
               />
-            )}
 
-            {/* PiP */}
-            {hasRemote && (
-              <div className={`call-pip${localSpeaking ? ' speaking' : ''}`} style={{ position: 'relative' }}>
-                <CallVideo
-                  ref={onLocalVideoRef}
-                  stream={localStream}
-                  muted={true}
-                  label="You"
-                  isLocal={true}
-                  isSpeaking={localSpeaking}
-                  isVideoOff={!isVideoEnabled}
-                  isAudioOff={!isAudioEnabled}
-                  showCaptions={false}
-                />
-                {signModeEnabled && signCaptions.displayText && (
-                  <SignCaptionOverlay
-                    stableText={signCaptions.stableText}
-                    interimText={signCaptions.interimText}
-                    label="Your sign translation"
-                  />
-                )}
-              </div>
-            )}
-
-            {/* Name + speaking dot — bottom left */}
-            <div style={{ position: 'absolute', bottom: 14, left: 14, zIndex: 10 }}>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, padding: '5px 12px', background: 'rgba(4,8,14,0.65)', backdropFilter: 'blur(12px)', borderRadius: 8, border: '1px solid rgba(255,255,255,0.07)' }}>
-                {localSpeaking && <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#00ff88', boxShadow: '0 0 7px #00ff88', animation: 'pulse-glow-dot 1s ease-in-out infinite' }} />}
-                <span style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '0.78rem', color: '#e8f4fd', fontWeight: 500 }}>{hasRemote ? (peerName || 'Peer') : 'You'}</span>
-                {isWaiting && <span style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '0.68rem', color: 'rgba(255,255,255,0.35)' }}>· You are the only one here</span>}
-              </div>
-            </div>
-
-            {/* Signal bars — bottom right */}
-            <div style={{ position: 'absolute', bottom: 14, right: 14, zIndex: 10, display: 'flex', gap: 2, alignItems: 'flex-end' }}>
-              {[4,6,9,12,15].map((h, i) => (
-                <div key={i} style={{ width: 3, height: h, background: connectionState === 'connected' ? `rgba(0,212,255,${0.3 + i * 0.14})` : 'rgba(255,255,255,0.14)', borderRadius: 1.5, transition: 'background 0.4s' }} />
-              ))}
-            </div>
-
-            {/* DEBUG MODE PANEL */}
-            {debugEnabled && (
-              <div style={{
-                position: 'absolute', top: 14, right: 14, zIndex: 30,
-                width: 280, maxWidth: '90%',
-                background: 'rgba(4, 8, 16, 0.94)', backdropFilter: 'blur(16px)',
-                borderRadius: 12, border: '1px solid rgba(0, 212, 255, 0.25)',
-                boxShadow: '0 8px 32px rgba(0,0,0,0.8), 0 0 10px rgba(0, 212, 255, 0.1)',
-                padding: 14, color: '#e8f4fd', display: 'flex', flexDirection: 'column', gap: 8,
-              }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.08)', paddingBottom: 6 }}>
-                  <span style={{ fontFamily: 'Syne, sans-serif', fontSize: '0.7rem', fontWeight: 700, color: '#00d4ff', letterSpacing: '0.05em' }}>CC DEBUG PANEL</span>
-                  <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.55rem', opacity: 0.5 }}>Active</span>
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 4, fontFamily: 'JetBrains Mono, monospace', fontSize: '0.62rem' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <span style={{ opacity: 0.5 }}>Silence:</span>
-                    <span style={{ color: silenceMs > 1500 ? '#ff3366' : '#00ff88' }}>{silenceMs}ms</span>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <span style={{ opacity: 0.5 }}>Listening:</span>
-                    <span style={{ color: isListening ? '#00ff88' : '#ffaa00' }}>{isListening ? 'ACTIVE' : 'IDLE'}</span>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <span style={{ opacity: 0.5 }}>Restarts:</span>
-                    <span style={{ color: restartCount > 10 ? '#ffaa00' : '#a78bfa' }}>{restartCount}</span>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <span style={{ opacity: 0.5 }}>CC:</span>
-                    <span style={{ color: ccEnabled ? '#00ff88' : '#ff3366' }}>{ccEnabled ? 'ON' : 'OFF'}</span>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <span style={{ opacity: 0.5 }}>WPS:</span>
-                    <span style={{ color: speechRate > 3 ? '#00d4ff' : speechRate >= 1 ? '#00ff88' : '#ffaa00' }}>{speechRate} w/s</span>
-                  </div>
-                </div>
-                <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column', gap: 4 }}>
-                  <span style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '0.6rem', color: 'rgba(255,255,255,0.3)', fontWeight: 600 }}>EVENT LOG</span>
-                  <div style={{
-                    flex: 1, maxHeight: 110, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 4,
-                    background: 'rgba(0,0,0,0.3)', padding: 6, borderRadius: 6, border: '1px solid rgba(255,255,255,0.04)'
-                  }}>
-                    {debugLogs.length === 0 ? (
-                      <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.55rem', opacity: 0.3 }}>No events logged yet.</span>
-                    ) : (
-                      debugLogs.map(log => (
-                        <div key={log.id} style={{ display: 'flex', flexDirection: 'column', gap: 1, borderBottom: '1px dashed rgba(255,255,255,0.04)', paddingBottom: 3 }}>
-                          <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'JetBrains Mono, monospace', fontSize: '0.52rem' }}>
-                            <span style={{
-                              color: log.type.includes('fail') || log.type.includes('error') ? '#ff3366' :
-                                     log.type.includes('final') ? '#00ff88' :
-                                     log.type.includes('silence') ? '#a78bfa' : '#00d4ff'
-                            }}>[{log.type}]</span>
-                            <span style={{ opacity: 0.4 }}>{log.timestamp}</span>
-                          </div>
-                          <span style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '0.62rem', color: '#c8dff0' }}>{log.text}</span>
-                          {log.confidence !== null && (
-                            <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.48rem', opacity: 0.5 }}>Conf: {log.confidence.toFixed(2)}</span>
-                          )}
-                        </div>
-                      ))
-                    )}
-                  </div>
-                </div>
-              </div>
-            )}
-            {/* SUBTITLES — speech captions */}
-            {ccEnabled && subtitleDisplay && (
-              <div style={{
-                position: 'absolute', bottom: 56, left: '50%', transform: 'translateX(-50%)',
-                zIndex: 20, maxWidth: '82%', width: 'max-content',
-                padding: '8px 18px',
-                background: 'rgba(4,8,14,0.78)', backdropFilter: 'blur(14px)',
-                borderRadius: 10, border: '1px solid rgba(255,255,255,0.07)',
-                textAlign: 'center', animation: 'fade-in 0.25s ease-out',
-              }}>
-                <span style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '0.9rem', color: '#e8f4fd', lineHeight: 1.55, wordSpacing: '0.05em', letterSpacing: '0.01em' }}>
-                  {subtitleDisplay}
-                </span>
-              </div>
-            )}
-
-            {/* SIGN — local preview (interim + stable); sits above speech CC when both on */}
-            {signModeEnabled && (signCaptions.displayText || signCaptions.lastDetected) && !hasRemote && (
-              <div style={{ position: 'absolute', bottom: ccEnabled && subtitleDisplay ? 100 : 56, left: 0, right: 0, zIndex: 23 }}>
-                <SignCaptionOverlay
-                  stableText={signCaptions.stableText}
-                  interimText={signCaptions.interimText || signCaptions.lastDetected}
-                  label="Your sign translation"
-                />
-              </div>
-            )}
-
-            {/* SIGN — remote peer's translated signs (hearing user; no local sign mode required) */}
-            {hasRemote && remoteSignDisplay && (
-              <SignCaptionOverlay
-                stableText={remoteSignCaption.stable}
-                interimText={remoteSignCaption.interim}
-                label="Peer sign translation"
-              />
-            )}
-          </div>
-
-          {/* SUBTITLES — compact CC status strip below video */}
-          <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center', gap: 10, padding: '8px 14px', background: 'rgba(6,10,18,0.75)', backdropFilter: 'blur(14px)', borderRadius: 10, border: `1px solid ${signModeEnabled ? 'rgba(255,193,7,0.12)' : 'rgba(255,255,255,0.05)'}`, minHeight: 44 }}>
-            <div style={{ width: 28, height: 28, borderRadius: 7, background: signModeEnabled ? 'rgba(255,193,7,0.12)' : ccEnabled ? 'rgba(139,92,246,0.14)' : 'rgba(255,255,255,0.04)', border: `1px solid ${signModeEnabled ? 'rgba(255,193,7,0.35)' : ccEnabled ? 'rgba(139,92,246,0.3)' : 'rgba(255,255,255,0.07)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, transition: 'all 0.25s', fontSize: '0.85rem' }}>
-              {signModeEnabled ? '🤟' : (
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={ccEnabled ? '#a78bfa' : 'rgba(255,255,255,0.22)'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="2" y="5" width="20" height="14" rx="3" />
-                  <path d="M7 12a2 2 0 1 0 2-2" /><path d="M14 12a2 2 0 1 0 2-2" />
-                </svg>
-              )}
-            </div>
-            <span style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '0.78rem', color: (signModeEnabled || ccEnabled) ? (compactStripText ? '#c8dff0' : 'rgba(255,255,255,0.38)') : 'rgba(255,255,255,0.22)', flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-              {compactStripText}
-            </span>
-            {(signModeEnabled || ccEnabled) && !compactStripText && (
-              <div style={{ display: 'flex', gap: 3, alignItems: 'flex-end', flexShrink: 0 }}>
-                {[4,6,9,7,5].map((h, i) => (
-                  <div key={i} style={{ width: 3, height: h, background: signModeEnabled ? 'rgba(255,193,7,0.45)' : 'rgba(0,212,255,0.4)', borderRadius: 1.5, animation: `bounce-y 1.3s ease-in-out ${i * 0.13}s infinite` }} />
-                ))}
-              </div>
-            )}
-            {signModeEnabled && (
-              <button
-                type="button"
-                onClick={() => setSignToSpeech((v) => !v)}
-                title={signToSpeech ? 'Disable sign-to-speech' : 'Speak translated signs aloud'}
-                style={{
-                  flexShrink: 0,
-                  padding: '4px 10px',
-                  borderRadius: 8,
-                  border: `1px solid ${signToSpeech ? 'rgba(0,255,136,0.4)' : 'rgba(255,255,255,0.1)'}`,
-                  background: signToSpeech ? 'rgba(0,255,136,0.1)' : 'rgba(255,255,255,0.04)',
-                  color: signToSpeech ? '#00ff88' : 'rgba(255,255,255,0.4)',
-                  fontFamily: 'JetBrains Mono, monospace',
-                  fontSize: '0.55rem',
-                  cursor: 'pointer',
-                  letterSpacing: '0.06em',
-                }}
-              >
-                🔊 TTS
-              </button>
-            )}
-          </div>
-          {signModeEnabled && (
-            <SignIsolationMode
-              mode={sharedClassifier.mode}
-              onModeChange={handleIsolationModeChange}
-              disabled={signCaptions.isLoading}
-            />
-          )}
-          {/* CONTROLS ── Floating dock */}
-          <div style={{ display: 'flex', justifyContent: 'center', flexShrink: 0 }}>
-            <CallControls
-              isAudioEnabled={isAudioEnabled}
-              isVideoEnabled={isVideoEnabled}
-              isCCEnabled={ccEnabled}
-              isSignModeEnabled={signModeEnabled}
-              onToggleAudio={toggleAudio}
-              onToggleVideo={toggleVideo}
-              onToggleCC={handleToggleCC}
-              onToggleSignMode={handleToggleSignMode}
-              onLeave={handleLeaveRoom}
-            />
-          </div>
-        </div>
-
-        {/* SETUP PANEL ── Right column: shown while waiting */}
-        {!hasRemote && (
-          <div style={{ width: 310, flexShrink: 0, display: 'flex', flexDirection: 'column' }}>
-            <div style={{ flex: 1, background: 'rgba(8,13,22,0.92)', backdropFilter: 'blur(20px)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.07)', padding: '26px 22px', display: 'flex', flexDirection: 'column', gap: 18, boxShadow: '0 8px 40px rgba(0,0,0,0.5)' }}>
-
-              {/* Header */}
-              <div>
-                <h2 style={{ fontFamily: 'Syne, sans-serif', fontSize: '1.25rem', fontWeight: 700, color: '#e8f4fd', margin: 0, marginBottom: 6 }}>Ready to join?</h2>
-                <p style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '0.8rem', color: 'rgba(255,255,255,0.38)', lineHeight: 1.5, margin: 0 }}>Check your setup before entering the meeting.</p>
-              </div>
-
-              {/* Device selectors */}
-              <DeviceSelect icon="📷" label="Select Camera" devices={devices.cameras} active={!!localStream && isVideoEnabled} />
-              <DeviceSelect icon="🎙" label="Select Microphone" devices={devices.mics} active={!!localStream && isAudioEnabled} />
-              <DeviceSelect icon="🔊" label="Select Audio Output" devices={devices.speakers} active={true} />
-
-              {/* Spacer */}
-              <div style={{ flex: 1 }} />
-
-              {/* Join Meeting button */}
-              <button
-                onClick={startCall}
-                onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 8px 36px rgba(0,100,255,0.65)'; e.currentTarget.style.transform = 'translateY(-2px)' }}
-                onMouseLeave={e => { e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,100,255,0.4)'; e.currentTarget.style.transform = 'translateY(0)' }}
-                style={{ width: '100%', padding: '14px', background: 'linear-gradient(135deg, #0055ee, #0099ff)', border: 'none', borderRadius: 10, color: '#fff', fontFamily: 'DM Sans, sans-serif', fontWeight: 700, fontSize: '1rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, boxShadow: '0 4px 24px rgba(0,100,255,0.4)', transition: 'box-shadow 0.25s, transform 0.2s', letterSpacing: '0.01em' }}
-              >
-                Join Meeting <span style={{ fontSize: '1.1rem' }}>→</span>
-              </button>
-
-              {/* Participants */}
-              {room?.participants?.length > 0 && (
-                <div style={{ textAlign: 'center' }}>
-                  <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.55rem', color: 'rgba(255,255,255,0.2)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
-                    {room.participants.map(p => p.userName).join(' · ')}
+              {/* Your speech subtitles — on YOUR video */}
+              {ccEnabled && subtitleDisplay && (
+                <div style={{
+                  position: 'absolute', bottom: 56, left: '50%', transform: 'translateX(-50%)',
+                  zIndex: 20, maxWidth: '88%', width: 'max-content',
+                  padding: '8px 18px',
+                  background: 'rgba(4,8,14,0.78)', backdropFilter: 'blur(14px)',
+                  borderRadius: 10, border: '1px solid rgba(255,255,255,0.07)',
+                  textAlign: 'center', animation: 'fade-in 0.25s ease-out',
+                }}>
+                  <span style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '0.88rem', color: '#e8f4fd', lineHeight: 1.55, letterSpacing: '0.01em' }}>
+                    {subtitleDisplay}
                   </span>
                 </div>
               )}
+
+              {/* SIGN — local sign captions */}
+              {signModeEnabled && (signCaptions.displayText || signCaptions.lastDetected) && (
+                <div style={{ position: 'absolute', bottom: ccEnabled && subtitleDisplay ? 100 : 56, left: 0, right: 0, zIndex: 23 }}>
+                  <SignCaptionOverlay
+                    stableText={signCaptions.stableText}
+                    interimText={signCaptions.interimText || signCaptions.lastDetected}
+                    label="Your sign translation"
+                  />
+                </div>
+              )}
+
+              {/* Name badge — bottom left */}
+              <div style={{ position: 'absolute', bottom: 14, left: 14, zIndex: 10 }}>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, padding: '5px 12px', background: 'rgba(4,8,14,0.65)', backdropFilter: 'blur(12px)', borderRadius: 8, border: '1px solid rgba(255,255,255,0.07)' }}>
+                  {localSpeaking && <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#00ff88', boxShadow: '0 0 7px #00ff88', animation: 'pulse-glow-dot 1s ease-in-out infinite' }} />}
+                  <span style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '0.78rem', color: '#e8f4fd', fontWeight: 500 }}>You</span>
+                </div>
+              </div>
+
+              {/* DEBUG MODE PANEL */}
+              {debugEnabled && (
+                <div style={{
+                  position: 'absolute', top: 14, right: 14, zIndex: 30,
+                  width: 280, maxWidth: '90%',
+                  background: 'rgba(4, 8, 16, 0.94)', backdropFilter: 'blur(16px)',
+                  borderRadius: 12, border: '1px solid rgba(0, 212, 255, 0.25)',
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.8), 0 0 10px rgba(0, 212, 255, 0.1)',
+                  padding: 14, color: '#e8f4fd', display: 'flex', flexDirection: 'column', gap: 8,
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.08)', paddingBottom: 6 }}>
+                    <span style={{ fontFamily: 'Syne, sans-serif', fontSize: '0.7rem', fontWeight: 700, color: '#00d4ff', letterSpacing: '0.05em' }}>CC DEBUG</span>
+                    <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.55rem', opacity: 0.5 }}>Active</span>
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 4, fontFamily: 'JetBrains Mono, monospace', fontSize: '0.62rem' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <span style={{ opacity: 0.5 }}>Listening:</span>
+                      <span style={{ color: ccListening ? '#00ff88' : '#ffaa00' }}>{ccListening ? 'ON' : 'OFF'}</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <span style={{ opacity: 0.5 }}>Silence:</span>
+                      <span style={{ color: silenceMs > 1500 ? '#ff3366' : '#00ff88' }}>{silenceMs}ms</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <span style={{ opacity: 0.5 }}>WPS:</span>
+                      <span style={{ color: speechRate > 3 ? '#00d4ff' : speechRate >= 1 ? '#00ff88' : '#ffaa00' }}>{speechRate}</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        ) : (
+          /* ═══ SINGLE VIDEO PREVIEW — waiting for peer ═══ */
+          <div style={{ flex: 1, display: 'flex', gap: 16, minHeight: 0 }}>
+            <div style={{
+              flex: 1, position: 'relative', borderRadius: 16, overflow: 'hidden',
+              background: 'linear-gradient(145deg, #0d1522 0%, #080c14 100%)',
+              border: `1px solid ${localSpeaking ? 'rgba(0,255,136,0.3)' : 'rgba(255,255,255,0.06)'}`,
+              boxShadow: '0 12px 48px rgba(0,0,0,0.6)', minHeight: 0,
+            }}>
+              {signModeEnabled && (
+                <SignModeStatus
+                  isActive={signCaptions.isActive}
+                  isLoading={signCaptions.isLoading}
+                  handDetected={signCaptions.handDetected}
+                  confidence={signCaptions.confidence}
+                  bufferProgress={signCaptions.bufferProgress}
+                  isolationMode={signCaptions.isolationMode}
+                />
+              )}
+
+              {/* PREVIEW badge */}
+              <div style={{ position: 'absolute', top: 14, left: 14, zIndex: 10, display: 'flex', alignItems: 'center', gap: 5, padding: '4px 10px', background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(10px)', borderRadius: 20, border: '1px solid rgba(255,255,255,0.08)' }}>
+                <span style={{ width: 6, height: 6, borderRadius: '50%', background: localStream ? '#00ff88' : '#ffaa00', boxShadow: localStream ? '0 0 6px #00ff88' : '0 0 6px #ffaa00', display: 'inline-block' }} />
+                <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.55rem', color: 'rgba(255,255,255,0.65)', letterSpacing: '0.1em' }}>PREVIEW</span>
+              </div>
+
+              <CallVideo
+                ref={onLocalVideoRef}
+                stream={localStream}
+                muted={true}
+                label={user?.fullName || 'You'}
+                isLocal={true}
+                isSpeaking={localSpeaking}
+                isVideoOff={!isVideoEnabled}
+                isAudioOff={!isAudioEnabled}
+                showCaptions={false}
+              />
+
+              {/* Local subtitles in preview */}
+              {ccEnabled && subtitleDisplay && (
+                <div style={{
+                  position: 'absolute', bottom: 56, left: '50%', transform: 'translateX(-50%)',
+                  zIndex: 20, maxWidth: '82%', width: 'max-content',
+                  padding: '8px 18px',
+                  background: 'rgba(4,8,14,0.78)', backdropFilter: 'blur(14px)',
+                  borderRadius: 10, border: '1px solid rgba(255,255,255,0.07)',
+                  textAlign: 'center', animation: 'fade-in 0.25s ease-out',
+                }}>
+                  <span style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '0.9rem', color: '#e8f4fd', lineHeight: 1.55 }}>
+                    {subtitleDisplay}
+                  </span>
+                </div>
+              )}
+
+              {/* SIGN — local preview */}
+              {signModeEnabled && (signCaptions.displayText || signCaptions.lastDetected) && (
+                <div style={{ position: 'absolute', bottom: ccEnabled && subtitleDisplay ? 100 : 56, left: 0, right: 0, zIndex: 23 }}>
+                  <SignCaptionOverlay
+                    stableText={signCaptions.stableText}
+                    interimText={signCaptions.interimText || signCaptions.lastDetected}
+                    label="Your sign translation"
+                  />
+                </div>
+              )}
+
+              {/* Name + waiting status */}
+              <div style={{ position: 'absolute', bottom: 14, left: 14, zIndex: 10 }}>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, padding: '5px 12px', background: 'rgba(4,8,14,0.65)', backdropFilter: 'blur(12px)', borderRadius: 8, border: '1px solid rgba(255,255,255,0.07)' }}>
+                  {localSpeaking && <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#00ff88', boxShadow: '0 0 7px #00ff88', animation: 'pulse-glow-dot 1s ease-in-out infinite' }} />}
+                  <span style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '0.78rem', color: '#e8f4fd', fontWeight: 500 }}>You</span>
+                  <span style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '0.68rem', color: 'rgba(255,255,255,0.35)' }}>· Waiting for peer</span>
+                </div>
+              </div>
+
+              {/* Signal bars */}
+              <div style={{ position: 'absolute', bottom: 14, right: 14, zIndex: 10, display: 'flex', gap: 2, alignItems: 'flex-end' }}>
+                {[4,6,9,12,15].map((h, i) => (
+                  <div key={i} style={{ width: 3, height: h, background: connectionState === 'connected' ? `rgba(0,212,255,${0.3 + i * 0.14})` : 'rgba(255,255,255,0.14)', borderRadius: 1.5, transition: 'background 0.4s' }} />
+                ))}
+              </div>
+            </div>
+
+            {/* SETUP PANEL ── Right column: shown while waiting */}
+            <div style={{ width: 310, flexShrink: 0, display: 'flex', flexDirection: 'column' }}>
+              <div style={{ flex: 1, background: 'rgba(8,13,22,0.92)', backdropFilter: 'blur(20px)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.07)', padding: '26px 22px', display: 'flex', flexDirection: 'column', gap: 18, boxShadow: '0 8px 40px rgba(0,0,0,0.5)' }}>
+                <div>
+                  <h2 style={{ fontFamily: 'Syne, sans-serif', fontSize: '1.25rem', fontWeight: 700, color: '#e8f4fd', margin: 0, marginBottom: 6 }}>Ready to join?</h2>
+                  <p style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '0.8rem', color: 'rgba(255,255,255,0.38)', lineHeight: 1.5, margin: 0 }}>Check your setup before entering the meeting.</p>
+                </div>
+                <DeviceSelect icon="📷" label="Select Camera" devices={devices.cameras} active={!!localStream && isVideoEnabled} />
+                <DeviceSelect icon="🎙" label="Select Microphone" devices={devices.mics} active={!!localStream && isAudioEnabled} />
+                <DeviceSelect icon="🔊" label="Select Audio Output" devices={devices.speakers} active={true} />
+                <div style={{ flex: 1 }} />
+                <button
+                  onClick={startCall}
+                  onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 8px 36px rgba(0,100,255,0.65)'; e.currentTarget.style.transform = 'translateY(-2px)' }}
+                  onMouseLeave={e => { e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,100,255,0.4)'; e.currentTarget.style.transform = 'translateY(0)' }}
+                  style={{ width: '100%', padding: '14px', background: 'linear-gradient(135deg, #0055ee, #0099ff)', border: 'none', borderRadius: 10, color: '#fff', fontFamily: 'DM Sans, sans-serif', fontWeight: 700, fontSize: '1rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, boxShadow: '0 4px 24px rgba(0,100,255,0.4)', transition: 'box-shadow 0.25s, transform 0.2s' }}
+                >
+                  Join Meeting <span style={{ fontSize: '1.1rem' }}>→</span>
+                </button>
+                {room?.participants?.length > 0 && (
+                  <div style={{ textAlign: 'center' }}>
+                    <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.55rem', color: 'rgba(255,255,255,0.2)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+                      {room.participants.map(p => p.userName).join(' · ')}
+                    </span>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         )}
+
+        {/* Sign isolation mode — shown below video when sign mode is on */}
+        {signModeEnabled && (
+          <SignIsolationMode
+            mode={sharedClassifier.mode}
+            onModeChange={handleIsolationModeChange}
+            disabled={signCaptions.isLoading}
+          />
+        )}
+
+        {/* CONTROLS ── Floating dock */}
+        <div style={{ display: 'flex', justifyContent: 'center', flexShrink: 0 }}>
+          <CallControls
+            isAudioEnabled={isAudioEnabled}
+            isVideoEnabled={isVideoEnabled}
+            isCCEnabled={ccEnabled}
+            isSignModeEnabled={signModeEnabled}
+            onToggleAudio={toggleAudio}
+            onToggleVideo={toggleVideo}
+            onToggleCC={handleToggleCC}
+            onToggleSignMode={handleToggleSignMode}
+            onLeave={handleLeaveRoom}
+          />
+        </div>
       </div>
 
     </div>

@@ -71,7 +71,7 @@ const CallVideo = forwardRef(function CallVideo({
           playsInline
           muted={muted}
           style={{
-            width: '100%', height: '100%', objectFit: 'cover',
+            width: '100%', height: '100%', objectFit: 'contain',
             transform: isLocal ? 'scaleX(-1)' : 'none',
             display: isVideoOff ? 'none' : 'block',
           }}
