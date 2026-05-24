@@ -893,6 +893,27 @@ video:not(.call-video) {
   border-color: rgba(255,255,255,0.1);
   color: rgba(255,255,255,0.35);
 }
+.call-ctrl-btn.sign-on {
+  background: rgba(255, 193, 7, 0.14);
+  border-color: rgba(255, 193, 7, 0.45);
+  color: #ffc107;
+  box-shadow: 0 0 18px rgba(255, 193, 7, 0.2);
+}
+.call-ctrl-btn.sign-on:hover {
+  background: rgba(255, 193, 7, 0.22);
+  box-shadow: 0 0 24px rgba(255, 193, 7, 0.32);
+}
+.call-ctrl-btn.sign-off {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.45);
+}
+.call-ctrl-btn.sign-off:hover {
+  background: rgba(255, 193, 7, 0.08);
+  border-color: rgba(255, 193, 7, 0.25);
+  color: #ffc107;
+}
+
 .call-ctrl-btn.cc-off:hover {
   background: rgba(255,255,255,0.09);
   border-color: rgba(255,255,255,0.2);
