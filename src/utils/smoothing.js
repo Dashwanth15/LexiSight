@@ -3,10 +3,12 @@
  * Uses a sliding window vote with confidence weighting
  */
 export class PredictionSmoother {
-  constructor(windowSize = 10, threshold = 0.75) {
+  constructor(windowSize = 10, threshold = 0.75, opts = {}) {
     this.history = []
     this.windowSize = windowSize
     this.threshold = threshold
+    this.lockDuration = opts.lockFrames ?? 45
+    this.minVoteWeight = opts.minVoteWeight ?? null
     this.lastConfirmed = null
     this.lockFrames = 0
     this.framesSinceLast = 0
@@ -52,17 +54,19 @@ export class PredictionSmoother {
 
     const sorted = Object.entries(votes).sort((a, b) => b[1] - a[1])
     const [winnerLabel, winnerScore] = sorted[0]
-    const avgConf = winnerScore / this.windowSize
+    const voteTotal = Object.values(votes).reduce((a, b) => a + b, 0)
+    const avgConf = winnerScore / Math.max(1, this.history.length)
 
-    if (avgConf > this.threshold) {
+    const minWeight = this.minVoteWeight ?? this.threshold * this.windowSize * 0.45
+    if (voteTotal >= minWeight && avgConf > this.threshold * 0.85) {
       const newConfirmed = {
         label: winnerLabel,
-        confidence: avgConf,
+        confidence: Math.min(0.99, avgConf),
         topK: prediction.topK || this.lastConfirmed?.topK,
       }
       if (!this.lastConfirmed || winnerLabel !== this.lastConfirmed.label) {
         this.lastConfirmed = newConfirmed
-        this.lockFrames = 45 // ~1.5s at 30fps — reduces rapid duplicate words
+        this.lockFrames = this.lockDuration
         return this.lastConfirmed
       }
     }

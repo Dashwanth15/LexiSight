@@ -30,6 +30,10 @@ dist/
 public/library/
 public/library/include/
 public/library/cislr/
+public/library/letters/
+public/library/numbers/
+# Committed SVG placeholders (letters/numbers) when full library not copied
+!public/dictionary-media/
 
 # ── OS ──
 .DS_Store

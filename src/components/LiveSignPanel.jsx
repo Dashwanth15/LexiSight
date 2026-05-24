@@ -9,21 +9,23 @@ export default function LiveSignPanel({
   bufferProgress = 0,
   handDetected = false,
   mode = 'word',
+  lockInEnabled = true,
   t = (k) => k,
 }) {
-  const display = live || confirmed
-  const topK = live?.topK || confirmed?.topK || []
+  const display = confirmed || live
+  const topK = confirmed?.topK || live?.topK || []
   const conf = display?.confidence ?? 0
   const pct = Math.round(conf * 100)
   const isPreview = live?.isPreview && !confirmed
   const fill = Math.round((bufferProgress || 0) * 100)
+  const showLiveGhost = lockInEnabled && live && confirmed && live.label !== confirmed.label
 
   let statusText = 'Show your hands to the camera'
   let statusColor = '#6b8ba4'
   if (handDetected) {
     if (mode !== 'word') {
-      statusText = 'Live recognition active'
-      statusColor = '#00ff88'
+      statusText = lockInEnabled ? 'Locked in ✓' : 'Live recognition'
+      statusColor = lockInEnabled ? '#00ff88' : '#00d4ff'
     } else if (bufferProgress < 1) {
       statusText = `Recording sign… ${fill}%`
       statusColor = '#ffaa00'
@@ -116,9 +118,9 @@ export default function LiveSignPanel({
               >
                 {pct}% confidence
               </span>
-              {confirmed && live && confirmed.label !== live.label && (
-                <span className="text-xs" style={{ color: 'var(--text-secondary)' }}>
-                  Locked: <strong style={{ color: '#00ff88' }}>{confirmed.label}</strong>
+              {showLiveGhost && (
+                <span className="text-xs" style={{ color: '#00d4ff' }}>
+                  Live: <strong>{live.label}</strong> ({Math.round((live.confidence || 0) * 100)}%)
                 </span>
               )}
               {live?.margin != null && (

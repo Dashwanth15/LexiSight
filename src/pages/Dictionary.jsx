@@ -2,12 +2,44 @@ import { useState, useEffect, useMemo, useRef, useCallback, memo } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from '../hooks/useTranslation.js'
 import libraryManifest from '../data/islVideoLibrary.slim.json'
+import lettersNumbersManifest from '../data/islLettersNumbers.slim.json'
 
 const PAGE_SIZE = 24
-const ACCENT = 'var(--green)'
-const ALL_ITEMS = (libraryManifest.items ?? []).filter(
+
+const INCLUDE_ITEMS = (libraryManifest.items ?? []).filter(
   (item) => item.source === 'INCLUDE' && !String(item.id).startsWith('cislr_'),
 )
+
+const LETTERS_ITEMS = lettersNumbersManifest.items?.filter((i) => i.library === 'letters') ?? []
+const NUMBERS_ITEMS = lettersNumbersManifest.items?.filter((i) => i.library === 'numbers') ?? []
+const LIBRARY_MEDIA_V = lettersNumbersManifest.mediaVersion ?? ''
+
+const LIBRARIES = [
+  {
+    id: 'include',
+    title: 'INCLUDE Full',
+    icon: '📚',
+    accent: 'var(--green)',
+    folder: 'library/include',
+    items: INCLUDE_ITEMS,
+  },
+  {
+    id: 'letters',
+    title: lettersNumbersManifest.libraries?.letters?.title ?? 'Alphabet A–Z',
+    icon: lettersNumbersManifest.libraries?.letters?.icon ?? '🔤',
+    accent: lettersNumbersManifest.libraries?.letters?.accent ?? '#8b5cf6',
+    folder: lettersNumbersManifest.libraries?.letters?.folder ?? 'library/letters',
+    items: LETTERS_ITEMS,
+  },
+  {
+    id: 'numbers',
+    title: lettersNumbersManifest.libraries?.numbers?.title ?? 'Numbers 0–9',
+    icon: lettersNumbersManifest.libraries?.numbers?.icon ?? '🔢',
+    accent: lettersNumbersManifest.libraries?.numbers?.accent ?? '#00ff88',
+    folder: lettersNumbersManifest.libraries?.numbers?.folder ?? 'library/numbers',
+    items: NUMBERS_ITEMS,
+  },
+]
 
 function formatLabel(label) {
   return String(label || '')
@@ -16,15 +48,61 @@ function formatLabel(label) {
     .trim()
 }
 
-function videoSrc(path) {
+function mediaSrc(path, bustCache = false) {
   if (!path) return ''
-  return encodeURI(path.startsWith('/') ? path : `/${path}`)
+  const base = encodeURI(path.startsWith('/') ? path : `/${path}`)
+  if (bustCache && LIBRARY_MEDIA_V) {
+    const sep = base.includes('?') ? '&' : '?'
+    return `${base}${sep}v=${LIBRARY_MEDIA_V}`
+  }
+  return base
 }
 
-const VideoCard = memo(function VideoCard({ item, onOpen }) {
+function isImageMedia(item) {
+  if (item.mediaType === 'image') return true
+  return /\.(jpe?g|png|webp|gif|svg)$/i.test(item.video || '')
+}
+
+function placeholderSrc(item) {
+  const folder = item.library === 'numbers' ? 'numbers' : 'letters'
+  const name = String(item.label).replace(/[^A-Za-z0-9]/g, '') || 'SIGN'
+  return mediaSrc(`/dictionary-media/${folder}/${name}.svg`)
+}
+
+/** Prefer manifest path (built from dataset); library jpg is the canonical photo path. */
+function primaryMediaSrc(item) {
+  const bust = item.library === 'letters' || item.library === 'numbers'
+  if (item.video?.startsWith('/library/')) {
+    return mediaSrc(item.video, bust)
+  }
+  const name = String(item.label).replace(/[^A-Za-z0-9]/g, '') || 'SIGN'
+  if (item.library === 'letters' || item.library === 'numbers') {
+    return mediaSrc(`/library/${item.library}/${name}.jpg`, true)
+  }
+  return mediaSrc(item.video)
+}
+
+function mediaFallbacks(item) {
+  const list = [primaryMediaSrc(item)]
+  const manifest = mediaSrc(item.video)
+  if (!list.includes(manifest)) list.push(manifest)
+  const ph = placeholderSrc(item)
+  if (!list.includes(ph)) list.push(ph)
+  return list
+}
+
+const SignCard = memo(function SignCard({ item, accent, onOpen }) {
   const ref = useRef(null)
   const [inView, setInView] = useState(false)
+  const fallbacks = useMemo(() => mediaFallbacks(item), [item])
+  const [fbIdx, setFbIdx] = useState(0)
+  const imgSrc = fallbacks[Math.min(fbIdx, fallbacks.length - 1)]
   const { t } = useTranslation()
+  const isImage = isImageMedia(item) || item.library === 'letters' || item.library === 'numbers'
+
+  useEffect(() => {
+    setFbIdx(0)
+  }, [item.id, item.video])
 
   useEffect(() => {
     const el = ref.current
@@ -51,7 +129,7 @@ const VideoCard = memo(function VideoCard({ item, onOpen }) {
       style={{
         padding: 0,
         border: '1px solid var(--border)',
-        borderTop: `2px solid color-mix(in srgb, ${ACCENT} 35%, transparent)`,
+        borderTop: `2px solid color-mix(in srgb, ${accent} 35%, transparent)`,
         borderRadius: 16,
         overflow: 'hidden',
         cursor: 'pointer',
@@ -62,7 +140,7 @@ const VideoCard = memo(function VideoCard({ item, onOpen }) {
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.transform = 'translateY(-4px)'
-        e.currentTarget.style.boxShadow = `0 12px 32px color-mix(in srgb, ${ACCENT} 12%, transparent)`
+        e.currentTarget.style.boxShadow = `0 12px 32px color-mix(in srgb, ${accent} 12%, transparent)`
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.transform = 'none'
@@ -78,19 +156,29 @@ const VideoCard = memo(function VideoCard({ item, onOpen }) {
         }}
       >
         {inView ? (
-          <video
-            src={videoSrc(item.video)}
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-            onMouseEnter={(e) => e.currentTarget.play().catch(() => {})}
-            onMouseLeave={(e) => {
-              e.currentTarget.pause()
-              e.currentTarget.currentTime = 0
-            }}
-          />
+          isImage ? (
+            <img
+              src={imgSrc}
+              alt={formatLabel(item.label)}
+              loading="lazy"
+              onError={() => setFbIdx((i) => Math.min(i + 1, fallbacks.length - 1))}
+              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+            />
+          ) : (
+            <video
+              src={mediaSrc(item.video)}
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+              onMouseEnter={(e) => e.currentTarget.play().catch(() => {})}
+              onMouseLeave={(e) => {
+                e.currentTarget.pause()
+                e.currentTarget.currentTime = 0
+              }}
+            />
+          )
         ) : (
           <div
             style={{
@@ -99,12 +187,13 @@ const VideoCard = memo(function VideoCard({ item, onOpen }) {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              color: 'var(--text-secondary)',
-              fontFamily: 'JetBrains Mono, monospace',
-              fontSize: '0.7rem',
+              color: accent,
+              fontFamily: 'Syne, sans-serif',
+              fontWeight: 800,
+              fontSize: '2.5rem',
             }}
           >
-            …
+            {formatLabel(item.label).charAt(0) || '…'}
           </div>
         )}
         <span
@@ -116,9 +205,9 @@ const VideoCard = memo(function VideoCard({ item, onOpen }) {
             fontFamily: 'JetBrains Mono, monospace',
             letterSpacing: '0.06em',
             textTransform: 'uppercase',
-            color: ACCENT,
+            color: accent,
             background: 'color-mix(in srgb, var(--void) 75%, transparent)',
-            border: `1px solid color-mix(in srgb, ${ACCENT} 40%, transparent)`,
+            border: `1px solid color-mix(in srgb, ${accent} 40%, transparent)`,
             borderRadius: 20,
             padding: '5px 10px',
           }}
@@ -154,9 +243,17 @@ const VideoCard = memo(function VideoCard({ item, onOpen }) {
   )
 })
 
-function LearnModal({ item, onClose }) {
+function LearnModal({ item, accent, onClose }) {
   const { t } = useTranslation()
   const videoRef = useRef(null)
+  const isImage = isImageMedia(item) || item.library === 'letters' || item.library === 'numbers'
+  const fallbacks = useMemo(() => mediaFallbacks(item), [item])
+  const [fbIdx, setFbIdx] = useState(0)
+  const imgSrc = fallbacks[Math.min(fbIdx, fallbacks.length - 1)]
+
+  useEffect(() => {
+    setFbIdx(0)
+  }, [item.id, item.video])
 
   useEffect(() => {
     const onKey = (e) => e.key === 'Escape' && onClose()
@@ -165,8 +262,8 @@ function LearnModal({ item, onClose }) {
   }, [onClose])
 
   useEffect(() => {
-    videoRef.current?.play().catch(() => {})
-  }, [item])
+    if (!isImage) videoRef.current?.play().catch(() => {})
+  }, [item, isImage])
 
   return (
     <div
@@ -193,18 +290,39 @@ function LearnModal({ item, onClose }) {
           width: 'min(720px, 96vw)',
           padding: 0,
           overflow: 'hidden',
-          borderTop: `2px solid color-mix(in srgb, ${ACCENT} 45%, transparent)`,
+          borderTop: `2px solid color-mix(in srgb, ${accent} 45%, transparent)`,
         }}
       >
-        <video
-          ref={videoRef}
-          src={videoSrc(item.video)}
-          controls
-          autoPlay
-          loop
-          playsInline
-          style={{ width: '100%', display: 'block', background: '#000', maxHeight: 'min(75vh, 560px)', objectFit: 'contain' }}
-        />
+        {isImage ? (
+          <img
+            src={imgSrc}
+            alt={formatLabel(item.label)}
+            onError={() => setFbIdx((i) => Math.min(i + 1, fallbacks.length - 1))}
+            style={{
+              width: '100%',
+              display: 'block',
+              background: '#000',
+              maxHeight: 'min(75vh, 560px)',
+              objectFit: 'contain',
+            }}
+          />
+        ) : (
+          <video
+            ref={videoRef}
+            src={mediaSrc(item.video)}
+            controls
+            autoPlay
+            loop
+            playsInline
+            style={{
+              width: '100%',
+              display: 'block',
+              background: '#000',
+              maxHeight: 'min(75vh, 560px)',
+              objectFit: 'contain',
+            }}
+          />
+        )}
         <div style={{ padding: '1.25rem 1.5rem 1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12, marginBottom: 8 }}>
             <h2
@@ -237,7 +355,7 @@ function LearnModal({ item, onClose }) {
             </button>
           </div>
           <p style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '1.25rem' }}>
-            {formatLabel(item.category)}
+            {formatLabel(item.category)} · {item.source}
           </p>
           <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
             <Link to="/translate" className="btn-primary" style={{ fontSize: '0.85rem', flex: 1, textAlign: 'center', minWidth: 140 }}>
@@ -255,11 +373,18 @@ function LearnModal({ item, onClose }) {
 
 export default function Dictionary() {
   const { t } = useTranslation()
+  const [libraryId, setLibraryId] = useState('include')
   const [query, setQuery] = useState('')
   const [debouncedQuery, setDebouncedQuery] = useState('')
   const [category, setCategory] = useState('all')
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
   const [selected, setSelected] = useState(null)
+
+  const activeLibrary = useMemo(
+    () => LIBRARIES.find((lib) => lib.id === libraryId) ?? LIBRARIES[0],
+    [libraryId],
+  )
+  const accent = activeLibrary.accent
 
   useEffect(() => {
     const id = setTimeout(() => setDebouncedQuery(query.trim().toLowerCase()), 200)
@@ -268,18 +393,24 @@ export default function Dictionary() {
 
   const categories = useMemo(() => {
     const set = new Set()
-    ALL_ITEMS.forEach((item) => {
+    activeLibrary.items.forEach((item) => {
       if (item.category) set.add(item.category)
     })
     return ['all', ...Array.from(set).sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }))]
-  }, [])
+  }, [activeLibrary.items])
+
+  useEffect(() => {
+    setCategory('all')
+    setVisibleCount(PAGE_SIZE)
+    setQuery('')
+  }, [libraryId])
 
   useEffect(() => {
     setVisibleCount(PAGE_SIZE)
   }, [debouncedQuery, category])
 
   const filtered = useMemo(() => {
-    let list = ALL_ITEMS
+    let list = activeLibrary.items
     if (category !== 'all') {
       list = list.filter((item) => item.category === category)
     }
@@ -291,7 +422,7 @@ export default function Dictionary() {
       })
     }
     return list
-  }, [category, debouncedQuery])
+  }, [activeLibrary.items, category, debouncedQuery])
 
   const visible = useMemo(() => filtered.slice(0, visibleCount), [filtered, visibleCount])
   const hasMore = visibleCount < filtered.length
@@ -324,13 +455,70 @@ export default function Dictionary() {
             fontFamily: 'DM Sans, sans-serif',
             color: 'var(--text-secondary)',
             fontSize: '1rem',
-            maxWidth: 560,
+            maxWidth: 640,
             marginBottom: '1.75rem',
             lineHeight: 1.55,
           }}
         >
           {t('dict_subtitle_video')}
         </p>
+
+        {/* Library folders — same pattern as INCLUDE, plus Letters & Numbers */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+            gap: 10,
+            marginBottom: '1.25rem',
+          }}
+        >
+          {LIBRARIES.map((lib) => {
+            const active = lib.id === libraryId
+            return (
+              <button
+                key={lib.id}
+                type="button"
+                onClick={() => setLibraryId(lib.id)}
+                style={{
+                  textAlign: 'left',
+                  padding: '14px 16px',
+                  borderRadius: 14,
+                  cursor: 'pointer',
+                  background: active
+                    ? `color-mix(in srgb, ${lib.accent} 12%, transparent)`
+                    : 'var(--obsidian)',
+                  border: `1px solid ${active ? lib.accent : 'var(--border)'}`,
+                  borderTop: `2px solid ${active ? lib.accent : 'var(--border)'}`,
+                  transition: 'border-color 0.2s ease, background 0.2s ease',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
+                  <span style={{ fontSize: '1.35rem', lineHeight: 1 }}>{lib.icon}</span>
+                  <span
+                    style={{
+                      fontFamily: 'Syne, sans-serif',
+                      fontWeight: 800,
+                      fontSize: '0.95rem',
+                      color: active ? lib.accent : 'var(--text-primary)',
+                    }}
+                  >
+                    {lib.title}
+                  </span>
+                </div>
+                <div
+                  style={{
+                    fontFamily: 'JetBrains Mono, monospace',
+                    fontSize: '0.62rem',
+                    color: 'var(--text-secondary)',
+                    letterSpacing: '0.04em',
+                  }}
+                >
+                  {lib.folder} · {lib.items.length} signs
+                </div>
+              </button>
+            )
+          })}
+        </div>
 
         <input
           type="search"
@@ -353,44 +541,46 @@ export default function Dictionary() {
           }}
         />
 
-        <div
-          style={{
-            display: 'flex',
-            gap: 8,
-            flexWrap: 'nowrap',
-            overflowX: 'auto',
-            paddingBottom: 8,
-            marginBottom: '1rem',
-            WebkitOverflowScrolling: 'touch',
-          }}
-        >
-          {categories.map((cat) => {
-            const active = category === cat
-            const label = cat === 'all' ? t('dict_category_all') : formatLabel(cat)
-            return (
-              <button
-                key={cat}
-                type="button"
-                onClick={() => setCategory(cat)}
-                style={{
-                  flexShrink: 0,
-                  background: active ? `color-mix(in srgb, ${ACCENT} 15%, transparent)` : 'transparent',
-                  border: `1px solid ${active ? ACCENT : 'var(--border)'}`,
-                  borderRadius: 20,
-                  padding: '6px 14px',
-                  color: active ? ACCENT : 'var(--text-secondary)',
-                  fontFamily: 'DM Sans, sans-serif',
-                  fontSize: '0.8rem',
-                  fontWeight: 500,
-                  cursor: 'pointer',
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                {label}
-              </button>
-            )
-          })}
-        </div>
+        {libraryId === 'include' && categories.length > 2 && (
+          <div
+            style={{
+              display: 'flex',
+              gap: 8,
+              flexWrap: 'nowrap',
+              overflowX: 'auto',
+              paddingBottom: 8,
+              marginBottom: '1rem',
+              WebkitOverflowScrolling: 'touch',
+            }}
+          >
+            {categories.map((cat) => {
+              const active = category === cat
+              const label = cat === 'all' ? t('dict_category_all') : formatLabel(cat)
+              return (
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => setCategory(cat)}
+                  style={{
+                    flexShrink: 0,
+                    background: active ? `color-mix(in srgb, ${accent} 15%, transparent)` : 'transparent',
+                    border: `1px solid ${active ? accent : 'var(--border)'}`,
+                    borderRadius: 20,
+                    padding: '6px 14px',
+                    color: active ? accent : 'var(--text-secondary)',
+                    fontFamily: 'DM Sans, sans-serif',
+                    fontSize: '0.8rem',
+                    fontWeight: 500,
+                    cursor: 'pointer',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {label}
+                </button>
+              )
+            })}
+          </div>
+        )}
 
         <div className="hud-label" style={{ marginBottom: '1rem' }}>
           {t('dict_showing')} {visible.length.toLocaleString()} / {filtered.length.toLocaleString()}
@@ -401,12 +591,15 @@ export default function Dictionary() {
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+                gridTemplateColumns:
+                  libraryId === 'include'
+                    ? 'repeat(auto-fill, minmax(280px, 1fr))'
+                    : 'repeat(auto-fill, minmax(140px, 1fr))',
                 gap: '1.35rem',
               }}
             >
               {visible.map((item) => (
-                <VideoCard key={item.id} item={item} onOpen={openItem} />
+                <SignCard key={item.id} item={item} accent={accent} onOpen={openItem} />
               ))}
             </div>
             {hasMore && (
@@ -462,7 +655,7 @@ export default function Dictionary() {
         </div>
       </section>
 
-      {selected && <LearnModal item={selected} onClose={closeModal} />}
+      {selected && <LearnModal item={selected} accent={accent} onClose={closeModal} />}
     </div>
   )
 }

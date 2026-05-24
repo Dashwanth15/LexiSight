@@ -60,6 +60,7 @@ const DEFAULTS = {
   autoPunctuation: true,
   duplicateFilter: true,
   predictionCooldown: 1.2,
+  predictionLockIn: true,
 
   // ─── History ───
   translationHistory: true,

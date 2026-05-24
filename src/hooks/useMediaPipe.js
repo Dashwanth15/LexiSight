@@ -23,7 +23,8 @@ export function useMediaPipe() {
   const [rawLandmarks, setRawLandmarks] = useState(null)
   const [landmarks2, setLandmarks2] = useState(null)
   const [rawLandmarks2, setRawLandmarks2] = useState(null)
-  const [holisticFrame, setHolisticFrame] = useState(null)
+  /** Updated every frame; read via getHolisticFrame() — not React state (avoids re-render storms). */
+  const holisticFrameRef = useRef(null)
   const [handDetected, setHandDetected] = useState(false)
   const [hand2Detected, setHand2Detected] = useState(false)
   const [fps, setFps] = useState(0)
@@ -240,10 +241,11 @@ export function useMediaPipe() {
         if (frameSkipRef.current % 2 === 0) {
           await handsRef.current.send({ image: videoRef.current })
         }
-        if (holisticRef.current && frameSkipRef.current % 2 === 0) {
+        // Holistic is heavy — run every 4th processed frame (~7–8 Hz), store in ref only
+        if (holisticRef.current && frameSkipRef.current % 8 === 0) {
           try {
             const res = holisticRef.current.detectForVideo(videoRef.current, performance.now())
-            setHolisticFrame(holisticResultToVector(res))
+            holisticFrameRef.current = holisticResultToVector(res)
           } catch {
             /* skip bad frame */
           }
@@ -268,7 +270,7 @@ export function useMediaPipe() {
       holisticRef.current.close()
       holisticRef.current = null
     }
-    setHolisticFrame(null)
+    holisticFrameRef.current = null
     setIsReady(false)
     setHandDetected(false)
     setHand2Detected(false)
@@ -282,6 +284,8 @@ export function useMediaPipe() {
     return () => stop()
   }, [stop])
 
+  const getHolisticFrame = useCallback(() => holisticFrameRef.current, [])
+
   return {
     videoRef,
     canvasRef,
@@ -289,7 +293,7 @@ export function useMediaPipe() {
     rawLandmarks,
     landmarks2,
     rawLandmarks2,
-    holisticFrame,
+    getHolisticFrame,
     handDetected,
     hand2Detected,
     fps,

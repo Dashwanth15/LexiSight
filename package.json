@@ -7,6 +7,8 @@
     "sync-models": "node scripts/sync-models.js",
     "predev": "npm run sync-models",
     "dev": "vite",
+    "convex:dev": "convex dev",
+    "convex:deploy": "node scripts/convex-deploy.mjs",
     "prebuild": "npm run sync-models",
     "build": "vite build",
     "preview": "vite preview",

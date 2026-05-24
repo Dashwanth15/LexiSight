@@ -3,6 +3,24 @@ import * as tf from '@tensorflow/tfjs'
 import { useSettings } from './useSettings.jsx'
 import { GESTURE_CLASSES, DEMO_SEQUENCE } from '../utils/gestureMap.js'
 import { classifyGesture, classifyTwoHandGesture, classifyISLDigit } from '../utils/geoClassifier.js'
+import {
+  classifyTwoHandLetter,
+  detectLetterA,
+  detectLetterB,
+  detectLetterF,
+  detectLetterG,
+  detectLetterT,
+  detectLetterX,
+} from '../utils/islTwoHandLetters.js'
+import {
+  classifySingleHandLetter,
+  detectLetterC,
+  detectLetterD,
+  detectLetterO,
+  detectLetterU,
+  detectLetterV,
+} from '../utils/islSingleHandLetters.js'
+import { applyVerzAssist } from '../utils/verzAssistLayer.js'
 import { disambiguate } from '../utils/fingerDisambiguator.js'
 import { MotionAnalyzer } from '../utils/motionAnalyzer.js'
 import { OnsetDetector } from '../utils/onsetDetector.js'
@@ -363,6 +381,7 @@ export function useClassifier() {
   const calibrationRef = useRef({ temporal: 1.0, static: 1.0 })
 
   const bufferRef = useRef([])
+  const motionRef = useRef(new MotionAnalyzer())
   const temporalFrameCountRef = useRef(0)
   const lastTemporalResultRef = useRef(null)
   const smootherRef = useRef(new TemporalSmoother())
@@ -436,6 +455,7 @@ export function useClassifier() {
 
       console.log('[LexiSight] Model load results:', {
         temporal: !!temporalResult.model,
+        modelId: 'verZ-Plus holistic (225-d, 301 classes)',
         static: !!staticResult.model,
         temporalLabels: temporalLabels ? Object.keys(temporalLabels).length + ' classes' : 'null',
         staticLabels: staticLabels ? Object.keys(staticLabels).length + ' classes' : 'null',
@@ -464,9 +484,9 @@ export function useClassifier() {
   const _predictTemporal = useCallback((seqBuffer, labelMap, temp, nClasses, opts = {}) => {
     const { preview = false, minConf = null, skipSmooth = false } = opts
     if (!modelsRef.current.temporal) return null
+    if (!seqBuffer?.length || seqBuffer[0]?.length !== HOLISTIC_DIM) return null
     return tf.tidy(() => {
-      const featDim = seqBuffer[0]?.length ?? HOLISTIC_DIM
-      const input = tf.tensor3d([seqBuffer], [1, BUFFER_SIZE, featDim])
+      const input = tf.tensor3d([seqBuffer], [1, BUFFER_SIZE, HOLISTIC_DIM])
       const output = modelsRef.current.temporal.predict(input)
       let probs = Array.from(output.dataSync())
 
@@ -631,16 +651,109 @@ export function useClassifier() {
         }
       }
 
-      // 2. Two-hand gestures are strictly ignored in letter mode EXCEPT for 'X'
-      if (rawLandmarks && rawLandmarks.length === 21 && rawLandmarks2 && rawLandmarks2.length === 21) {
-        // Enforce physical separation check to prevent double-detection of a single hand
-        const wristDist = dist2D(rawLandmarks[0], rawLandmarks2[0]);
-        if (wristDist >= 0.12) {
-          const r = classifyTwoHandGesture(rawLandmarks, rawLandmarks2)
-          if (r && r.label === 'X') {
-            metricsRef.current.record(performance.now() - t0, r.confidence, null, false, 'two_hand')
-            return r
-          }
+      // 2. Two-hand B (side by side) then G (stacked) then T / X
+      if (rawLandmarks?.length === 21 && rawLandmarks2?.length === 21) {
+        const bGeo = detectLetterB(rawLandmarks, rawLandmarks2)
+        if (bGeo) {
+          metricsRef.current.record(performance.now() - t0, bGeo.confidence, null, false, 'hardcoded_letter_b')
+          return bGeo
+        }
+        const gGeo = detectLetterG(rawLandmarks, rawLandmarks2)
+        if (gGeo) {
+          metricsRef.current.record(performance.now() - t0, gGeo.confidence, null, false, 'hardcoded_letter_g')
+          return gGeo
+        }
+        const fGeo = detectLetterF(rawLandmarks, rawLandmarks2)
+        if (fGeo) {
+          metricsRef.current.record(performance.now() - t0, fGeo.confidence, null, false, 'hardcoded_letter_f')
+          return fGeo
+        }
+        const tGeo = detectLetterT(rawLandmarks, rawLandmarks2)
+        if (tGeo) {
+          metricsRef.current.record(performance.now() - t0, tGeo.confidence, null, false, 'hardcoded_letter_t')
+          return tGeo
+        }
+        const xGeo = detectLetterX(rawLandmarks, rawLandmarks2)
+        if (xGeo) {
+          metricsRef.current.record(performance.now() - t0, xGeo.confidence, null, false, 'hardcoded_letter_x')
+          return xGeo
+        }
+      }
+
+      // 3. D — single hand only (two-hand T uses index-up + fist, which looked like D)
+      if (rawLandmarks?.length === 21 && rawLandmarks2?.length !== 21) {
+        const dGeo = detectLetterD(rawLandmarks)
+        if (dGeo) {
+          metricsRef.current.record(performance.now() - t0, dGeo.confidence, null, false, 'hardcoded_letter_d')
+          return dGeo
+        }
+      }
+
+      // 4. Hardcoded two-hand A — before single-hand C
+      if (rawLandmarks?.length === 21 && rawLandmarks2?.length === 21) {
+        const aGeo = detectLetterA(rawLandmarks, rawLandmarks2)
+        if (aGeo) {
+          metricsRef.current.record(performance.now() - t0, aGeo.confidence, null, false, 'hardcoded_letter_a')
+          return aGeo
+        }
+      }
+
+      // 4. Single-hand O / U / C / V / M — only when one hand visible
+      if (rawLandmarks?.length === 21 && rawLandmarks2?.length !== 21) {
+        const oGeo = detectLetterO(rawLandmarks)
+        if (oGeo) {
+          metricsRef.current.record(performance.now() - t0, oGeo.confidence, null, false, 'hardcoded_letter_o')
+          return oGeo
+        }
+        const uGeo = detectLetterU(rawLandmarks)
+        if (uGeo) {
+          metricsRef.current.record(performance.now() - t0, uGeo.confidence, null, false, 'hardcoded_letter_u')
+          return uGeo
+        }
+        const cGeo = detectLetterC(rawLandmarks)
+        if (cGeo) {
+          metricsRef.current.record(performance.now() - t0, cGeo.confidence, null, false, 'hardcoded_letter_c')
+          return cGeo
+        }
+        const vGeo = detectLetterV(rawLandmarks)
+        if (vGeo) {
+          metricsRef.current.record(performance.now() - t0, vGeo.confidence, null, false, 'hardcoded_letter_v')
+          return vGeo
+        }
+        const mGeo = classifySingleHandLetter(rawLandmarks)
+        if (mGeo?.label === 'M') {
+          metricsRef.current.record(performance.now() - t0, mGeo.confidence, null, false, 'hardcoded_letter_m')
+          return mGeo
+        }
+      }
+
+      // 5. Two-handed alphabet (A, B, H, K, P, Q, T, X) — geometry before static MLP
+      if (rawLandmarks?.length === 21 && rawLandmarks2?.length === 21) {
+        const r = classifyTwoHandLetter(rawLandmarks, rawLandmarks2)
+        if (r) {
+          metricsRef.current.record(performance.now() - t0, r.confidence, null, false, 'two_hand_letter')
+          return r
+        }
+      }
+
+      // 6. Other single-hand letters — skip O on one fist when both hands are stacked G
+      if (rawLandmarks?.length === 21 && rawLandmarks2?.length === 21) {
+        const bAgain = detectLetterB(rawLandmarks, rawLandmarks2)
+        if (bAgain) {
+          metricsRef.current.record(performance.now() - t0, bAgain.confidence, null, false, 'hardcoded_letter_b')
+          return bAgain
+        }
+        const gAgain = detectLetterG(rawLandmarks, rawLandmarks2)
+        if (gAgain) {
+          metricsRef.current.record(performance.now() - t0, gAgain.confidence, null, false, 'hardcoded_letter_g')
+          return gAgain
+        }
+      }
+      if (rawLandmarks?.length === 21) {
+        const r = classifySingleHandLetter(rawLandmarks, rawLandmarks2)
+        if (r) {
+          metricsRef.current.record(performance.now() - t0, r.confidence, null, false, 'single_hand_letter')
+          return r
         }
       }
 
@@ -684,8 +797,14 @@ export function useClassifier() {
         const topK = buildTopK(probs, labelMap, 3)
         const topConf = topK[0]?.confidence || 0
         
-        const thresh = settings.confidenceThreshold || CONFIDENCE_THRESHOLD_STATIC
+        const thresh = Math.min(settings.confidenceThreshold ?? CONFIDENCE_THRESHOLD_STATIC, 0.58)
         if (topConf < thresh) {
+          // ML below threshold — try geometry for D / other letters
+          const geoLetter = classifySingleHandLetter(rawLandmarks, rawLandmarks2)
+          if (geoLetter) {
+            metricsRef.current.record(performance.now() - t0, geoLetter.confidence, null, false, 'single_hand_letter_fallback')
+            return geoLetter
+          }
           metricsRef.current.record(performance.now() - t0, topConf, null, true, 'low_conf')
           return null
         }
@@ -699,15 +818,121 @@ export function useClassifier() {
           return null
         }
 
-        const result = {
+        let result = {
           label,
           confidence: topConf,
           topK: topK.filter(item => item.label.length === 1 && item.label >= 'A' && item.label <= 'Z'),
           state,
           rejected: state === PredictionState.UNKNOWN,
         }
+
+        // Two-hand geometry overrides when ML guesses wrong
+        if (rawLandmarks2?.length === 21) {
+          const aGeo = detectLetterA(rawLandmarks, rawLandmarks2)
+          if (aGeo && result.label !== 'A') {
+            metricsRef.current.record(performance.now() - t0, aGeo.confidence, null, false, 'two_hand_letter_override')
+            return aGeo
+          }
+          const bGeo = detectLetterB(rawLandmarks, rawLandmarks2)
+          if (bGeo && (result.label === 'G' || result.label === 'O')) {
+            metricsRef.current.record(performance.now() - t0, bGeo.confidence, null, false, 'two_hand_letter_override')
+            return bGeo
+          }
+          const gGeo = detectLetterG(rawLandmarks, rawLandmarks2)
+          if (gGeo && result.label !== 'G') {
+            metricsRef.current.record(performance.now() - t0, gGeo.confidence, null, false, 'two_hand_letter_override')
+            return gGeo
+          }
+          const xGeo = detectLetterX(rawLandmarks, rawLandmarks2)
+          if (xGeo && result.label !== 'X') {
+            metricsRef.current.record(performance.now() - t0, xGeo.confidence, null, false, 'two_hand_letter_override')
+            return xGeo
+          }
+          const fGeo = detectLetterF(rawLandmarks, rawLandmarks2)
+          if (fGeo && ['N', 'T', 'V', 'M'].includes(result.label)) {
+            metricsRef.current.record(performance.now() - t0, fGeo.confidence, null, false, 'two_hand_letter_override')
+            return fGeo
+          }
+          const tGeo = detectLetterT(rawLandmarks, rawLandmarks2)
+          if (tGeo && ['D', '1', 'L', 'G', 'H', 'X'].includes(result.label)) {
+            metricsRef.current.record(performance.now() - t0, tGeo.confidence, null, false, 'two_hand_letter_override')
+            return tGeo
+          }
+          const twoGeo = classifyTwoHandLetter(rawLandmarks, rawLandmarks2)
+          if (twoGeo?.label === 'B' && (result.label === 'T' || result.label === 'O')) {
+            metricsRef.current.record(performance.now() - t0, twoGeo.confidence, null, false, 'two_hand_letter_override')
+            return twoGeo
+          }
+        }
+        if (rawLandmarks2?.length === 21) {
+          const fOverride = detectLetterF(rawLandmarks, rawLandmarks2)
+          if (fOverride && ['N', 'T', 'V', 'M'].includes(result.label)) {
+            metricsRef.current.record(performance.now() - t0, fOverride.confidence, null, false, 'two_hand_letter_override')
+            return fOverride
+          }
+          const tOverride = detectLetterT(rawLandmarks, rawLandmarks2)
+          if (tOverride && ['D', '1', 'L', 'G', 'H', 'X'].includes(result.label)) {
+            metricsRef.current.record(performance.now() - t0, tOverride.confidence, null, false, 'two_hand_letter_override')
+            return tOverride
+          }
+        }
+        const dOverride =
+          rawLandmarks2?.length !== 21 ? detectLetterD(rawLandmarks) : null
+        if (dOverride && ['G', '1', 'H', 'B', 'O', 'C'].includes(result.label)) {
+          metricsRef.current.record(performance.now() - t0, dOverride.confidence, null, false, 'single_hand_letter_override')
+          return dOverride
+        }
+        const letterGeo = classifySingleHandLetter(rawLandmarks, rawLandmarks2)
+        if (letterGeo) {
+          const mlConfusesLetter =
+            ['C', 'W', '0', 'H', 'T', 'S', 'E', 'M', 'N', 'O', '1', 'G'].includes(result.label) &&
+            letterGeo.label !== result.label
+          const oOverride =
+            rawLandmarks2?.length !== 21 ? detectLetterO(rawLandmarks) : null
+          if (oOverride && result.label !== 'O') {
+            metricsRef.current.record(performance.now() - t0, oOverride.confidence, null, false, 'single_hand_letter_override')
+            return oOverride
+          }
+          const uOverride =
+            rawLandmarks2?.length !== 21 ? detectLetterU(rawLandmarks) : null
+          if (uOverride && ['ROCK', 'Y', '6', 'V', 'W', '1', 'L'].includes(result.label)) {
+            metricsRef.current.record(performance.now() - t0, uOverride.confidence, null, false, 'single_hand_letter_override')
+            return uOverride
+          }
+          const cOverride =
+            rawLandmarks2?.length !== 21 ? detectLetterC(rawLandmarks) : null
+          if (cOverride && result.label !== 'C') {
+            metricsRef.current.record(performance.now() - t0, cOverride.confidence, null, false, 'single_hand_letter_override')
+            return cOverride
+          }
+          const vOverride = detectLetterV(rawLandmarks)
+          if (vOverride && result.label !== 'V') {
+            metricsRef.current.record(performance.now() - t0, vOverride.confidence, null, false, 'single_hand_letter_override')
+            return vOverride
+          }
+          const mlMissesM = letterGeo.label === 'M' && result.label !== 'M'
+          const mlMissesN = letterGeo.label === 'N' && result.label !== 'N'
+          if (mlConfusesLetter && (mlMissesM || mlMissesN || letterGeo.confidence >= 0.86)) {
+            metricsRef.current.record(performance.now() - t0, letterGeo.confidence, null, false, 'single_hand_letter_override')
+            return letterGeo
+          }
+        }
+
+        if (rawLandmarks2?.length === 21) {
+          const bFinal = detectLetterB(rawLandmarks, rawLandmarks2)
+          if (bFinal && (result.label === 'G' || result.label === 'O')) {
+            metricsRef.current.record(performance.now() - t0, bFinal.confidence, null, false, 'two_hand_letter_override')
+            return bFinal
+          }
+          const gFinal = detectLetterG(rawLandmarks, rawLandmarks2)
+          if (gFinal && result.label !== 'G') {
+            metricsRef.current.record(performance.now() - t0, gFinal.confidence, null, false, 'two_hand_letter_override')
+            return gFinal
+          }
+        }
+
         metricsRef.current.record(performance.now() - t0, topConf, null, false, null)
-        return disambiguate(result, rawLandmarks)
+        return disambiguate(result, rawLandmarks, rawLandmarks2)
       })
     }
 
@@ -726,7 +951,7 @@ export function useClassifier() {
         }
       }
 
-      // 2. Check dynamic word gestures via MotionAnalyzer (e.g. WHAT, NO, COME, HELP in standard live view)
+      // 2. Dynamic words via MotionAnalyzer (HELLO, WHAT, NO, COME, HELP, …)
       if (rawLandmarks && rawLandmarks.length === 21) {
         const motionResult = motionRef.current.push(rawLandmarks).analyze()
         if (motionResult) {
@@ -798,12 +1023,21 @@ export function useClassifier() {
         return s ? { ...s, topK: s.topK || live.topK, bufferFill: 1 } : live
       }
 
-      const rawResult = _predictTemporal(bufferRef.current, labelMap, temp, nClasses)
+      let rawResult = _predictTemporal(bufferRef.current, labelMap, temp, nClasses)
+      rawResult = applyVerzAssist(rawResult, {
+        rawLandmarks,
+        rawLandmarks2,
+        topK: rawResult?.topK,
+      })
 
       // CRITICAL ISOLATION FILTER: Strictly allow ONLY words in word mode.
       // If the temporal model somehow predicts a single character (like a digit or unrelated single letter), reject it.
       // Note: "I" is a valid word class and has length 1, so we permit "I" specifically.
       if (rawResult) {
+        if (rawResult.rejected) {
+          metricsRef.current.record(performance.now() - t0, rawResult.confidence, null, true, 'verz_assist_hold')
+          return null
+        }
         const isWord = rawResult.label.length > 1 || rawResult.label === 'I';
         if (!isWord) {
           metricsRef.current.record(performance.now() - t0, rawResult.confidence, null, true, 'word_mode_exclusion')
@@ -989,6 +1223,7 @@ export function useClassifier() {
   // ═══════════════════════════════════════════════════════════════════════
   const resetBuffer = useCallback(() => {
     bufferRef.current = []
+    motionRef.current.reset()
     temporalFrameCountRef.current = 0
     lastTemporalResultRef.current = null
     smootherRef.current.reset()
