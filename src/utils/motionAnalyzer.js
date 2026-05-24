@@ -16,6 +16,7 @@
  *   NO    — index wag (single index oscillating left-right)
  *   COME  — beckoning (fingers curling inward repeatedly)
  *   HELP  — upward fist lift (fist moving upward)
+ *   SORRY — closed fist circling near chest
  *   J     — arc-and-hook trajectory (index only, downward arc)
  *   Z     — zigzag trajectory (index only, Z-pattern)
  *
@@ -315,6 +316,30 @@ export class MotionAnalyzer {
     ) {
       const conf = 0.78 + Math.min(0.08, (idxOscY - 2) * 0.035)
       return makeResult('COME', conf)
+    }
+
+    // -- SORRY: closed fist circling near chest --------------------------------
+    // ISL "SORRY": make a fist and rub/circle it over the chest/heart area.
+    // Static fist poses overlap with A/S, so this only fires when the fist moves
+    // in a compact circular/looping pattern rather than a straight lift or wag.
+    //
+    // Rules:
+    //   - All fingers curled, thumb not extended (closed fist)
+    //   - Wrist reverses direction on both X and Y axes (circle-like motion)
+    //   - Low net displacement, because the hand circles in place
+    //   - Enough frames and speed to avoid matching tiny camera jitter
+    if (
+      pose.extCount === 0 &&
+      !pose.T &&
+      n >= 10 &&
+      meanVelocity > 0.0065 &&
+      oscillationX >= 2 &&
+      oscillationY >= 2 &&
+      Math.abs(netDx) < 0.08 &&
+      Math.abs(netDy) < 0.08
+    ) {
+      const conf = 0.80 + Math.min(0.10, (oscillationX + oscillationY - 4) * 0.02)
+      return makeResult('SORRY', conf)
     }
 
     // ── HELP: fist lifting upward ──────────────────────────────────────────
